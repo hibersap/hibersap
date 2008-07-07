@@ -30,7 +30,7 @@ public class FlightDetailExample extends HibersapExample
     properties.setProperty(Environment.CONNECTION_POOL_SIZE, "10");
     properties.setProperty(Environment.CONNECTION_SAPCLIENT, "800");
     properties.setProperty(Environment.CONNECTION_SYSTEMNUMBER, "00");
-    properties.setProperty(Environment.CONNECTION_USERNAME, "cerker");
+    properties.setProperty(Environment.CONNECTION_USERNAME, "XXXXX");
     properties.setProperty(Environment.REPOSITORY_NAME, "F46");
     configuration.setProperties(properties);
 
