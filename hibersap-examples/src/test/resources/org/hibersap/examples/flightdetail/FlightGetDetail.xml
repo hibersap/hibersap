@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<class name="de.akquinet.saptool.FlightGetDetail"
+	bapi="BAPI_FLIGHT_GETDETAIL">
+	<property name="airlineId" type="input" mapTo="AIRLINEID" />
+	<property name="connectionId" type="input" mapTo="CONNECTIONID" />
+	<property name="flightDate" type="input" mapTo="FLIGHTDATE" />
+	<component name="flightData" class="de.akquinet.saptool.FlightData" type="output" mapTo="FLIGHT_DATA">
+		<property name="numberOfSeats" mapTo="NO_OF_SEATS" />
+	</component>
+	<list name="return" class="de.akquinet.saptool.Return" type="output" mapTo="RETURN">
+		<property name="id" mapTo="ID"/>
+		<property name="type" mapTo="TYPE"/>
+		<property name="message" mapTo="MESSAGE"/>
+	</list>
+</class>
