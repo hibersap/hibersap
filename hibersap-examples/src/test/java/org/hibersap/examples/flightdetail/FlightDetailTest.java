@@ -7,13 +7,13 @@ import java.util.Properties;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.Environment;
-import org.hibersap.examples.HibersapExample;
+import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.execution.jco.JCoExecutor;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionFactory;
 import org.junit.Test;
 
-public class FlightDetailExample extends HibersapExample
+public class FlightDetailTest extends AbstractHibersapTest
 {
   @Test
   public void showFlightDetail()

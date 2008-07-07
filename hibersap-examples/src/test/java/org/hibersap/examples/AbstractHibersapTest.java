@@ -2,7 +2,7 @@ package org.hibersap.examples;
 
 import java.io.File;
 
-public class HibersapExample
+public abstract class AbstractHibersapTest
 {
   @org.junit.Before
   public void setUp()

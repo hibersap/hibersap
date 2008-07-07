@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.examples.HibersapExample;
+import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionFactory;
 import org.junit.Test;
 
-public class FlightListExample extends HibersapExample
+public class FlightListTest extends AbstractHibersapTest
 {
   @Test
   public void showFlightDetail()
