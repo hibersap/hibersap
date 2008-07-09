@@ -67,7 +67,7 @@ public class TableMapping
     @SuppressWarnings("unchecked")
     private Class<? extends Collection> determineCollectionType( Class<?> type )
     {
-        Class<? extends Collection> collectionType;
+        Class<? extends Collection> resultingType;
 
         if ( Collection.class.isAssignableFrom( type ) )
         {
@@ -75,15 +75,15 @@ public class TableMapping
             {
                 if ( List.class.equals( type ) )
                 {
-                    collectionType = ArrayList.class;
+                    resultingType = ArrayList.class;
                 }
                 else if ( Set.class.equals( type ) )
                 {
-                    collectionType = HashSet.class;
+                    resultingType = HashSet.class;
                 }
                 else if ( Collection.class.equals( type ) )
                 {
-                    collectionType = ArrayList.class;
+                    resultingType = ArrayList.class;
                 }
                 else
                 {
@@ -93,12 +93,12 @@ public class TableMapping
             }
             else
             {
-                collectionType = (Class<? extends Collection>) type;
+                resultingType = (Class<? extends Collection>) type;
             }
         }
         else if ( type.isArray() )
         {
-            collectionType = ArrayList.class;
+            resultingType = ArrayList.class;
         }
         else
         {
@@ -106,7 +106,7 @@ public class TableMapping
                 + Collection.class.getName() + ", but is: " + fieldType.getName() );
         }
 
-        return collectionType;
+        return resultingType;
     }
 
     @SuppressWarnings("unchecked")

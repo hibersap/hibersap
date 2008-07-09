@@ -30,5 +30,5 @@ import org.hibersap.annotations.ThrowExceptionOnError;
 @ThrowExceptionOnError
 public class BapiTransactionRollback
 {
-
+    // no parameters to exchange
 }

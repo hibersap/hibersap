@@ -37,7 +37,6 @@ import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.mapping.model.ParameterMapping.ParamType;
 
-
 /**
  * @author Carsten Erker
  */
@@ -52,15 +51,15 @@ public class PojoMapper
 
     public void mapFunctionMapToPojo( Object bapi, Map<String, Object> functionMap, BapiMapping bapiMapping )
     {
-        Map<String, Object> imports = (Map<String, Object>) functionMap.get( "IMPORT" );
+        Map<String, Object> imports = UnsafeCastHelper.castToMap( functionMap.get( "IMPORT" ) );
         Set<ObjectMapping> importMappings = bapiMapping.getImportParameters();
         mapToPojo( bapi, imports, importMappings );
 
-        Map<String, Object> exports = (Map<String, Object>) functionMap.get( "EXPORT" );
+        Map<String, Object> exports = UnsafeCastHelper.castToMap( functionMap.get( "EXPORT" ) );
         Set<ObjectMapping> exportMappings = bapiMapping.getExportParameters();
         mapToPojo( bapi, exports, exportMappings );
 
-        Map<String, Object> tables = (Map<String, Object>) functionMap.get( "TABLE" );
+        Map<String, Object> tables = UnsafeCastHelper.castToMap( functionMap.get( "TABLE" ) );
         Set<TableMapping> tableMappings = bapiMapping.getTableParameters();
         mapToPojo( bapi, tables, tableMappings );
     }
@@ -100,7 +99,7 @@ public class PojoMapper
             else if ( paramType == ParamType.STRUCTURE )
             {
                 Set<FieldMapping> fieldMappings = ( (StructureMapping) paramMapping ).getParameters();
-                Map<String, Object> subMap = (Map<String, Object>) value;
+                Map<String, Object> subMap = UnsafeCastHelper.castToMap( value );
                 Object subBean = ReflectionHelper.newInstance( paramMapping.getAssociatedType() );
                 mapToPojo( subBean, subMap, fieldMappings );
                 ReflectionHelper.setFieldValue( bean, fieldNameJava, subBean );
@@ -112,7 +111,7 @@ public class PojoMapper
                     .getCollectionType() );
                 ReflectionHelper.setFieldValue( bean, fieldNameJava, collection );
 
-                Collection<Map<String, Object>> rows = (Collection<Map<String, Object>>) value;
+                Collection<Map<String, Object>> rows = UnsafeCastHelper.castToCollectionOfMaps( value );
 
                 for ( Map<String, Object> tableMap : rows )
                 {
@@ -133,14 +132,14 @@ public class PojoMapper
         }
     }
 
-    private Map<String, Object> pojoToMap( Object bean, Set<? extends ParameterMapping> mappings )
+    private Map<String, Object> pojoToMap( Object pojo, Set<? extends ParameterMapping> mappings )
     {
         Map<String, Object> map = new HashMap<String, Object>();
 
         for ( ParameterMapping paramMapping : mappings )
         {
             String fieldNameJava = paramMapping.getJavaName();
-            Object value = ReflectionHelper.getFieldValue( bean, fieldNameJava );
+            Object value = ReflectionHelper.getFieldValue( pojo, fieldNameJava );
 
             if ( value != null )
             {
@@ -164,11 +163,11 @@ public class PojoMapper
                     Set<FieldMapping> fieldMappings = ( (TableMapping) paramMapping ).getComponentParameter()
                         .getParameters();
 
-                    // TODO check: value my be null, esp. when table acts as import parameter
-                    Collection<Object> beans = (Collection<Object>) value;
-                    for ( Object object : beans )
+                    // TODO check: value my be null - esp. when table acts as import parameter?
+                    Collection<Object> tableElements = UnsafeCastHelper.castToCollection( value );
+                    for ( Object tableElement : tableElements )
                     {
-                        valueMaps.add( pojoToMap( object, fieldMappings ) );
+                        valueMaps.add( pojoToMap( tableElement, fieldMappings ) );
                     }
                     map.put( fieldNameSap, valueMaps );
                 }
