@@ -1,4 +1,4 @@
-package org.hibersap.execution;
+package org.hibersap.conversion;
 
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
@@ -19,32 +19,31 @@ package org.hibersap.execution;
  * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hibersap.HibersapException;
-import org.hibersap.session.Session;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.hibersap.mapping.ReflectionHelper;
 
 
 /**
  * @author Carsten Erker
  */
-public class ExecutorFactory
+public class ConverterCache
 {
-    public static Executor create( Session session )
+    private final Map<Class<? extends Converter>, Converter> converterForClass = new HashMap<Class<? extends Converter>, Converter>();
+
+    public Converter getConverter( Class<? extends Converter> clazz )
     {
-        Class<? extends Executor> executorClass = session.getSessionFactory().getSettings().getExecutorClass();
-        Executor executor;
-        try
+        if ( clazz == null )
         {
-            executor = executorClass.newInstance();
-            executor.configure( session );
+            throw new IllegalArgumentException( "null" );
         }
-        catch ( InstantiationException e )
+        Converter converter = converterForClass.get( clazz );
+        if ( converter == null )
         {
-            throw new HibersapException( "Executor class can not be instantiated", e );
+            converter = (Converter) ReflectionHelper.newInstance( clazz );
+            converterForClass.put( clazz, converter );
         }
-        catch ( IllegalAccessException e )
-        {
-            throw new HibersapException( "Executor class can not be instantiated", e );
-        }
-        return executor;
-    };
+        return converter;
+    }
 }

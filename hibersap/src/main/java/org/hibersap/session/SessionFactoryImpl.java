@@ -1,66 +1,92 @@
 package org.hibersap.session;
 
+/*
+ * Copyright (C) 2008 akquinet tech@spree GmbH
+ * 
+ * This file is part of Hibersap.
+ *
+ * Hibersap is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Hibersap is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 
 import org.hibersap.configuration.Configuration;
 import org.hibersap.configuration.Settings;
+import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.model.BapiMapping;
 
-public class SessionFactoryImpl implements SessionFactory
+
+/**
+ * @author Carsten Erker
+ */
+public class SessionFactoryImpl
+    implements SessionFactory
 {
-  final Properties properties;
+    final Properties properties;
 
-  private final Settings settings;
+    private final Settings settings;
 
-  private Map<Class<?>, BapiMapping> bapiMappings;
+    private Map<Class<?>, BapiMapping> bapiMappings;
 
-  ConverterCache converterCache;
+    // TODO exists for each SessionFactory instance, should be global to remove redundancies
+    ConverterCache converterCache;
 
-  public SessionFactoryImpl(Configuration configuration, Settings settings)
-  {
-    this.settings = settings;
-    properties = new Properties();
-    properties.putAll(configuration.getProperties());
-    bapiMappings = Collections.unmodifiableMap(configuration.getBapiMappings());
-    this.converterCache = new ConverterCache();
-  }
+    public SessionFactoryImpl( Configuration configuration, Settings settings )
+    {
+        this.settings = settings;
+        properties = new Properties();
+        properties.putAll( configuration.getProperties() );
+        bapiMappings = Collections.unmodifiableMap( configuration.getBapiMappings() );
+        this.converterCache = new ConverterCache();
+    }
 
-  public Map<Class<?>, BapiMapping> getBapiMappings()
-  {
-    return bapiMappings;
-  }
+    public Map<Class<?>, BapiMapping> getBapiMappings()
+    {
+        return bapiMappings;
+    }
 
-  public Session getCurrentSession()
-  {
-    // TODO implement current session context strategies
-    return null;
-  }
+    public ConverterCache getConverterCache()
+    {
+        return this.converterCache;
+    }
 
-  public Properties getProperties()
-  {
-    return properties;
-  }
+    public Session getCurrentSession()
+    {
+        // TODO implement current session context strategies
+        return null;
+    }
 
-  public Settings getSettings()
-  {
-    return settings;
-  }
+    public Properties getProperties()
+    {
+        return properties;
+    }
 
-  public boolean isClosed()
-  {
-    // TODO Auto-generated method stub
-    return false;
-  }
+    public Settings getSettings()
+    {
+        return settings;
+    }
 
-  public Session openSession()
-  {
-    return new SessionImpl(this);
-  }
+    public boolean isClosed()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-  public ConverterCache getConverterCache()
-  {
-    return this.converterCache;
-  }
+    public Session openSession()
+    {
+        return new SessionImpl( this );
+    }
 }

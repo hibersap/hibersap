@@ -1,109 +1,132 @@
 package org.hibersap.mapping.model;
 
+/*
+ * Copyright (C) 2008 akquinet tech@spree GmbH
+ * 
+ * This file is part of Hibersap.
+ *
+ * Hibersap is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Hibersap is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibersap.MappingException;
 
+
+/**
+ * @author Carsten Erker
+ */
 public class BapiMapping
 {
-  private final String bapiName;
-
-  private Class<?> associatedClass;
-
-  private final Set<ObjectMapping> importParams = new HashSet<ObjectMapping>();
-
-  private final Set<ObjectMapping> exportParams = new HashSet<ObjectMapping>();
-
-  private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
-
-  private final ErrorHandling errorHandling;
-
-  public BapiMapping(Class<?> associatedClass, String bapiName, ErrorHandling errorHandling)
-  {
-    if (StringUtils.isEmpty(bapiName))
+    public static class ErrorHandling
     {
-      throw new MappingException("Bapi name for class " + associatedClass.getName() + " is empty");
-    }
-    this.associatedClass = associatedClass;
-    this.bapiName = bapiName;
-    this.errorHandling = errorHandling;
-  }
+        private final boolean throwExceptionOnError;
 
-  public void addImportParameter(ObjectMapping parameter)
-  {
-    importParams.add(parameter);
-  }
+        private final String pathToReturnStructure;
 
-  public void addExportParameter(ObjectMapping parameter)
-  {
-    exportParams.add(parameter);
-  }
+        private final String[] errorMessageTypes;
 
-  public void addTableParameter(TableMapping parameter)
-  {
-    tableParams.add(parameter);
-  }
+        public ErrorHandling( String pathToReturnStructure, String[] errorMessageTypes )
+        {
+            this.errorMessageTypes = errorMessageTypes;
+            throwExceptionOnError = StringUtils.isNotEmpty( pathToReturnStructure );
+            this.pathToReturnStructure = pathToReturnStructure;
+        }
 
-  public String getBapiName()
-  {
-    return bapiName;
-  }
+        public String[] getErrorMessageTypes()
+        {
+            return this.errorMessageTypes;
+        }
 
-  public Class<?> getAssociatedClass()
-  {
-    return associatedClass;
-  }
+        public String getPathToReturnStructure()
+        {
+            return this.pathToReturnStructure;
+        }
 
-  public Set<ObjectMapping> getImportParameters()
-  {
-    return importParams;
-  }
-
-  public Set<ObjectMapping> getExportParameters()
-  {
-    return exportParams;
-  }
-
-  public Set<TableMapping> getTableParameters()
-  {
-    return tableParams;
-  }
-
-  public ErrorHandling getErrorHandling()
-  {
-    return this.errorHandling;
-  }
-
-  public static class ErrorHandling
-  {
-    private final boolean throwExceptionOnError;
-
-    private final String pathToReturnStructure;
-
-    private final String[] errorMessageTypes;
-
-    public ErrorHandling(String pathToReturnStructure, String[] errorMessageTypes)
-    {
-      this.errorMessageTypes = errorMessageTypes;
-      throwExceptionOnError = StringUtils.isNotEmpty(pathToReturnStructure);
-      this.pathToReturnStructure = pathToReturnStructure;
+        public boolean isThrowExceptionOnError()
+        {
+            return this.throwExceptionOnError;
+        }
     }
 
-    public boolean isThrowExceptionOnError()
+    private final String bapiName;
+
+    private Class<?> associatedClass;
+
+    private final Set<ObjectMapping> importParams = new HashSet<ObjectMapping>();
+
+    private final Set<ObjectMapping> exportParams = new HashSet<ObjectMapping>();
+
+    private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
+
+    private final ErrorHandling errorHandling;
+
+    public BapiMapping( Class<?> associatedClass, String bapiName, ErrorHandling errorHandling )
     {
-      return this.throwExceptionOnError;
+        if ( StringUtils.isEmpty( bapiName ) )
+        {
+            throw new MappingException( "Bapi name for class " + associatedClass.getName() + " is empty" );
+        }
+        this.associatedClass = associatedClass;
+        this.bapiName = bapiName;
+        this.errorHandling = errorHandling;
     }
 
-    public String getPathToReturnStructure()
+    public void addExportParameter( ObjectMapping parameter )
     {
-      return this.pathToReturnStructure;
+        exportParams.add( parameter );
     }
 
-    public String[] getErrorMessageTypes()
+    public void addImportParameter( ObjectMapping parameter )
     {
-      return this.errorMessageTypes;
+        importParams.add( parameter );
     }
-  }
+
+    public void addTableParameter( TableMapping parameter )
+    {
+        tableParams.add( parameter );
+    }
+
+    public Class<?> getAssociatedClass()
+    {
+        return associatedClass;
+    }
+
+    public String getBapiName()
+    {
+        return bapiName;
+    }
+
+    public ErrorHandling getErrorHandling()
+    {
+        return this.errorHandling;
+    }
+
+    public Set<ObjectMapping> getExportParameters()
+    {
+        return exportParams;
+    }
+
+    public Set<ObjectMapping> getImportParameters()
+    {
+        return importParams;
+    }
+
+    public Set<TableMapping> getTableParameters()
+    {
+        return tableParams;
+    }
 }

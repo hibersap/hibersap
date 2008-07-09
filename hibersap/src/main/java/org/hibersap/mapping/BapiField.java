@@ -1,5 +1,24 @@
 package org.hibersap.mapping;
 
+/*
+ * Copyright (C) 2008 akquinet tech@spree GmbH
+ * 
+ * This file is part of Hibersap.
+ *
+ * Hibersap is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Hibersap is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import java.lang.reflect.Field;
 
 import org.hibersap.annotations.Convert;
@@ -11,114 +30,118 @@ import org.hibersap.annotations.Table;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.DefaultConverter;
 
+
+/**
+ * @author Carsten Erker
+ */
 class BapiField
 {
-  private static final Class<Parameter> PARAM = Parameter.class;
+    private static final Class<Parameter> PARAM = Parameter.class;
 
-  private static final Class<Import> IMPORT = Import.class;
+    private static final Class<Import> IMPORT = Import.class;
 
-  private static final Class<Export> EXPORT = Export.class;
+    private static final Class<Export> EXPORT = Export.class;
 
-  private static final Class<Table> TABLE = Table.class;
+    private static final Class<Table> TABLE = Table.class;
 
-  private static final Class<Convert> CONVERT = Convert.class;
+    private static final Class<Convert> CONVERT = Convert.class;
 
-  private final Field field;
+    private final Field field;
 
-  public BapiField(Field field)
-  {
-    this.field = field;
-  }
-
-  public Class<?> getArrayType()
-  {
-    Class<?> associatedType = field.getType();
-    return ReflectionHelper.getArrayType(associatedType);
-  }
-
-  public Class<?> getAssociatedType()
-  {
-    Class<?> type;
-    if (isTable())
+    public BapiField( Field field )
     {
-      type = getArrayType();
-      if (type == null)
-      {
-        type = getGenericType();
-      }
+        this.field = field;
     }
-    else
+
+    public Class<?> getArrayType()
     {
-      type = getType();
+        Class<?> associatedType = field.getType();
+        return ReflectionHelper.getArrayType( associatedType );
     }
-    return type;
-  }
 
-  public Class<? extends Converter> getConverter()
-  {
-    if (field.isAnnotationPresent(CONVERT))
+    public Class<?> getAssociatedType()
     {
-      Convert convert = field.getAnnotation(CONVERT);
-      return convert.converter();
+        Class<?> type;
+        if ( isTable() )
+        {
+            type = getArrayType();
+            if ( type == null )
+            {
+                type = getGenericType();
+            }
+        }
+        else
+        {
+            type = getType();
+        }
+        return type;
     }
-    else
+
+    public Class<? extends Converter> getConverter()
     {
-      return DefaultConverter.class;
+        if ( field.isAnnotationPresent( CONVERT ) )
+        {
+            Convert convert = field.getAnnotation( CONVERT );
+            return convert.converter();
+        }
+        else
+        {
+            return DefaultConverter.class;
+        }
     }
-  }
 
-  public Class<?> getGenericType()
-  {
-    return ReflectionHelper.getGenericType(field);
-  }
-
-  public String getName()
-  {
-    return field.getName();
-  }
-
-  public String getSapName()
-  {
-    return getParameterAnnotation().name();
-  }
-
-  public Class<?> getType()
-  {
-    return field.getType();
-  }
-
-  public boolean isExport()
-  {
-    return field.isAnnotationPresent(EXPORT);
-  }
-
-  public boolean isImport()
-  {
-    return field.isAnnotationPresent(IMPORT);
-  }
-
-  public boolean isParameter()
-  {
-    return field.isAnnotationPresent(PARAM);
-  }
-
-  public boolean isStructure()
-  {
-    boolean result = false;
-    if (isParameter())
+    public Class<?> getGenericType()
     {
-      result = getParameterAnnotation().type() == ParameterType.STRUCTURE;
+        return ReflectionHelper.getGenericType( field );
     }
-    return result;
-  }
 
-  public boolean isTable()
-  {
-    return field.isAnnotationPresent(TABLE);
-  }
+    public String getName()
+    {
+        return field.getName();
+    }
 
-  private Parameter getParameterAnnotation()
-  {
-    return field.getAnnotation(PARAM);
-  }
+    private Parameter getParameterAnnotation()
+    {
+        return field.getAnnotation( PARAM );
+    }
+
+    public String getSapName()
+    {
+        return getParameterAnnotation().name();
+    }
+
+    public Class<?> getType()
+    {
+        return field.getType();
+    }
+
+    public boolean isExport()
+    {
+        return field.isAnnotationPresent( EXPORT );
+    }
+
+    public boolean isImport()
+    {
+        return field.isAnnotationPresent( IMPORT );
+    }
+
+    public boolean isParameter()
+    {
+        return field.isAnnotationPresent( PARAM );
+    }
+
+    public boolean isStructure()
+    {
+        boolean result = false;
+        if ( isParameter() )
+        {
+            result = getParameterAnnotation().type() == ParameterType.STRUCTURE;
+        }
+        return result;
+    }
+
+    public boolean isTable()
+    {
+        return field.isAnnotationPresent( TABLE );
+    }
 }
