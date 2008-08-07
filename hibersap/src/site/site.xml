@@ -1,0 +1,5 @@
+<project name="HiberSap">
+	<body>
+		<menu ref="reports" />
+	</body>
+</project>
