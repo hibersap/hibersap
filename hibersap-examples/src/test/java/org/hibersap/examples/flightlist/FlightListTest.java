@@ -2,17 +2,17 @@ package org.hibersap.examples.flightlist;
 
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
- * 
+ *
  * This file is part of Hibersap.
- * 
+ *
  * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
  * Lesser General Public License as published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- * 
+ *
  * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,11 +21,12 @@ import java.util.List;
 
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
+import org.hibersap.configuration.Environment;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionFactory;
+import org.hibersap.session.Transaction;
 import org.junit.Test;
-
 
 /**
  * @author Carsten Erker
@@ -38,17 +39,22 @@ public class FlightListTest
     {
         AnnotationConfiguration configuration = new AnnotationConfiguration();
         configuration.addAnnotatedClass( FlightListBapi.class );
-
+        configuration.setProperty( Environment.SESSION_FACTORY_NAME, "MY_SF" );
         SessionFactory sessionFactory = configuration.buildSessionFactory();
 
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "EN", "Berlin", null, false, 10 );
-        session.execute( flightList );
-        // TODO session.getTransaction().commit();
-        session.close();
-
-        showResult( flightList );
+        try
+        {
+            Transaction transaction = session.beginTransaction();
+            FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", null, false, 10 );
+            session.execute( flightList );
+            transaction.commit();
+            showResult( flightList );
+        }
+        finally
+        {
+            session.close();
+        }
     }
 
     private void showResult( FlightListBapi flightList )

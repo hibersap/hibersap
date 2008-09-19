@@ -17,19 +17,24 @@ package org.hibersap.examples.flightdetail;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Properties;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.Environment;
 import org.hibersap.examples.AbstractHibersapTest;
-import org.hibersap.execution.jco.JCoExecutor;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * @author Carsten Erker
@@ -37,37 +42,66 @@ import org.junit.Test;
 public class FlightDetailTest
     extends AbstractHibersapTest
 {
-    @Test
-    public void showFlightDetail()
+    private static final Log LOG = LogFactory.getLog( FlightDetailTest.class );
+
+    private SessionFactory sessionFactory;
+
+    @Before
+    public void setup()
     {
         AnnotationConfiguration configuration = new AnnotationConfiguration();
         configuration.addAnnotatedClass( FlightDetailBapi.class );
+        configuration.setProperty( Environment.SESSION_FACTORY_NAME, "F46" );
+        sessionFactory = configuration.buildSessionFactory();
+    }
 
-        Properties properties = new Properties();
-        properties.setProperty( Environment.EXECUTOR, JCoExecutor.class.getName() );
-        properties.setProperty( Environment.CONNECTION_APPLICATION_SERVER, "10.20.80.76" );
-        properties.setProperty( Environment.CONNECTION_LANGUAGE, "DE" );
-        properties.setProperty( Environment.CONNECTION_PASSWORD, "finnland" );
-        properties.setProperty( Environment.CONNECTION_POOL_NAME, "F46" );
-        properties.setProperty( Environment.CONNECTION_POOL_SIZE, "10" );
-        properties.setProperty( Environment.CONNECTION_SAPCLIENT, "800" );
-        properties.setProperty( Environment.CONNECTION_SYSTEMNUMBER, "00" );
-        properties.setProperty( Environment.CONNECTION_USERNAME, "XXXXX" );
-        properties.setProperty( Environment.REPOSITORY_NAME, "F46" );
-        configuration.setProperties( properties );
+    @After
+    public void reset()
+    {
+        sessionFactory.reset();
+    }
 
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-
+    @Test
+    public void showFlightDetail()
+    {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", new GregorianCalendar( 2002,
-                                                                                                   Calendar.APRIL, 26 )
-            .getTime() );
-        session.execute( flightDetail );
-        session.getTransaction().commit();
-        session.close();
+        try
+        {
+            session.beginTransaction();
+            Date date26Apr2002 = new GregorianCalendar( 2002, Calendar.APRIL, 26 ).getTime();
+            FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", date26Apr2002 );
+            session.execute( flightDetail );
+            session.getTransaction().commit();
+            showResult( flightDetail );
+        }
+        finally
+        {
+            session.close();
+        }
+    }
 
-        showResult( flightDetail );
+    @Test
+    public void showFlightDetailWithSapErrorMessage()
+    {
+        Session session = sessionFactory.openSession();
+
+        try
+        {
+            session.beginTransaction();
+            FlightDetailBapi flightDetail = new FlightDetailBapi( "XY", "1234", new Date() );
+            session.execute( flightDetail );
+            showResult( flightDetail );
+            fail();
+        }
+        catch ( Exception e )
+        {
+            LOG.error( "", e );
+            assertTrue( e.getMessage().indexOf( "XY1234" ) > -1 );
+        }
+        finally
+        {
+            session.close();
+        }
     }
 
     private void showResult( FlightDetailBapi flightDetail )
@@ -89,7 +123,6 @@ public class FlightDetailTest
         System.out.println( "\tArrtime: " + flightData.getArrtime() );
         System.out.println( "\tDeptime: " + flightData.getDeptime() );
         System.out.println( "\tFlightdate: " + flightData.getFlightdate() );
-
         System.out.println( "BapiRet2" );
         BapiRet2 returnStruct = flightDetail.getReturn();
         System.out.println( "\tMessage: " + returnStruct.getMessage() );
