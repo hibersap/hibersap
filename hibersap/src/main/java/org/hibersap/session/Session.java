@@ -21,14 +21,13 @@ package org.hibersap.session;
 
 import org.hibersap.mapping.model.BapiMapping;
 
-
 /**
  * @author Carsten Erker
  */
 public interface Session
 {
     /**
-     * starts a transaction. Semantic depends on the type of
+     * starts a transaction.
      * 
      * @return The Hibersap transaction
      */

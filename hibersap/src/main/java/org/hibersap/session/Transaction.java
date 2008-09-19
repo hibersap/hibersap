@@ -24,6 +24,8 @@ package org.hibersap.session;
  */
 public interface Transaction
 {
+    void begin();
+
     void commit();
 
     void rollback();

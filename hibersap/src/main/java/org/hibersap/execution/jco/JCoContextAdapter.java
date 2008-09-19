@@ -1,4 +1,7 @@
-package org.hibersap.configuration;
+package org.hibersap.execution.jco;
+
+import com.sap.conn.jco.JCoDestination;
+import com.sap.conn.jco.JCoException;
 
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
@@ -17,35 +20,18 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hibersap.execution.Connection;
-import org.hibersap.session.Context;
-
 /**
+ * This interface acts as an adapter to the JCoContext class. Since JCoContext
+ * is not not an interface, but provides static methods instead, it is not testable.
+ *
  * @author Carsten Erker
  */
-public final class Settings
+public interface JCoContextAdapter
 {
-    Context context;
+    void begin( JCoDestination destination );
 
-    Class<? extends Connection> connectionClass;
+    void end( JCoDestination destination )
+        throws JCoException;
 
-    public Class<? extends Connection> getConnectionClass()
-    {
-        return connectionClass;
-    }
-
-    public Context getContext()
-    {
-        return context;
-    }
-
-    public void setConnectionClass( Class<? extends Connection> connectionClass )
-    {
-        this.connectionClass = connectionClass;
-    }
-
-    public void setContext( Context context )
-    {
-        this.context = context;
-    }
+    boolean isStateful( JCoDestination destination );
 }

@@ -4,19 +4,17 @@ package org.hibersap.session;
  * Copyright (C) 2008 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
- *
- * Hibersap is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Hibersap is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
  * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
+ * not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.util.Map;
@@ -24,11 +22,9 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
-import org.hibersap.execution.Executor;
-import org.hibersap.execution.ExecutorFactory;
+import org.hibersap.execution.Connection;
 import org.hibersap.execution.PojoMapper;
 import org.hibersap.mapping.model.BapiMapping;
-
 
 /**
  * @author Carsten Erker
@@ -42,27 +38,27 @@ public class SessionImpl
 
     private final SessionFactory sessionFactory;
 
-    private final Executor executor;
-
     private PojoMapper pojoMapper;
+
+    private Connection connection;
 
     public SessionImpl( SessionFactory sessionFactory )
     {
         this.sessionFactory = sessionFactory;
         pojoMapper = new PojoMapper( sessionFactory.getConverterCache() );
-        executor = ExecutorFactory.create( this );
+        connection = sessionFactory.getSettings().getContext().getConnection();
     }
 
     public Transaction beginTransaction()
     {
         errorIfClosed();
-        return executor.beginTransaction();
+        return connection.beginTransaction( this );
     }
 
     public void close()
     {
         errorIfClosed();
-        executor.close();
+        connection.close();
         setClosed();
     }
 
@@ -98,11 +94,19 @@ public class SessionImpl
 
         Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapiObject, bapiMapping );
 
-        executor.execute( bapiName, functionMap );
+        connection.execute( bapiName, functionMap );
 
-        // checkForErrors(bapiMapping, functionMap);
+        if ( bapiMapping.getErrorHandling().isThrowExceptionOnError() )
+        {
+            checkForErrors( bapiMapping, functionMap );
+        }
 
         pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
+    }
+
+    private void checkForErrors( BapiMapping bapiMapping, Map<String, Object> functionMap )
+    {
+        // TODO
     }
 
     public SessionFactory getSessionFactory()
@@ -113,7 +117,7 @@ public class SessionImpl
     public Transaction getTransaction()
     {
         errorIfClosed();
-        return executor.getTransaction();
+        return connection.getTransaction();
     }
 
     public boolean isClosed()

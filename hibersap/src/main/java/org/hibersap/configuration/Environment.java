@@ -4,19 +4,17 @@ package org.hibersap.configuration;
  * Copyright (C) 2008 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
- *
- * Hibersap is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Hibersap is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
  * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
+ * not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.io.IOException;
@@ -27,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 
-
 /**
  * @author Carsten Erker
  */
@@ -37,11 +34,7 @@ public final class Environment
 
     public static final String SESSION_FACTORY_NAME = "hibersap.session_factory_name";
 
-    public static final String CONNECTION_PROVIDER = "hibersap.connection_provider_class";
-
-    public static final String EXECUTOR = "hibersap.executor_class";
-
-    public static final String REPOSITORY_NAME = "hibersap.jco.repository_name";
+    public static final String CONTEXT_CLASS = "hibersap.context_class";
 
     public static final String CONNECTION_SAPCLIENT = "hibersap.jco.client.client";
 
@@ -120,7 +113,7 @@ public final class Environment
     /**
      * Return <tt>System</tt> properties, extended by any properties specified
      * in <tt>hibersap.properties</tt>.
-     * 
+     *
      * @return Properties
      */
     public static Properties getProperties()
