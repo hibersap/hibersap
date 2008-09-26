@@ -17,15 +17,17 @@ package org.hibersap.examples.flightdetail;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.hibersap.SapException;
+import org.hibersap.SapException.SapError;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.Environment;
@@ -42,8 +44,6 @@ import org.junit.Test;
 public class FlightDetailTest
     extends AbstractHibersapTest
 {
-    private static final Log LOG = LogFactory.getLog( FlightDetailTest.class );
-
     private SessionFactory sessionFactory;
 
     @Before
@@ -90,13 +90,17 @@ public class FlightDetailTest
             session.beginTransaction();
             FlightDetailBapi flightDetail = new FlightDetailBapi( "XY", "1234", new Date() );
             session.execute( flightDetail );
-            showResult( flightDetail );
             fail();
         }
-        catch ( Exception e )
+        catch ( SapException e )
         {
-            LOG.error( "", e );
-            assertTrue( e.getMessage().indexOf( "XY1234" ) > -1 );
+            List<SapError> errors = e.getErrors();
+            assertEquals( 1, errors.size() );
+            SapError error = errors.get( 0 );
+            assertEquals( "600", error.getNumber() );
+            assertEquals( "BC_BOR", error.getId() );
+            assertEquals( "E", error.getType() );
+            assertTrue( error.getMessage().indexOf( "XY1234" ) > -1 );
         }
         finally
         {
