@@ -3,8 +3,45 @@
   <groupId>org.hibersap</groupId>
   <artifactId>hibersap</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>HiberSap</name>
+  <name>Hibersap</name>
   <description>The easy way to access SAP systems with Java.</description>
+  <url>http://hibersap.sourceforge.net</url>
+  <licenses>
+  	<license>
+  	  <name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+  	</license>
+  </licenses>
+  <issueManagement>
+  	<system>Sourceforge Tracker</system>
+  	<url>https://sourceforge.net/tracker/?group_id=225273</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/</connection>
+    <developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/</developerConnection>
+    <url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/</url>
+   </scm>
+  <developers>
+  	<developer>
+  		<id>cerker</id>
+  		<name>Carsten Erker</name>
+  		<organization>akquinet tech@spree GmbH</organization>
+  		<organizationUrl>http://www.akquinet.de</organizationUrl>
+  		<roles>
+  			<role>Developer</role>
+  			<role>Project Manager</role>
+  		</roles>
+  	</developer>
+  	<developer>
+  		<id>tnfink</id>
+  		<name>Torsten Fink</name>
+  		<organization>akquinet tech@spree GmbH</organization>
+  		<organizationUrl>http://www.akquinet.de</organizationUrl>
+  		<roles>
+  			<role>Architect</role>
+  		</roles>
+  	</developer>
+  </developers>
   <build>
     <plugins>
       <plugin>
@@ -15,8 +52,9 @@
         </configuration>
       </plugin>
     </plugins>
-   
   </build>
+  <profiles>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>com.sap</groupId>
@@ -51,6 +89,8 @@
      <groupId>org.apache.maven.plugins</groupId>
 	   <artifactId>maven-surefire-report-plugin</artifactId>
 	   <version>2.4.3</version>
+	   <reportSets>
+	   </reportSets>
      </plugin>
    </plugins>
   </reporting>
