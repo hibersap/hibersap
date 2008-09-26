@@ -18,6 +18,7 @@ package org.hibersap.session;
  */
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -36,10 +37,12 @@ public class SessionFactoryImpl
 
     private final Settings settings;
 
-    private Map<Class<?>, BapiMapping> bapiMappings;
+    private final Map<Class<?>, BapiMapping> bapiMappings;
 
     // TODO exists for each SessionFactory instance, should be global to remove redundancies
-    ConverterCache converterCache;
+    private final ConverterCache converterCache;
+
+    private final List<ExecutionInterceptor> interceptors;
 
     public SessionFactoryImpl( Configuration configuration, Settings settings )
     {
@@ -48,6 +51,7 @@ public class SessionFactoryImpl
         properties = new Properties();
         properties.putAll( configuration.getProperties() );
         bapiMappings = Collections.unmodifiableMap( configuration.getBapiMappings() );
+        interceptors = configuration.getInterceptors();
     }
 
     public void reset()
@@ -85,5 +89,10 @@ public class SessionFactoryImpl
     public Session openSession()
     {
         return new SessionImpl( this );
+    }
+
+    public List<ExecutionInterceptor> getInterceptors()
+    {
+        return interceptors;
     }
 }

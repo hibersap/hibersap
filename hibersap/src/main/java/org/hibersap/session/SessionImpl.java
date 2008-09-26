@@ -17,7 +17,9 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +28,7 @@ import org.hibersap.execution.Connection;
 import org.hibersap.execution.PojoMapper;
 import org.hibersap.mapping.model.BapiMapping;
 
-/**
+/*
  * @author Carsten Erker
  */
 public class SessionImpl
@@ -42,11 +44,14 @@ public class SessionImpl
 
     private Connection connection;
 
+    private final Set<ExecutionInterceptor> interceptors = new HashSet<ExecutionInterceptor>();
+
     public SessionImpl( SessionFactory sessionFactory )
     {
         this.sessionFactory = sessionFactory;
         pojoMapper = new PojoMapper( sessionFactory.getConverterCache() );
         connection = sessionFactory.getSettings().getContext().getConnection();
+        interceptors.addAll( sessionFactory.getInterceptors() );
     }
 
     public Transaction beginTransaction()
@@ -81,7 +86,7 @@ public class SessionImpl
         }
         else
         {
-            throw new HibersapException( bapiClass.getName() + " is not configured as a Bapi class" );
+            throw new HibersapException( bapiClass.getName() + " is not mapped as a Bapi class" );
         }
     }
 
@@ -90,23 +95,23 @@ public class SessionImpl
         errorIfClosed();
 
         String bapiName = bapiMapping.getBapiName();
-        LOG.info( "Executing " + bapiName );
+        LOG.debug( "Executing " + bapiName );
 
         Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapiObject, bapiMapping );
 
+        for ( ExecutionInterceptor interceptor : interceptors )
+        {
+            interceptor.beforeExecute( bapiMapping, functionMap );
+        }
+
         connection.execute( bapiName, functionMap );
 
-        if ( bapiMapping.getErrorHandling().isThrowExceptionOnError() )
+        for ( ExecutionInterceptor interceptor : interceptors )
         {
-            checkForErrors( bapiMapping, functionMap );
+            interceptor.afterExecute( bapiMapping, functionMap );
         }
 
         pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
-    }
-
-    private void checkForErrors( BapiMapping bapiMapping, Map<String, Object> functionMap )
-    {
-        // TODO
     }
 
     public SessionFactory getSessionFactory()
@@ -128,5 +133,10 @@ public class SessionImpl
     private void setClosed()
     {
         closed = true;
+    }
+
+    public void addInterceptor( ExecutionInterceptor interceptor )
+    {
+        interceptors.add( interceptor );
     }
 }
