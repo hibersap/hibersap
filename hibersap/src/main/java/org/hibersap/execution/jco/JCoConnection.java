@@ -107,7 +107,8 @@ public class JCoConnection
         }
         catch ( JCoException e )
         {
-            throw new HibersapException( "Can not get repository on destination " + destination.getDestinationName() );
+            throw new HibersapException( "Can not get repository from destination " + destination.getDestinationName(),
+                                         e );
         }
     }
 
