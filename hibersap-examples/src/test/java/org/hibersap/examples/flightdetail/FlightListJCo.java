@@ -97,8 +97,8 @@ public class FlightListJCo
         Properties properties = new Properties();
         properties.setProperty( DestinationDataProvider.JCO_ASHOST, "10.20.80.76" );
         properties.setProperty( DestinationDataProvider.JCO_CLIENT, "800" );
-        properties.setProperty( DestinationDataProvider.JCO_USER, "cerker" );
-        properties.setProperty( DestinationDataProvider.JCO_PASSWD, "finnland" );
+        properties.setProperty( DestinationDataProvider.JCO_USER, "sapuser" );
+        properties.setProperty( DestinationDataProvider.JCO_PASSWD, "password" );
         properties.setProperty( DestinationDataProvider.JCO_LANG, "DE" );
         properties.setProperty( DestinationDataProvider.JCO_SYSNR, "00" );
         properties.setProperty( DestinationDataProvider.JCO_POOL_CAPACITY, "1" );
