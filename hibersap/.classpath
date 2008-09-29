@@ -4,6 +4,6 @@
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="src/site"/>
+	<classpathentry exported="true" kind="lib" path="src/main/resources"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
