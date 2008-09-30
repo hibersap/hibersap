@@ -14,12 +14,6 @@
           img="images/sourceforge-logo.png"/>
     <logo name="Maven" href="http://maven.apache.org/"
           img="http://maven.apache.org/images/logos/maven-feather.png"/>
-    <logo name="Apache Commons" href="http://commons.apache.org/"
-          img="images/jakarta-logo.png"/>
-    <logo name="dom4j" href="http://www.dom4j.org/"
-          img="images/dom4j-logo.gif"/>
-    <logo name="Eclipse" href="http://www.eclipse.org/"
-          img="images/eclipse-logo.png"/>
   </poweredBy>
   <body>
 	<links>
