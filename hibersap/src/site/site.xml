@@ -1,5 +1,32 @@
 <project name="HiberSap">
-	<body>
-		<menu ref="reports" />
-	</body>
+  <bannerLeft>
+    <name>Hibersap</name>
+    <src>images/HibersapLogoSmall.png</src>
+    <href>http://hibersap.sourceforge.net/</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>akquinet</name>
+    <src>images/akquinet-logo.jpg</src>
+    <href>http://www.akquinet.de/</href>
+  </bannerRight>
+  <poweredBy>
+    <logo name="Sourceforge" href="http://sourceforge.net/"
+          img="images/sourceforge-logo.png"/>
+    <logo name="Maven" href="http://maven.apache.org/"
+          img="http://maven.apache.org/images/logos/maven-feather.png"/>
+    <logo name="Apache Commons" href="http://commons.apache.org/"
+          img="images/jakarta-logo.png"/>
+    <logo name="dom4j" href="http://www.dom4j.org/"
+          img="images/dom4j-logo.gif"/>
+    <logo name="Eclipse" href="http://www.eclipse.org/"
+          img="images/eclipse-logo.png"/>
+  </poweredBy>
+  <body>
+	<links>
+      <item name="Sourceforge" href="http://sourceforge.net"/>
+      <item name="Apache" href="http://www.apache.org/" />
+      <item name="Maven 2" href="http://maven.apache.org/"/>
+    </links>
+	<menu ref="reports" />
+  </body>
 </project>
