@@ -17,7 +17,6 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
 /**
@@ -27,21 +26,9 @@ public final class Settings
 {
     Context context;
 
-    Class<? extends Connection> connectionClass;
-
-    public Class<? extends Connection> getConnectionClass()
-    {
-        return connectionClass;
-    }
-
     public Context getContext()
     {
         return context;
-    }
-
-    public void setConnectionClass( Class<? extends Connection> connectionClass )
-    {
-        this.connectionClass = connectionClass;
     }
 
     public void setContext( Context context )
