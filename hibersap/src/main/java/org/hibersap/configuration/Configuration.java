@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.session.SapErrorInterceptor;
 import org.hibersap.session.ExecutionInterceptor;
+import org.hibersap.session.SapErrorInterceptor;
 import org.hibersap.session.SessionFactory;
 import org.hibersap.session.SessionFactoryImpl;
 
