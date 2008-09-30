@@ -4,30 +4,29 @@ package org.hibersap.mapping;
  * Copyright (C) 2008 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
- *
- * Hibersap is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Hibersap is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
  * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
+ * not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
 import org.hibersap.HibersapException;
-
 
 /**
  * @author Carsten Erker
@@ -169,7 +168,9 @@ public class ReflectionHelper
     {
         try
         {
-            return clazz.newInstance();
+            Constructor<? extends Object> defaultConstructor = clazz.getDeclaredConstructor();
+            defaultConstructor.setAccessible( true );
+            return defaultConstructor.newInstance();
         }
         // TODO add meaningful message to exceptions
         catch ( InstantiationException e )
@@ -177,6 +178,14 @@ public class ReflectionHelper
             throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
         }
         catch ( IllegalAccessException e )
+        {
+            throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
+        }
+        catch ( NoSuchMethodException e )
+        {
+            throw new HibersapException( "Class does not have a default constructor: " + clazz.getName(), e );
+        }
+        catch ( InvocationTargetException e )
         {
             throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
         }
