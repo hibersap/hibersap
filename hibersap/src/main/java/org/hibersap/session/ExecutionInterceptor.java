@@ -19,7 +19,6 @@ package org.hibersap.session;
 
 import java.util.Map;
 
-import org.hibersap.CallbackException;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
@@ -27,9 +26,7 @@ import org.hibersap.mapping.model.BapiMapping;
  */
 public interface ExecutionInterceptor
 {
-    void beforeExecute( BapiMapping bapiMapping, Map<String, Object> functionMap )
-        throws CallbackException;
+    void beforeExecute( BapiMapping bapiMapping, Map<String, Object> functionMap );
 
-    void afterExecute( BapiMapping bapiMapping, Map<String, Object> functionMap )
-        throws CallbackException;
+    void afterExecute( BapiMapping bapiMapping, Map<String, Object> functionMap );
 }

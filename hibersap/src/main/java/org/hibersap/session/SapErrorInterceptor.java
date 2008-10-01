@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.hibersap.CallbackException;
 import org.hibersap.MappingException;
 import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
@@ -40,7 +39,7 @@ public class SapErrorInterceptor
 {
     // TODO test with return table
     public void afterExecute( BapiMapping bapiMapping, Map<String, Object> functionMap )
-        throws CallbackException
+        throws SapException
     {
         if ( bapiMapping.getErrorHandling().isThrowExceptionOnError() )
         {
@@ -49,12 +48,12 @@ public class SapErrorInterceptor
     }
 
     public void beforeExecute( BapiMapping bapiMapping, Map<String, Object> functionMap )
-        throws CallbackException
     {
         // nothing to do
     }
 
     private void checkForErrors( BapiMapping bapiMapping, Map<String, Object> functionMap )
+        throws SapException
     {
         ErrorHandling errorHandling = bapiMapping.getErrorHandling();
 
@@ -116,6 +115,7 @@ public class SapErrorInterceptor
     }
 
     private void checkSapErrors( String[] messageTypes, Collection<Map<String, Object>> returnTable )
+        throws SapException
     {
         ArrayList<SapError> sapErrors = new ArrayList<SapError>();
         for ( Map<String, Object> map : returnTable )
