@@ -30,7 +30,7 @@ import org.hibersap.annotations.ThrowExceptionOnError;
 
 /**
  * Name must not be Test* or *Test, because Surefire then tries to run it as a test case.
- *  
+ *
  * @author Carsten Erker
  */
 @Bapi(name = "bapiName")
@@ -39,7 +39,7 @@ class MyTestBapi
 {
     public MyTestBapi()
     {
-        // TODO Auto-generated constructor stub
+        // for Hibersap
     }
 
     MyTestBapi( Integer intParam, TestStructure structureParam, List<TestStructure> tableParam )
