@@ -56,7 +56,6 @@ public class SessionFactoryImpl
 
     public void reset()
     {
-        // TODO add other fields
         settings.getContext().reset();
     }
 
