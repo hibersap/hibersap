@@ -130,7 +130,7 @@ public class JCoConnection
         }
         catch ( JCoException e )
         {
-            // TODO maybe just log this error? Can we go on though?
+            // TODO maybe just log this error? Can we go on though? Write test for JCo
             throw new HibersapException( "JCo connection could not be ended", e );
         }
         finally
