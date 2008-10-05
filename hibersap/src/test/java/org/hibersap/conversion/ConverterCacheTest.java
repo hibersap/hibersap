@@ -1,7 +1,6 @@
 package org.hibersap.conversion;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.hibersap.HibersapException;
 import org.junit.Test;
@@ -12,7 +11,6 @@ public class ConverterCacheTest
 
     @Test
     public void createsOneInstanceOfEachClass()
-        throws Exception
     {
         cache.getConverter( CharConverter.class );
         assertEquals( 1, cache.getSize() );
@@ -24,33 +22,15 @@ public class ConverterCacheTest
         assertEquals( 2, cache.getSize() );
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void throwsExceptionOnNullArgument()
-        throws Exception
     {
-        try
-        {
-            cache.getConverter( null );
-            fail();
-        }
-        catch ( IllegalArgumentException e )
-        {
-            // expected
-        }
+        cache.getConverter( null );
     }
 
-    @Test
+    @Test(expected = HibersapException.class)
     public void throwsHibersapExceptionIfNotInstantiable()
-        throws Exception
     {
-        try
-        {
-            cache.getConverter( Converter.class );
-            fail();
-        }
-        catch ( HibersapException e )
-        {
-            // expected
-        }
+        cache.getConverter( Converter.class );
     }
 }
