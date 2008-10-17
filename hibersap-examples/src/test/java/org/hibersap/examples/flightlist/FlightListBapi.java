@@ -30,7 +30,6 @@ import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.conversion.BooleanConverter;
 
-
 /**
  * @author Carsten Erker
  */
