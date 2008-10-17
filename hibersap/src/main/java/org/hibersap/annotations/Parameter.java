@@ -32,5 +32,5 @@ public @interface Parameter
 {
     String name();
 
-    ParameterType type() default ParameterType.FIELD;
+    ParameterType type() default ParameterType.SIMPLE;
 }

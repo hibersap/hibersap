@@ -1,0 +1,488 @@
+                                    ------
+                                    Quick Start Guide
+                                    ------
+                                    Carsten Erker
+                                    ------
+                                    10.10.2008
+
+Hibersap Quick Start Guide
+
+* Installation
+
+	* Download Hibersap-JAR
+
+	* Download dependent libraries
+
+	* Download SAP Java Connector 3.0
+
+	* Put all libraries into your project's classpath
+
+	* Put JCo native libraries into your library path
+
+
+* The first application
+
+  We are going to write a small example application that will call the SAP function module BAPI_SFLIGHT_GETLIST.
+  This function is part of a demo application in SAP that offers a simplified flight-booking system.
+  The code can be found in project <<<hibersap-examples>>>.
+
+** The function module
+
+  This is the function module's interface in SAP:
+
++-------------------------------------------------------------------+
+FUNCTION BAPI_SFLIGHT_GETLIST.
+  IMPORTING
+     VALUE(FROMCOUNTRYKEY) LIKE  BAPISFDETA-COUNTRYFR
+     VALUE(FROMCITY) LIKE  BAPISFDETA-CITYFROM
+     VALUE(TOCOUNTRYKEY) LIKE  BAPISFDETA-COUNTRYTO
+     VALUE(TOCITY) LIKE  BAPISFDETA-CITYTO
+     VALUE(AIRLINECARRIER) LIKE  BAPISFDETA-CARRID DEFAULT SPACE
+     VALUE(AFTERNOON) LIKE  BAPI_AUX-AFTERNOON DEFAULT SPACE
+     VALUE(MAXREAD) LIKE  BAPI_AUX-MAXREAD DEFAULT 0
+  EXPORTING
+     VALUE(RETURN) LIKE  BAPIRET2 STRUCTURE  BAPIRET2
+  TABLES
+     FLIGHTLIST STRUCTURE  BAPISFLIST
++-------------------------------------------------------------------+
+
+  This function module takes some parameters that represent search criteria to look up flights in SAP's database.
+  The matching flights are returned in the FLIGHTLIST table, which contains information such as
+  the airline carrier id, a flight connection code and departure/destination data.
+  The RETURN structure may be filled by SAP with extra messages like errors, warnings, etc.
+
+  The import parameters are simple types, whereas the export and table parameter are complex data types (ABAP structures).
+  The RETURN parameter is of type BAPIRET2, which is a standard structure that can be found in many function modules'
+  interfaces and that is not specific to this BAPI.
+
+*--------------------+----------------------+---------------------------------------------------------------+
+| <<Component name>> | <<Type>>             | <<Description>>
+*--------------------+----------------------+---------------------------------------------------------------+
+| TYPE               | Character            | Message type: S Success, E Error, W Warning, I Info, A Abort
+*--------------------+----------------------+---------------------------------------------------------------+
+| ID                 | Character            | Messages, message class
+*--------------------+----------------------+---------------------------------------------------------------+
+| NUMBER             | Numeric character    | Messages, message number
+*--------------------+----------------------+---------------------------------------------------------------+
+| MESSAGE            | Character            | Message text
+*--------------------+----------------------+---------------------------------------------------------------+
+| LOG_NO             | Character            | Application log: log number
+*--------------------+----------------------+---------------------------------------------------------------+
+| LOG_MSG_NO         | Numeric character    | Application log: Internal message serial number
+*--------------------+----------------------+---------------------------------------------------------------+
+| MESSAGE_V1         | Character            | Messages, message variables
+*--------------------+----------------------+---------------------------------------------------------------+
+| MESSAGE_V2         | Character            | Messages, message variables
+*--------------------+----------------------+---------------------------------------------------------------+
+| MESSAGE_V3         | Character            | Messages, message variables
+*--------------------+----------------------+---------------------------------------------------------------+
+| MESSAGE_V4         | Character            | Messages, message variables
+*--------------------+----------------------+---------------------------------------------------------------+
+| PARAMETER          | Character            | Parameter name
+*--------------------+----------------------+---------------------------------------------------------------+
+| ROW                | 4-byte integer       | Lines in parameter
+*--------------------+----------------------+---------------------------------------------------------------+
+| FIELD              | Character            | Field in parameter
+*--------------------+----------------------+---------------------------------------------------------------+
+| SYSTEM             | Character            | Logical system from which message originates
+*--------------------+----------------------+---------------------------------------------------------------+
+Structure BAPIRET2
+
+  The FLIGHTLIST table's lines are of type BAPISFLIST:
+
+*--------------------+----------------------+----------------------------+
+| <<Component name>> | <<Type>>             | <<Description>>
+*--------------------+----------------------+----------------------------+
+| CARRID             | Character            | Airline carrier ID
+*--------------------+----------------------+----------------------------+
+| CONNID             | Numerical character  | Flight connection code
+*--------------------+----------------------+----------------------------+
+| FLDATE             | Date                 | Flight date
+*--------------------+----------------------+----------------------------+
+| AIRPFROM           | Character            | Airport of departure
+*--------------------+----------------------+----------------------------+
+| AIRPTO             | Character            | Destination airport
+*--------------------+----------------------+----------------------------+
+| DEPTIME            | Time                 | Departure time
+*--------------------+----------------------+----------------------------+
+| SEATSMAX           | 4-byte integer       | Maximum capacity
+*--------------------+----------------------+----------------------------+
+| SEATSOCC           | 4-byte integer       | Occupied seats
+*--------------------+----------------------+----------------------------+
+Structure BAPISFLIST
+
+** The BAPI class
+
+  To call a function module from a Java application using Hibersap, we have to write a <BAPI class>.
+  The BAPI class is a simple Java class with a number of fields representing the BAPI's import, export and table parameters.
+  In case the BAPI parameter being a scalar parameter, the Java field itself is of a simple Java type.
+  In the case of a structure parameter, the Java field's type has to be a complex type, too.
+  A table parameter maps to a Collection of a complex type.
+
+  All setup related to the function module's interface is done via Java annotations.
+  A BAPI class is defined using the Hibersap class annotation <<<@Bapi>>>,
+  which has a name argument specifying the name of the SAP function module we want to call.
+  (All Hibersap annotations can be found in the package org.hibersap.annotations.)
+
++----------------------------------+
+package org.hibersap.examples.flightlist;
+
+import java.util.List;
+import org.hibersap.*;
+
+@Bapi(name = "BAPI_SFLIGHT_GETLIST")
+public class FlightListBapi
+{
+  ...
+}
++----------------------------------+
+
+  The fields that are mapped to the function module's parameters are annotated with the
+  <<<@Import>>>, <<<@Export>>> or <<<@Table>>> annotations.
+  Additionally, we have to specify the function module's field name
+  to which it relates, using the <<<@Parameter>>> annotation and its <<<name>>> element.
+  The <<<@Parameter>>>'s second element, <<<type>>>, tells Hibersap if the parameter has a simple or a structure type.
+  The enumeration <<<ParameterType>>> defines possible values, the default type for element <<<type>>> being SIMPLE,
+  so that we have to specify a parameter type on structure parameters only. Since table parameters always represent
+  a table of complex types, the parameter type will be ignored by Hibersap and thus doesn't have to be specified.
+
++-----------------------------------------------------------------+
+    @Import
+    @Parameter(name = "FROMCOUNTRYKEY")
+    private final String fromCountryKey;
+
+    @Import
+    @Parameter(name = "FROMCITY")
+    private final String fromCity;
+
+    @Import
+    @Parameter(name = "TOCOUNTRYKEY")
+    private final String toCountryKey;
+
+    @Import
+    @Parameter(name = "TOCITY")
+    private final String toCity;
+
+    @Import
+    @Parameter(name = "AIRLINECARRIER")
+    private final String airlineCarrier;
+
+    @Import
+    @Parameter(name = "AFTERNOON")
+    @Convert(converter = BooleanConverter.class)
+    private final boolean afternoon;
+
+    @Import
+    @Parameter(name = "MAXREAD")
+    private final int maxRead;
+
+    @Export
+    @Parameter(name = "RETURN", type = ParameterType.STRUCTURE)
+    private BapiRet2 returnData;
+
+    @Table
+    @Parameter(name = "FLIGHTLIST")
+    private List<Flight> flightList;
++-----------------------------------------------------------------+
+
+  The Java type of each simple field is related to the SAP field's data type.
+  Hibersap relies on the Java Connector's conversion scheme:
+
+*-----------------+----------------------------+--------------------+
+| <<ABAP type>>   | <<Description>>            | <<Java type>>
+*-----------------+----------------------------+--------------------+
+| C               | Character                  | java.lang.String
+*-----------------+----------------------------+--------------------+
+| N               | Numerical character        | java.lang.String
+*-----------------+----------------------------+--------------------+
+| D               | Date                       | java.lang.Date
+*-----------------+----------------------------+--------------------+
+| T               | Time                       | java.lang.Date
+*-----------------+----------------------------+--------------------+
+| X               | Byte field                 | byte[]
+*-----------------+----------------------------+--------------------+
+| P               | Packed number              | java.lang.BigDecimal
+*-----------------+----------------------------+--------------------+
+| I               | 4-byte integer             | int
+*-----------------+----------------------------+--------------------+
+| F               | Floating point number      | double
+*-----------------+----------------------------+--------------------+
+| STRING          | Variable-length character  | java.lang.String
+*-----------------+----------------------------+--------------------+
+| XSTRING         | Variable-length byte field | byte[]
+*-----------------+----------------------------+--------------------+
+SAP Java Connector type conversion
+
+  Hibersap allows us to convert a parameter's data type to any Java type and vice versa.
+  E. g., ABAP does not have a boolean type. Usually a boolean in ABAP is represented by a
+  character field of length 1. A parameter is true if it equals to 'X', false if it is empty.
+
+  The <<<@Convert>>> annotation on the field <<<afternoon>>> in the listing above tells Hibersap
+  to use a Converter of type <<<BooleanConverter>>> to convert the parameter AFTERNOON to a
+  Java boolean value.
+  It is fairly easy to write a custom converter by implementing <<<org.hibersap.conversion.Converter>>>.
+
+  To conclude the example, we write a constructor which takes all the import parameters as arguments,
+  initializing the corresponding fields.
+
++----------------------------------------------------+
+    public FlightListBapi( String fromCountryKey,
+                           String fromCity,
+                           String toCountryKey,
+                           String toCity,
+                           String airlineCarrier,
+                           boolean afternoon,
+                           int maxRead )
+    {
+        this.fromCountryKey = fromCountryKey;
+        this.fromCity = fromCity;
+        this.toCountryKey = toCountryKey;
+        this.toCity = toCity;
+        this.airlineCarrier = airlineCarrier;
+        this.afternoon = afternoon;
+        this.maxRead = maxRead;
+    }
++----------------------------------------------------+
+
+  Finally, to be able to read the values we should add a getter method for each field.
+  We could of course add additional fields and methods if needed.
+
++----------------------------------------------------+
+    public boolean getAfternoon()
+    {
+        return this.afternoon;
+    }
+
+    public String getAirlineCarrier()
+    {
+        return this.airlineCarrier;
+    }
+
+    public List<Flight> getFlightList()
+    {
+        return this.flightList;
+    }
+
+    public String getFromCity()
+    {
+        return this.fromCity;
+    }
+
+    public String getFromCountryKey()
+    {
+        return this.fromCountryKey;
+    }
+
+    public int getMaxRead()
+    {
+        return this.maxRead;
+    }
+
+    public BapiRet2 getReturnData()
+    {
+        return this.returnData;
+    }
+
+    public String getToCity()
+    {
+        return this.toCity;
+    }
+
+    public String getToCountryKey()
+    {
+        return this.toCountryKey;
+    }
++----------------------------------------------------+
+
+  [Note] There is one constraint in the current version of Hibersap you should take into account:
+         The mapping between SAP parameters and Java classes works as expected only if the SAP function module
+         follows the BAPI standard, this means:
+
+         * No deep tables (i. e. tables in tables) are not supported.
+
+         * Tables in import and export parameters are not supported.
+
+         * Changing parameters can not be mapped.
+
+         * ABAP exceptions are simply converted to <<<HibersapException>>>.
+
+         []
+
+  []
+
+  There are two more classes we have to write:
+  One for the complex export parameter RETURN, which is named BapiRet2, after the SAP data type.
+  It is another simple Java class with fields related to some of the fields of the function module's parameter.
+  To keep the example simple, we do not map all the fields of the RETURN parameter.
+
++----------------------------------------------------------------------------+
+package org.hibersap.bapi;
+
+import org.hibersap.annotations.*;
+
+@BapiStructure
+public class BapiRet2
+{
+    @Parameter(name = "TYPE")
+    @Convert(converter = CharConverter.class)
+    private char type;
+
+    @Parameter(name = "ID")
+    private String id;
+
+    @Parameter(name = "NUMBER")
+    private String number;
+
+    @Parameter(name = "MESSAGE")
+    private String message;
+
+
+    public char getType()
+    {
+        return this.type;
+    }
+
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public String getNumber()
+    {
+        return this.number;
+    }
+
+    public String getMessage()
+    {
+        return this.message;
+    }
+}
++----------------------------------------------------------------------------+
+
+  The class is annotated with <<<@BapiStructure>>> to tell Hibersap that it maps to
+  a complex parameter. Each particular field is annotated with the
+  already known <<<@Parameter>>> annotation that defines the name of the corresponding structure field.
+  The BapiRet2 class is already part of Hibersap, since this structure is used by most
+  SAP function modules.
+
+  Finally, there is a Java class that Hibersap will map to the table parameter FLIGHTLIST,
+  which in our example is simply called <<<Flight>>>.
+  The table FLIGHTLIST will be filled by SAP with the flight information matching our request.
+
++----------------------------------------------------------------------------+
+package org.hibersap.examples.flightlist;
+
+import java.util.Date;
+import org.hibersap.*;
+
+@BapiStructure
+public class Flight
+{
+    @Parameter(name = "CARRID")
+    private String carrierId;
+
+    @Parameter(name = "CONNID")
+    private String connectionId;
+
+    @Parameter(name = "AIRPFROM")
+    private String airportFrom;
+
+    @Parameter(name = "AIRPTO")
+    private String airportTo;
+
+    @Parameter(name = "FLDATE")
+    private Date flightDate;
+
+    @Parameter(name = "DEPTIME")
+    private Date departureTime;
+
+    @Parameter(name = "SEATSMAX")
+    private int seatsMax;
+
+    @Parameter(name = "SEATSOCC")
+    private int seatsOccupied;
+
+    public String getAirportFrom()
+    {
+        return this.airportFrom;
+    }
+
+    public String getAirportTo()
+    {
+        return this.airportTo;
+    }
+
+    public String getCarrierId()
+    {
+        return this.carrierId;
+    }
+
+    public String getConnectionId()
+    {
+        return this.connectionId;
+    }
+
+    public Date getDepartureTime()
+    {
+        return DateUtil.joinDateAndTime( flightDate, departureTime );
+    }
+
+    public Date getFlightDate()
+    {
+        return flightDate;
+    }
+
+    public int getSeatsMax()
+    {
+        return this.seatsMax;
+    }
+
+    public int getSeatsOccupied()
+    {
+        return this.seatsOccupied;
+    }
+}
++----------------------------------------------------------------------------+
+
+  Please note that the method <<<getDepartureTime()>>> does not simply return the field <<<departureTime>>>
+  but calls a utility method DateUtil.joinDateAndTime(). This is done here because ABAP does not know a
+  data type that contains date and time, rather a timestamp is separated into two fields, one
+  of type Date, the other of type Time. Therefore the Java Connector returns a <<<java.util.Date>>> for the SAP
+  date field containing the date fraction (date at 00:00:00,000) and a <<<java.util.Date>>> for the time
+  field containing the time fraction (i.e. Jan. 1st, 1970 plus time).
+
+** Calling a function module
+
+  Hibersap's API is very close to Hibernate.
+  There is the notion of a <<<SessionFactory>>> which should be created only once in an application,
+  because it is rather expensive to create.
+  One <<<SessionFactory>>> is needed for each SAP system which is used by the application.
+
+  The <<<SessionFactory>>> is responsible for creating <<<Session>>>s.
+  A <<<Session>>> represents a connection to the SAP system. The first time we call a function module
+  on a <<<Session>>>, Hibersap gets a connection from the underlying connection pool.
+  When closing a session, the connection is returned to the pool. Therefore you have to take care
+  always to close the session, preferably in a <<<finally>>> block, else the connection pool may
+  get exhausted very soon.
+
++----------------------------------------------------------------------------+
+public void showFlightList()
+{
+    AnnotationConfiguration configuration = new AnnotationConfiguration();
+    configuration.addAnnotatedClass( FlightListBapi.class );
+    configuration.setProperty( Environment.SESSION_FACTORY_NAME, "MY_SF" );
+    SessionFactory sessionFactory = configuration.buildSessionFactory();
+
+    Session session = sessionFactory.openSession();
+    try
+    {
+        FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", null, false, 10 );
+        session.execute( flightList );
+        showResult( flightList );
+    }
+    finally
+    {
+        session.close();
+    }
+}
++----------------------------------------------------------------------------+

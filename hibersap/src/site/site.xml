@@ -1,4 +1,4 @@
-<project name="HiberSap">
+<project name="Hibersap">
   <bannerLeft>
     <name>Hibersap</name>
     <src>images/HibersapLogoSmall.png</src>
@@ -21,6 +21,11 @@
       <item name="Apache" href="http://www.apache.org/" />
       <item name="Maven 2" href="http://maven.apache.org/"/>
     </links>
+
+    <menu name="Hibersap Documentation" inherit="none">
+      <item name="Quick Start Guide" href="QuickStartGuide.html"/>
+	</menu>
+
 	<menu ref="reports" />
   </body>
 </project>
