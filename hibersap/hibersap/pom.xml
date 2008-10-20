@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.hibersap</groupId>
+  <artifactId>hibersap</artifactId>
+  <version>0.1</version>
+  <name>Hibersap</name>
+  <description>The easy way to access SAP systems with Java.</description>
+  <url>http://hibersap.sourceforge.net</url>
+  <licenses>
+  	<license>
+  	  <name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+  	</license>
+  </licenses>
+  <issueManagement>
+  	<system>Sourceforge Tracker</system>
+  	<url>https://sourceforge.net/tracker/?group_id=225273</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/</connection>
+    <developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/</developerConnection>
+    <url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/</url>
+   </scm>
+  <developers>
+  	<developer>
+  		<id>cerker</id>
+  		<name>Carsten Erker</name>
+  		<organization>akquinet tech@spree GmbH</organization>
+  		<organizationUrl>http://www.akquinet.de</organizationUrl>
+  		<roles>
+  			<role>Developer</role>
+  			<role>Project Manager</role>
+  		</roles>
+  	</developer>
+  	<developer>
+  		<id>tnfink</id>
+  		<name>Torsten Fink</name>
+  		<organization>akquinet tech@spree GmbH</organization>
+  		<organizationUrl>http://www.akquinet.de</organizationUrl>
+  		<roles>
+  			<role>Architect</role>
+  		</roles>
+  	</developer>
+  </developers>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+  </profiles>
+  <dependencies>
+    <dependency>
+      <groupId>com.sap</groupId>
+      <artifactId>sap-jco</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>2.4</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+   <reporting>
+   <plugins>
+    <plugin>
+     <groupId>org.apache.maven.plugins</groupId>
+	   <artifactId>maven-surefire-report-plugin</artifactId>
+	   <version>2.4.3</version>
+	   <reportSets>
+	   </reportSets>
+     </plugin>
+     <plugin>
+       <groupId>org.codehaus.mojo</groupId>
+       <artifactId>cobertura-maven-plugin</artifactId>
+     </plugin>
+   </plugins>
+  </reporting>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>easymock</id>
+      <name>Easymock Repository</name>
+      <layout>default</layout>
+      <url>http://www.easymock.org/maven/repository/org/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+</project>
