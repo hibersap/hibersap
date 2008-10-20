@@ -9,15 +9,16 @@ Hibersap Quick Start Guide
 
 * Installation
 
-	* Download Hibersap-JAR
+  * Download Hibersap-JAR
 
-	* Download dependent libraries
+  * Download dependent libraries (see {{{dependencies.html}Dependencies}})
 
-	* Download SAP Java Connector 3.0
+  * Download SAP Java Connector 3.0 ({{http://service.sap.com/connectors}}) and extract the sapjco3.jar and the sapjco3 native library.
 
-	* Put all libraries into your project's classpath
+  * Put all jar files into your project's classpath
 
-	* Put JCo native libraries into your library path
+  * Put the JCo native library into your library path or into the folder your application will be started
+    from (e. g. the root folder of your Eclipse project that contains your main class).
 
 
 * The first application
@@ -88,7 +89,7 @@ FUNCTION BAPI_SFLIGHT_GETLIST.
 *--------------------+----------------------+---------------------------------------------------------------+
 Structure BAPIRET2
 
-  The FLIGHTLIST table's lines are of type BAPISFLIST:
+  The FLIGHTLIST table's lines are of type BAPISFLIST which contains the following fields:
 
 *--------------------+----------------------+----------------------------+
 | <<Component name>> | <<Type>>             | <<Description>>
@@ -245,6 +246,8 @@ SAP Java Connector type conversion
 +----------------------------------------------------+
 
   Finally, to be able to read the values we should add a getter method for each field.
+  Hibersap does not need setter methods, because all fields are set using reflection.
+  Thus, private fields are sufficient here.
   We could of course add additional fields and methods if needed.
 
 +----------------------------------------------------+
@@ -312,7 +315,7 @@ SAP Java Connector type conversion
 
   There are two more classes we have to write:
   One for the complex export parameter RETURN, which is named BapiRet2, after the SAP data type.
-  It is another simple Java class with fields related to some of the fields of the function module's parameter.
+  It is another annotated simple Java class with fields related to some of the function module's parameter.
   To keep the example simple, we do not map all the fields of the RETURN parameter.
 
 +----------------------------------------------------------------------------+
@@ -360,10 +363,10 @@ public class BapiRet2
 +----------------------------------------------------------------------------+
 
   The class is annotated with <<<@BapiStructure>>> to tell Hibersap that it maps to
-  a complex parameter. Each particular field is annotated with the
+  a complex parameter on the SAP side. Each particular field is annotated with the
   already known <<<@Parameter>>> annotation that defines the name of the corresponding structure field.
-  The BapiRet2 class is already part of Hibersap, since this structure is used by most
-  SAP function modules.
+  The BapiRet2 class is already part of Hibersap, since this structure is used by a lot of
+  SAP function modules. This means, you don't have to implement it.
 
   Finally, there is a Java class that Hibersap will map to the table parameter FLIGHTLIST,
   which in our example is simply called <<<Flight>>>.
@@ -448,8 +451,42 @@ public class Flight
   but calls a utility method DateUtil.joinDateAndTime(). This is done here because ABAP does not know a
   data type that contains date and time, rather a timestamp is separated into two fields, one
   of type Date, the other of type Time. Therefore the Java Connector returns a <<<java.util.Date>>> for the SAP
-  date field containing the date fraction (date at 00:00:00,000) and a <<<java.util.Date>>> for the time
+  date field containing the date fraction (date at 00:00:00,000) and another <<<java.util.Date>>> for the time
   field containing the time fraction (i.e. Jan. 1st, 1970 plus time).
+
+** Configuration
+
+  To configure Hibersap, you need to specify a name for the <<<SessionFactory>>> (see next section),
+  plus the properties for the Java Connector.
+  The properties have to be specified in a file named <<<hibersap.properties>>> which has to be found
+  in our application's classpath.
+  In the example we use a minimum set of JCo properties to be able to connect to the back-end SAP system.
+
++----------------------------------------------------------------------------+
+# The session factory name
+hibersap.session_factory_name=A12
+
+# Java Connector settings
+hibersap.jco.client.client=800
+hibersap.jco.client.user=sapuser
+hibersap.jco.client.passwd=password
+hibersap.jco.client.lang=en
+hibersap.jco.client.ashost=10.20.80.76
+hibersap.jco.client.sysnr=00
+hibersap.jco.pool_size=1
++----------------------------------------------------------------------------+
+
+  You will find constants for Hibersap's property names in class <<<Environment>>>,
+  whereas names for JCo properties are specified in the interface <<<JCoProperties>>>.
+
+  Using a properties file it is not possible to define more than one SAP system.
+  Currently, you have to specify these properties programmatically, using the setProperty() method
+  of Hibersap's <<<AnnotationConfiguration>>> class.
+  This method can be used to set properties that are not specified in a <<<hibersap.properties>>> file,
+  but can also be used to overwrite properties from the properties file.
+  This can be very convenient for a test setup, because you don't have to care for different
+  properties files to be in place for different back-end systems, like test, integration and production.
+
 
 ** Calling a function module
 
@@ -463,15 +500,36 @@ public class Flight
   on a <<<Session>>>, Hibersap gets a connection from the underlying connection pool.
   When closing a session, the connection is returned to the pool. Therefore you have to take care
   always to close the session, preferably in a <<<finally>>> block, else the connection pool may
-  get exhausted very soon.
+  get exhausted very fast.
 
-+----------------------------------------------------------------------------+
-public void showFlightList()
+  The following function configures a Hibersap <<<SessionFactory>>>.
+  First, an instance of type <<<AnnotationConfiguration>>> has to be created.
+  Then we add our BAPI Class to the configuration.
+  If needed, we could now set or overwrite properties using the <<<configuration.setProperty()>>>.
+  Finally, we build the <<<SessionFactory>>>.
+  In a real application this should be done once, reusing the <<<SessionFactory>>> throughout the
+  application's lifetime.
+
++--------------------------------------------------------------------------------------------------------------+
+public SessionFactory createSessionFactory()
 {
     AnnotationConfiguration configuration = new AnnotationConfiguration();
     configuration.addAnnotatedClass( FlightListBapi.class );
-    configuration.setProperty( Environment.SESSION_FACTORY_NAME, "MY_SF" );
-    SessionFactory sessionFactory = configuration.buildSessionFactory();
+    return configuration.buildSessionFactory();
+}
++--------------------------------------------------------------------------------------------------------------+
+
+  Now it is time to call the function module in SAP.
+  After creating the <<<SessionFactory>>> and opening a new <<<Session>>>, we create an instance of our
+  BAPI Class, passing all parameters needed to execute the function as Constructor arguments.
+  Then we simply call the <<<execute()>>> method on the <<<Session>>>, passing the BAPI class,
+  which actually performs the call to SAP. Now the <<<flightListBapi>>> object is enriched with all the
+  values which the function module returned and which we have mapped in our BAPI Class.
+
++--------------------------------------------------------------------------------------------------------------+
+public void showFlightList()
+{
+    SessionFactory sessionFactory = createSessionFactory();
 
     Session session = sessionFactory.openSession();
     try
@@ -485,4 +543,75 @@ public void showFlightList()
         session.close();
     }
 }
-+----------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------+
+
+  To see the result of the function call, we simply print the BAPI class' fields to the console in the
+  <<<showResult()>>> method:
+
++--------------------------------------------------------------------------------------------------------------+
+private void showResult( FlightListBapi flightList )
+{
+    System.out.println( "AirlineId: " + flightList.getFromCountryKey() );
+    System.out.println( "FromCity: " + flightList.getFromCity() );
+    System.out.println( "ToCountryKey: " + flightList.getToCountryKey() );
+    System.out.println( "ToCity: " + flightList.getToCity() );
+    System.out.println( "AirlineCarrier: " + flightList.getAirlineCarrier() );
+    System.out.println( "Afternoon: " + flightList.getAfternoon() );
+    System.out.println( "MaxRead: " + flightList.getMaxRead() );
+
+    System.out.println( "\nFlightData" );
+    List<Flight> flights = flightList.getFlightList();
+    for ( Flight flight : flights )
+    {
+        System.out.print( "\t" + flight.getAirportFrom() );
+        System.out.print( "\t" + flight.getAirportTo() );
+        System.out.print( "\t" + flight.getCarrierId() );
+        System.out.print( "\t" + flight.getConnectionId() );
+        System.out.print( "\t" + flight.getSeatsMax() );
+        System.out.print( "\t" + flight.getSeatsOccupied() );
+        System.out.println( "\t" + flight.getDepartureTime() );
+    }
+
+    System.out.println( "\nReturn" );
+    BapiRet2 returnStruct = flightList.getReturnData();
+    System.out.println( "\tMessage: " + returnStruct.getMessage() );
+    System.out.println( "\tNumber: " + returnStruct.getNumber() );
+    System.out.println( "\tType: " + returnStruct.getType() );
+    System.out.println( "\tId: " + returnStruct.getId() );
+}
++--------------------------------------------------------------------------------------------------------------+
+
+  In the example, we are looking for all flights from Frankfurt to Berlin.
+  The result should look like follows, if there are any flights found.
+
++--------------------------------------------------------------------------------------------------------------+
+AirlineId: DE
+FromCity: Frankfurt
+ToCountryKey: DE
+ToCity: Berlin
+AirlineCarrier:
+Afternoon: false
+MaxRead: 10
+
+FlightData
+	FRA	SXF	LH	2402	220	191	Thu Dec 30 10:30:00 CET 2010
+	FRA	SXF	LH	2402	220	207	Fri Dec 31 10:30:00 CET 2010
+
+Return
+	Message:
+	Number: 000
+	Type: S
+	Id:
++--------------------------------------------------------------------------------------------------------------+
+
+  If there are no flights found, the <<<return>>> field will contain the following data returned by SAP:
+
++--------------------------------------------------------------------------------------------------------------+
+Return
+	Message: No corresponding flights found
+	Number: 150
+	Type: E
+	Id: BC_BOR
++--------------------------------------------------------------------------------------------------------------+
+
+

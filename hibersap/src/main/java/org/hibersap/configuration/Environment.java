@@ -36,22 +36,6 @@ public final class Environment
 
     public static final String CONTEXT_CLASS = "hibersap.context_class";
 
-    public static final String CONNECTION_SAPCLIENT = "hibersap.jco.client.client";
-
-    public static final String CONNECTION_USERNAME = "hibersap.jco.client.user";
-
-    public static final String CONNECTION_PASSWORD = "hibersap.jco.client.passwd";
-
-    public static final String CONNECTION_LANGUAGE = "hibersap.jco.client.lang";
-
-    public static final String CONNECTION_APPLICATION_SERVER = "hibersap.jco.client.ashost";
-
-    public static final String CONNECTION_SYSTEMNUMBER = "hibersap.jco.client.sysnr";
-
-    public static final String CONNECTION_POOL_SIZE = "hibersap.jco.pool_size";
-
-    public static final String CONNECTION_POOL_NAME = "hibersap.jco.pool_name";
-
     // SAP Resource Adapter settings
     public static final String CONNECTION_RA = "hibersap.connection.ra";
 
