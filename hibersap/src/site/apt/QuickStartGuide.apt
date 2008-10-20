@@ -313,6 +313,9 @@ SAP Java Connector type conversion
 
   []
 
+
+** Structure classes
+
   There are two more classes we have to write:
   One for the complex export parameter RETURN, which is named BapiRet2, after the SAP data type.
   It is another annotated simple Java class with fields related to some of the function module's parameter.
@@ -368,7 +371,7 @@ public class BapiRet2
   The BapiRet2 class is already part of Hibersap, since this structure is used by a lot of
   SAP function modules. This means, you don't have to implement it.
 
-  Finally, there is a Java class that Hibersap will map to the table parameter FLIGHTLIST,
+  Secondly, there is a Java class that Hibersap will map to the table parameter FLIGHTLIST,
   which in our example is simply called <<<Flight>>>.
   The table FLIGHTLIST will be filled by SAP with the flight information matching our request.
 
@@ -582,7 +585,7 @@ private void showResult( FlightListBapi flightList )
 +--------------------------------------------------------------------------------------------------------------+
 
   In the example, we are looking for all flights from Frankfurt to Berlin.
-  The result should look like follows, if there are any flights found.
+  The result should look like follows, in this example, there were two flights found.
 
 +--------------------------------------------------------------------------------------------------------------+
 AirlineId: DE
@@ -604,7 +607,7 @@ Return
 	Id:
 +--------------------------------------------------------------------------------------------------------------+
 
-  If there are no flights found, the <<<return>>> field will contain the following data returned by SAP:
+  If there were no flights found, the <<<return>>> field will contain the following data returned by SAP:
 
 +--------------------------------------------------------------------------------------------------------------+
 Return

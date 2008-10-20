@@ -1,3 +1,6 @@
+# The session factory name
+hibersap.session_factory_name=A12
+
 # Java Connector settings
 hibersap.jco.client.client=800
 hibersap.jco.client.user=sapuser
