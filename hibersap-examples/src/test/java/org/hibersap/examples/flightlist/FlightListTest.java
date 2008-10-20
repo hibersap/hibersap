@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.configuration.Environment;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionFactory;
@@ -38,7 +37,6 @@ public class FlightListTest
     {
         AnnotationConfiguration configuration = new AnnotationConfiguration();
         configuration.addAnnotatedClass( FlightListBapi.class );
-        configuration.setProperty( Environment.SESSION_FACTORY_NAME, "MY_SF" );
         SessionFactory sessionFactory = configuration.buildSessionFactory();
 
         Session session = sessionFactory.openSession();
