@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.hibersap</groupId>
   <artifactId>hibersap</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
   <name>Hibersap</name>
   <description>The easy way to access SAP systems with Java.</description>
   <url>http://hibersap.sourceforge.net</url>
