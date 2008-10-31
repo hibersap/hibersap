@@ -4,7 +4,12 @@
   <artifactId>hibersap</artifactId>
   <version>0.1-SNAPSHOT</version>
   <name>Hibersap</name>
-  <description>The easy way to access SAP systems with Java.</description>
+  <description>
+    Hibersap is a small framework that offers an abstraction layer on top of the SAP Java Connector (JCo).
+    It maps Java classes to SAP function modules using Java Annotations and reduces the technical code to
+    call a function in a SAP back-end system to a minimum.
+    Hibersap's API is very similar to Hibernate, thus offering a familiar programming interface to developers.
+  </description>
   <url>http://hibersap.sourceforge.net</url>
   <licenses>
   	<license>
@@ -25,20 +30,32 @@
   	<developer>
   		<id>cerker</id>
   		<name>Carsten Erker</name>
+  		<email>carsten.erker at akquinet dot de</email>
   		<organization>akquinet tech@spree GmbH</organization>
   		<organizationUrl>http://www.akquinet.de</organizationUrl>
   		<roles>
+  			<role>Project Creator</role>
   			<role>Developer</role>
-  			<role>Project Manager</role>
   		</roles>
   	</developer>
   	<developer>
   		<id>tnfink</id>
   		<name>Torsten Fink</name>
+  		<email>torsten.fink at akquinet dot de</email>
   		<organization>akquinet tech@spree GmbH</organization>
   		<organizationUrl>http://www.akquinet.de</organizationUrl>
   		<roles>
   			<role>Architect</role>
+  		</roles>
+  	</developer>
+  	<developer>
+  		<id>dahm</id>
+  		<name>Markus Dahm</name>
+  		<email>markus.dahm at akquinet dot de</email>
+  		<organization>akquinet tech@spree GmbH</organization>
+  		<organizationUrl>http://www.akquinet.de</organizationUrl>
+  		<roles>
+  			<role>Developer</role>
   		</roles>
   	</developer>
   </developers>
@@ -121,15 +138,6 @@
       <name>Maven Repository Switchboard</name>
       <layout>default</layout>
       <url>http://repo1.maven.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>easymock</id>
-      <name>Easymock Repository</name>
-      <layout>default</layout>
-      <url>http://www.easymock.org/maven/repository/org/</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
