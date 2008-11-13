@@ -1,0 +1,41 @@
+                                    ------
+                                    Developer's Guide
+                                    ------
+                                    Markus Dahm
+                                    ------
+                                    13.11.2008
+
+HiberSAP Developer's Guide
+
+* Prerequisites
+
+  * Eclipse JEE edition installed
+  
+  * Subversive eclipse plugin and connectors installed ({{http://www.eclipse.org/subversive/}})
+  
+  * Maven 2 installed ({{http://maven.apache.org/}})
+  
+  * Maven Eclipse plugin installed ({{http://m2eclipse.sonatype.org/}}) and configured
+
+* Installation
+
+  * Checkout hibersap project (and hibersap-examples) from SourceForge with Eclipse in a new workspace
+    ({{https://hibersap.svn.sourceforge.net/svnroot/hibersap}})
+
+  * Download SAP Java Connector 3.0 ({{http://service.sap.com/connectors}}) and extract the sapjco3.jar and the sapjco3 native library.
+
+  * Copy the native library into all project folders or install it into some global path (such as C:/WINDOWS/SYSTEM32 on Windows)
+
+  * The SapJCo JAR needs to be installed manually into your Maven repository
+
++-------------------------------------------------------------------+
+mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.0 -Dpackaging=jar -Dfile=./sapjco3.jar
++---
+
+* Building and running the examples
+
+  * Run <<<mvn install>>> on the hibersap project 
+  
+  * Now edit <<<hibersap.properties>>> and run the tests in the hibersap-examples project, again with <<<mvn install>>>
+  
+  * Have fun!
