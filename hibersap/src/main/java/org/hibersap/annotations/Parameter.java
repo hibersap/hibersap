@@ -23,14 +23,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 
-
 /**
+ * Annotation to declare members of Bapi import/export return structures.
+ * 
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
-public @interface Parameter
-{
-    String name();
+public @interface Parameter {
+	/**
+	 * Declare name of the parameter in the Bapi structure.
+	 */
+	String value();
 
-    ParameterType type() default ParameterType.SIMPLE;
+	/**
+	 * Declare type of parameter, either SIMPLE or STRUCTURE
+	 */
+	ParameterType type() default ParameterType.SIMPLE;
 }

@@ -20,22 +20,18 @@ package org.hibersap;
 /**
  * @author Carsten Erker
  */
-public class HibersapException
-    extends RuntimeException
-{
+public class HibersapException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 
-    public HibersapException( Throwable root )
-    {
-        super( root );
-    }
+	public HibersapException(Throwable root) {
+		super(root);
+	}
 
-    public HibersapException( String msg, Throwable root )
-    {
-        super( msg, root );
-    }
+	public HibersapException(String msg, Throwable root) {
+		super(msg, root);
+	}
 
-    public HibersapException( String msg )
-    {
-        super( msg );
-    }
+	public HibersapException(String msg) {
+		super(msg);
+	}
 }

@@ -25,13 +25,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-
 /**
+ * Declare parameter as an import parameter of the Bapi.
+ * 
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
 @Target(value = FIELD)
-public @interface Import
-{
-    // marker annotation
+public @interface Import {
 }

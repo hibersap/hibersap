@@ -1,5 +1,7 @@
 package org.hibersap.examples;
 
+import org.junit.Before;
+
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
  *
@@ -20,16 +22,15 @@ package org.hibersap.examples;
 /**
  * @author Carsten Erker
  */
-public abstract class AbstractHibersapTest
-{
-    @org.junit.Before
-    public void setUp()
-    {
-        //        // here, you may set the directory containing the JCo DLL's or Shared Libraries
-        //        // alternatively, you can add them to this project's root folder
-        //        File file = new File( "..." );
-        //        String libPath = System.getProperty( "java.library.path" );
-        //        libPath = libPath + ";" + file.getPath();
-        //        System.setProperty( "java.library.path", libPath );
-    }
+public abstract class AbstractHibersapTest {
+	@Before
+	public void setUp() {
+		// // here, you may set the directory containing the JCo DLL's or Shared
+		// Libraries
+		// // alternatively, you can add them to this project's root folder
+		// File file = new File( "..." );
+		// String libPath = System.getProperty( "java.library.path" );
+		// libPath = libPath + ";" + file.getPath();
+		// System.setProperty( "java.library.path", libPath );
+	}
 }

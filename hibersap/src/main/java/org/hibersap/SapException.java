@@ -23,64 +23,55 @@ import java.util.List;
 /**
  * @author Carsten Erker
  */
-public class SapException
-    extends HibersapException
-{
-    private final List<SapError> sapErrors;
+public class SapException extends HibersapException {
+	private static final long serialVersionUID = 1L;
 
-    public SapException( List<SapError> sapErrors )
-    {
-        super( "Error(s) occurred when calling function module" );
-        this.sapErrors = sapErrors;
+	private final List<SapError> sapErrors;
 
-    }
+	public SapException(List<SapError> sapErrors) {
+		super("Error(s) occurred when calling function module");
+		this.sapErrors = sapErrors;
 
-    public SapException( SapError sapError )
-    {
-        this( Collections.singletonList( sapError ) );
-    }
+	}
 
-    public List<SapError> getErrors()
-    {
-        return sapErrors;
-    }
+	public SapException(SapError sapError) {
+		this(Collections.singletonList(sapError));
+	}
 
-    public static class SapError
-    {
-        private final String message;
+	public List<SapError> getErrors() {
+		return sapErrors;
+	}
 
-        private final String type;
+	public static class SapError {
+		private final String message;
 
-        private final String id;
+		private final String type;
 
-        private final String number;
+		private final String id;
 
-        public SapError( String type, String id, String number, String message )
-        {
-            this.type = type;
-            this.id = id;
-            this.number = number;
-            this.message = message;
-        }
+		private final String number;
 
-        public String getType()
-        {
-            return type;
-        }
+		public SapError(String type, String id, String number, String message) {
+			this.type = type;
+			this.id = id;
+			this.number = number;
+			this.message = message;
+		}
 
-        public String getId()
-        {
-            return id;
-        }
+		public String getType() {
+			return type;
+		}
 
-        public String getNumber()
-        {
-            return number;
-        }
+		public String getId() {
+			return id;
+		}
 
-        public String getMessage()
-        {
-            return message;
-        }
-    }
+		public String getNumber() {
+			return number;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+	}
 }

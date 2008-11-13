@@ -138,7 +138,7 @@ public class AnnotationBapiMapper
         checkBapiClass( clazz );
 
         Bapi bapiAnnotation = clazz.getAnnotation( BAPI );
-        BapiMapping bapi = new BapiMapping( clazz, bapiAnnotation.name(), getErrorHandling( clazz ) );
+        BapiMapping bapi = new BapiMapping( clazz, bapiAnnotation.value(), getErrorHandling( clazz ) );
         Field[] fields = clazz.getDeclaredFields();
         for ( Field field : fields )
         {

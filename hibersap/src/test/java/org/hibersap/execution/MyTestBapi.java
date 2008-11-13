@@ -29,57 +29,52 @@ import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 
 /**
- * Name must not be Test* or *Test, because Surefire then tries to run it as a test case.
- *
+ * Name must not be Test* or *Test, because Surefire then tries to run it as a
+ * test case.
+ * 
  * @author Carsten Erker
  */
-@Bapi(name = "bapiName")
+@Bapi("bapiName")
 @ThrowExceptionOnError
-class MyTestBapi
-{
-    public MyTestBapi()
-    {
-        // for Hibersap
-    }
+class MyTestBapi {
+	public MyTestBapi() {
+		// for Hibersap
+	}
 
-    MyTestBapi( Integer intParam, TestStructure structureParam, List<TestStructure> tableParam )
-    {
-        this.intParam = intParam;
-        this.structureParam = structureParam;
-        this.tableParam = tableParam;
-    }
+	MyTestBapi(Integer intParam, TestStructure structureParam, List<TestStructure> tableParam) {
+		this.intParam = intParam;
+		this.structureParam = structureParam;
+		this.tableParam = tableParam;
+	}
 
-    @SuppressWarnings("unused")
-    @Import
-    @Parameter(name = "intParam")
-    Integer intParam;
+	@SuppressWarnings("unused")
+	@Import
+	@Parameter("intParam")
+	Integer intParam;
 
-    @SuppressWarnings("unused")
-    @Export
-    @Parameter(name = "structureParam", type = ParameterType.STRUCTURE)
-    TestStructure structureParam;
+	@SuppressWarnings("unused")
+	@Export
+	@Parameter(value = "structureParam", type = ParameterType.STRUCTURE)
+	TestStructure structureParam;
 
-    @SuppressWarnings("unused")
-    @Table
-    @Parameter(name = "tableParam")
-    List<TestStructure> tableParam;
+	@SuppressWarnings("unused")
+	@Table
+	@Parameter("tableParam")
+	List<TestStructure> tableParam;
 
-    @BapiStructure
-    static class TestStructure
-    {
-        @SuppressWarnings("unused")
-        private TestStructure()
-        {
-            // for Hibersap
-        }
+	@BapiStructure
+	static class TestStructure {
+		@SuppressWarnings("unused")
+		private TestStructure() {
+			// for Hibersap
+		}
 
-        public TestStructure( char charParam )
-        {
-            this.charParam = charParam;
-        }
+		public TestStructure(char charParam) {
+			this.charParam = charParam;
+		}
 
-        @SuppressWarnings("unused")
-        @Parameter(name = "charParam")
-        char charParam;
-    }
+		@SuppressWarnings("unused")
+		@Parameter("charParam")
+		char charParam;
+	}
 }

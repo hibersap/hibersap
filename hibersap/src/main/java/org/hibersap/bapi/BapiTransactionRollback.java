@@ -22,13 +22,11 @@ package org.hibersap.bapi;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.ThrowExceptionOnError;
 
-
 /**
  * @author Carsten Erker
  */
-@Bapi(name = "BAPI_TRANSACTION_ROLLBACK")
+@Bapi("BAPI_TRANSACTION_ROLLBACK")
 @ThrowExceptionOnError
-public class BapiTransactionRollback
-{
-    // no parameters to exchange
+public class BapiTransactionRollback {
+	// no parameters to exchange
 }

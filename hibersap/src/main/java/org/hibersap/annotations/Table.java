@@ -22,16 +22,19 @@ package org.hibersap.annotations;
 /**
  * @author Carsten Erker
  */
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-
+/**
+ * Declare parameter as an table parameter of the Bapi.
+ * 
+ * @author Carsten Erker
+ */
 @Retention(RUNTIME)
 @Target(value = FIELD)
-public @interface Table
-{
-    // marker annotation
+public @interface Table {
 }

@@ -27,69 +27,60 @@ import org.hibersap.util.DateUtil;
  * @author Carsten Erker
  */
 @BapiStructure
-public class Flight
-{
-    @Parameter(name = "CARRID")
-    private String carrierId;
+public class Flight {
+	@Parameter("CARRID")
+	private String carrierId;
 
-    @Parameter(name = "CONNID")
-    private String connectionId;
+	@Parameter("CONNID")
+	private String connectionId;
 
-    @Parameter(name = "AIRPFROM")
-    private String airportFrom;
+	@Parameter("AIRPFROM")
+	private String airportFrom;
 
-    @Parameter(name = "AIRPTO")
-    private String airportTo;
+	@Parameter("AIRPTO")
+	private String airportTo;
 
-    @Parameter(name = "FLDATE")
-    private Date flightDate;
+	@Parameter("FLDATE")
+	private Date flightDate;
 
-    @Parameter(name = "DEPTIME")
-    private Date departureTime;
+	@Parameter("DEPTIME")
+	private Date departureTime;
 
-    @Parameter(name = "SEATSMAX")
-    private int seatsMax;
+	@Parameter("SEATSMAX")
+	private int seatsMax;
 
-    @Parameter(name = "SEATSOCC")
-    private int seatsOccupied;
+	@Parameter("SEATSOCC")
+	private int seatsOccupied;
 
-    public String getAirportFrom()
-    {
-        return this.airportFrom;
-    }
+	public String getAirportFrom() {
+		return this.airportFrom;
+	}
 
-    public String getAirportTo()
-    {
-        return this.airportTo;
-    }
+	public String getAirportTo() {
+		return this.airportTo;
+	}
 
-    public String getCarrierId()
-    {
-        return this.carrierId;
-    }
+	public String getCarrierId() {
+		return this.carrierId;
+	}
 
-    public String getConnectionId()
-    {
-        return this.connectionId;
-    }
+	public String getConnectionId() {
+		return this.connectionId;
+	}
 
-    public Date getDepartureTime()
-    {
-        return DateUtil.joinDateAndTime( flightDate, departureTime );
-    }
+	public Date getDepartureTime() {
+		return DateUtil.joinDateAndTime(flightDate, departureTime);
+	}
 
-    public Date getFlightDate()
-    {
-        return flightDate;
-    }
+	public Date getFlightDate() {
+		return flightDate;
+	}
 
-    public int getSeatsMax()
-    {
-        return this.seatsMax;
-    }
+	public int getSeatsMax() {
+		return this.seatsMax;
+	}
 
-    public int getSeatsOccupied()
-    {
-        return this.seatsOccupied;
-    }
+	public int getSeatsOccupied() {
+		return this.seatsOccupied;
+	}
 }

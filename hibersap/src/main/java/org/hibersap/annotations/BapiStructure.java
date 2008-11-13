@@ -1,6 +1,9 @@
 package org.hibersap.annotations;
 
-public @interface BapiStructure
-{
-    // marker annotation
+/**
+ * Declare Bapi return structure
+ * 
+ * @author Carsten Erker
+ */
+public @interface BapiStructure {
 }

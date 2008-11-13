@@ -25,12 +25,12 @@ import java.lang.annotation.Retention;
 
 import org.hibersap.conversion.Converter;
 
-
 /**
+ * Declare converter that maps SAP data types into Java and vice versa.
+ * 
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
-public @interface Convert
-{
-    Class<? extends Converter> converter();
+public @interface Convert {
+	Class<? extends Converter> converter();
 }

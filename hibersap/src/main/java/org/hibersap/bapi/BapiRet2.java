@@ -28,160 +28,145 @@ import org.hibersap.conversion.CharConverter;
  * @author Carsten Erker
  */
 @BapiStructure
-public class BapiRet2
-{
-    /**
-     * Message type: S Success, E Error, W Warning, I Info, A Abort
-     */
-    @Parameter(name = "TYPE")
-    @Convert(converter = CharConverter.class)
-    private char type;
+public class BapiRet2 {
+	/**
+	 * Message type: S Success, E Error, W Warning, I Info, A Abort
+	 */
+	@Parameter("TYPE")
+	@Convert(converter = CharConverter.class)
+	private char type;
 
-    /**
-     * Messages, message class
-     */
-    @Parameter(name = "ID")
-    private String id;
+	/**
+	 * Messages, message class
+	 */
+	@Parameter("ID")
+	private String id;
 
-    /**
-     * Messages, message number
-     */
-    @Parameter(name = "NUMBER")
-    private String number;
+	/**
+	 * Messages, message number
+	 */
+	@Parameter("NUMBER")
+	private String number;
 
-    /**
-     * Message text
-     */
-    @Parameter(name = "MESSAGE")
-    private String message;
+	/**
+	 * Message text
+	 */
+	@Parameter("MESSAGE")
+	private String message;
 
-    /**
-     * Application log: log number
-     */
-    @Parameter(name = "LOG_NO")
-    private String logNumber;
+	/**
+	 * Application log: log number
+	 */
+	@Parameter("LOG_NO")
+	private String logNumber;
 
-    /**
-     * Application log: Internal message serial number
-     */
-    @Parameter(name = "LOG_MSG_NO")
-    private String logMsgNumber;
+	/**
+	 * Application log: Internal message serial number
+	 */
+	@Parameter("LOG_MSG_NO")
+	private String logMsgNumber;
 
-    /**
-     * Messages, message variables
-     */
-    @Parameter(name = "MESSAGE_V1")
-    private String messageV1;
+	/**
+	 * Messages, message variables
+	 */
+	@Parameter("MESSAGE_V1")
+	private String messageV1;
 
-    /**
-     * Messages, message variables
-     */
-    @Parameter(name = "MESSAGE_V2")
-    private String messageV2;
+	/**
+	 * Messages, message variables
+	 */
+	@Parameter("MESSAGE_V2")
+	private String messageV2;
 
-    /**
-     * Messages, message variables
-     */
-    @Parameter(name = "MESSAGE_V3")
-    private String messageV3;
+	/**
+	 * Messages, message variables
+	 */
+	@Parameter("MESSAGE_V3")
+	private String messageV3;
 
-    /**
-     * Messages, message variables
-     */
-    @Parameter(name = "MESSAGE_V4")
-    private String messageV4;
+	/**
+	 * Messages, message variables
+	 */
+	@Parameter("MESSAGE_V4")
+	private String messageV4;
 
-    /**
-     * Parameter name
-     */
-    @Parameter(name = "PARAMETER")
-    private String parameter;
+	/**
+	 * Parameter name
+	 */
+	@Parameter("PARAMETER")
+	private String parameter;
 
-    /**
-     * Lines in parameter
-     */
-    @Parameter(name = "ROW")
-    private int row;
+	/**
+	 * Lines in parameter
+	 */
+	@Parameter("ROW")
+	private int row;
 
-    /**
-     * Field in parameter
-     */
-    @Parameter(name = "FIELD")
-    private String field;
+	/**
+	 * Field in parameter
+	 */
+	@Parameter("FIELD")
+	private String field;
 
-    /**
-     * Logical system from which message originates
-     */
-    @Parameter(name = "SYSTEM")
-    private String system;
+	/**
+	 * Logical system from which message originates
+	 */
+	@Parameter("SYSTEM")
+	private String system;
 
-    public String getField()
-    {
-        return this.field;
-    }
+	public String getField() {
+		return this.field;
+	}
 
-    public String getId()
-    {
-        return this.id;
-    }
+	public String getId() {
+		return this.id;
+	}
 
-    public String getLogMsgNumber()
-    {
-        return this.logMsgNumber;
-    }
+	public String getLogMsgNumber() {
+		return this.logMsgNumber;
+	}
 
-    public String getLogNumber()
-    {
-        return this.logNumber;
-    }
+	public String getLogNumber() {
+		return this.logNumber;
+	}
 
-    public String getMessage()
-    {
-        return this.message;
-    }
+	public String getMessage() {
+		return this.message;
+	}
 
-    public String getMessageV1()
-    {
-        return this.messageV1;
-    }
+	public String getMessageV1() {
+		return this.messageV1;
+	}
 
-    public String getMessageV2()
-    {
-        return this.messageV2;
-    }
+	public String getMessageV2() {
+		return this.messageV2;
+	}
 
-    public String getMessageV3()
-    {
-        return this.messageV3;
-    }
+	public String getMessageV3() {
+		return this.messageV3;
+	}
 
-    public String getMessageV4()
-    {
-        return this.messageV4;
-    }
+	public String getMessageV4() {
+		return this.messageV4;
+	}
 
-    public String getNumber()
-    {
-        return this.number;
-    }
+	public String getNumber() {
+		return this.number;
+	}
 
-    public String getParameter()
-    {
-        return this.parameter;
-    }
+	public String getParameter() {
+		return this.parameter;
+	}
 
-    public int getRow()
-    {
-        return this.row;
-    }
+	public int getRow() {
+		return this.row;
+	}
 
-    public String getSystem()
-    {
-        return this.system;
-    }
+	public String getSystem() {
+		return this.system;
+	}
 
-    public char getType()
-    {
-        return this.type;
-    }
+	public char getType() {
+		return this.type;
+	}
 }

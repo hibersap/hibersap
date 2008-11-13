@@ -25,13 +25,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-
 /**
+ * Declare Bapi of given name.
+ * 
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
 @Target(value = TYPE)
-public @interface Bapi
-{
-    String name();
+public @interface Bapi {
+	String value();
 }

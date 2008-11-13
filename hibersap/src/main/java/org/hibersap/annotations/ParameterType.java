@@ -18,8 +18,10 @@ package org.hibersap.annotations;
  */
 
 /**
+ * Declare parameter type.
+ * 
  * @author Carsten Erker
  */
 public enum ParameterType {
-    SIMPLE, STRUCTURE
+	SIMPLE, STRUCTURE
 }

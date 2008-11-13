@@ -107,7 +107,7 @@ class BapiField
 
     public String getSapName()
     {
-        return getParameterAnnotation().name();
+        return getParameterAnnotation().value();
     }
 
     public Class<?> getType()

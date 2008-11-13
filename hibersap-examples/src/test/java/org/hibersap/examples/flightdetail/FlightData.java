@@ -22,98 +22,88 @@ package org.hibersap.examples.flightdetail;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Parameter;
 
 /**
  * @author Carsten Erker
  */
-public class FlightData
-{
-    @Parameter(name = "CARRID")
-    private String _airlineId;
+@BapiStructure
+public class FlightData {
+	@Parameter("CARRID")
+	private String _airlineId;
 
-    @Parameter(name = "CONNID")
-    private String _connectid;
+	@Parameter("CONNID")
+	private String _connectid;
 
-    @Parameter(name = "FLDATE")
-    private Date _flightdate;
+	@Parameter("FLDATE")
+	private Date _flightdate;
 
-    @Parameter(name = "AIRPFROM")
-    private String _airportfr;
+	@Parameter("AIRPFROM")
+	private String _airportfr;
 
-    @Parameter(name = "CITYFROM")
-    private String _cityfrom;
+	@Parameter("CITYFROM")
+	private String _cityfrom;
 
-    @Parameter(name = "AIRPTO")
-    private String _airportto;
+	@Parameter("AIRPTO")
+	private String _airportto;
 
-    @Parameter(name = "CITYTO")
-    private String _cityto;
+	@Parameter("CITYTO")
+	private String _cityto;
 
-    @Parameter(name = "DEPTIME")
-    private Date _deptime;
+	@Parameter("DEPTIME")
+	private Date _deptime;
 
-    @Parameter(name = "ARRTIME")
-    private Date _arrtime;
+	@Parameter("ARRTIME")
+	private Date _arrtime;
 
-    @Parameter(name = "PRICE")
-    private BigDecimal _price;
+	@Parameter("PRICE")
+	private BigDecimal _price;
 
-    @Parameter(name = "CURRENCY")
-    private String _curr;
+	@Parameter("CURRENCY")
+	private String _curr;
 
-    public String getAirlineId()
-    {
-        return _airlineId;
-    }
+	public String getAirlineId() {
+		return _airlineId;
+	}
 
-    public String getAirportfr()
-    {
-        return _airportfr;
-    }
+	public String getAirportfr() {
+		return _airportfr;
+	}
 
-    public String getAirportto()
-    {
-        return _airportto;
-    }
+	public String getAirportto() {
+		return _airportto;
+	}
 
-    public Date getArrtime()
-    {
-        return _arrtime;
-    }
+	public Date getArrtime() {
+		return _arrtime;
+	}
 
-    public String getCityfrom()
-    {
-        return _cityfrom;
-    }
+	public String getCityfrom() {
+		return _cityfrom;
+	}
 
-    public String getCityto()
-    {
-        return _cityto;
-    }
+	public String getCityto() {
+		return _cityto;
+	}
 
-    public String getConnectid()
-    {
-        return _connectid;
-    }
+	public String getConnectid() {
+		return _connectid;
+	}
 
-    public String getCurr()
-    {
-        return _curr;
-    }
+	public String getCurr() {
+		return _curr;
+	}
 
-    public Date getDeptime()
-    {
-        return _deptime;
-    }
+	public Date getDeptime() {
+		return _deptime;
+	}
 
-    public Date getFlightdate()
-    {
-        return _flightdate;
-    }
+	public Date getFlightdate() {
+		return _flightdate;
+	}
 
-    public BigDecimal getPrice()
-    {
-        return _price;
-    }
+	public BigDecimal getPrice() {
+		return _price;
+	}
 }
