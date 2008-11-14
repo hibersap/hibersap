@@ -131,6 +131,11 @@ public class ReflectionHelper
     public static Class<?> getGenericType( Field field )
     {
         Type genericType = field.getGenericType();
+        return getGenericType( genericType );
+    }
+
+    public static Class<?> getGenericType( Type genericType )
+    {
         if ( genericType instanceof ParameterizedType )
         {
             ParameterizedType paramType = (ParameterizedType) genericType;
