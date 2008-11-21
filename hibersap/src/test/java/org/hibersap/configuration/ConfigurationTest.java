@@ -38,6 +38,7 @@ public class ConfigurationTest
 {
     private Configuration config = new Configuration()
     {
+		private static final long serialVersionUID = 1L;
         // nothing to overwrite
     };
 

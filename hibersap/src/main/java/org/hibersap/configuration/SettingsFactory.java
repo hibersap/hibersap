@@ -33,7 +33,8 @@ import org.hibersap.session.Context;
 public class SettingsFactory
     implements Serializable
 {
-    private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
+	private static final long serialVersionUID = 1L;
+	private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
 
     public static Settings create( Properties props )
     {

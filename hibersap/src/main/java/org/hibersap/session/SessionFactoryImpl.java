@@ -33,7 +33,9 @@ import org.hibersap.mapping.model.BapiMapping;
 public class SessionFactoryImpl
     implements SessionFactory
 {
-    final Properties properties;
+	private static final long serialVersionUID = 1L;
+
+	final Properties properties;
 
     private final Settings settings;
 

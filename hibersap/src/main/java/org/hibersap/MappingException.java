@@ -25,7 +25,9 @@ package org.hibersap;
 public class MappingException
     extends HibersapException
 {
-    public MappingException( String msg, Throwable root )
+	private static final long serialVersionUID = 1L;
+
+	public MappingException( String msg, Throwable root )
     {
         super( msg, root );
     }

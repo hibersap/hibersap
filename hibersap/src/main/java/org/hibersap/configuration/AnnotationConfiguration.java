@@ -43,7 +43,9 @@ import org.hibersap.session.SessionFactory;
 public class AnnotationConfiguration
     extends Configuration
 {
-    private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
+	private static final long serialVersionUID = 1L;
+
+	private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
 
     protected AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 

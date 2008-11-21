@@ -25,7 +25,9 @@ package org.hibersap.conversion;
 public class ConversionException
     extends RuntimeException
 {
-    public ConversionException( String message )
+	private static final long serialVersionUID = 1L;
+
+	public ConversionException( String message )
     {
         super( message );
     }
