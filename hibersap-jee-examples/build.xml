@@ -1,0 +1,16 @@
+<project name="hibersap-jee-examples" default="deploy-all">
+	<property name="jboss.home" value="C:/server/jboss-4.2.3.GA"/>
+	<property name="jboss.deploy.dir" value="${jboss.home}/server/default/deploy"/>
+	<property name="jboss.client.dir" value="${jboss.home}/client"/>
+	<property name="jboss.lib.dir" value="${jboss.home}/server/default/lib"/>
+	
+	<property name="build.dir" value="${basedir}/hibersap-ear/target"/>
+
+	<target name="deploy-all">
+		<copy todir="${jboss.deploy.dir}" overwrite="true">
+			<fileset dir="${build.dir}">
+				<include name="*.ear"/>
+			</fileset>
+		</copy>
+	</target>
+</project>
