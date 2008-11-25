@@ -37,7 +37,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Parse hibersap.xml and build properties with its contents.
+ * Parse hibersap.xml and build properties from its content.
  * 
  *  @author dahm
  */
@@ -61,7 +61,7 @@ public class HibersapXMLParser
 
     public static final String SESSION_FACTORY_TAG = "session-factory";
 
-    public static final String SESSION_FACTORY_NAME_ATTRIBUTE = PROPERTY_NAME_ATTRIBUTE;
+    public static final String SESSION_FACTORY_NAME_ATTRIBUTE = "name";
 
     public static final String JCA_CONNECTION_FACTORY_TAG = "jca-connection-factory";
 
