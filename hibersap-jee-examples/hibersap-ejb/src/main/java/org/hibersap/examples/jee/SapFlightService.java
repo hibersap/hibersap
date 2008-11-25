@@ -2,6 +2,8 @@ package org.hibersap.examples.jee;
 
 import java.util.Date;
 
+import org.hibersap.examples.flightdetail.FlightDetailBapi;
+
 public interface SapFlightService
 {
     String LOCAL_JNDI_NAME = "hibersap/jee/FlightService/local";
@@ -10,5 +12,5 @@ public interface SapFlightService
 
     void init();
 
-    void showFlightDetail( final Date date );
+    FlightDetailBapi showFlightDetail( final Date date );
 }
