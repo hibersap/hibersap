@@ -43,6 +43,8 @@ import org.xml.sax.SAXException;
  */
 public class HibersapXMLParser
 {
+    public static final String CLASS_TAG = "class";
+
     private static Log LOG = LogFactory.getLog( HibersapXMLParser.class );
 
     private static final String INVALID_CONTENT = "????";
@@ -126,6 +128,9 @@ public class HibersapXMLParser
 
             final NodeList propertiesNodes = sessionFactoryElement.getElementsByTagName( PROPERTIES_TAG );
             parsePropertiesNodes( propertiesNodes );
+
+            final NodeList classNodes = sessionFactoryElement.getElementsByTagName( CLASS_TAG );
+            parseClassNodes( classNodes );
         }
     }
 
@@ -145,16 +150,8 @@ public class HibersapXMLParser
         }
 
         final Element contextElement = (Element) contextNodes.item( 0 );
-        final String content = getCharacterDataFromElement( contextElement );
-
-        if ( StringUtils.isBlank( content ) || INVALID_CONTENT.equals( content ) )
-        {
-            throw new HibersapParseException( "content of <" + CONTEXT_TAG + "> tag is invalid" );
-        }
-        else
-        {
-            properties.put( Environment.CONTEXT_CLASS, content.trim() );
-        }
+        final String content = parseContent( contextElement, CONTEXT_TAG );
+        properties.put( Environment.CONTEXT_CLASS, content.trim() );
     }
 
     private void parsePropertiesNodes( final NodeList propertiesNodes )
@@ -171,13 +168,25 @@ public class HibersapXMLParser
             final Element propertiesElement = (Element) propertiesNodes.item( 0 );
             final NodeList propertyNodes = propertiesElement.getElementsByTagName( PROPERTY_TAG );
 
-            for ( int i = 0; i < propertyNodes.getLength(); i++ )
+            for ( int i = 0; i < length; i++ )
             {
                 final Element propertyElement = (Element) propertyNodes.item( i );
                 final String name = checkForAttribute( propertyElement, PROPERTY_NAME_ATTRIBUTE, PROPERTY_TAG );
                 final String value = checkForAttribute( propertyElement, PROPERTY_VALUE_ATTRIBUTE, PROPERTY_TAG );
                 properties.put( name, value );
             }
+        }
+    }
+
+    private void parseClassNodes( final NodeList classNodes )
+        throws HibersapParseException
+    {
+        for ( int i = 0; i < classNodes.getLength(); i++ )
+        {
+            final Element classElement = (Element) classNodes.item( i );
+
+            final String className = parseContent( classElement, CLASS_TAG );
+            properties.put( Environment.BABI_CLASSES_PREFIX + i, className );
         }
     }
 
@@ -229,6 +238,19 @@ public class HibersapXMLParser
         }
 
         return INVALID_CONTENT;
+    }
+
+    private static String parseContent( final Element contextElement, final String tagName )
+        throws HibersapParseException
+    {
+        final String content = getCharacterDataFromElement( contextElement );
+
+        if ( StringUtils.isBlank( content ) || INVALID_CONTENT.equals( content ) )
+        {
+            throw new HibersapParseException( "content of <" + tagName + "> tag is invalid" );
+        }
+
+        return content.trim();
     }
 
     private static String checkForAttribute( final Element propertyElement, final String attributeName,

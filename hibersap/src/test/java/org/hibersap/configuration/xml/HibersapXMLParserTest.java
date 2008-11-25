@@ -15,7 +15,7 @@ public class HibersapXMLParserTest
     public void testEmptyXML()
         throws Exception
     {
-        final Properties properties = createParser( "" );
+        final Properties properties = parseXML( "" );
 
         assertTrue( properties.isEmpty() );
     }
@@ -24,7 +24,7 @@ public class HibersapXMLParserTest
     public void testMinimalXML()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
             + "<context> JCoContext </context></session-factory></hibersap>" );
 
         assertEquals( "TEST", properties.getProperty( Environment.SESSION_FACTORY_NAME ) );
@@ -35,7 +35,7 @@ public class HibersapXMLParserTest
     public void testTooManySessionFactories()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST1\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST1\">"
             + "<context> JCoContext </context></session-factory>" + "<session-factory name=\"TEST2\">"
             + "<context> JCoContext </context></session-factory></hibersap>" );
 
@@ -46,7 +46,7 @@ public class HibersapXMLParserTest
     public void testSessionNameMissing()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap>" + "<session-factory>"
+        final Properties properties = parseXML( "<hibersap>" + "<session-factory>"
             + "<context> JCoContext </context></session-factory></hibersap>" );
 
         assertTrue( properties.isEmpty() );
@@ -56,7 +56,7 @@ public class HibersapXMLParserTest
     public void testContextMissing()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
             + " </session-factory></hibersap>" );
 
         assertTrue( properties.toString(), properties.isEmpty() );
@@ -66,7 +66,7 @@ public class HibersapXMLParserTest
     public void testContextWithEmptyContent()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
             + "<context> \t\n</context></session-factory></hibersap>" );
 
         assertTrue( properties.toString(), properties.isEmpty() );
@@ -76,7 +76,7 @@ public class HibersapXMLParserTest
     public void testBrokenEndTag()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
             + "<context> JCoContext </context></session-factory></hiberSAP>" );
 
         assertTrue( properties.isEmpty() );
@@ -86,7 +86,7 @@ public class HibersapXMLParserTest
     public void testProperties()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
             + "<context> JCoContext </context>"
             + "<properties><property name=\"hibersap.jco.client.client\" value=\" 4711\" /></properties>"
             + "</session-factory></hibersap>" );
@@ -98,14 +98,25 @@ public class HibersapXMLParserTest
     public void testPropertiesNameMissing()
         throws Exception
     {
-        final Properties properties = createParser( "<hibersap><session-factory name=\"TEST\">"
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
             + "<context> JCoContext </context>" + "<properties><property value=\" 4711\" /></properties>"
             + "</session-factory></hibersap>" );
 
         assertTrue( properties.isEmpty() );
     }
 
-    private static Properties createParser( final String xml )
+    @Test
+    public void testMappedClasses()
+        throws Exception
+    {
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
+            + "<context>JCoContext</context><class>foo.bar.MyBapi1</class> <class>foo.bar.MyBapi2 </class></session-factory></hibersap>" );
+        System.out.println( properties );
+        assertEquals( "foo.bar.MyBapi1", properties.getProperty( Environment.BABI_CLASSES_PREFIX + "0" ) );
+        assertEquals( "foo.bar.MyBapi2", properties.getProperty( Environment.BABI_CLASSES_PREFIX + "1" ) );
+    }
+
+    private static Properties parseXML( final String xml )
     {
         final HibersapXMLParser hibersapXMLParser = new HibersapXMLParser( "hibersap.xml",
                                                                            new ByteArrayInputStream( xml.getBytes() ) );
