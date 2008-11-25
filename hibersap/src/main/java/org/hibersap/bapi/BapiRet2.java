@@ -17,6 +17,8 @@ package org.hibersap.bapi;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
+
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Parameter;
@@ -28,145 +30,163 @@ import org.hibersap.conversion.CharConverter;
  * @author Carsten Erker
  */
 @BapiStructure
-public class BapiRet2 {
-	/**
-	 * Message type: S Success, E Error, W Warning, I Info, A Abort
-	 */
-	@Parameter("TYPE")
-	@Convert(converter = CharConverter.class)
-	private char type;
+public class BapiRet2
+    implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Messages, message class
-	 */
-	@Parameter("ID")
-	private String id;
+    /**
+     * Message type: S Success, E Error, W Warning, I Info, A Abort
+     */
+    @Parameter("TYPE")
+    @Convert(converter = CharConverter.class)
+    private char type;
 
-	/**
-	 * Messages, message number
-	 */
-	@Parameter("NUMBER")
-	private String number;
+    /**
+     * Messages, message class
+     */
+    @Parameter("ID")
+    private String id;
 
-	/**
-	 * Message text
-	 */
-	@Parameter("MESSAGE")
-	private String message;
+    /**
+     * Messages, message number
+     */
+    @Parameter("NUMBER")
+    private String number;
 
-	/**
-	 * Application log: log number
-	 */
-	@Parameter("LOG_NO")
-	private String logNumber;
+    /**
+     * Message text
+     */
+    @Parameter("MESSAGE")
+    private String message;
 
-	/**
-	 * Application log: Internal message serial number
-	 */
-	@Parameter("LOG_MSG_NO")
-	private String logMsgNumber;
+    /**
+     * Application log: log number
+     */
+    @Parameter("LOG_NO")
+    private String logNumber;
 
-	/**
-	 * Messages, message variables
-	 */
-	@Parameter("MESSAGE_V1")
-	private String messageV1;
+    /**
+     * Application log: Internal message serial number
+     */
+    @Parameter("LOG_MSG_NO")
+    private String logMsgNumber;
 
-	/**
-	 * Messages, message variables
-	 */
-	@Parameter("MESSAGE_V2")
-	private String messageV2;
+    /**
+     * Messages, message variables
+     */
+    @Parameter("MESSAGE_V1")
+    private String messageV1;
 
-	/**
-	 * Messages, message variables
-	 */
-	@Parameter("MESSAGE_V3")
-	private String messageV3;
+    /**
+     * Messages, message variables
+     */
+    @Parameter("MESSAGE_V2")
+    private String messageV2;
 
-	/**
-	 * Messages, message variables
-	 */
-	@Parameter("MESSAGE_V4")
-	private String messageV4;
+    /**
+     * Messages, message variables
+     */
+    @Parameter("MESSAGE_V3")
+    private String messageV3;
 
-	/**
-	 * Parameter name
-	 */
-	@Parameter("PARAMETER")
-	private String parameter;
+    /**
+     * Messages, message variables
+     */
+    @Parameter("MESSAGE_V4")
+    private String messageV4;
 
-	/**
-	 * Lines in parameter
-	 */
-	@Parameter("ROW")
-	private int row;
+    /**
+     * Parameter name
+     */
+    @Parameter("PARAMETER")
+    private String parameter;
 
-	/**
-	 * Field in parameter
-	 */
-	@Parameter("FIELD")
-	private String field;
+    /**
+     * Lines in parameter
+     */
+    @Parameter("ROW")
+    private int row;
 
-	/**
-	 * Logical system from which message originates
-	 */
-	@Parameter("SYSTEM")
-	private String system;
+    /**
+     * Field in parameter
+     */
+    @Parameter("FIELD")
+    private String field;
 
-	public String getField() {
-		return this.field;
-	}
+    /**
+     * Logical system from which message originates
+     */
+    @Parameter("SYSTEM")
+    private String system;
 
-	public String getId() {
-		return this.id;
-	}
+    public String getField()
+    {
+        return this.field;
+    }
 
-	public String getLogMsgNumber() {
-		return this.logMsgNumber;
-	}
+    public String getId()
+    {
+        return this.id;
+    }
 
-	public String getLogNumber() {
-		return this.logNumber;
-	}
+    public String getLogMsgNumber()
+    {
+        return this.logMsgNumber;
+    }
 
-	public String getMessage() {
-		return this.message;
-	}
+    public String getLogNumber()
+    {
+        return this.logNumber;
+    }
 
-	public String getMessageV1() {
-		return this.messageV1;
-	}
+    public String getMessage()
+    {
+        return this.message;
+    }
 
-	public String getMessageV2() {
-		return this.messageV2;
-	}
+    public String getMessageV1()
+    {
+        return this.messageV1;
+    }
 
-	public String getMessageV3() {
-		return this.messageV3;
-	}
+    public String getMessageV2()
+    {
+        return this.messageV2;
+    }
 
-	public String getMessageV4() {
-		return this.messageV4;
-	}
+    public String getMessageV3()
+    {
+        return this.messageV3;
+    }
 
-	public String getNumber() {
-		return this.number;
-	}
+    public String getMessageV4()
+    {
+        return this.messageV4;
+    }
 
-	public String getParameter() {
-		return this.parameter;
-	}
+    public String getNumber()
+    {
+        return this.number;
+    }
 
-	public int getRow() {
-		return this.row;
-	}
+    public String getParameter()
+    {
+        return this.parameter;
+    }
 
-	public String getSystem() {
-		return this.system;
-	}
+    public int getRow()
+    {
+        return this.row;
+    }
 
-	public char getType() {
-		return this.type;
-	}
+    public String getSystem()
+    {
+        return this.system;
+    }
+
+    public char getType()
+    {
+        return this.type;
+    }
 }
