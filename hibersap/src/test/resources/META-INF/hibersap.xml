@@ -3,7 +3,7 @@
   <session-factory name="TEST">
     <context>org.hibersap.execution.jco.JCoContext</context>
 
-	<!-- <jta-connection-factory>java:/eis/sap/A12</jta-connection-factory> -->
+	<!-- <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory> -->
 
     <properties>
       <property name="hibersap.jco.client.user" value="user" />

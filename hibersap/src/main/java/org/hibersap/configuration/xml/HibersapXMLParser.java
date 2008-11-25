@@ -63,7 +63,7 @@ public class HibersapXMLParser
 
     public static final String SESSION_FACTORY_NAME_ATTRIBUTE = PROPERTY_NAME_ATTRIBUTE;
 
-    public static final String JTA_CONNECTION_FACTORY_TAG = "jta-connection-factory";
+    public static final String JCA_CONNECTION_FACTORY_TAG = "jca-connection-factory";
 
     private final String hibersapXmlFile;
 
@@ -123,8 +123,8 @@ public class HibersapXMLParser
             final NodeList contextNodes = sessionFactoryElement.getElementsByTagName( CONTEXT_TAG );
             parseContextNodes( contextNodes );
 
-            final NodeList connectionFactory = sessionFactoryElement.getElementsByTagName( JTA_CONNECTION_FACTORY_TAG );
-            parseConnectionFactoryNodesCount( connectionFactory );
+            final NodeList connectionFactory = sessionFactoryElement.getElementsByTagName( JCA_CONNECTION_FACTORY_TAG );
+            parseConnectionFactoryNodes( connectionFactory );
 
             final NodeList propertiesNodes = sessionFactoryElement.getElementsByTagName( PROPERTIES_TAG );
             parsePropertiesNodes( propertiesNodes );
@@ -208,14 +208,21 @@ public class HibersapXMLParser
         return length;
     }
 
-    private void parseConnectionFactoryNodesCount( final NodeList nodes )
+    private void parseConnectionFactoryNodes( final NodeList nodes )
         throws HibersapParseException
     {
         final int length = nodes.getLength();
 
-        if ( length > 0 )
+        if ( length > 1 )
         {
-            throw new HibersapParseException( "<" + JTA_CONNECTION_FACTORY_TAG + "> tag is currently not supported" );
+            throw new HibersapParseException( "only one <" + JCA_CONNECTION_FACTORY_TAG + "> tag is allowed" );
+        }
+        else if ( length == 1 )
+        {
+            final Element connectionFactoryElement = (Element) nodes.item( 0 );
+            final String jndiName = parseContent( connectionFactoryElement, JCA_CONNECTION_FACTORY_TAG );
+
+            properties.put( Environment.JCA_CONNECTION_FACTORY, jndiName );
         }
     }
 

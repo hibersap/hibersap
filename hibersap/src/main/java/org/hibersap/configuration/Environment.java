@@ -43,8 +43,7 @@ public final class Environment
 
     public static final String CONTEXT_CLASS = "hibersap.context_class";
 
-    // SAP Resource Adapter settings
-    public static final String CONNECTION_RA = "hibersap.connection.ra";
+    public static final String JCA_CONNECTION_FACTORY = "hibersap.connection_factory";
 
     // Session context management
     public static final String CURRENT_SESSION_CONTEXT_CLASS = "hibersap.current_session_context_class";

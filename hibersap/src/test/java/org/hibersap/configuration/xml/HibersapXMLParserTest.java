@@ -116,6 +116,17 @@ public class HibersapXMLParserTest
         assertEquals( "foo.bar.MyBapi2", properties.getProperty( Environment.BABI_CLASSES_PREFIX + "1" ) );
     }
 
+    @Test
+    public void testConnectionFactory()
+        throws Exception
+    {
+        final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST\">"
+            + "<context> JTAContext </context> <jca-connection-factory> java:/eis/sap/A12 </jca-connection-factory></session-factory></hibersap>" );
+
+        assertEquals( "java:/eis/sap/A12", properties.getProperty( Environment.JCA_CONNECTION_FACTORY ) );
+        assertEquals( "JTAContext", properties.getProperty( Environment.CONTEXT_CLASS ) );
+    }
+
     private static Properties parseXML( final String xml )
     {
         final HibersapXMLParser hibersapXMLParser = new HibersapXMLParser( "hibersap.xml",
