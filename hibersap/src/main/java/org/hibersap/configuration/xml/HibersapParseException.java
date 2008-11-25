@@ -25,6 +25,8 @@ package org.hibersap.configuration.xml;
 public class HibersapParseException
     extends Exception
 {
+    private static final long serialVersionUID = 1L;
+
     public HibersapParseException( final String message, final Throwable cause )
     {
         super( message, cause );

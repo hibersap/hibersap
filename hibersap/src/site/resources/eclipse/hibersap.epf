@@ -152,7 +152,7 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.classpathVariable.ECLIPSE_HOME=C\:/Programme/Eclipse3.3.1.1
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.alignment_for_assignment=0
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_after_opening_bracket_in_array_reference=do not insert
-/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.missingSerialVersion=ignore
+/instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.missingSerialVersion=warning
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.codeComplete.argumentPrefixes=
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.unusedImport=error
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_parenthesized_expression_in_return=insert
