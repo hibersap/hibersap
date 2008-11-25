@@ -24,12 +24,17 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
+import org.hibersap.configuration.xml.HibersapXMLParser;
 
 /**
  * @author Carsten Erker
  */
 public final class Environment
 {
+    public static final String HIBERSAP_PROPERTIES_FILE = "/hibersap.properties";
+
+    public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
+
     public static final String VERSION = "0.1";
 
     public static final String SESSION_FACTORY_NAME = "hibersap.session_factory_name";
@@ -47,9 +52,9 @@ public final class Environment
 
     private static Log LOG = LogFactory.getLog( Environment.class );
 
-    private static final Properties PROPERTIES = readProperties("/hibersap.properties");
+    private static final Properties PROPERTIES = readProperties( HIBERSAP_PROPERTIES_FILE );
 
-    private static Properties readProperties(String propertiesFile)
+    static Properties readProperties( final String propertiesFile )
     {
         LOG.info( "Hibersap " + VERSION );
 
@@ -58,32 +63,63 @@ public final class Environment
         try
         {
             final InputStream stream = ConfigHelper.getResourceAsStream( propertiesFile );
+
             try
             {
                 properties.load( stream );
-                LOG.info( "loaded properties from resource hibersap.properties: " + properties );
+                LOG.info( "loaded properties from resource " + propertiesFile + ": " + properties );
             }
             catch ( final Exception e )
             {
-                LOG.error( "problem loading properties from hibersap.properties" );
+                LOG.error( "problem loading properties from " + propertiesFile );
             }
             finally
             {
-                try
-                {
-                    stream.close();
-                }
-                catch ( final IOException ioe )
-                {
-                    LOG.error( "could not close stream on hibersap.properties", ioe );
-                }
+                closeStream( propertiesFile, stream );
             }
         }
         catch ( final HibersapException he )
         {
-            LOG.info( "hibersap.properties not found" );
+            LOG.info( propertiesFile + " not found" );
         }
 
+        addSystemProperties( properties );
+
+        return properties;
+    }
+
+    static Properties readXMLProperties( final String hibersapXmlFile )
+    {
+        LOG.info( "Hibersap " + VERSION );
+
+        final Properties properties = new Properties();
+
+        try
+        {
+            final InputStream stream = ConfigHelper.getResourceAsStream( hibersapXmlFile );
+
+            try
+            {
+                final HibersapXMLParser hibersapXMLParser = new HibersapXMLParser( hibersapXmlFile, stream );
+                properties.putAll( hibersapXMLParser.parseXML() );
+            }
+            finally
+            {
+                closeStream( hibersapXmlFile, stream );
+            }
+        }
+        catch ( final HibersapException he )
+        {
+            LOG.info( hibersapXmlFile + " not found" );
+        }
+
+        addSystemProperties( properties );
+
+        return properties;
+    }
+
+    private static void addSystemProperties( final Properties properties )
+    {
         try
         {
             properties.putAll( System.getProperties() );
@@ -92,8 +128,18 @@ public final class Environment
         {
             LOG.warn( "could not copy system properties, system properties will be ignored" );
         }
+    }
 
-        return properties;
+    private static void closeStream( final String fileName, final InputStream stream )
+    {
+        try
+        {
+            stream.close();
+        }
+        catch ( final IOException ioe )
+        {
+            LOG.error( "could not close stream on " + fileName, ioe );
+        }
     }
 
     /**

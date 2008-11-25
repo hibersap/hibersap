@@ -9,11 +9,21 @@ import org.junit.Test;
 public class EnvironmentTest
 {
     @Test
-    public void testProperties()
+    public void testConfigurationFromProperties()
         throws Exception
     {
-        final Properties properties = Environment.getProperties();
+        final Properties properties = Environment.readProperties( Environment.HIBERSAP_PROPERTIES_FILE );
         assertEquals( "TEST", properties.getProperty( Environment.SESSION_FACTORY_NAME ) );
+        assertEquals( "127.0.0.1", properties.getProperty( "hibersap.jco.client.ashost" ) );
+    }
+
+    @Test
+    public void testConfigurationFromXML()
+        throws Exception
+    {
+        final Properties properties = Environment.readXMLProperties( Environment.HIBERSAP_XML_FILE );
+        assertEquals( "TEST", properties.getProperty( Environment.SESSION_FACTORY_NAME ) );
+        assertEquals( "org.hibersap.execution.jco.JCoContext", properties.getProperty( Environment.CONTEXT_CLASS ) );
         assertEquals( "127.0.0.1", properties.getProperty( "hibersap.jco.client.ashost" ) );
     }
 }
