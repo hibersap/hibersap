@@ -30,6 +30,8 @@ import org.hibersap.session.Context;
 public class JCoContext
     implements Context
 {
+    public static final String HIBERSAP_JCO_PREFIX = "hibersap.jco";
+    
     private String destinationName;
 
     /*
@@ -44,7 +46,7 @@ public class JCoContext
         for ( Object key : props.keySet() )
         {
             String keyStr = (String) key;
-            if ( keyStr.startsWith( "hibersap.jco" ) )
+            if ( keyStr.startsWith( HIBERSAP_JCO_PREFIX ) )
             {
                 String jcoKey = keyStr.substring( "hibersap.".length() );
                 String value = props.getProperty( keyStr );

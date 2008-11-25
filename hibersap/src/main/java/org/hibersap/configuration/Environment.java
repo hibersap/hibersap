@@ -45,25 +45,25 @@ public final class Environment
     // Echo all executed commands to stdout
     public static final String DO_LOG_COMMANDS = "hibersap.log.commands";
 
-    private static Properties PROPERTIES = null;
-
     private static Log LOG = LogFactory.getLog( Environment.class );
 
-    static
+    private static final Properties PROPERTIES = readProperties("/hibersap.properties");
+
+    private static Properties readProperties(String propertiesFile)
     {
         LOG.info( "Hibersap " + VERSION );
 
-        PROPERTIES = new Properties();
+        final Properties properties = new Properties();
 
         try
         {
-            InputStream stream = ConfigHelper.getResourceAsStream( "/hibersap.properties" );
+            final InputStream stream = ConfigHelper.getResourceAsStream( propertiesFile );
             try
             {
-                PROPERTIES.load( stream );
-                LOG.info( "loaded properties from resource hibersap.properties: " + PROPERTIES );
+                properties.load( stream );
+                LOG.info( "loaded properties from resource hibersap.properties: " + properties );
             }
-            catch ( Exception e )
+            catch ( final Exception e )
             {
                 LOG.error( "problem loading properties from hibersap.properties" );
             }
@@ -73,25 +73,27 @@ public final class Environment
                 {
                     stream.close();
                 }
-                catch ( IOException ioe )
+                catch ( final IOException ioe )
                 {
                     LOG.error( "could not close stream on hibersap.properties", ioe );
                 }
             }
         }
-        catch ( HibersapException he )
+        catch ( final HibersapException he )
         {
             LOG.info( "hibersap.properties not found" );
         }
 
         try
         {
-            PROPERTIES.putAll( System.getProperties() );
+            properties.putAll( System.getProperties() );
         }
-        catch ( SecurityException se )
+        catch ( final SecurityException se )
         {
             LOG.warn( "could not copy system properties, system properties will be ignored" );
         }
+
+        return properties;
     }
 
     /**
@@ -102,7 +104,7 @@ public final class Environment
      */
     public static Properties getProperties()
     {
-        Properties copy = new Properties();
+        final Properties copy = new Properties();
         copy.putAll( PROPERTIES );
         return copy;
     }
