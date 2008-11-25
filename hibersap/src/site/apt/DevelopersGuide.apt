@@ -36,6 +36,6 @@ mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.0 
 
   * Run <<<mvn install>>> on the hibersap project 
   
-  * Now edit <<<hibersap.properties>>> and run the tests in the hibersap-examples project, again with <<<mvn install>>>
+  * Now edit <<<META-INF/hibersap.xml>>> and run the tests in the hibersap-examples project, again with <<<mvn install>>>
   
   * Have fun!

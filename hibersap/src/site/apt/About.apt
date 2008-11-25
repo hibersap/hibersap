@@ -23,7 +23,8 @@ About Hibersap
   
   * Automatic error propagation using the @ThrowExceptionOnError annotation.
   
-  
+  * Configuration using XML or properties file
+
 * Prospective Features
 
   * Hook-in for Application Server's transaction manager to use Container Managed Transactions (CMT) for Hibersap calls.
@@ -33,7 +34,7 @@ About Hibersap
   
   * Hibernate-like current session context strategy.
   
-  * Configuration using XML configuration file.
+  * Automated lookup of mapped classes instead of adding them manually
   
   * JBoss deployer for annotated Hibersap classes.
   

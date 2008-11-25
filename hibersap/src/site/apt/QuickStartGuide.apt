@@ -422,9 +422,37 @@ public class Flight
 
   To configure Hibersap, you need to specify a name for the <<<SessionFactory>>> (see next section),
   plus the properties for the Java Connector.
-  The properties have to be specified in a file named <<<hibersap.properties>>> which has to be found
-  in our application's classpath.
+  There are two possibilities to configure Hibersap: Either you define the properties in a file named <<<hibersap.properties>>> 
+  or in an <<<META-INF/hibersap.xml>>> XML file. Both of which have to be detectable in our application's classpath. Using an XML file is the preferred
+  way to configure your application.
+
   In the example we use a minimum set of JCo properties to be able to connect to the back-end SAP system.
+
+** XML file configuration
+
++----------------------------------------------------------------------------+
+<?xml version="1.0" encoding="UTF-8"?>
+<hibersap>
+  <session-factory name="A12">
+    <context>org.hibersap.execution.jco.JCoContext</context>
+
+    <properties>
+      <property name="hibersap.jco.client.client" value="800" />
+      <property name="hibersap.jco.client.user" value="sapuser" />
+      <property name="hibersap.jco.client.passwd" value="password" />
+      <property name="hibersap.jco.client.lang" value="en" />
+      <property name="hibersap.jco.client.ashost" value="10.20.80.76" />
+      <property name="hibersap.jco.client.sysnr" value="00" />
+      <property name="hibersap.jco.pool_size" value="1" />
+    </properties>
+
+    <class>org.hibersap.examples.flightlist.FlightListBapi</class>
+    <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
+  </session-factory>
+</hibersap>
++----------------------------------------------------------------------------+
+
+** Properties file configuration
 
 +----------------------------------------------------------------------------+
 # The session factory name
@@ -443,6 +471,8 @@ hibersap.jco.pool_size=1
 hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi
 hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
 +----------------------------------------------------------------------------+
+
+** Manual configuration
 
   You will find constants for Hibersap's property names in the class <<<Environment>>>,
   whereas names for JCo properties are specified in the interface <<<JCoProperties>>>.
@@ -472,7 +502,7 @@ hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
 
   The following function configures a Hibersap <<<SessionFactory>>>.
   First, an instance of type <<<AnnotationConfiguration>>> has to be created.
-  Then we add our BAPI Class to the configuration (if it is not already listed in <<<hibersap.properties>>>, see example above).
+  Then we add our BAPI Class to the configuration (if it is not already listed in the configuration, see examples above).
   If needed, we could now set or overwrite properties using the <<<configuration.setProperty()>>>.
   Finally, we build the <<<SessionFactory>>>.
   In a real application this should be done once, reusing the <<<SessionFactory>>> throughout the
@@ -482,6 +512,7 @@ hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
 public SessionFactory createSessionFactory()
 {
     AnnotationConfiguration configuration = new AnnotationConfiguration();
+    configuration.setProperty( Environment.SESSION_FACTORY_NAME, "F46" );
     configuration.addAnnotatedClass( MyBapi.class );
     return configuration.buildSessionFactory();
 }
