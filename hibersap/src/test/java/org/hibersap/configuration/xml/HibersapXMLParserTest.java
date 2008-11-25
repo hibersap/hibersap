@@ -36,7 +36,7 @@ public class HibersapXMLParserTest
         throws Exception
     {
         final Properties properties = parseXML( "<hibersap><session-factory name=\"TEST1\">"
-            + "<context> JCoContext </context></session-factory>" + "<session-factory name=\"TEST2\">"
+            + "<context> JCoContext </context></session-factory> <session-factory name=\"TEST2\">"
             + "<context> JCoContext </context></session-factory></hibersap>" );
 
         assertTrue( properties.isEmpty() );

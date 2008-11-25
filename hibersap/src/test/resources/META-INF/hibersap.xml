@@ -6,9 +6,9 @@
 	<!-- <jta-connection-factory>java:/eis/sap/A12</jta-connection-factory> -->
 
     <properties>
-      <property name="hibersap.jco.client.client" value="4711" />
       <property name="hibersap.jco.client.user" value="user" />
       <property name="hibersap.jco.client.passwd" value="password" />
+      <property name="hibersap.jco.client.client" value="42" />
       <property name="hibersap.jco.client.lang" value="en" />
       <property name="hibersap.jco.client.ashost" value="127.0.0.1" />
       <property name="hibersap.jco.client.sysnr" value="00" />

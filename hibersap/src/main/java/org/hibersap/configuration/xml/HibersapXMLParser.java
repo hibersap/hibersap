@@ -168,7 +168,7 @@ public class HibersapXMLParser
             final Element propertiesElement = (Element) propertiesNodes.item( 0 );
             final NodeList propertyNodes = propertiesElement.getElementsByTagName( PROPERTY_TAG );
 
-            for ( int i = 0; i < length; i++ )
+            for ( int i = 0; i < propertyNodes.getLength(); i++ )
             {
                 final Element propertyElement = (Element) propertyNodes.item( i );
                 final String name = checkForAttribute( propertyElement, PROPERTY_NAME_ATTRIBUTE, PROPERTY_TAG );

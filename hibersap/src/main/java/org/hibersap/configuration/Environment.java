@@ -54,12 +54,27 @@ public final class Environment
 
     private static Log LOG = LogFactory.getLog( Environment.class );
 
-    private static final Properties PROPERTIES = readProperties( HIBERSAP_PROPERTIES_FILE );
+    private static final Properties PROPERTIES = readProperties();
 
-    static Properties readProperties( final String propertiesFile )
+    private static Properties readProperties()
     {
         LOG.info( "Hibersap " + VERSION );
+        Properties result = readXMLProperties( HIBERSAP_XML_FILE );
 
+        if ( result.isEmpty() )
+        {
+            LOG.warn( "XML based configuration file " + HIBERSAP_XML_FILE
+                + " not found or not readable, trying to use properties file " + HIBERSAP_PROPERTIES_FILE );
+            result = readStringProperties( HIBERSAP_PROPERTIES_FILE );
+        }
+
+        addSystemProperties( result );
+
+        return result;
+    }
+
+    static Properties readStringProperties( final String propertiesFile )
+    {
         final Properties properties = new Properties();
 
         try
@@ -69,7 +84,6 @@ public final class Environment
             try
             {
                 properties.load( stream );
-                LOG.info( "loaded properties from resource " + propertiesFile + ": " + properties );
             }
             catch ( final Exception e )
             {
@@ -85,15 +99,11 @@ public final class Environment
             LOG.info( propertiesFile + " not found" );
         }
 
-        addSystemProperties( properties );
-
         return properties;
     }
 
     static Properties readXMLProperties( final String hibersapXmlFile )
     {
-        LOG.info( "Hibersap " + VERSION );
-
         final Properties properties = new Properties();
 
         try
@@ -114,8 +124,6 @@ public final class Environment
         {
             LOG.info( hibersapXmlFile + " not found" );
         }
-
-        addSystemProperties( properties );
 
         return properties;
     }
