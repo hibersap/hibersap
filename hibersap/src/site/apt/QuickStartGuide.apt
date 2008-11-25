@@ -430,6 +430,8 @@ public class Flight
 
 ** XML file configuration
 
+  The format of the XML configuration file is heavily inspired by JPA's <<<persistence.xml>>>.
+
 +----------------------------------------------------------------------------+
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
