@@ -35,14 +35,13 @@ public class FlightListTest
     @Test
     public void showFlightList()
     {
-        AnnotationConfiguration configuration = new AnnotationConfiguration();
-        configuration.addAnnotatedClass( FlightListBapi.class );
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        final AnnotationConfiguration configuration = new AnnotationConfiguration();
+        final SessionFactory sessionFactory = configuration.buildSessionFactory();
+        final Session session = sessionFactory.openSession();
 
-        Session session = sessionFactory.openSession();
         try
         {
-            FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", null, false, 10 );
+            final FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", null, false, 10 );
             session.execute( flightList );
             showResult( flightList );
         }
@@ -52,7 +51,7 @@ public class FlightListTest
         }
     }
 
-    private void showResult( FlightListBapi flightList )
+    private void showResult( final FlightListBapi flightList )
     {
         System.out.println( "AirlineId: " + flightList.getFromCountryKey() );
         System.out.println( "FromCity: " + flightList.getFromCity() );
@@ -63,8 +62,8 @@ public class FlightListTest
         System.out.println( "MaxRead: " + flightList.getMaxRead() );
 
         System.out.println( "\nFlightData" );
-        List<Flight> flights = flightList.getFlightList();
-        for ( Flight flight : flights )
+        final List<Flight> flights = flightList.getFlightList();
+        for ( final Flight flight : flights )
         {
             System.out.print( "\t" + flight.getAirportFrom() );
             System.out.print( "\t" + flight.getAirportTo() );
@@ -76,7 +75,7 @@ public class FlightListTest
         }
 
         System.out.println( "\nReturn" );
-        BapiRet2 returnStruct = flightList.getReturnData();
+        final BapiRet2 returnStruct = flightList.getReturnData();
         System.out.println( "\tMessage: " + returnStruct.getMessage() );
         System.out.println( "\tNumber: " + returnStruct.getNumber() );
         System.out.println( "\tType: " + returnStruct.getType() );

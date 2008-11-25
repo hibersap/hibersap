@@ -35,9 +35,11 @@ public final class Environment
 
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
 
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "0.2";
 
     public static final String SESSION_FACTORY_NAME = "hibersap.session_factory_name";
+
+    public static final String BABI_CLASSES_PREFIX = "hibersap.bapi_class.";
 
     public static final String CONTEXT_CLASS = "hibersap.context_class";
 

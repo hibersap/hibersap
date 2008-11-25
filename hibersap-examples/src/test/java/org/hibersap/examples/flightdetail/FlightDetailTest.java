@@ -44,13 +44,13 @@ import org.junit.Test;
 public class FlightDetailTest
     extends AbstractHibersapTest
 {
+    private final AnnotationConfiguration configuration = new AnnotationConfiguration();
+
     private SessionFactory sessionFactory;
 
     @Before
     public void setup()
     {
-        AnnotationConfiguration configuration = new AnnotationConfiguration();
-        configuration.addAnnotatedClass( FlightDetailBapi.class );
         configuration.setProperty( Environment.SESSION_FACTORY_NAME, "F46" );
         sessionFactory = configuration.buildSessionFactory();
     }
@@ -64,12 +64,12 @@ public class FlightDetailTest
     @Test
     public void showFlightDetail()
     {
-        Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.openSession();
         try
         {
             session.beginTransaction();
-            Date date26Apr2002 = new GregorianCalendar( 2002, Calendar.APRIL, 26 ).getTime();
-            FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", date26Apr2002 );
+            final Date date26Apr2002 = new GregorianCalendar( 2002, Calendar.APRIL, 26 ).getTime();
+            final FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", date26Apr2002 );
             session.execute( flightDetail );
             session.getTransaction().commit();
             showResult( flightDetail );
@@ -83,20 +83,20 @@ public class FlightDetailTest
     @Test
     public void showFlightDetailWithSapErrorMessage()
     {
-        Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.openSession();
 
         try
         {
             session.beginTransaction();
-            FlightDetailBapi flightDetail = new FlightDetailBapi( "XY", "1234", new Date() );
+            final FlightDetailBapi flightDetail = new FlightDetailBapi( "XY", "1234", new Date() );
             session.execute( flightDetail );
             fail();
         }
-        catch ( SapException e )
+        catch ( final SapException e )
         {
-            List<SapError> errors = e.getErrors();
+            final List<SapError> errors = e.getErrors();
             assertEquals( 1, errors.size() );
-            SapError error = errors.get( 0 );
+            final SapError error = errors.get( 0 );
             assertEquals( "600", error.getNumber() );
             assertEquals( "BC_BOR", error.getId() );
             assertEquals( "E", error.getType() );
@@ -108,14 +108,14 @@ public class FlightDetailTest
         }
     }
 
-    private void showResult( FlightDetailBapi flightDetail )
+    private void showResult( final FlightDetailBapi flightDetail )
     {
         System.out.println( "AirlineId: " + flightDetail.getAirlineId() );
         System.out.println( "ConnectionId: " + flightDetail.getConnectionId() );
         System.out.println( "FlightDate: " + flightDetail.getFlightDate() );
 
         System.out.println( "FlightData" );
-        FlightData flightData = flightDetail.getFlightData();
+        final FlightData flightData = flightDetail.getFlightData();
         System.out.println( "\tAirlineId: " + flightData.getAirlineId() );
         System.out.println( "\tAirportfr: " + flightData.getAirportfr() );
         System.out.println( "\tAirportt: " + flightData.getAirportto() );
@@ -128,7 +128,7 @@ public class FlightDetailTest
         System.out.println( "\tDeptime: " + flightData.getDeptime() );
         System.out.println( "\tFlightdate: " + flightData.getFlightdate() );
         System.out.println( "BapiRet2" );
-        BapiRet2 returnStruct = flightDetail.getReturn();
+        final BapiRet2 returnStruct = flightDetail.getReturn();
         System.out.println( "\tMessage: " + returnStruct.getMessage() );
         System.out.println( "\tNumber: " + returnStruct.getNumber() );
         System.out.println( "\tType: " + returnStruct.getType() );

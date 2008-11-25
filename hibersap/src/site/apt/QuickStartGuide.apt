@@ -438,6 +438,10 @@ hibersap.jco.client.lang=en
 hibersap.jco.client.ashost=10.20.80.76
 hibersap.jco.client.sysnr=00
 hibersap.jco.pool_size=1
+
+# Mapped classes
+hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi
+hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
 +----------------------------------------------------------------------------+
 
   You will find constants for Hibersap's property names in the class <<<Environment>>>,
@@ -468,7 +472,7 @@ hibersap.jco.pool_size=1
 
   The following function configures a Hibersap <<<SessionFactory>>>.
   First, an instance of type <<<AnnotationConfiguration>>> has to be created.
-  Then we add our BAPI Class to the configuration.
+  Then we add our BAPI Class to the configuration (if it is not already listed in <<<hibersap.properties>>>, see example above).
   If needed, we could now set or overwrite properties using the <<<configuration.setProperty()>>>.
   Finally, we build the <<<SessionFactory>>>.
   In a real application this should be done once, reusing the <<<SessionFactory>>> throughout the
@@ -478,7 +482,7 @@ hibersap.jco.pool_size=1
 public SessionFactory createSessionFactory()
 {
     AnnotationConfiguration configuration = new AnnotationConfiguration();
-    configuration.addAnnotatedClass( FlightListBapi.class );
+    configuration.addAnnotatedClass( MyBapi.class );
     return configuration.buildSessionFactory();
 }
 +--------------------------------------------------------------------------------------------------------------+

@@ -33,75 +33,88 @@ import org.hibersap.session.Context;
 public class SettingsFactory
     implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
+    private static final long serialVersionUID = 1L;
 
-    public static Settings create( Properties props )
+    private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
+
+    public static Settings create( final Properties props )
     {
-        Settings settings = new Settings();
+        final Settings settings = new Settings();
 
         // init Context
-        Class<? extends Context> contextClass = getContextClass( props );
-        Context context = getNewInstance( contextClass );
+        final Class<? extends Context> contextClass = getContextClass( props );
+        final Context context = getNewInstance( contextClass );
         context.configure( props );
         settings.setContext( context );
 
         return settings;
     }
 
-    private static Context getNewInstance( Class<? extends Context> clazz )
+    private static Context getNewInstance( final Class<? extends Context> clazz )
     {
         try
         {
             return clazz.newInstance();
         }
-        catch ( InstantiationException e )
+        catch ( final InstantiationException e )
         {
             throw new HibersapException( "The class " + clazz
                 + " must be accessible and must have a public default constructor." );
         }
-        catch ( IllegalAccessException e )
+        catch ( final IllegalAccessException e )
         {
             throw new HibersapException( "The class " + clazz + " must hava a public default constructor." );
         }
     }
 
-    private static Class<? extends Context> getContextClass( Properties props )
+    private static Class<? extends Context> getContextClass( final Properties props )
     {
-        String contextClassName = props.getProperty( Environment.CONTEXT_CLASS );
+        final String contextClassName = props.getProperty( Environment.CONTEXT_CLASS );
         Class<? extends Context> contextClass;
         if ( StringUtils.isEmpty( contextClassName ) )
         {
-            Class<JCoContext> defaultContext = JCoContext.class;
+            final Class<JCoContext> defaultContext = JCoContext.class;
             LOG.info( "No context class specified in properties. Default class " + defaultContext.getName()
                 + " will be used" );
             contextClass = defaultContext;
         }
         else
         {
-            contextClass = getContextClassForName( contextClassName );
+            contextClass = getContextClassForName( contextClassName, Environment.CONTEXT_CLASS );
         }
         return contextClass;
     }
 
     @SuppressWarnings("unchecked")
-    private static Class<? extends Context> getContextClassForName( String contextClassName )
+    private static Class<? extends Context> getContextClassForName( final String contextClassName,
+                                                                    final String propertyName )
     {
-        Class<? extends Context> contextClass;
         try
         {
-            Class<?> clazz = Class.forName( contextClassName );
-            contextClass = (Class<? extends Context>) clazz;
+            return (Class<? extends Context>) getClassForName( contextClassName, propertyName );
         }
-        catch ( ClassNotFoundException e )
+        catch ( final ClassCastException e )
         {
-            throw new HibersapException( "Context class " + contextClassName + " not found in classpath.", e );
-        }
-        catch ( ClassCastException e )
-        {
-            throw new HibersapException( "The context class specified with property " + Environment.CONTEXT_CLASS
+            throw new HibersapException( "The context class specified with property " + propertyName
                 + " must implement " + Context.class.getName(), e );
         }
-        return contextClass;
+    }
+
+    public static Class<?> getClassForName( final String contextClassName, final String propertyName )
+    {
+        try
+        {
+            return Class.forName( contextClassName );
+        }
+        catch ( final ClassNotFoundException e )
+        {
+            throw new HibersapException( "Class " + contextClassName + " from property " + propertyName
+                + " not found in classpath.", e );
+        }
+        catch ( final Exception e )
+        {
+            throw new HibersapException( "Class " + contextClassName + " from property " + propertyName
+                + " could not be loaded", e );
+        }
     }
 }

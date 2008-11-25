@@ -30,7 +30,15 @@ import org.hibersap.session.SessionFactory;
 
 /**
  * Configures Hibersap using annotated BAPI classes. Usually a client creates an
- * instance of this class once and adds BAPI classes using addAnnotatedClass().
+ * instance of this class only once.
+ * 
+ * There are three possibilities to add annotated classes:
+ * <ol>
+ * <li>using hibersap.properties: hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi</li>
+ * <li>similarily in  hibersap.xml: &lt;class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/class&gt;</li>
+ * <li>programmatically via addAnnotatedClass().</li>
+ * </ol>
+ * 
  * After calling buildSessionFactory() this instance can be discarded. The
  * SessionFactory will be used to interact with the back-end system. Properties
  * may be overwritten using the methods in this class' superclass, e.g. to
@@ -43,20 +51,40 @@ import org.hibersap.session.SessionFactory;
 public class AnnotationConfiguration
     extends Configuration
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
+    private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
 
     protected AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
     private final Set<Class<? extends Object>> annotatedClasses = new HashSet<Class<? extends Object>>();
+
+    public AnnotationConfiguration()
+    {
+        addAnnotatedClassesFromProperties();
+    }
+
+    private void addAnnotatedClassesFromProperties()
+    {
+        for ( final Object key : properties.keySet() )
+        {
+            final String keyString = key.toString();
+
+            if ( keyString.startsWith( Environment.BABI_CLASSES_PREFIX ) )
+            {
+                final String valueClass = properties.getProperty( keyString );
+                LOG.info( "Found mapped class " + keyString + " = " + valueClass );
+                addAnnotatedClass( SettingsFactory.getClassForName( valueClass, keyString ) );
+            }
+        }
+    }
 
     /**
      * Adds an annotated BAPI class to the Configuration.
      *
      * @param bapiClass
      */
-    public void addAnnotatedClass( Class<?> bapiClass )
+    public void addAnnotatedClass( final Class<?> bapiClass )
     {
         annotatedClasses.add( bapiClass );
     }
@@ -67,13 +95,14 @@ public class AnnotationConfiguration
      *
      * @return The SessionFactory
      */
+    @Override
     public SessionFactory buildSessionFactory()
     {
         bapiMappingForClass.clear();
-        for ( Class<? extends Object> clazz : annotatedClasses )
+        for ( final Class<? extends Object> clazz : annotatedClasses )
         {
             LOG.info( "Mapping class " + clazz.getName() );
-            BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
+            final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
             bapiMappingForClass.put( clazz, bapiMapping );
         }
         return super.buildSessionFactory();
