@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>hibersap-jee-examples</artifactId>
+		<groupId>org.hibersap</groupId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>hibersap-ear</artifactId>
+	<version>0.2-SNAPSHOT</version>
+	<packaging>ear</packaging>
+	<name>hibersap-ear</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sap</groupId>
+			<artifactId>sap-jco</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibersap</groupId>
+			<artifactId>hibersap</artifactId>
+			<version>0.2-SNAPSHOT</version>
+			<type>ejb</type>
+
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibersap</groupId>
+			<artifactId>hibersap-examples</artifactId>
+			<version>0.2-SNAPSHOT</version>
+			<type>jar</type>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibersap</groupId>
+			<artifactId>hibersap-ejb</artifactId>
+			<version>0.2-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+
+					<version>5</version>
+
+					<modules>
+						<ejbModule>
+							<groupId>org.hibersap</groupId>
+							<artifactId>hibersap</artifactId>
+						</ejbModule>
+
+						<jarModule>
+							<groupId>org.hibersap</groupId>
+							<artifactId>hibersap-examples</artifactId>
+							<includeInApplicationXml>
+								true
+							</includeInApplicationXml>
+						</jarModule>
+
+						<jarModule>
+							<groupId>com.sap</groupId>
+							<artifactId>sap-jco</artifactId>
+							<bundleDir>lib</bundleDir>
+						</jarModule>
+					</modules>
+
+					<jboss>
+						<version>4.2</version>
+						<loader-repository>
+							hibersap-jee-examples:app=ejb3
+						</loader-repository>
+					</jboss>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
