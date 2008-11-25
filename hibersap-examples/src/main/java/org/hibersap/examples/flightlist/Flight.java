@@ -17,6 +17,7 @@ package org.hibersap.examples.flightlist;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.hibersap.annotations.BapiStructure;
@@ -27,60 +28,72 @@ import org.hibersap.util.DateUtil;
  * @author Carsten Erker
  */
 @BapiStructure
-public class Flight {
-	@Parameter("CARRID")
-	private String carrierId;
+public class Flight
+    implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	@Parameter("CONNID")
-	private String connectionId;
+    @Parameter("CARRID")
+    private String carrierId;
 
-	@Parameter("AIRPFROM")
-	private String airportFrom;
+    @Parameter("CONNID")
+    private String connectionId;
 
-	@Parameter("AIRPTO")
-	private String airportTo;
+    @Parameter("AIRPFROM")
+    private String airportFrom;
 
-	@Parameter("FLDATE")
-	private Date flightDate;
+    @Parameter("AIRPTO")
+    private String airportTo;
 
-	@Parameter("DEPTIME")
-	private Date departureTime;
+    @Parameter("FLDATE")
+    private Date flightDate;
 
-	@Parameter("SEATSMAX")
-	private int seatsMax;
+    @Parameter("DEPTIME")
+    private Date departureTime;
 
-	@Parameter("SEATSOCC")
-	private int seatsOccupied;
+    @Parameter("SEATSMAX")
+    private int seatsMax;
 
-	public String getAirportFrom() {
-		return this.airportFrom;
-	}
+    @Parameter("SEATSOCC")
+    private int seatsOccupied;
 
-	public String getAirportTo() {
-		return this.airportTo;
-	}
+    public String getAirportFrom()
+    {
+        return this.airportFrom;
+    }
 
-	public String getCarrierId() {
-		return this.carrierId;
-	}
+    public String getAirportTo()
+    {
+        return this.airportTo;
+    }
 
-	public String getConnectionId() {
-		return this.connectionId;
-	}
+    public String getCarrierId()
+    {
+        return this.carrierId;
+    }
 
-	public Date getDepartureTime() {
-		return DateUtil.joinDateAndTime(flightDate, departureTime);
-	}
+    public String getConnectionId()
+    {
+        return this.connectionId;
+    }
 
-	public Date getFlightDate() {
-		return flightDate;
-	}
+    public Date getDepartureTime()
+    {
+        return DateUtil.joinDateAndTime( flightDate, departureTime );
+    }
 
-	public int getSeatsMax() {
-		return this.seatsMax;
-	}
+    public Date getFlightDate()
+    {
+        return flightDate;
+    }
 
-	public int getSeatsOccupied() {
-		return this.seatsOccupied;
-	}
+    public int getSeatsMax()
+    {
+        return this.seatsMax;
+    }
+
+    public int getSeatsOccupied()
+    {
+        return this.seatsOccupied;
+    }
 }

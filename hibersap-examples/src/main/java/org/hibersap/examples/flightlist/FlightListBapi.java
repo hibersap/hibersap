@@ -17,6 +17,7 @@ package org.hibersap.examples.flightlist;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibersap.annotations.Bapi;
@@ -35,94 +36,108 @@ import org.hibersap.conversion.BooleanConverter;
  */
 @Bapi("BAPI_SFLIGHT_GETLIST")
 @ThrowExceptionOnError
-public class FlightListBapi {
-	// Import parameters
+public class FlightListBapi
+    implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	@Import
-	@Parameter("FROMCOUNTRYKEY")
-	private final String fromCountryKey;
+    // Import parameters
 
-	@Import
-	@Parameter("FROMCITY")
-	private final String fromCity;
+    @Import
+    @Parameter("FROMCOUNTRYKEY")
+    private final String fromCountryKey;
 
-	@Import
-	@Parameter("TOCOUNTRYKEY")
-	private final String toCountryKey;
+    @Import
+    @Parameter("FROMCITY")
+    private final String fromCity;
 
-	@Import
-	@Parameter("TOCITY")
-	private final String toCity;
+    @Import
+    @Parameter("TOCOUNTRYKEY")
+    private final String toCountryKey;
 
-	@Import
-	@Parameter("AIRLINECARRIER")
-	private final String airlineCarrier;
+    @Import
+    @Parameter("TOCITY")
+    private final String toCity;
 
-	@Import
-	@Parameter("AFTERNOON")
-	@Convert(converter = BooleanConverter.class)
-	private final boolean afternoon;
+    @Import
+    @Parameter("AIRLINECARRIER")
+    private final String airlineCarrier;
 
-	@Import
-	@Parameter("MAXREAD")
-	private final int maxRead;
+    @Import
+    @Parameter("AFTERNOON")
+    @Convert(converter = BooleanConverter.class)
+    private final boolean afternoon;
 
-	// Export parameter
+    @Import
+    @Parameter("MAXREAD")
+    private final int maxRead;
 
-	@Export
-	@Parameter(value = "RETURN", type = ParameterType.STRUCTURE)
-	private BapiRet2 returnData;
+    // Export parameter
 
-	// Table parameter
+    @Export
+    @Parameter(value = "RETURN", type = ParameterType.STRUCTURE)
+    private BapiRet2 returnData;
 
-	@Table
-	@Parameter("FLIGHTLIST")
-	private List<Flight> flightList;
+    // Table parameter
 
-	public FlightListBapi(String fromCountryKey, String fromCity, String toCountryKey, String toCity,
-			String airlineCarrier, boolean afternoon, int maxRead) {
-		this.fromCountryKey = fromCountryKey;
-		this.fromCity = fromCity;
-		this.toCountryKey = toCountryKey;
-		this.toCity = toCity;
-		this.airlineCarrier = airlineCarrier;
-		this.afternoon = afternoon;
-		this.maxRead = maxRead;
-	}
+    @Table
+    @Parameter("FLIGHTLIST")
+    private List<Flight> flightList;
 
-	public boolean getAfternoon() {
-		return this.afternoon;
-	}
+    public FlightListBapi( final String fromCountryKey, final String fromCity, final String toCountryKey,
+                           final String toCity, final String airlineCarrier, final boolean afternoon, final int maxRead )
+    {
+        this.fromCountryKey = fromCountryKey;
+        this.fromCity = fromCity;
+        this.toCountryKey = toCountryKey;
+        this.toCity = toCity;
+        this.airlineCarrier = airlineCarrier;
+        this.afternoon = afternoon;
+        this.maxRead = maxRead;
+    }
 
-	public String getAirlineCarrier() {
-		return this.airlineCarrier;
-	}
+    public boolean getAfternoon()
+    {
+        return this.afternoon;
+    }
 
-	public List<Flight> getFlightList() {
-		return this.flightList;
-	}
+    public String getAirlineCarrier()
+    {
+        return this.airlineCarrier;
+    }
 
-	public String getFromCity() {
-		return this.fromCity;
-	}
+    public List<Flight> getFlightList()
+    {
+        return this.flightList;
+    }
 
-	public String getFromCountryKey() {
-		return this.fromCountryKey;
-	}
+    public String getFromCity()
+    {
+        return this.fromCity;
+    }
 
-	public int getMaxRead() {
-		return this.maxRead;
-	}
+    public String getFromCountryKey()
+    {
+        return this.fromCountryKey;
+    }
 
-	public BapiRet2 getReturnData() {
-		return this.returnData;
-	}
+    public int getMaxRead()
+    {
+        return this.maxRead;
+    }
 
-	public String getToCity() {
-		return this.toCity;
-	}
+    public BapiRet2 getReturnData()
+    {
+        return this.returnData;
+    }
 
-	public String getToCountryKey() {
-		return this.toCountryKey;
-	}
+    public String getToCity()
+    {
+        return this.toCity;
+    }
+
+    public String getToCountryKey()
+    {
+        return this.toCountryKey;
+    }
 }

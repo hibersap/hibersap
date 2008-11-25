@@ -17,6 +17,7 @@ package org.hibersap.examples.flightdetail;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.hibersap.annotations.Bapi;
@@ -32,54 +33,64 @@ import org.hibersap.bapi.BapiRet2;
  */
 @Bapi("BAPI_SFLIGHT_GETDETAIL")
 @ThrowExceptionOnError
-public class FlightDetailBapi {
-	// import parameters
+public class FlightDetailBapi
+    implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	@Import
-	@Parameter("AIRLINECARRIER")
-	private final String airlineId;
+    // import parameters
 
-	@Import
-	@Parameter("CONNECTIONNUMBER")
-	private final String connectionId;
+    @Import
+    @Parameter("AIRLINECARRIER")
+    private final String airlineId;
 
-	@Import
-	@Parameter("DATEOFFLIGHT")
-	private final Date flightDate;
+    @Import
+    @Parameter("CONNECTIONNUMBER")
+    private final String connectionId;
 
-	// export parameters
+    @Import
+    @Parameter("DATEOFFLIGHT")
+    private final Date flightDate;
 
-	@Export
-	@Parameter(value = "FLIGHTDATA", type = ParameterType.STRUCTURE)
-	private FlightData flightData;
+    // export parameters
 
-	@Export
-	@Parameter(value = "RETURN", type = ParameterType.STRUCTURE)
-	private BapiRet2 bapiReturn;
+    @Export
+    @Parameter(value = "FLIGHTDATA", type = ParameterType.STRUCTURE)
+    private FlightData flightData;
 
-	public FlightDetailBapi(String airlineId, String connectionId, Date flightDate) {
-		this.airlineId = airlineId;
-		this.connectionId = connectionId;
-		this.flightDate = flightDate;
-	}
+    @Export
+    @Parameter(value = "RETURN", type = ParameterType.STRUCTURE)
+    private BapiRet2 bapiReturn;
 
-	public String getAirlineId() {
-		return airlineId;
-	}
+    public FlightDetailBapi( final String airlineId, final String connectionId, final Date flightDate )
+    {
+        this.airlineId = airlineId;
+        this.connectionId = connectionId;
+        this.flightDate = flightDate;
+    }
 
-	public String getConnectionId() {
-		return connectionId;
-	}
+    public String getAirlineId()
+    {
+        return airlineId;
+    }
 
-	public FlightData getFlightData() {
-		return flightData;
-	}
+    public String getConnectionId()
+    {
+        return connectionId;
+    }
 
-	public Date getFlightDate() {
-		return flightDate;
-	}
+    public FlightData getFlightData()
+    {
+        return flightData;
+    }
 
-	public BapiRet2 getReturn() {
-		return bapiReturn;
-	}
+    public Date getFlightDate()
+    {
+        return flightDate;
+    }
+
+    public BapiRet2 getReturn()
+    {
+        return bapiReturn;
+    }
 }
