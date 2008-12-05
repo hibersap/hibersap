@@ -61,4 +61,10 @@ public interface BapiConstants
     String EXPORT_RETURN = "EXPORT/RETURN";
 
     String WAIT = "WAIT";
+
+    String IMPORT = "IMPORT";
+
+    String EXPORT = "EXPORT";
+
+    String TABLE = "TABLE";
 }
