@@ -33,28 +33,28 @@ public class Flight
 {
     private static final long serialVersionUID = 1L;
 
-    @Parameter("CARRID")
+    @Parameter(FlightListConstants.CARRID)
     private String carrierId;
 
-    @Parameter("CONNID")
+    @Parameter(FlightListConstants.CONNID)
     private String connectionId;
 
-    @Parameter("AIRPFROM")
+    @Parameter(FlightListConstants.AIRPFROM)
     private String airportFrom;
 
-    @Parameter("AIRPTO")
+    @Parameter(FlightListConstants.AIRPTO)
     private String airportTo;
 
-    @Parameter("FLDATE")
+    @Parameter(FlightListConstants.FLDATE)
     private Date flightDate;
 
-    @Parameter("DEPTIME")
+    @Parameter(FlightListConstants.DEPTIME)
     private Date departureTime;
 
-    @Parameter("SEATSMAX")
+    @Parameter(FlightListConstants.SEATSMAX)
     private int seatsMax;
 
-    @Parameter("SEATSOCC")
+    @Parameter(FlightListConstants.SEATSOCC)
     private int seatsOccupied;
 
     public String getAirportFrom()

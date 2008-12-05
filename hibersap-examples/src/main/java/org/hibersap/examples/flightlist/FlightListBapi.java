@@ -34,7 +34,7 @@ import org.hibersap.conversion.BooleanConverter;
 /**
  * @author Carsten Erker
  */
-@Bapi("BAPI_SFLIGHT_GETLIST")
+@Bapi(FlightListConstants.BAPI_NAME)
 @ThrowExceptionOnError
 public class FlightListBapi
     implements Serializable
@@ -44,44 +44,44 @@ public class FlightListBapi
     // Import parameters
 
     @Import
-    @Parameter("FROMCOUNTRYKEY")
+    @Parameter(FlightListConstants.FROMCOUNTRYKEY)
     private final String fromCountryKey;
 
     @Import
-    @Parameter("FROMCITY")
+    @Parameter(FlightListConstants.FROMCITY)
     private final String fromCity;
 
     @Import
-    @Parameter("TOCOUNTRYKEY")
+    @Parameter(FlightListConstants.TOCOUNTRYKEY)
     private final String toCountryKey;
 
     @Import
-    @Parameter("TOCITY")
+    @Parameter(FlightListConstants.TOCITY)
     private final String toCity;
 
     @Import
-    @Parameter("AIRLINECARRIER")
+    @Parameter(FlightListConstants.AIRLINECARRIER)
     private final String airlineCarrier;
 
     @Import
-    @Parameter("AFTERNOON")
+    @Parameter(FlightListConstants.AFTERNOON)
     @Convert(converter = BooleanConverter.class)
     private final boolean afternoon;
 
     @Import
-    @Parameter("MAXREAD")
+    @Parameter(FlightListConstants.MAXREAD)
     private final int maxRead;
 
     // Export parameter
 
     @Export
-    @Parameter(value = "RETURN", type = ParameterType.STRUCTURE)
+    @Parameter(value = FlightListConstants.RETURN, type = ParameterType.STRUCTURE)
     private BapiRet2 returnData;
 
     // Table parameter
 
     @Table
-    @Parameter("FLIGHTLIST")
+    @Parameter(FlightListConstants.FLIGHTLIST)
     private List<Flight> flightList;
 
     public FlightListBapi( final String fromCountryKey, final String fromCity, final String toCountryKey,

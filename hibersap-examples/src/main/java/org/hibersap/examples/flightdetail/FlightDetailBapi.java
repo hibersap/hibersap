@@ -31,7 +31,7 @@ import org.hibersap.bapi.BapiRet2;
 /**
  * @author Carsten Erker
  */
-@Bapi("BAPI_SFLIGHT_GETDETAIL")
+@Bapi(FlightDetailConstants.BAPI_NAME)
 @ThrowExceptionOnError
 public class FlightDetailBapi
     implements Serializable
@@ -41,25 +41,25 @@ public class FlightDetailBapi
     // import parameters
 
     @Import
-    @Parameter("AIRLINECARRIER")
+    @Parameter(FlightDetailConstants.AIRLINECARRIER)
     private final String airlineId;
 
     @Import
-    @Parameter("CONNECTIONNUMBER")
+    @Parameter(FlightDetailConstants.CONNECTIONNUMBER)
     private final String connectionId;
 
     @Import
-    @Parameter("DATEOFFLIGHT")
+    @Parameter(FlightDetailConstants.DATEOFFLIGHT)
     private final Date flightDate;
 
     // export parameters
 
     @Export
-    @Parameter(value = "FLIGHTDATA", type = ParameterType.STRUCTURE)
+    @Parameter(value = FlightDetailConstants.FLIGHTDATA, type = ParameterType.STRUCTURE)
     private FlightData flightData;
 
     @Export
-    @Parameter(value = "RETURN", type = ParameterType.STRUCTURE)
+    @Parameter(value = FlightDetailConstants.RETURN, type = ParameterType.STRUCTURE)
     private BapiRet2 bapiReturn;
 
     public FlightDetailBapi( final String airlineId, final String connectionId, final Date flightDate )

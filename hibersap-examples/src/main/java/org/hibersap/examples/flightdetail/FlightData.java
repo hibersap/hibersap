@@ -35,37 +35,37 @@ public class FlightData
 {
     private static final long serialVersionUID = 1L;
 
-    @Parameter("CARRID")
+    @Parameter(FlightDetailConstants.CARRID)
     private String _airlineId;
 
-    @Parameter("CONNID")
+    @Parameter(FlightDetailConstants.CONNID)
     private String _connectid;
 
-    @Parameter("FLDATE")
+    @Parameter(FlightDetailConstants.FLDATE)
     private Date _flightdate;
 
-    @Parameter("AIRPFROM")
+    @Parameter(FlightDetailConstants.AIRPFROM)
     private String _airportfr;
 
-    @Parameter("CITYFROM")
+    @Parameter(FlightDetailConstants.CITYFROM)
     private String _cityfrom;
 
-    @Parameter("AIRPTO")
+    @Parameter(FlightDetailConstants.AIRPTO)
     private String _airportto;
 
-    @Parameter("CITYTO")
+    @Parameter(FlightDetailConstants.CITYTO)
     private String _cityto;
 
-    @Parameter("DEPTIME")
+    @Parameter(FlightDetailConstants.DEPTIME)
     private Date _deptime;
 
-    @Parameter("ARRTIME")
+    @Parameter(FlightDetailConstants.ARRTIME)
     private Date _arrtime;
 
-    @Parameter("PRICE")
+    @Parameter(FlightDetailConstants.PRICE)
     private BigDecimal _price;
 
-    @Parameter("CURRENCY")
+    @Parameter(FlightDetailConstants.CURRENCY)
     private String _curr;
 
     public String getAirlineId()
