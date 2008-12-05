@@ -20,6 +20,7 @@ package org.hibersap.examples.flightlist;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibersap.BapiConstants;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Export;
@@ -75,7 +76,7 @@ public class FlightListBapi
     // Export parameter
 
     @Export
-    @Parameter(value = FlightListConstants.RETURN, type = ParameterType.STRUCTURE)
+    @Parameter(value = BapiConstants.RETURN, type = ParameterType.STRUCTURE)
     private BapiRet2 returnData;
 
     // Table parameter

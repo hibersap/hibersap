@@ -20,6 +20,7 @@ package org.hibersap.examples.flightdetail;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.hibersap.BapiConstants;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
@@ -59,7 +60,7 @@ public class FlightDetailBapi
     private FlightData flightData;
 
     @Export
-    @Parameter(value = FlightDetailConstants.RETURN, type = ParameterType.STRUCTURE)
+    @Parameter(value = BapiConstants.RETURN, type = ParameterType.STRUCTURE)
     private BapiRet2 bapiReturn;
 
     public FlightDetailBapi( final String airlineId, final String connectionId, final Date flightDate )
