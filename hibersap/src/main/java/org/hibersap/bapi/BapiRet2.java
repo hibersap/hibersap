@@ -19,6 +19,7 @@ package org.hibersap.bapi;
 
 import java.io.Serializable;
 
+import org.hibersap.BapiConstants;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Parameter;
@@ -38,86 +39,86 @@ public class BapiRet2
     /**
      * Message type: S Success, E Error, W Warning, I Info, A Abort
      */
-    @Parameter("TYPE")
+    @Parameter(BapiConstants.TYPE)
     @Convert(converter = CharConverter.class)
     private char type;
 
     /**
      * Messages, message class
      */
-    @Parameter("ID")
+    @Parameter(BapiConstants.ID)
     private String id;
 
     /**
      * Messages, message number
      */
-    @Parameter("NUMBER")
+    @Parameter(BapiConstants.NUMBER)
     private String number;
 
     /**
      * Message text
      */
-    @Parameter("MESSAGE")
+    @Parameter(BapiConstants.MESSAGE)
     private String message;
 
     /**
      * Application log: log number
      */
-    @Parameter("LOG_NO")
+    @Parameter(BapiConstants.LOG_NO)
     private String logNumber;
 
     /**
      * Application log: Internal message serial number
      */
-    @Parameter("LOG_MSG_NO")
+    @Parameter(BapiConstants.LOG_MSG_NO)
     private String logMsgNumber;
 
     /**
      * Messages, message variables
      */
-    @Parameter("MESSAGE_V1")
+    @Parameter(BapiConstants.MESSAGE_V1)
     private String messageV1;
 
     /**
      * Messages, message variables
      */
-    @Parameter("MESSAGE_V2")
+    @Parameter(BapiConstants.MESSAGE_V2)
     private String messageV2;
 
     /**
      * Messages, message variables
      */
-    @Parameter("MESSAGE_V3")
+    @Parameter(BapiConstants.MESSAGE_V3)
     private String messageV3;
 
     /**
      * Messages, message variables
      */
-    @Parameter("MESSAGE_V4")
+    @Parameter(BapiConstants.MESSAGE_V4)
     private String messageV4;
 
     /**
      * Parameter name
      */
-    @Parameter("PARAMETER")
+    @Parameter(BapiConstants.PARAMETER)
     private String parameter;
 
     /**
      * Lines in parameter
      */
-    @Parameter("ROW")
+    @Parameter(BapiConstants.ROW)
     private int row;
 
     /**
      * Field in parameter
      */
-    @Parameter("FIELD")
+    @Parameter(BapiConstants.FIELD)
     private String field;
 
     /**
      * Logical system from which message originates
      */
-    @Parameter("SYSTEM")
+    @Parameter(BapiConstants.SYSTEM)
     private String system;
 
     public String getField()

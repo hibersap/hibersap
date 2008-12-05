@@ -19,6 +19,7 @@ package org.hibersap.bapi;
 
 import java.io.Serializable;
 
+import org.hibersap.BapiConstants;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -27,15 +28,15 @@ import org.hibersap.annotations.ThrowExceptionOnError;
 /**
  * @author Carsten Erker
  */
-@Bapi("BAPI_TRANSACTION_COMMIT")
-@ThrowExceptionOnError(returnStructure = "EXPORT/RETURN")
+@Bapi(BapiConstants.BAPI_TRANSACTION_COMMIT)
+@ThrowExceptionOnError(returnStructure = BapiConstants.EXPORT_RETURN)
 public class BapiTransactionCommit
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     @Import
-    @Parameter("WAIT")
+    @Parameter(BapiConstants.WAIT)
     @SuppressWarnings("unused")
     private final String wait = "X";
 }

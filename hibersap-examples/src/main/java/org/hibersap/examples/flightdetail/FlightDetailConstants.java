@@ -1,6 +1,9 @@
 package org.hibersap.examples.flightdetail;
 
+import org.hibersap.BapiConstants;
+
 public interface FlightDetailConstants
+    extends BapiConstants
 {
     String BAPI_NAME = "BAPI_SFLIGHT_GETDETAIL";
 
@@ -11,8 +14,6 @@ public interface FlightDetailConstants
     String DATEOFFLIGHT = "DATEOFFLIGHT";
 
     String FLIGHTDATA = "FLIGHTDATA";
-
-    String RETURN = "RETURN";
 
     String CARRID = "CARRID";
 

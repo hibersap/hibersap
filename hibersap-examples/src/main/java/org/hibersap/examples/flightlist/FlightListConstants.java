@@ -1,7 +1,9 @@
 package org.hibersap.examples.flightlist;
 
+import org.hibersap.BapiConstants;
 
 public interface FlightListConstants
+    extends BapiConstants
 {
     String BAPI_NAME = "BAPI_SFLIGHT_GETLIST";
 
@@ -20,8 +22,6 @@ public interface FlightListConstants
     String MAXREAD = "MAXREAD";
 
     String FLIGHTLIST = "FLIGHTLIST";
-
-    String RETURN = "RETURN";
 
     String CARRID = "CARRID";
 

@@ -19,13 +19,14 @@ package org.hibersap.bapi;
 
 import java.io.Serializable;
 
+import org.hibersap.BapiConstants;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.ThrowExceptionOnError;
 
 /**
  * @author Carsten Erker
  */
-@Bapi("BAPI_TRANSACTION_ROLLBACK")
+@Bapi(BapiConstants.BAPI_TRANSACTION_ROLLBACK)
 @ThrowExceptionOnError
 public class BapiTransactionRollback
     implements Serializable
