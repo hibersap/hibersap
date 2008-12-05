@@ -17,12 +17,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.sap</groupId>
-			<artifactId>sap-jco</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.hibersap</groupId>
 			<artifactId>hibersap</artifactId>
 			<version>0.2-SNAPSHOT</version>
@@ -63,6 +57,14 @@
 			<version>0.2-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
+
+		<!-- JAR should be installed in JBoss/server/default/lib
+			<dependency>
+			<groupId>com.sap</groupId>
+			<artifactId>sap-jco</artifactId>
+			<version>3.0.0</version>
+			</dependency>
+		-->
 	</dependencies>
 
 	<build>
@@ -87,11 +89,13 @@
 							</includeInApplicationXml>
 						</jarModule>
 
-						<jarModule>
+						<!-- JAR should be installed in JBoss/server/default/lib
+							<jarModule>
 							<groupId>com.sap</groupId>
 							<artifactId>sap-jco</artifactId>
 							<bundleDir>lib</bundleDir>
-						</jarModule>
+							</jarModule>
+						-->
 					</modules>
 
 					<jboss>

@@ -4,7 +4,9 @@ import javax.annotation.Resource;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.resource.ResourceException;
+import javax.resource.cci.Connection;
 import javax.resource.cci.ConnectionFactory;
+import javax.resource.cci.Interaction;
 import javax.resource.cci.ResourceAdapterMetaData;
 
 import org.apache.log4j.Logger;
@@ -33,8 +35,27 @@ public class RAConnectorServiceBean
 
             LOG.info( "Metadata: " + metaData.getAdapterName() + "/" + metaData.getAdapterVendorName() + "/"
                 + metaData.getAdapterVersion() );
+
+            final Connection connection = _sapResourceAdapter.getConnection();
+            final Interaction interaction = connection.createInteraction();
+
+            try
+            {
+                callSAP( connection, interaction );
+            }
+            finally
+            {
+                interaction.close();
+                connection.close();
+            }
         }
 
         return _sapResourceAdapter != null;
+    }
+
+    private void callSAP( final Connection connection, final Interaction interaction )
+    {
+        assert connection != null : "connection != null";
+        assert interaction != null : "interaction != null";
     }
 }

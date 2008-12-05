@@ -48,7 +48,12 @@
 			<groupId>org.hibersap</groupId>
 			<artifactId>hibersap-examples</artifactId>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>net.sf.sapbapijca</groupId>
+			<artifactId>sap-bapi-jca</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jboss-annotations-ejb3</artifactId>

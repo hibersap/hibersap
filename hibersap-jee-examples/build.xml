@@ -1,4 +1,4 @@
-<project name="hibersap-jee-examples" default="deploy-all">
+<project name="hibersap-jee-examples" default="deploy">
 	<property file="${basedir}/build.properties" />
 
 	<property name="jboss.home" value="C:/server/jboss-4.2.3.GA" />
@@ -42,7 +42,7 @@
 		</mvn>
 	</target>
 
-	<target name="deploy-all" depends="install">
+	<target name="deploy" depends="install">
 		<copy todir="${jboss.deploy.dir}" overwrite="true">
 			<fileset dir="${build.dir}">
 				<include name="*.ear" />

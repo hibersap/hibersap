@@ -61,7 +61,14 @@
 				<groupId>com.sap</groupId>
 				<artifactId>sap-jco</artifactId>
 				<version>3.0.0</version>
-				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.sapbapijca</groupId>
+				<artifactId>sap-bapi-jca</artifactId>
+				<version>1.0.0</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
