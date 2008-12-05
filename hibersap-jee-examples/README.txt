@@ -7,7 +7,7 @@ Quickstart Guide
 
 * Run Maven:
   mvn -DskipTests install
-* Copy resulting EAR to JBoss deploy folder
+* Copy resulting EAR from hibersap-ear/target/ to JBoss deploy folder
 * Start JBoss
 
 * Run Maven with tests:
