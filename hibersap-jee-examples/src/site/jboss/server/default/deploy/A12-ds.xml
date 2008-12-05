@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connection-factories>
+	<tx-connection-factory>
+		<!-- change the JNDI name of the connection, if required -->
+		<jndi-name>eis/sap/A12</jndi-name>
+		
+		<rar-name>sap-bapi-adapter.rar</rar-name>
+		<connection-definition>javax.resource.cci.ConnectionFactory</connection-definition>
+		
+		<!-- 
+			properties to pass to ManagedConnectionFactory 
+			These are subject of change
+		-->
+<config-property name="destinationFactory" type="java.lang.String">net.sf.sapbapijca.adapter.jco.JCo3DestinationFactory</config-property>
+		<config-property name="host" type="java.lang.String">10.20.80.76</config-property>
+		<config-property name="systemNumber" type="java.lang.String">00</config-property>
+		<config-property name="repositoryName" type="java.lang.String">A12</config-property>
+		<config-property name="client" type="java.lang.String">800</config-property>
+		<config-property name="UserName" type="java.lang.String">sapuser</config-property>
+		<config-property name="Password" type="java.lang.String">password</config-property>
+		<config-property name="Language" type="java.lang.String">en</config-property>
+		
+		<local-transaction />
+		<max-pool-size>1</max-pool-size>
+	</tx-connection-factory>
+</connection-factories>

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.resource.cci.IndexedRecord;
 import javax.resource.cci.MappedRecord;
 
 import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
@@ -56,6 +57,17 @@ public class RAConnectorServiceTest
         final String type = (String) returnRecord.get( BapiConstants.TYPE );
         assertEquals( returnRecord.toString(), "S", type );
 
+        final IndexedRecord tableDataRecord = (IndexedRecord) resultRecord.get( FlightListConstants.FLIGHTLIST );
+        assertNotNull( tableDataRecord );
+        assertEquals( 2, tableDataRecord.size() );
+
+        MappedRecord rowRecord = (MappedRecord) tableDataRecord.get( 0 );
+        String connid = (String) rowRecord.get( FlightListConstants.CONNID );
+        assertEquals( "2402", connid );
+
+        rowRecord = (MappedRecord) tableDataRecord.get( 1 );
+        connid = (String) rowRecord.get( FlightListConstants.CONNID );
+        assertEquals( "2402", connid );
     }
 
     @SuppressWarnings("unchecked")
