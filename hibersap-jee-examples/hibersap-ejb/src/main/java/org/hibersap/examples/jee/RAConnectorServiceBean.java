@@ -7,9 +7,15 @@ import javax.resource.ResourceException;
 import javax.resource.cci.Connection;
 import javax.resource.cci.ConnectionFactory;
 import javax.resource.cci.Interaction;
+import javax.resource.cci.InteractionSpec;
+import javax.resource.cci.MappedRecord;
 import javax.resource.cci.ResourceAdapterMetaData;
 
+import net.sf.sapbapijca.adapter.cci.InteractionSpecImpl;
+import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
+
 import org.apache.log4j.Logger;
+import org.hibersap.examples.flightlist.FlightListConstants;
 import org.jboss.annotation.ejb.RemoteBinding;
 
 @Stateless
@@ -23,7 +29,7 @@ public class RAConnectorServiceBean
     @Resource(mappedName = RA_JNDI_NAME)
     private ConnectionFactory _sapResourceAdapter;
 
-    public boolean adapterExists()
+    public MappedRecord getFlightList( final MappedRecord inputRecord )
         throws ResourceException
     {
         if ( _sapResourceAdapter != null )
@@ -41,7 +47,7 @@ public class RAConnectorServiceBean
 
             try
             {
-                callSAP( connection, interaction );
+                return callSAP( connection, interaction, inputRecord );
             }
             finally
             {
@@ -50,12 +56,20 @@ public class RAConnectorServiceBean
             }
         }
 
-        return _sapResourceAdapter != null;
+        return null;
     }
 
-    private void callSAP( final Connection connection, final Interaction interaction )
+    private MappedRecord callSAP( final Connection connection, final Interaction interaction,
+                                  final MappedRecord inputRecord )
+        throws ResourceException
     {
         assert connection != null : "connection != null";
         assert interaction != null : "interaction != null";
+
+        final InteractionSpec iSpec = new InteractionSpecImpl( FlightListConstants.BAPI_NAME );
+        final MappedRecord outputRecord = new MappedRecordImpl( "EXPORT" );
+        interaction.execute( iSpec, inputRecord, outputRecord );
+
+        return outputRecord;
     }
 }

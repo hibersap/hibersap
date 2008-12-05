@@ -1,6 +1,7 @@
 package org.hibersap.examples.jee;
 
 import javax.resource.ResourceException;
+import javax.resource.cci.MappedRecord;
 
 public interface RAConnectorService
 {
@@ -10,6 +11,6 @@ public interface RAConnectorService
 
     String JNDI_NAME = "hibersap/jee/RAConnector/remote";
 
-    boolean adapterExists()
+    MappedRecord getFlightList( final MappedRecord inputRecord )
         throws ResourceException;
 }
