@@ -1,5 +1,7 @@
 package org.hibersap.examples.jee;
 
+import javax.resource.ResourceException;
+
 public interface RAConnectorService
 {
     String RA_JNDI_NAME = "java:/eis/sap/A12";
@@ -8,5 +10,6 @@ public interface RAConnectorService
 
     String JNDI_NAME = "hibersap/jee/RAConnector/remote";
 
-    boolean adapterExists();
+    boolean adapterExists()
+        throws ResourceException;
 }
