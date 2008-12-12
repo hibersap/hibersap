@@ -26,6 +26,8 @@ import javax.resource.cci.Record;
 
 import net.sf.sapbapijca.adapter.cci.InteractionSpecImpl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.execution.UnsafeCastHelper;
@@ -40,6 +42,8 @@ import org.hibersap.session.Transaction;
 public class JCAConnection
     implements Connection
 {
+    private static Log LOG = LogFactory.getLog( JCAConnection.class );
+
     private final javax.resource.cci.Connection connection;
 
     private Transaction transaction;
@@ -55,6 +59,8 @@ public class JCAConnection
     {
         if ( transaction == null )
         {
+            LOG.debug( "Begin JCA transaction: " + session );
+
             try
             {
                 transaction = new JCATransaction( connection.getLocalTransaction() );
@@ -84,23 +90,27 @@ public class JCAConnection
 
     public void execute( final String bapiName, final Map<String, Object> functionMap )
     {
-        final MappedRecord mappedRecord = mapper.mapFunctionMapValuesToMappedRecord( functionMap );
+        final MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord( functionMap );
         final InteractionSpec interactionSpec = new InteractionSpecImpl( bapiName );
+
+        LOG.debug( "JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = " + mappedInputRecord );
 
         Record result;
 
         try
         {
-            result = connection.createInteraction().execute( interactionSpec, mappedRecord );
+            result = connection.createInteraction().execute( interactionSpec, mappedInputRecord );
         }
         catch ( final ResourceException e )
         {
             throw new HibersapException( "Error executing function module " + bapiName, e );
         }
 
+        LOG.debug( "JCA Execute: " + bapiName + ", result = " + result );
+
         final Map<String, Object> resultMap = UnsafeCastHelper.castToMap( result );
-        functionMap.clear();
-        functionMap.putAll( resultMap );
+
+        mapper.mapRecordToFunctionMap( functionMap, resultMap );
     }
 
     public Transaction getTransaction()

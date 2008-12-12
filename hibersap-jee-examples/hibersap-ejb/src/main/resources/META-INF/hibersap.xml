@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
   <session-factory name="A12">
-    <context>org.hibersap.execution.jco.JCoContext</context>
+    <context>org.hibersap.execution.jca.JCAContext</context>
 
-	<!-- <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory> -->
+	<jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
 
+<!-- 
     <properties>
       <property name="hibersap.jco.client.client" value="800" />
       <property name="hibersap.jco.client.user" value="sapuser" />
@@ -14,6 +15,7 @@
       <property name="hibersap.jco.client.sysnr" value="00" />
       <property name="hibersap.jco.pool_size" value="1" />
     </properties>
+ -->
 
     <class>org.hibersap.examples.flightlist.FlightListBapi</class>
     <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>

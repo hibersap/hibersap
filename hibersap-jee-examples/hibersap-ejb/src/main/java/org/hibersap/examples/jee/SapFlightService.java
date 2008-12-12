@@ -3,6 +3,7 @@ package org.hibersap.examples.jee;
 import java.util.Date;
 
 import org.hibersap.examples.flightdetail.FlightDetailBapi;
+import org.hibersap.examples.flightlist.FlightListBapi;
 
 public interface SapFlightService
 {
@@ -13,4 +14,6 @@ public interface SapFlightService
     void init();
 
     FlightDetailBapi showFlightDetail( final Date date );
+
+    FlightListBapi showFlightList();
 }

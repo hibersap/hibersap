@@ -18,7 +18,9 @@ package org.hibersap.execution.jca;
  */
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.resource.cci.IndexedRecord;
 import javax.resource.cci.MappedRecord;
@@ -28,6 +30,7 @@ import net.sf.sapbapijca.adapter.cci.IndexedRecordImpl;
 import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
 
 import org.hibersap.BapiConstants;
+import org.hibersap.HibersapException;
 import org.hibersap.execution.UnsafeCastHelper;
 
 /**
@@ -92,4 +95,34 @@ public class JCAMapper
             ( (MappedRecord) record ).put( fieldName, value );
         }
     }
+
+    public void mapRecordToFunctionMap( final Map<String, Object> functionMap, final Map<String, Object> resultRecordMap )
+    {
+        for ( final Entry<String, Object> entry : resultRecordMap.entrySet() )
+        {
+            final Object record = entry.getValue();
+            final String key = entry.getKey();
+
+            if ( record instanceof MappedRecord )
+            {
+                final MappedRecord mappedResultRecord = (MappedRecord) record;
+                final Map<String, Object> resultMap = new HashMap<String, Object>();
+                resultMap.put( mappedResultRecord.getRecordName(), mappedResultRecord );
+                functionMap.put( BapiConstants.EXPORT, resultMap );
+            }
+            else if ( record instanceof IndexedRecord )
+            {
+                final IndexedRecord indexedResultRecord = (IndexedRecord) record;
+                final Map<String, Object> tableMap = new HashMap<String, Object>();
+                tableMap.put( indexedResultRecord.getRecordName(), indexedResultRecord );
+
+                functionMap.put( BapiConstants.TABLE, tableMap );
+            }
+            else
+            {
+                throw new HibersapException( "Cannot handle result value: " + key + ":" + record );
+            }
+        }
+    }
+
 }
