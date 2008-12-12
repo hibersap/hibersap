@@ -20,9 +20,15 @@ package org.hibersap.execution.jca;
 import java.util.Map;
 
 import javax.resource.ResourceException;
+import javax.resource.cci.InteractionSpec;
+import javax.resource.cci.MappedRecord;
+import javax.resource.cci.Record;
+
+import net.sf.sapbapijca.adapter.cci.InteractionSpecImpl;
 
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
+import org.hibersap.execution.UnsafeCastHelper;
 import org.hibersap.session.Session;
 import org.hibersap.session.Transaction;
 
@@ -37,6 +43,8 @@ public class JCAConnection
     private final javax.resource.cci.Connection connection;
 
     private Transaction transaction;
+
+    private final JCAMapper mapper = new JCAMapper();
 
     public JCAConnection( final javax.resource.cci.Connection connection )
     {
@@ -74,10 +82,25 @@ public class JCAConnection
         }
     }
 
-    // TODO Implement me
     public void execute( final String bapiName, final Map<String, Object> functionMap )
     {
+        final MappedRecord mappedRecord = mapper.mapFunctionMapValuesToMappedRecord( functionMap );
+        final InteractionSpec interactionSpec = new InteractionSpecImpl( bapiName );
 
+        Record result;
+
+        try
+        {
+            result = connection.createInteraction().execute( interactionSpec, mappedRecord );
+        }
+        catch ( final ResourceException e )
+        {
+            throw new HibersapException( "Error executing function module " + bapiName, e );
+        }
+
+        final Map<String, Object> resultMap = UnsafeCastHelper.castToMap( result );
+        functionMap.clear();
+        functionMap.putAll( resultMap );
     }
 
     public Transaction getTransaction()
