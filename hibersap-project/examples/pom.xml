@@ -3,10 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap</groupId>
-	<artifactId>hibersap-project</artifactId>
+	<artifactId>examples</artifactId>
 	<packaging>pom</packaging>
 	<version>0.2-SNAPSHOT</version>
-	<name>hibersap-project</name>
+	<name>examples</name>
+	<parent>
+		<artifactId>hibersap-project</artifactId>
+		<groupId>org.hibersap</groupId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 	<build>
 		<plugins>
 			<plugin>
@@ -25,10 +31,6 @@
 	<properties>
 	  <hibersap.version>${project.version}</hibersap.version>
 	</properties>
-	<modules>
-		<module>hibersap</module>
-		<module>examples</module>
-	</modules>
 	
 	<dependencies></dependencies>
 	<dependencyManagement>
