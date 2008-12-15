@@ -20,6 +20,12 @@
 			<url>http://www.gnu.org/licenses/lgpl.txt</url>
 		</license>
 	</licenses>
+	<parent>
+		<artifactId>hibersap-project</artifactId>
+		<groupId>org.hibersap</groupId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 	<issueManagement>
 		<system>Sourceforge Tracker</system>
 		<url>https://sourceforge.net/tracker/?group_id=225273</url>
