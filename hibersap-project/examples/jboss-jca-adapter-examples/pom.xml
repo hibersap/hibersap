@@ -1,0 +1,193 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.hibersap</groupId>
+	<artifactId>jboss-jca-adapter-examples</artifactId>
+	<version>0.2-SNAPSHOT</version>
+	<name>Examples for the jboss-jca-adapter</name>
+	<packaging>pom</packaging>
+
+	<parent>
+		<artifactId>examples</artifactId>
+		<groupId>org.hibersap</groupId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<properties>
+		<version.jboss>4.2.3.GA</version.jboss>
+		<target.dir>target</target.dir>
+	</properties>
+
+	<build>
+		<plugins>
+		</plugins>
+	</build>
+
+	<modules>
+		<module>hibersap-ejb</module>
+		<module>hibersap-ear</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymockclassextension</artifactId>
+			<version>2.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.sap</groupId>
+				<artifactId>sap-jco</artifactId>
+				<version>3.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.sapbapijca</groupId>
+				<artifactId>sap-bapi-jca</artifactId>
+				<version>1.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibersap</groupId>
+				<artifactId>hibersap</artifactId>
+				<version>0.2-SNAPSHOT</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibersap</groupId>
+				<artifactId>hibersap-examples</artifactId>
+				<version>0.2-SNAPSHOT</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibersap</groupId>
+				<artifactId>hibersap-ejb</artifactId>
+				<version>0.2-SNAPSHOT</version>
+				<type>ejb</type>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>1.0</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.ejb</groupId>
+				<artifactId>ejb-api</artifactId>
+				<version>3.0</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>jsr250-api</artifactId>
+				<version>1.0</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-annotations-ejb3</artifactId>
+				<version>${version.jboss}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-system</artifactId>
+				<version>${version.jboss}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-ejb3</artifactId>
+				<version>${version.jboss}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.client</groupId>
+				<artifactId>jbossall-client</artifactId>
+				<version>${version.jboss}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-common</artifactId>
+				<version>4.2.2.GA</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-serialization</artifactId>
+				<version>1.0.3.GA</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.14</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate</artifactId>
+				<version>3.2.6.ga</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-tools</artifactId>
+				<version>3.2.0.ga</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>3.0.0.ga</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>3.3.1.GA</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>3.3.2.GA</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
