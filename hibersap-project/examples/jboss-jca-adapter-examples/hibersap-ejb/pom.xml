@@ -3,13 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>org.hibersap</groupId>
+		<groupId>org.hibersap.examples</groupId>
 		<artifactId>jboss-jca-adapter-examples</artifactId>
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.hibersap.examples</groupId>
 	<artifactId>hibersap-ejb</artifactId>
 	<version>0.2-SNAPSHOT</version>
 	<packaging>ejb</packaging>
@@ -51,7 +52,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibersap</groupId>
+			<groupId>org.hibersap.examples</groupId>
 			<artifactId>jco-library</artifactId>
 		</dependency>
 

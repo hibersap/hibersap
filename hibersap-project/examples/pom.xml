@@ -2,11 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.hibersap</groupId>
+	<groupId>org.hibersap.examples</groupId>
 	<artifactId>examples</artifactId>
 	<packaging>pom</packaging>
 	<version>0.2-SNAPSHOT</version>
-	<name>examples</name>
+	<name>Examples for HiberSap</name>
 	<parent>
 		<artifactId>hibersap-project</artifactId>
 		<groupId>org.hibersap</groupId>

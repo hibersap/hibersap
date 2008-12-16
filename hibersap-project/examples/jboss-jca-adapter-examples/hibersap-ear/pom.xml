@@ -4,12 +4,13 @@
 
 	<parent>
 		<artifactId>jboss-jca-adapter-examples</artifactId>
-		<groupId>org.hibersap</groupId>
+		<groupId>org.hibersap.examples</groupId>
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.hibersap.examples</groupId>
 	<artifactId>hibersap-ear</artifactId>
 	<version>0.2-SNAPSHOT</version>
 	<packaging>ear</packaging>
@@ -35,7 +36,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibersap</groupId>
+			<groupId>org.hibersap.examples</groupId>
 			<artifactId>jco-library</artifactId>
 			<version>0.2-SNAPSHOT</version>
 			<type>jar</type>
@@ -52,7 +53,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibersap</groupId>
+			<groupId>org.hibersap.examples</groupId>
 			<artifactId>hibersap-ejb</artifactId>
 			<version>0.2-SNAPSHOT</version>
 			<type>ejb</type>
@@ -82,7 +83,7 @@
 						</ejbModule>
 
 						<jarModule>
-							<groupId>org.hibersap</groupId>
+							<groupId>org.hibersap.examples</groupId>
 							<artifactId>jco-library</artifactId>
 							<includeInApplicationXml>
 								true
