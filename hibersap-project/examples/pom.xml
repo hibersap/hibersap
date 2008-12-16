@@ -33,6 +33,7 @@
 	</properties>
 	<modules>
 		<module>jco-library</module>
+		<module>jboss-jca-adapter</module>
 	</modules>
 	
 	<dependencies></dependencies>
