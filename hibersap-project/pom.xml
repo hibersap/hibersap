@@ -7,6 +7,71 @@
 	<packaging>pom</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>hibersap-project</name>
+	<description>
+		Hibersap is a small framework that offers an abstraction layer
+		on top of the SAP Java Connector (JCo). It maps Java classes to
+		SAP function modules using Java Annotations and reduces the
+		technical code to call a function in a SAP back-end system to a
+		minimum. Hibersap's API is very similar to Hibernate, thus
+		offering a familiar programming interface to developers.
+	</description>
+	<url>http://hibersap.sourceforge.net</url>
+	<licenses>
+		<license>
+			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>Sourceforge Tracker</system>
+		<url>https://sourceforge.net/tracker/?group_id=225273</url>
+	</issueManagement>
+	<scm>
+		<connection>
+			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/
+		</connection>
+		<developerConnection>
+			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/
+		</developerConnection>
+		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>cerker</id>
+			<name>Carsten Erker</name>
+			<email>carsten.erker at akquinet dot de</email>
+			<organization>akquinet tech@spree GmbH</organization>
+			<organizationUrl>http://www.akquinet.de</organizationUrl>
+			<roles>
+				<role>Project Creator</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>tnfink</id>
+			<name>Torsten Fink</name>
+			<email>torsten.fink at akquinet dot de</email>
+			<organization>akquinet tech@spree GmbH</organization>
+			<organizationUrl>http://www.akquinet.de</organizationUrl>
+			<roles>
+				<role>Architect</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>dahm</id>
+			<name>Markus Dahm</name>
+			<email>markus.dahm at akquinet dot de</email>
+			<organization>akquinet tech@spree GmbH</organization>
+			<organizationUrl>http://www.akquinet.de</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
+	<ciManagement>
+		<system>hudson</system>
+		<url>http://jbosscc.spree.de:8080/hudson/</url>
+	</ciManagement>
 	<build>
 		<plugins>
 			<plugin>
