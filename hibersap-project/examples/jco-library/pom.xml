@@ -2,17 +2,28 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap</groupId>
-	<artifactId>hibersap-examples</artifactId>
+	<artifactId>jco-library</artifactId>
+	<name>Examples for the JCo Library</name>
 	<version>0.2-SNAPSHOT</version>
-	<description></description>
+	<parent>
+		<artifactId>examples</artifactId>
+		<groupId>org.hibersap</groupId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<testFailureIgnore>true</testFailureIgnore>
+					<forkMode>once</forkMode>
+					<argLine>-ea -d64</argLine>
+					<environmentVariables>
+						<LD_LIBRARA_PATH>${sap.jco.lib.path}</LD_LIBRARA_PATH>
+					</environmentVariables>
 				</configuration>
 			</plugin>
 		</plugins>

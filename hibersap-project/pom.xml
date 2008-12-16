@@ -18,18 +18,27 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
 	<properties>
-	  <hibersap.version>${project.version}</hibersap.version>
+		<hibersap.version>${project.version}</hibersap.version>
+		<sap.jco.lib.path>
+			/Users/tnfink/Projekte/JBossCompetenceTeam/Entwicklungsprojekte/HiberSap/sapjco3-darwinx64-300/
+		</sap.jco.lib.path>
 	</properties>
 	<modules>
 		<module>hibersap</module>
 		<module>examples</module>
 	</modules>
-	
+
 	<dependencies></dependencies>
 	<dependencyManagement>
 		<dependencies>

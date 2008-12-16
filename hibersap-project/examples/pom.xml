@@ -31,6 +31,9 @@
 	<properties>
 	  <hibersap.version>${project.version}</hibersap.version>
 	</properties>
+	<modules>
+		<module>jco-library</module>
+	</modules>
 	
 	<dependencies></dependencies>
 	<dependencyManagement>
