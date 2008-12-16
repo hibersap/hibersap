@@ -8,6 +8,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>jboss-deployer-project</name>
 	<url>http://maven.apache.org</url>
+	<parent>
+		<artifactId>hibersap-project</artifactId>
+		<groupId>org.hibersap</groupId>
+		<version>0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 	<build>
 		<plugins>
 			<plugin>

@@ -48,6 +48,7 @@
 	<modules>
 		<module>hibersap</module>
 		<module>examples</module>
+		<module>jboss-deployer-project</module>
 	</modules>
 
 	<dependencies></dependencies>
