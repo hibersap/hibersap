@@ -4,7 +4,7 @@
 
 	<parent>
 		<groupId>org.hibersap</groupId>
-		<artifactId>hibersap-jee-examples</artifactId>
+		<artifactId>jboss-jca-adapter-examples</artifactId>
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -40,20 +40,26 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.hibersap</groupId>
 			<artifactId>hibersap</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap-examples</artifactId>
+			<artifactId>jco-library</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>net.sf.sapbapijca</groupId>
 			<artifactId>sap-bapi-jca</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>jboss</groupId>
 			<artifactId>jboss-annotations-ejb3</artifactId>

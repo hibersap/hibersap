@@ -72,7 +72,7 @@
 
 			<dependency>
 				<groupId>org.hibersap</groupId>
-				<artifactId>hibersap-examples</artifactId>
+				<artifactId>jco-library</artifactId>
 				<version>0.2-SNAPSHOT</version>
 				<type>jar</type>
 			</dependency>
