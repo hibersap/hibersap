@@ -17,13 +17,34 @@
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	
+
 	<build>
-		<plugins>
-		</plugins>
+		<plugins></plugins>
 	</build>
 	<profiles></profiles>
 	<dependencies>
+		<dependency>
+			<groupId>sun-jaxb</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>sun-jaxb</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>com.sap</groupId>
 			<artifactId>sap-jco</artifactId>
