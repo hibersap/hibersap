@@ -59,7 +59,7 @@ public class HiberSapJaxbXmlParser {
 		final List<JCoProperty> jcoProperties = sessionFactory
 				.getJCoProperties();
 		for (final JCoProperty jCoProperty : jcoProperties) {
-			properties.setProperty(JCoContext.HIBERSAP_JCO_PREFIX
+			properties.setProperty(JCoContext.HIBERSAP_JCO_PREFIX + "."
 					+ jCoProperty.getName(), jCoProperty.getValue());
 		}
 		return properties;

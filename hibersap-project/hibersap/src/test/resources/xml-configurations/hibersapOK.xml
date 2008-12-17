@@ -1,7 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- 
-	<hibersap xmlns="urn:hibersap:hibersap-deployer:1.0">
--->
 <hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
 	<session-factory name="A12">
 		<context>org.hibersap.execution.jco.JCoContext</context>

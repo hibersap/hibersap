@@ -54,8 +54,6 @@ public final class Environment {
 
 	private static final Properties PROPERTIES = readProperties();
 
-	public static final String SAP_PREFIX = "jco.";
-
 	private static Properties readProperties() {
 		LOG.info("Hibersap " + VERSION);
 		Properties result = readXMLProperties(HIBERSAP_XML_FILE);

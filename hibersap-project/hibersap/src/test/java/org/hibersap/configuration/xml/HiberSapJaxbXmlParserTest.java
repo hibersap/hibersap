@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.hibersap.configuration.Environment;
+import org.hibersap.execution.jco.JCoContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class HiberSapJaxbXmlParserTest {
 			final String key = (String) keyObject;
 			if (key.startsWith(Environment.BABI_CLASSES_PREFIX)) {
 				bapiClasses.add(properties.getProperty(key));
-			} else if (key.startsWith(Environment.SAP_PREFIX)) {
+			} else if (key.startsWith(JCoContext.HIBERSAP_JCO_PREFIX)) {
 				sapProperties.add(properties.getProperty(key));
 			}
 		}
