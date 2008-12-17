@@ -25,7 +25,7 @@ public class ConfigurationMarshallTest {
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void testParseOkConfiguration() throws Exception {
 		final InputStream configurationAsStream = getClass()
 				.getResourceAsStream("/xml-configurations/hibersapOK.xml");
 		Assert.assertNotNull(configurationAsStream);
@@ -64,6 +64,6 @@ public class ConfigurationMarshallTest {
 
 		final StringWriter stringWriter = new StringWriter();
 		marshaller.marshal(hiberSapMetaData, stringWriter);
-		// System.out.println(stringWriter.toString());
+		System.out.println(stringWriter.toString());
 	}
 }

@@ -46,14 +46,13 @@ public class SessionFactory {
 		this.name = name;
 	}
 
-	// TODO: Klassentyp benutzen
-	@XmlElement(name = "context", required = false)
+	@XmlElement(name = "context", required = false, namespace = HiberSap.NAMESPACE)
 	public String getContext() {
 		return context;
 	}
 
 	@XmlElement(name = "property", namespace = HiberSap.NAMESPACE)
-	@XmlElementWrapper(name = "jco-properties")
+	@XmlElementWrapper(name = "jco-properties", namespace = HiberSap.NAMESPACE)
 	public List<JCoProperty> getJCoProperties() {
 		return jCoProperties;
 	}
@@ -67,6 +66,7 @@ public class SessionFactory {
 	}
 
 	@XmlElement(name = "class", namespace = HiberSap.NAMESPACE)
+	@XmlElementWrapper(name = "annotated-classes", namespace = HiberSap.NAMESPACE)
 	public List<String> getClasses() {
 		return classes;
 	}
