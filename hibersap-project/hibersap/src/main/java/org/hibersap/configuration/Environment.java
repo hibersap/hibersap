@@ -24,7 +24,7 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.xml.HibersapXMLParser;
+import org.hibersap.configuration.xml.HiberSapJaxbXmlParser;
 
 /**
  * @author Carsten Erker
@@ -99,20 +99,11 @@ public final class Environment {
 		final Properties properties = new Properties();
 
 		try {
-			final InputStream stream = ConfigHelper
-					.getResourceAsStream(hibersapXmlFile);
-
-			try {
-				final HibersapXMLParser hibersapXMLParser = new HibersapXMLParser(
-						hibersapXmlFile, stream);
-				properties.putAll(hibersapXMLParser.parseXML());
-			} finally {
-				closeStream(hibersapXmlFile, stream);
-			}
-		} catch (final HibersapException he) {
-			LOG.info(hibersapXmlFile + " not found");
+			final HiberSapJaxbXmlParser hibersapXMLParser = new HiberSapJaxbXmlParser();
+			properties.putAll(hibersapXMLParser.parseResource(hibersapXmlFile));
+		} catch (final Exception e) {
+			LOG.error("Problems with reading/parsing " + hibersapXmlFile, e);
 		}
-
 		return properties;
 	}
 

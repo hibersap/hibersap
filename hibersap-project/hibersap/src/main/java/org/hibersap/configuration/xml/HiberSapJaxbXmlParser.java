@@ -13,6 +13,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.configuration.Environment;
+import org.hibersap.execution.jco.JCoContext;
 
 public class HiberSapJaxbXmlParser {
 
@@ -58,8 +59,8 @@ public class HiberSapJaxbXmlParser {
 		final List<JCoProperty> jcoProperties = sessionFactory
 				.getJCoProperties();
 		for (final JCoProperty jCoProperty : jcoProperties) {
-			properties.setProperty(jCoProperty.getName(), jCoProperty
-					.getValue());
+			properties.setProperty(JCoContext.HIBERSAP_JCO_PREFIX
+					+ jCoProperty.getName(), jCoProperty.getValue());
 		}
 		return properties;
 	}

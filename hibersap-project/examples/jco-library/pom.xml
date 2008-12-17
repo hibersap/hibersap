@@ -22,8 +22,12 @@
 					<forkMode>once</forkMode>
 					<argLine>-ea -d64</argLine>
 					<environmentVariables>
-						<LD_LIBRARY_PATH>${sap.jco.lib.path}</LD_LIBRARY_PATH>
-						<DYLD_LIBRARY_PATH>${sap.jco.lib.path}</DYLD_LIBRARY_PATH>
+						<LD_LIBRARY_PATH>
+							${sap.jco.lib.path}
+						</LD_LIBRARY_PATH>
+						<DYLD_LIBRARY_PATH>
+							${sap.jco.lib.path}
+						</DYLD_LIBRARY_PATH>
 					</environmentVariables>
 				</configuration>
 			</plugin>
@@ -42,5 +46,27 @@
 			<version>4.4</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>sun-jaxb</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>sun-jaxb</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>

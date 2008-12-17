@@ -1,5 +1,6 @@
 package org.hibersap.configuration.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,9 +23,9 @@ public class SessionFactory {
 
 	private String context;
 
-	private List<JCoProperty> jCoProperties;
+	private List<JCoProperty> jCoProperties = new ArrayList<JCoProperty>(0);
 
-	private List<String> classes;
+	private List<String> classes = new ArrayList<String>(0);
 
 	public SessionFactory() {
 	}
