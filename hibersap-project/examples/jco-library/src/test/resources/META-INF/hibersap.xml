@@ -6,15 +6,15 @@
 		<!-- <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory> -->
 
 		<jco-properties>
-			<property name="hibersap.jco.client.client" value="800" />
-			<property name="hibersap.jco.client.user" value="sapuser" />
-			<property name="hibersap.jco.client.passwd"
+			<property name="client.client" value="800" />
+			<property name="client.user" value="sapuser" />
+			<property name="client.passwd"
 				value="password" />
-			<property name="hibersap.jco.client.lang" value="en" />
-			<property name="hibersap.jco.client.ashost"
+			<property name="client.lang" value="en" />
+			<property name="client.ashost"
 				value="10.20.80.76" />
-			<property name="hibersap.jco.client.sysnr" value="00" />
-			<property name="hibersap.jco.pool_size" value="1" />
+			<property name="client.sysnr" value="00" />
+			<property name="pool_size" value="1" />
 		</jco-properties>
 
 		<annotated-classes>

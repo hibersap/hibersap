@@ -18,7 +18,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<testFailureIgnore>true</testFailureIgnore>
 					<forkMode>once</forkMode>
 					<argLine>-ea -d64</argLine>
 					<environmentVariables>

@@ -48,7 +48,7 @@
 			</roles>
 		</developer>
 		<developer>
-			<id>tnfink</id>
+			<id>tfink</id>
 			<name>Torsten Fink</name>
 			<email>torsten.fink at akquinet dot de</email>
 			<organization>akquinet tech@spree GmbH</organization>
@@ -87,7 +87,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<testFailureIgnore>true</testFailureIgnore>
+					<testFailureIgnore>false</testFailureIgnore>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -101,14 +101,40 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.0-alpha-4</version>
+				<executions>
+					<execution>
+						<id>enforce-property</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireProperty>
+									<property>
+										sap.jco.lib.path
+									</property>
+									<message><![CDATA[
+The path to the native dynamic JCo library must be specified to
+execute the tests. You could define it in your settings.xml.
+A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
+]]>
+									</message>
+								</requireProperty>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
 	<properties>
 		<hibersap.version>${project.version}</hibersap.version>
-		<sap.jco.lib.path>
-			/Users/tnfink/Projekte/JBossCompetenceTeam/Entwicklungsprojekte/HiberSap/sapjco3-darwinx64-300/
-		</sap.jco.lib.path>
 	</properties>
 	<modules>
 		<module>hibersap</module>
