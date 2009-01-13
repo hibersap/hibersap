@@ -135,6 +135,7 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 
 	<properties>
 		<hibersap.version>${project.version}</hibersap.version>
+		<sap.jco.lib.path>/Themen/SAP-JCO/JCO3</sap.jco.lib.path>
 	</properties>
 	<modules>
 		<module>hibersap</module>
@@ -215,4 +216,12 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 			</plugin>
 		</plugins>
 	</reporting>
+	<repositories>
+		<repository>
+        	<id>repository.jboss.com</id>
+        	<name>Jboss Repository for Maven</name>
+        	<url>http://repository.jboss.com/maven2/</url>
+  			<layout>default</layout>
+		</repository>
+	</repositories>
 </project>
