@@ -48,12 +48,14 @@
 
 		<dependency>
 			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap</artifactId>
+			<artifactId>hibersap-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibersap.examples</groupId>
-			<artifactId>jco-library</artifactId>
+			<artifactId>jco-examples</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>

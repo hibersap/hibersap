@@ -32,10 +32,10 @@
 	  <hibersap.version>${project.version}</hibersap.version>
 	</properties>
 	<modules>
-		<module>jco-library</module>
+		<module>jco-examples</module>
 		<module>jboss-jca-adapter-examples</module>
 	</modules>
-	
+
 	<dependencies></dependencies>
 	<dependencyManagement>
 		<dependencies>

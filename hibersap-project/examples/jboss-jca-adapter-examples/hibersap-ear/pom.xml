@@ -19,7 +19,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap</artifactId>
+			<artifactId>hibersap-core</artifactId>
 			<version>0.2-SNAPSHOT</version>
 			<type>ejb</type>
 
@@ -37,7 +37,7 @@
 
 		<dependency>
 			<groupId>org.hibersap.examples</groupId>
-			<artifactId>jco-library</artifactId>
+			<artifactId>jco-examples</artifactId>
 			<version>0.2-SNAPSHOT</version>
 			<type>jar</type>
 			<exclusions>
@@ -78,13 +78,13 @@
 
 					<modules>
 						<ejbModule>
-							<groupId>org.hibersap</groupId>
-							<artifactId>hibersap</artifactId>
+							<groupId>org.hibersap.examples</groupId>
+							<artifactId>hibersap-ejb</artifactId>
 						</ejbModule>
 
 						<jarModule>
 							<groupId>org.hibersap.examples</groupId>
-							<artifactId>jco-library</artifactId>
+							<artifactId>jco-examples</artifactId>
 							<includeInApplicationXml>
 								true
 							</includeInApplicationXml>
