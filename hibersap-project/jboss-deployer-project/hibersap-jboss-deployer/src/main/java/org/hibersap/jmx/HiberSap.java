@@ -15,6 +15,7 @@ public class HiberSap implements HiberSapMBean {
 
 	private KernelController controller;
 
+	@SuppressWarnings("unused")
 	private final VirtualFile root;
 
 	private String sessionFactoryName;
