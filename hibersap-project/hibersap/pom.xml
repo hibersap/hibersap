@@ -2,9 +2,10 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap</groupId>
-	<artifactId>hibersap-core</artifactId>
+	<artifactId>hibersap</artifactId>
 	<version>0.2-SNAPSHOT</version>
-	<name>Hibersap Core</name>
+	<name>Hibersap</name>
+	<packaging>pom</packaging>
 	<licenses>
 		<license>
 			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
@@ -12,15 +13,17 @@
 		</license>
 	</licenses>
 	<parent>
-		<artifactId>hibersap</artifactId>
+		<artifactId>hibersap-project</artifactId>
 		<groupId>org.hibersap</groupId>
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
 	<build>
 		<plugins></plugins>
 	</build>
+	<modules>
+		<module>hibersap-core</module>
+	</modules>
 	<profiles></profiles>
 	<dependencies>
 		<dependency>

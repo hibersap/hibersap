@@ -74,7 +74,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.hibersap</groupId>
-				<artifactId>hibersap</artifactId>
+				<artifactId>hibersap-core</artifactId>
 				<version>0.2-SNAPSHOT</version>
 			</dependency>
 		</dependencies>

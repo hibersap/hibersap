@@ -2,8 +2,8 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap.examples</groupId>
-	<artifactId>jco-library</artifactId>
-	<name>Examples for the JCo Library</name>
+	<artifactId>jco-examples</artifactId>
+	<name>Examples for Hibersap-JCo</name>
 	<version>0.2-SNAPSHOT</version>
 	<parent>
 		<artifactId>examples</artifactId>
@@ -19,7 +19,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<forkMode>once</forkMode>
-					<!-- 
+					<!--
 					<argLine>-ea -d64</argLine>
 					 -->
 					<argLine>-ea</argLine>
@@ -30,6 +30,9 @@
 						<DYLD_LIBRARY_PATH>
 							${sap.jco.lib.path}
 						</DYLD_LIBRARY_PATH>
+						<java.library.path>
+							C:\Themen\SAP-JCO\JCO3
+						</java.library.path>
 					</environmentVariables>
 				</configuration>
 			</plugin>
@@ -39,7 +42,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap</artifactId>
+			<artifactId>hibersap-core</artifactId>
 			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
