@@ -47,17 +47,14 @@ class MyTestBapi {
 		this.tableParam = tableParam;
 	}
 
-	@SuppressWarnings("unused")
 	@Import
 	@Parameter("intParam")
 	Integer intParam;
 
-	@SuppressWarnings("unused")
 	@Export
 	@Parameter(value = "structureParam", type = ParameterType.STRUCTURE)
 	TestStructure structureParam;
 
-	@SuppressWarnings("unused")
 	@Table
 	@Parameter("tableParam")
 	List<TestStructure> tableParam;
@@ -73,7 +70,6 @@ class MyTestBapi {
 			this.charParam = charParam;
 		}
 
-		@SuppressWarnings("unused")
 		@Parameter("charParam")
 		char charParam;
 	}

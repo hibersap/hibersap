@@ -42,7 +42,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap-core</artifactId>
+			<artifactId>hibersap-jco</artifactId>
 			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>

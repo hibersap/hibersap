@@ -7,7 +7,9 @@ import org.hibersap.execution.Connection;
 
 public interface Context
 {
-    void configure( Properties properties )
+    static final String HIBERSAP_JCO_PREFIX = "hibersap.jco";
+
+	void configure( Properties properties )
         throws HibersapException;
 
     void reset();

@@ -39,7 +39,9 @@ import org.hibersap.session.SessionFactoryImpl;
 public abstract class Configuration
     implements Serializable
 {
-    protected Properties properties = Environment.getProperties();
+	private static final long serialVersionUID = 1L;
+
+	protected Properties properties = Environment.getProperties();
 
     protected final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
 

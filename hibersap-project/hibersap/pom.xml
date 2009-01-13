@@ -24,6 +24,7 @@
 	<modules>
 		<module>hibersap-core</module>
 		<module>hibersap-jco</module>
+		<module>hibersap-jca</module>
 	</modules>
 	<profiles></profiles>
 	<dependencies>

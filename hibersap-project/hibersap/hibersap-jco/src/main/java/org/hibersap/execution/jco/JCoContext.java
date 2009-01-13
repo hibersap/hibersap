@@ -30,9 +30,7 @@ import org.hibersap.session.Context;
  * @author Carsten Erker
  */
 public class JCoContext implements Context {
-	public static final String HIBERSAP_JCO_PREFIX = "hibersap.jco";
 	private static final Log LOG = LogFactory.getLog(JCoContext.class);
-
 	private String destinationName;
 
 	/*
