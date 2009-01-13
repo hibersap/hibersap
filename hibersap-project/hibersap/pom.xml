@@ -23,6 +23,7 @@
 	</build>
 	<modules>
 		<module>hibersap-core</module>
+		<module>hibersap-jco</module>
 	</modules>
 	<profiles></profiles>
 	<dependencies>
