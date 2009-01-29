@@ -2,12 +2,19 @@ package org.hibersap.generation.bapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.ObjectMapping;
+import org.hibersap.mapping.model.ParameterMapping;
+import org.hibersap.mapping.model.StructureMapping;
+import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.session.SessionFactory;
 import org.junit.Test;
 
@@ -33,23 +40,34 @@ public class ReverseBapiMapperTest
         assertEquals( null, map.getErrorHandling() );
 
         Set<ObjectMapping> imports = map.getImportParameters();
-        assertNotNull( imports );
-        assertEquals( 7, imports.size() );
+        checkContains( imports, "AFTERNOON", "AIRLINECARRIER", "FROMCITY", "FROMCOUNTRYKEY", "MAXREAD", "TOCITY",
+                       "TOCOUNTRYKEY" );
 
-        assertNotNull( map.getExportParameters() );
-        assertNotNull( map.getTableParameters() );
+        Set<ObjectMapping> exports = map.getExportParameters();
+        checkContains( exports, "RETURN" );
+        StructureMapping returnStruct = (StructureMapping) exports.iterator().next();
+        Set<FieldMapping> returnElements = returnStruct.getParameters();
+        checkContains( returnElements, "TYPE", "ID", "NUMBER", "MESSAGE", "LOG_NO", "LOG_MSG_NO", "MESSAGE_V1",
+                       "MESSAGE_V2", "MESSAGE_V3", "MESSAGE_V4", "PARAMETER", "ROW", "FIELD", "SYSTEM" );
+
+        Set<TableMapping> tables = map.getTableParameters();
+        checkContains( tables, "FLIGHTLIST" );
+        TableMapping table = tables.iterator().next();
+        StructureMapping tableStructure = table.getComponentParameter();
+        Set<FieldMapping> tableElements = tableStructure.getParameters();
+        checkContains( tableElements, "CARRID", "CONNID", "FLDATE", "AIRPFROM", "AIRPTO", "DEPTIME", "SEATSMAX",
+                       "SEATSOCC" );
     }
 
-    @Test
-    public void getJavaFieldName()
-        throws Exception
+    private void checkContains( Set<? extends ParameterMapping> mappings, String... names )
     {
-        assertEquals( "_", mapper.getJavaFieldName( null ) );
-        assertEquals( "_", mapper.getJavaFieldName( "" ) );
-        assertEquals( "_x", mapper.getJavaFieldName( "X" ) );
-        assertEquals( "_xY", mapper.getJavaFieldName( "X_Y" ) );
-        assertEquals( "_xYZ", mapper.getJavaFieldName( "X_Y_Z" ) );
-        assertEquals( "_myLittleField", mapper.getJavaFieldName( "MY_LITTLE_FIELD" ) );
-
+        assertNotNull( mappings );
+        assertEquals( names.length, mappings.size() );
+        for ( Iterator<? extends ParameterMapping> iterator = mappings.iterator(); iterator.hasNext(); )
+        {
+            ParameterMapping mapping = iterator.next();
+            String sapName = mapping.getSapName();
+            assertTrue( sapName + " missing", ArrayUtils.contains( names, sapName ) );
+        }
     }
 }
