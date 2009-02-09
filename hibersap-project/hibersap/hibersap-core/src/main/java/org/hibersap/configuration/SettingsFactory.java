@@ -62,7 +62,7 @@ public class SettingsFactory implements Serializable {
 
 	private static Class<? extends Context> getContextClass(
 			final Properties props) {
-		String contextClassName = props.getProperty(Environment.CONTEXT_CLASS);
+		String contextClassName = props.getProperty(HibersapProperties.CONTEXT_CLASS);
 		
 		if (StringUtils.isEmpty(contextClassName)) {
 			contextClassName = "org.hibersap.execution.jco.JCoContext";
@@ -70,7 +70,7 @@ public class SettingsFactory implements Serializable {
 					+ contextClassName + " will be used");
 		}
 		return getContextClassForName(contextClassName,
-				Environment.CONTEXT_CLASS);
+				HibersapProperties.CONTEXT_CLASS);
 	}
 
 	@SuppressWarnings("unchecked")

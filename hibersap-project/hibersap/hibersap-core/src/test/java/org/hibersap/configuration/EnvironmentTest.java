@@ -13,8 +13,8 @@ public class EnvironmentTest
         throws Exception
     {
         final Properties properties = Environment.readStringProperties( Environment.HIBERSAP_PROPERTIES_FILE );
-        assertEquals( "TEST", properties.getProperty( Environment.SESSION_FACTORY_NAME ) );
-        assertEquals( "127.0.0.1", properties.getProperty( "hibersap.jco.client.ashost" ) );
+        assertEquals( "TEST", properties.getProperty( HibersapProperties.SESSION_FACTORY_NAME ) );
+        assertEquals( "127.0.0.1", properties.getProperty( "jco.client.ashost" ) );
     }
 
     @Test
@@ -22,9 +22,11 @@ public class EnvironmentTest
         throws Exception
     {
         final Properties properties = Environment.readXMLProperties( Environment.HIBERSAP_XML_FILE );
-        assertEquals( "TEST", properties.getProperty( Environment.SESSION_FACTORY_NAME ) );
-        assertEquals( "org.hibersap.execution.jco.JCoContext", properties.getProperty( Environment.CONTEXT_CLASS ) );
-        assertEquals( "42", properties.getProperty( "hibersap.jco.client.client" ) );
-        assertEquals( "127.0.0.1", properties.getProperty( "hibersap.jco.client.ashost" ) );
+        assertEquals( "TEST", properties.getProperty( HibersapProperties.SESSION_FACTORY_NAME ) );
+        assertEquals( "org.hibersap.execution.jco.JCoContext", properties
+            .getProperty( HibersapProperties.CONTEXT_CLASS ) );
+        assertEquals( "42", properties.getProperty( "jco.client.client" ) );
+        assertEquals( "127.0.0.1", properties.getProperty( "jco.client.ashost" ) );
+        assertEquals( "java:/eis/sap/A12", properties.getProperty( HibersapProperties.JCA_CONNECTION_FACTORY ) );
     }
 }

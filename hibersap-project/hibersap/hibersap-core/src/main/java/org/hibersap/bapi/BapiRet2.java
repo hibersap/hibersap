@@ -19,7 +19,6 @@ package org.hibersap.bapi;
 
 import java.io.Serializable;
 
-import org.hibersap.BapiConstants;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Parameter;

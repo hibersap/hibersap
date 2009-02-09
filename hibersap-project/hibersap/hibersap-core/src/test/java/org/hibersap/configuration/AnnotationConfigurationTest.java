@@ -8,6 +8,7 @@ import java.util.Map;
 import org.hibersap.bapi.BapiTransactionCommit;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionFactoryImpl;
 import org.junit.Test;
 
 public class AnnotationConfigurationTest
@@ -19,7 +20,7 @@ public class AnnotationConfigurationTest
     @Test
     public void addsStandardInterceptors()
     {
-        SessionFactory sessionFactory = configureAndBuildSessionFactory();
+        SessionFactoryImpl sessionFactory = configureAndBuildSessionFactory();
         assertEquals( 1, sessionFactory.getInterceptors().size() );
     }
 
@@ -27,18 +28,18 @@ public class AnnotationConfigurationTest
     public void addsAnnotatedClass()
     {
         config.addAnnotatedClass( BAPI_CLASS );
-        SessionFactory sessionFactory = configureAndBuildSessionFactory();
+        SessionFactoryImpl sessionFactory = configureAndBuildSessionFactory();
 
         Map<Class<?>, BapiMapping> bapiMappings = sessionFactory.getBapiMappings();
         assertEquals( 1, bapiMappings.size() );
         assertNotNull( bapiMappings.get( BAPI_CLASS ) );
     }
 
-    private SessionFactory configureAndBuildSessionFactory()
+    private SessionFactoryImpl configureAndBuildSessionFactory()
     {
-        config.setProperty( Environment.SESSION_FACTORY_NAME, "Test" );
-        config.setProperty( Environment.CONTEXT_CLASS, DummyContext.class.getName() );
+        config.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "Test" );
+        config.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
         SessionFactory sessionFactory = config.buildSessionFactory();
-        return sessionFactory;
+        return (SessionFactoryImpl) sessionFactory;
     }
 }

@@ -67,13 +67,15 @@ public class PojoMapper
      * 
      * @param bapi The mapped Bapi object
      * @param bapiMapping The mapping for the Bapi object
-     * @return A Map reflecting the structure of the Bapi interface, containing the parameter values as set in the Bapi object. 
-     * It contains three Maps with keys "IMPORT", "EXPORT" and "TABLE", which itself contain the Bapi's 
-     * import, export and table parameters with the parameter's names as the Map's keys. 
-     * The IMPORT and EXPORT maps may contain either simple types or Maps for complex types as values. 
-     * The TABLE Map's values are Collections of Maps which contain the parameters of the table's 
-     * structure type, each Collection item reflecting a table row. 
-     * The Collection rows maintain the same order as in the Bapi object's Collection (if it is of a Collection type which guarantees its order, e.g. a List). 
+     * @return A Map reflecting the structure of the Bapi interface, containing the parameter values
+     *         as set in the Bapi object. It contains three Maps with keys "IMPORT", "EXPORT" and
+     *         "TABLE", which itself contain the Bapi's import, export and table parameters with the
+     *         parameter's names as the Map's keys. The IMPORT and EXPORT maps may contain either
+     *         simple types or Maps for complex types as values. The TABLE Map's values are
+     *         Collections of Maps which contain the parameters of the table's structure type, each
+     *         Collection item reflecting a table row. The Collection rows maintain the same order
+     *         as in the Bapi object's Collection (if it is of a Collection type which guarantees
+     *         its order, e.g. a List).
      */
     public Map<String, Object> mapPojoToFunctionMap( Object bapi, BapiMapping bapiMapping )
     {
@@ -113,46 +115,50 @@ public class PojoMapper
             String fieldNameSap = paramMapping.getSapName();
             Object value = map.get( fieldNameSap );
 
-            if ( paramType == ParamType.FIELD )
+            if ( value != null )
             {
-                FieldMapping fieldMapping = (FieldMapping) paramMapping;
-                Converter converter = converterCache.getConverter( fieldMapping.getConverter() );
-                Object convertedValue = converter.convertToJava( value );
-                ReflectionHelper.setFieldValue( bean, fieldNameJava, convertedValue );
-            }
-            else if ( paramType == ParamType.STRUCTURE )
-            {
-                Set<FieldMapping> fieldMappings = ( (StructureMapping) paramMapping ).getParameters();
-                Map<String, Object> subMap = UnsafeCastHelper.castToMap( value );
-                Object subBean = ReflectionHelper.newInstance( paramMapping.getAssociatedType() );
-                mapToPojo( subBean, subMap, fieldMappings );
-                ReflectionHelper.setFieldValue( bean, fieldNameJava, subBean );
-            }
-            else
-            {
-                TableMapping tableMapping = (TableMapping) paramMapping;
-                Collection<Object> collection = ReflectionHelper.newCollectionInstance( tableMapping
-                    .getCollectionType() );
-                ReflectionHelper.setFieldValue( bean, fieldNameJava, collection );
 
-                Collection<Map<String, Object>> rows = UnsafeCastHelper.castToCollectionOfMaps( value );
-
-                if ( rows != null )
+                if ( paramType == ParamType.FIELD )
                 {
-                    for ( Map<String, Object> tableMap : rows )
-                    {
-                        Object elementBean = ReflectionHelper.newInstance( tableMapping.getAssociatedType() );
-                        mapToPojo( elementBean, tableMap, tableMapping.getComponentParameter().getParameters() );
-                        collection.add( elementBean );
-                    }
+                    FieldMapping fieldMapping = (FieldMapping) paramMapping;
+                    Converter converter = converterCache.getConverter( fieldMapping.getConverter() );
+                    Object convertedValue = converter.convertToJava( value );
+                    ReflectionHelper.setFieldValue( bean, fieldNameJava, convertedValue );
                 }
-                if ( tableMapping.getFieldType().isArray() )
+                else if ( paramType == ParamType.STRUCTURE )
                 {
-                    ReflectionHelper.setFieldValue( bean, fieldNameJava, collection.toArray() );
+                    Set<FieldMapping> fieldMappings = ( (StructureMapping) paramMapping ).getParameters();
+                    Map<String, Object> subMap = UnsafeCastHelper.castToMap( value );
+                    Object subBean = ReflectionHelper.newInstance( paramMapping.getAssociatedType() );
+                    mapToPojo( subBean, subMap, fieldMappings );
+                    ReflectionHelper.setFieldValue( bean, fieldNameJava, subBean );
                 }
                 else
                 {
+                    TableMapping tableMapping = (TableMapping) paramMapping;
+                    Collection<Object> collection = ReflectionHelper.newCollectionInstance( tableMapping
+                        .getCollectionType() );
                     ReflectionHelper.setFieldValue( bean, fieldNameJava, collection );
+
+                    Collection<Map<String, Object>> rows = UnsafeCastHelper.castToCollectionOfMaps( value );
+
+                    if ( rows != null )
+                    {
+                        for ( Map<String, Object> tableMap : rows )
+                        {
+                            Object elementBean = ReflectionHelper.newInstance( tableMapping.getAssociatedType() );
+                            mapToPojo( elementBean, tableMap, tableMapping.getComponentParameter().getParameters() );
+                            collection.add( elementBean );
+                        }
+                    }
+                    if ( tableMapping.getFieldType().isArray() )
+                    {
+                        ReflectionHelper.setFieldValue( bean, fieldNameJava, collection.toArray() );
+                    }
+                    else
+                    {
+                        ReflectionHelper.setFieldValue( bean, fieldNameJava, collection );
+                    }
                 }
             }
         }

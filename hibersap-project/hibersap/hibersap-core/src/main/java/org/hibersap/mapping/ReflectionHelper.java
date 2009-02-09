@@ -49,11 +49,10 @@ public class ReflectionHelper
     }
 
     /**
-     * Get the underlying class for a type, or null if the type is a variable
-     * type. Stolen from: http://www.artima.com/weblogs/viewpost.jsp?thread=208860
+     * Get the underlying class for a type, or null if the type is a variable type. Stolen from:
+     * http://www.artima.com/weblogs/viewpost.jsp?thread=208860
      * 
-     * @param type
-     *            the type
+     * @param type the type
      * @return the underlying class
      */
     private static Class<?> getClass( Type type )
@@ -198,6 +197,12 @@ public class ReflectionHelper
 
     public static void setFieldValue( Object bean, String fieldName, Object value )
     {
+        if ( value == null )
+        {
+            throw new HibersapException( "Cannot set null value on field " + fieldName + " of bean "
+                + bean.getClass().getName() );
+        }
+
         try
         {
             java.lang.reflect.Field declaredField = bean.getClass().getDeclaredField( fieldName );

@@ -18,18 +18,12 @@ package org.hibersap.session;
  */
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.hibersap.configuration.Settings;
-import org.hibersap.conversion.ConverterCache;
-import org.hibersap.mapping.model.BapiMapping;
-
 /**
- * The client's interface to the SessionFactory. A SessionFactory is used to
- * create Hibersap sessions.
- *
+ * The client's interface to the SessionFactory. A SessionFactory is used to create Hibersap
+ * sessions.
+ * 
  * @author Carsten Erker
  */
 public interface SessionFactory
@@ -37,38 +31,23 @@ public interface SessionFactory
 {
 
     /**
-     * Gets this SessionFactory's BapiMappings.
-     *
-     * @return A BapiMappings for Classes map.
-     */
-    Map<Class<?>, BapiMapping> getBapiMappings();
-
-    ConverterCache getConverterCache();
-
-    /**
      * Gets a Session using the Current Session Context strategy.
-     *
+     * 
      * @return
      */
     Session getCurrentSession();
 
     /**
      * Get Properties.
-     *
+     * 
      * @return
      */
     Properties getProperties();
 
-    Settings getSettings();
-
-    void reset();
-
     /**
      * Open a Session using a newly created connection to SAP.
-     *
+     * 
      * @return Session
      */
     Session openSession();
-
-    List<ExecutionInterceptor> getInterceptors();
 }

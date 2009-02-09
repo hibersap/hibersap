@@ -21,7 +21,7 @@ public class ConfigurationMarshallTest {
 	@Before
 	public void setup() throws JAXBException {
 		jaxbContext = JAXBContext.newInstance(HiberSap.class,
-				SessionFactory.class, JCoProperty.class);
+				SessionFactoryConfig.class, Property.class);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class ConfigurationMarshallTest {
 				.unmarshal(configurationAsStream);
 		final HiberSap hiberSapMetaData = (HiberSap) unmarshalledObject;
 
-		final SessionFactory sessionFactory = hiberSapMetaData
+		final SessionFactoryConfig sessionFactory = hiberSapMetaData
 				.getSessionFactory();
 		Assert.assertNotNull(sessionFactory);
 
@@ -45,11 +45,11 @@ public class ConfigurationMarshallTest {
 
 	@Test
 	public void testMarshalling() throws Exception {
-		final List<JCoProperty> properties = new ArrayList<JCoProperty>();
-		final JCoProperty jcoProperty = new JCoProperty("name", "value");
+		final List<Property> properties = new ArrayList<Property>();
+		final Property jcoProperty = new Property("name", "value");
 		properties.add(jcoProperty);
 
-		final SessionFactory sessionFactoryMetaData = new SessionFactory(
+		final SessionFactoryConfig sessionFactoryMetaData = new SessionFactoryConfig(
 				"session-name", "ContextClass", properties);
 
 		final List<String> classes = new ArrayList<String>();

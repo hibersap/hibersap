@@ -3,17 +3,17 @@
   <session-factory name="TEST">
     <context>org.hibersap.execution.jco.JCoContext</context>
 
-	<!-- <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory> -->
+	<jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
 
-    <jco-properties>
-      <property name="client.user" value="user" />
-      <property name="client.passwd" value="password" />
-      <property name="client.client" value="42" />
-      <property name="client.lang" value="en" />
-      <property name="client.ashost" value="127.0.0.1" />
-      <property name="client.sysnr" value="00" />
-      <property name="pool_size" value="1" />
-    </jco-properties>
+    <properties>
+      <property name="jco.client.user" value="user" />
+      <property name="jco.client.passwd" value="password" />
+      <property name="jco.client.client" value="42" />
+      <property name="jco.client.lang" value="en" />
+      <property name="jco.client.ashost" value="127.0.0.1" />
+      <property name="jco.client.sysnr" value="00" />
+      <property name="jco.destination.pool_capacity" value="1" />
+    </properties>
 
     <!-- <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class> -->
   </session-factory>

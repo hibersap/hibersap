@@ -29,6 +29,7 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.ExecutionInterceptor;
 import org.hibersap.session.SapErrorInterceptor;
 import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionFactoryImpl;
 import org.junit.Test;
 
 /**
@@ -38,7 +39,7 @@ public class ConfigurationTest
 {
     private Configuration config = new Configuration()
     {
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
         // nothing to overwrite
     };
 
@@ -58,7 +59,7 @@ public class ConfigurationTest
             }
         };
         config.addInterceptor( dummyInterceptor );
-        SessionFactory sessionFactory = configAndBuildSessionFactory();
+        SessionFactoryImpl sessionFactory = configAndBuildSessionFactory();
 
         assertTrue( sessionFactory.getInterceptors().contains( dummyInterceptor ) );
     }
@@ -85,7 +86,7 @@ public class ConfigurationTest
     @Test
     public void settingsInitialized()
     {
-        SessionFactory sessionFactory = configAndBuildSessionFactory();
+        SessionFactoryImpl sessionFactory = configAndBuildSessionFactory();
         Settings settings = sessionFactory.getSettings();
 
         // Context class
@@ -95,17 +96,17 @@ public class ConfigurationTest
     @Test
     public void standardInterceptorsInitialized()
     {
-        SessionFactory sessionFactory = configAndBuildSessionFactory();
+        SessionFactoryImpl sessionFactory = configAndBuildSessionFactory();
         List<ExecutionInterceptor> interceptors = sessionFactory.getInterceptors();
         assertEquals( 1, interceptors.size() );
         assertEquals( SapErrorInterceptor.class, interceptors.get( 0 ).getClass() );
     }
 
-    private SessionFactory configAndBuildSessionFactory()
+    private SessionFactoryImpl configAndBuildSessionFactory()
     {
-        config.setProperty( Environment.SESSION_FACTORY_NAME, "Test" );
-        config.setProperty( Environment.CONTEXT_CLASS, DummyContext.class.getName() );
+        config.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "Test" );
+        config.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
         SessionFactory sessionFactory = config.buildSessionFactory();
-        return sessionFactory;
+        return (SessionFactoryImpl) sessionFactory;
     }
 }

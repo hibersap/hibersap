@@ -1,7 +1,6 @@
 package org.hibersap.execution;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,28 +60,6 @@ public class PojoMapper_ToPojoTest
         assertEquals( 2, bapi.tableParam.size() );
         assertEquals( '1', bapi.tableParam.get( 0 ).charParam );
         assertEquals( '2', bapi.tableParam.get( 1 ).charParam );
-    }
-
-    @Test
-    public void mapWithNullValues()
-    {
-        MyTestBapi bapi = new MyTestBapi( null, null, null );
-
-        Map<String, Object> functionMap = createMap();
-
-        BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
-
-        pojoMapper.mapFunctionMapToPojo( bapi, functionMap, bapiMapping );
-
-        // check import parameter
-        assertEquals( null, bapi.intParam );
-
-        // check export parameter
-        assertEquals( '\0', bapi.structureParam.charParam );
-
-        // check table parameter
-        assertNotNull( bapi.tableParam );
-        assertEquals( 0, bapi.tableParam.size() );
     }
 
     private Map<String, Object> createMap()

@@ -32,13 +32,13 @@ import org.hibersap.mapping.model.BapiMapping;
  * @author Carsten Erker
  */
 public class SessionImpl
-    implements Session
+    implements Session, SessionImplementor
 {
     private static final Log LOG = LogFactory.getLog( SessionImpl.class );
 
     private boolean closed = false;
 
-    private final SessionFactory sessionFactory;
+    private final SessionFactoryImplementor sessionFactory;
 
     private PojoMapper pojoMapper;
 
@@ -46,7 +46,7 @@ public class SessionImpl
 
     private final Set<ExecutionInterceptor> interceptors = new HashSet<ExecutionInterceptor>();
 
-    public SessionImpl( SessionFactory sessionFactory )
+    public SessionImpl( SessionFactoryImplementor sessionFactory )
     {
         this.sessionFactory = sessionFactory;
         pojoMapper = new PojoMapper( sessionFactory.getConverterCache() );
@@ -114,7 +114,7 @@ public class SessionImpl
         pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
     }
 
-    public SessionFactory getSessionFactory()
+    public SessionFactoryImplementor getSessionFactory()
     {
         return sessionFactory;
     }

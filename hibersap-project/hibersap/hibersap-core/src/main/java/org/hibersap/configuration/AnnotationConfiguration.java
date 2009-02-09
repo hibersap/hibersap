@@ -29,23 +29,22 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionFactory;
 
 /**
- * Configures Hibersap using annotated BAPI classes. Usually a client creates an
- * instance of this class only once.
+ * Configures Hibersap using annotated BAPI classes.
  * 
  * There are three possibilities to add annotated classes:
  * <ol>
- * <li>using hibersap.properties: hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi</li>
- * <li>similarily in  hibersap.xml: &lt;class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/class&gt;</li>
+ * <li>using hibersap.properties:
+ * hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi</li>
+ * <li>similarily in hibersap.xml:
+ * &lt;class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/class&gt;</li>
  * <li>programmatically via addAnnotatedClass().</li>
  * </ol>
  * 
- * After calling buildSessionFactory() this instance can be discarded. The
- * SessionFactory will be used to interact with the back-end system. Properties
- * may be overwritten using the methods in this class' superclass, e.g. to
- * specify different SAP systems in a test environment. For each SAP system
- * which will be accessed by the client application, one SessionFactory has to
- * be built.
- *
+ * After calling buildSessionFactory() this instance can be discarded. The SessionFactory will be
+ * used to interact with the back-end system. Properties may be overwritten using the methods in
+ * this class' superclass, e.g. to specify different SAP systems in a test environment. For each SAP
+ * system which will be accessed by the client application, one SessionFactory has to be built.
+ * 
  * @author Carsten Erker
  */
 public class AnnotationConfiguration
@@ -70,10 +69,10 @@ public class AnnotationConfiguration
         {
             final String keyString = key.toString();
 
-            if ( keyString.startsWith( Environment.BABI_CLASSES_PREFIX ) )
+            if ( keyString.startsWith( HibersapProperties.BAPI_CLASSES_PREFIX ) )
             {
                 final String valueClass = properties.getProperty( keyString );
-                LOG.info( "Found mapped class " + keyString + " = " + valueClass );
+                LOG.info( "Found BAPI class " + keyString + " = " + valueClass );
                 addAnnotatedClass( SettingsFactory.getClassForName( valueClass, keyString ) );
             }
         }
@@ -81,7 +80,7 @@ public class AnnotationConfiguration
 
     /**
      * Adds an annotated BAPI class to the Configuration.
-     *
+     * 
      * @param bapiClass
      */
     public void addAnnotatedClass( final Class<?> bapiClass )
@@ -90,9 +89,9 @@ public class AnnotationConfiguration
     }
 
     /**
-     * Builds a SessionFactory object. Provide properties and add BAPI classes
-     * before calling this method.
-     *
+     * Builds a SessionFactory object. Provide properties and add BAPI classes before calling this
+     * method.
+     * 
      * @return The SessionFactory
      */
     @Override

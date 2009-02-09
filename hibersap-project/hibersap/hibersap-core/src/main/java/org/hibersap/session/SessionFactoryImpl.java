@@ -17,6 +17,7 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -28,14 +29,17 @@ import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
+ * Implementation of the SessionFactory. A client uses the SessionFactory to create Hibernate
+ * Sessions.
+ * 
  * @author Carsten Erker
  */
 public class SessionFactoryImpl
-    implements SessionFactory
+    implements SessionFactory, SessionFactoryImplementor, Serializable
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	final Properties properties;
+    final Properties properties;
 
     private final Settings settings;
 
@@ -56,42 +60,66 @@ public class SessionFactoryImpl
         interceptors = configuration.getInterceptors();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void reset()
     {
         settings.getContext().reset();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Map<Class<?>, BapiMapping> getBapiMappings()
     {
         return bapiMappings;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public ConverterCache getConverterCache()
     {
         return this.converterCache;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Session getCurrentSession()
     {
         // TODO implement current session context strategies
         throw new RuntimeException( "not yet implemented" );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Properties getProperties()
     {
         return properties;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Settings getSettings()
     {
         return settings;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Session openSession()
     {
         return new SessionImpl( this );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<ExecutionInterceptor> getInterceptors()
     {
         return interceptors;

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "property", namespace = HiberSap.NAMESPACE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class JCoProperty {
+public class Property {
 
 	@XmlAttribute(name = "name")
 	private String name;
@@ -15,10 +15,10 @@ public class JCoProperty {
 	@XmlAttribute(name = "value")
 	private String value;
 
-	public JCoProperty() {
+	public Property() {
 	}
 
-	public JCoProperty(final String name, final String value) {
+	public Property(final String name, final String value) {
 		this.name = name;
 		this.value = value;
 	}

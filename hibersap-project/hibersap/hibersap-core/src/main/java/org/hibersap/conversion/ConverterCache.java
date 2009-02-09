@@ -17,18 +17,32 @@ package org.hibersap.conversion;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.hibersap.mapping.ReflectionHelper;
 
 /**
+ * Holds instances of implementations of org.hibersap.conversion.Converter. The instances are
+ * created lazily.
+ * 
  * @author Carsten Erker
  */
 public class ConverterCache
+    implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private final Map<Class<? extends Converter>, Converter> converterForClass = new HashMap<Class<? extends Converter>, Converter>();
 
+    /**
+     * Called by the framework to get a Converter instance. If not yet in the cache, the instance
+     * will be created lazily.
+     * 
+     * @param clazz The Coverter implementation class
+     * @return The Converter instance
+     */
     public Converter getConverter( Class<? extends Converter> clazz )
     {
         if ( clazz == null )
@@ -44,6 +58,11 @@ public class ConverterCache
         return converter;
     }
 
+    /**
+     * Returns the current number of Converter instances in the cache.
+     * 
+     * @return The number of Converter instances
+     */
     int getSize()
     {
         return converterForClass.size();

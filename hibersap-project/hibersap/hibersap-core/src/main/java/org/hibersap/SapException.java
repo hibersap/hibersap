@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -21,57 +21,86 @@ import java.util.List;
  */
 
 /**
+ * A SapException holds error messages corresponding to the values of SAP return structures. These
+ * are commonly used in SAP functions to inform the client about any errors, warnings or other
+ * information. It is used by the org.hibersap.session.SapErrorInterceptor but can be utilized by
+ * the application to make its own evaluations of SAP return structures.
+ * 
+ * @see org.hibersap.session.SapErrorInterceptor
+ * 
  * @author Carsten Erker
  */
-public class SapException extends HibersapException {
-	private static final long serialVersionUID = 1L;
+public class SapException
+    extends HibersapException
+{
+    private static final long serialVersionUID = 1L;
 
-	private final List<SapError> sapErrors;
+    private final List<SapError> sapErrors;
 
-	public SapException(List<SapError> sapErrors) {
-		super("Error(s) occurred when calling function module");
-		this.sapErrors = sapErrors;
+    public SapException( List<SapError> sapErrors )
+    {
+        super( "Error(s) occurred when calling function module" );
+        this.sapErrors = sapErrors;
 
-	}
+    }
 
-	public SapException(SapError sapError) {
-		this(Collections.singletonList(sapError));
-	}
+    public SapException( SapError sapError )
+    {
+        this( Collections.singletonList( sapError ) );
+    }
 
-	public List<SapError> getErrors() {
-		return sapErrors;
-	}
+    public List<SapError> getErrors()
+    {
+        return sapErrors;
+    }
 
-	public static class SapError {
-		private final String message;
+    /**
+     * Hold information about (error, warning, info, etc.) values returned by a SAP function.
+     * 
+     * @author cerker
+     */
+    public static class SapError
+    {
+        private final String message;
 
-		private final String type;
+        private final String type;
 
-		private final String id;
+        private final String id;
 
-		private final String number;
+        private final String number;
 
-		public SapError(String type, String id, String number, String message) {
-			this.type = type;
-			this.id = id;
-			this.number = number;
-			this.message = message;
-		}
+        public SapError( String type, String id, String number, String message )
+        {
+            this.type = type;
+            this.id = id;
+            this.number = number;
+            this.message = message;
+        }
 
-		public String getType() {
-			return type;
-		}
+        public String getType()
+        {
+            return type;
+        }
 
-		public String getId() {
-			return id;
-		}
+        public String getId()
+        {
+            return id;
+        }
 
-		public String getNumber() {
-			return number;
-		}
+        public String getNumber()
+        {
+            return number;
+        }
 
-		public String getMessage() {
-			return message;
-		}
-	}
+        public String getMessage()
+        {
+            return message;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "SapError[type=" + type + ",id=" + id + ",number=" + number + ",message=" + message + "]";
+        }
+    }
 }

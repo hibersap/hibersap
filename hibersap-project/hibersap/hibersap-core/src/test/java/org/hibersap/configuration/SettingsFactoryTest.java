@@ -15,8 +15,8 @@ public class SettingsFactoryTest
         throws Exception
     {
         Properties properties = new Properties();
-        properties.setProperty( Environment.SESSION_FACTORY_NAME, "Test" );
-        properties.setProperty( Environment.CONTEXT_CLASS, DummyContext.class.getName() );
+        properties.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "Test" );
+        properties.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
         Settings settings = SettingsFactory.create( properties );
 
         Context context = settings.getContext();

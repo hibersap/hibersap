@@ -1,13 +1,7 @@
 package org.hibersap.annotations;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -23,26 +17,31 @@ import java.lang.annotation.Target;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 /**
- * Declare which return structure contains the error codes to generate a
- * SapException.
+ * Declare which return structure contains the error codes to generate a SapException.
  * 
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
 @Target(value = TYPE)
-public @interface ThrowExceptionOnError {
-	/**
-	 * Contains the path to the BAPI's return structure or Table. The first
-	 * element should be 'EXPORT' or 'TABLE' to indicate if the return structure
-	 * is defined as an export or table parameter. The last element is the name of
-	 * the return structure, usually 'RETURN'.
-	 */
-	String returnStructure() default "EXPORT/RETURN";
+public @interface ThrowExceptionOnError
+{
+    /**
+     * Contains the path to the BAPI's return structure or Table. The first element should be
+     * 'EXPORT' or 'TABLE' to indicate if the return structure is defined as an export or table
+     * parameter. The last element is the name of the return structure, usually 'RETURN'.
+     */
+    String returnStructure() default "EXPORT/RETURN";
 
-	/**
-	 * The message types which Hibersap shall interpret as an error. In these
-	 * cases an Exception will be thrown.
-	 */
-	String[] errorMessageTypes() default { "E", "A" };
+    /**
+     * The message types which Hibersap shall interpret as an error. In these cases an Exception
+     * will be thrown.
+     */
+    String[] errorMessageTypes() default { "E", "A" };
 }

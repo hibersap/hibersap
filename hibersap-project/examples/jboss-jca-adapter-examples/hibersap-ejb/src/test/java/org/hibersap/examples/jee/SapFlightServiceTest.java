@@ -10,8 +10,6 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.examples.flightdetail.FlightData;
 import org.hibersap.examples.flightdetail.FlightDetailBapi;
@@ -22,8 +20,6 @@ import org.junit.Test;
 
 public class SapFlightServiceTest
 {
-    private static final Log LOG = LogFactory.getLog( SapFlightServiceTest.class );
-
     private static SapFlightService _service;
 
     @Test

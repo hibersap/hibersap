@@ -18,20 +18,44 @@ package org.hibersap;
  */
 
 /**
+ * HibersapException is an unchecked exception which is commonly thrown by the framework when
+ * something goes wrong.
+ * 
  * @author Carsten Erker
  */
-public class HibersapException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+public class HibersapException
+    extends RuntimeException
+{
+    private static final long serialVersionUID = 1L;
 
-	public HibersapException(Throwable root) {
-		super(root);
-	}
+    /**
+     * Constructs a new HibersapException with the specified cause.
+     * 
+     * @param cause The cause
+     */
+    public HibersapException( Throwable cause )
+    {
+        super( cause );
+    }
 
-	public HibersapException(String msg, Throwable root) {
-		super(msg, root);
-	}
+    /**
+     * Constructs a new HibersapException with a detail message and a cause.
+     * 
+     * @param msg The message
+     * @param cause The cause
+     */
+    public HibersapException( String msg, Throwable cause )
+    {
+        super( msg, cause );
+    }
 
-	public HibersapException(String msg) {
-		super(msg);
-	}
+    /**
+     * Constructs a new HibersapException with a detail message.
+     * 
+     * @param msg The message
+     */
+    public HibersapException( String msg )
+    {
+        super( msg );
+    }
 }

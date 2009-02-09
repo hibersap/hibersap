@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.DummyContext;
-import org.hibersap.configuration.Environment;
+import org.hibersap.configuration.HibersapProperties;
 import org.junit.Test;
 
 public class SessionFactoryImplTest
@@ -18,15 +18,15 @@ public class SessionFactoryImplTest
         throws Exception
     {
         Properties properties = new Properties();
-        properties.setProperty( Environment.SESSION_FACTORY_NAME, "name" );
-        properties.setProperty( Environment.CONTEXT_CLASS, DummyContext.class.getName() );
+        properties.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "name" );
+        properties.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
 
         AnnotationConfiguration config = new AnnotationConfiguration();
         config.setProperties( properties );
-        SessionFactory factory = config.buildSessionFactory();
+        SessionFactoryImpl factory = (SessionFactoryImpl) config.buildSessionFactory();
 
         assertSame( DummyContext.class, factory.getSettings().getContext().getClass() );
-        assertEquals( "name", factory.getProperties().getProperty( Environment.SESSION_FACTORY_NAME ) );
+        assertEquals( "name", factory.getProperties().getProperty( HibersapProperties.SESSION_FACTORY_NAME ) );
         assertNotNull( factory.getConverterCache() );
         assertNotNull( factory.getBapiMappings() );
         assertNotNull( factory.getInterceptors() );

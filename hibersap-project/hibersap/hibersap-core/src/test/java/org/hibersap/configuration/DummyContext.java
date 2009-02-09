@@ -10,6 +10,8 @@ public class DummyContext
     implements Context
 {
 
+    private static final long serialVersionUID = 1L;
+
     public void configure( Properties properties )
         throws HibersapException
     {

@@ -19,22 +19,21 @@ package org.hibersap.execution;
 
 import java.util.Map;
 
-import org.hibersap.session.Session;
+import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
 /**
- * Implementations of this interface define the functionality how to communicate
- * with SAP, using for example the SAP Java Connector or a JCA resource adapter.
- * The implementation to be used by a session factory is specified by the
- * property <code>hibersap.executor_class</code>. The default implementation
- * is org.hibersap.execution.jco.JCoConnection. Implementations must provide a
+ * Implementations of this interface define the functionality how to communicate with SAP, using for
+ * example the SAP Java Connector or a JCA resource adapter. The implementation to be used by a
+ * session factory is specified by the property <code>hibersap.executor_class</code>. The default
+ * implementation is org.hibersap.execution.jco.JCoConnection. Implementations must provide a
  * default constructor.
- *
+ * 
  * @author Carsten Erker
  */
 public interface Connection
 {
-    Transaction beginTransaction( Session session );
+    Transaction beginTransaction( SessionImplementor session );
 
     Transaction getTransaction();
 

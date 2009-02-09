@@ -4,8 +4,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.hibersap.configuration.Environment;
-import org.hibersap.session.Context;
+import org.hibersap.configuration.HibersapProperties;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,32 +20,34 @@ public class HiberSapJaxbXmlParserTest
 
         Assert.assertNotNull( properties );
 
-        testForNotNull( properties, Environment.SESSION_FACTORY_NAME );
-        testForNotNull( properties, Environment.CONTEXT_CLASS );
+        testForNotNull( properties, HibersapProperties.SESSION_FACTORY_NAME );
+        testForNotNull( properties, HibersapProperties.CONTEXT_CLASS );
+        testForNotNull( properties, HibersapProperties.JCA_CONNECTION_FACTORY );
 
         final Set<String> bapiClasses = new HashSet<String>();
-        final Set<String> sapProperties = new HashSet<String>();
+        final Set<String> jcoProperties = new HashSet<String>();
 
         for ( final Object keyObject : properties.keySet() )
         {
             final String key = (String) keyObject;
-            if ( key.startsWith( Environment.BABI_CLASSES_PREFIX ) )
+            if ( key.startsWith( HibersapProperties.BAPI_CLASSES_PREFIX ) )
             {
                 bapiClasses.add( properties.getProperty( key ) );
             }
-            else if ( key.startsWith( Context.HIBERSAP_JCO_PREFIX ) )
+            else if ( key.startsWith( "jco." ) )
             {
-                sapProperties.add( properties.getProperty( key ) );
+                jcoProperties.add( properties.getProperty( key ) );
             }
         }
 
         Assert.assertEquals( 2, bapiClasses.size() );
-        Assert.assertEquals( 7, sapProperties.size() );
+        Assert.assertEquals( 7, jcoProperties.size() );
     }
 
     private void testForNotNull( final Properties properties, final String propertyName )
     {
-        final String contextClass = (String) properties.get( propertyName );
-        Assert.assertNotNull( contextClass );
+        final String propertyValue = (String) properties.get( propertyName );
+        System.out.println( propertyName + "=" + propertyValue );
+        Assert.assertNotNull( propertyValue );
     }
 }

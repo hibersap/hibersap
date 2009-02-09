@@ -2,11 +2,11 @@
 hibersap.session_factory_name=A12
 
 # Java Connector settings
-hibersap.jco.client.client=800
-hibersap.jco.client.user=sapuser
-hibersap.jco.client.passwd=password
-hibersap.jco.client.lang=en
-hibersap.jco.client.ashost=10.20.80.76
-hibersap.jco.client.sysnr=00
-hibersap.jco.pool_size=1
-hibersap.jco.repository_name=A12
+jco.client.client=800
+jco.client.user=sapuser
+jco.client.passwd=password
+jco.client.lang=en
+jco.client.ashost=10.20.80.76
+jco.client.sysnr=00
+jco.destination.pool_capacity=1
+jco.repository_name=A12

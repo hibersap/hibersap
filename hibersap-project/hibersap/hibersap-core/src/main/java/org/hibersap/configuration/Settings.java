@@ -17,14 +17,19 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
+
 import org.hibersap.session.Context;
 
 /**
  * @author Carsten Erker
  */
 public final class Settings
+    implements Serializable
 {
-    Context context;
+    private static final long serialVersionUID = 1L;
+
+    private Context context;
 
     public Context getContext()
     {

@@ -31,17 +31,17 @@ import org.hibersap.session.SessionFactory;
 import org.hibersap.session.SessionFactoryImpl;
 
 /**
- * Abstract Superclass for different configuration strategies. Implements
- * properties / settings handling.
- *
+ * Abstract Superclass for different configuration strategies. Implements properties / settings
+ * handling.
+ * 
  * @author Carsten Erker
  */
 public abstract class Configuration
     implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected Properties properties = Environment.getProperties();
+    protected Properties properties = Environment.getProperties();
 
     protected final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
 
