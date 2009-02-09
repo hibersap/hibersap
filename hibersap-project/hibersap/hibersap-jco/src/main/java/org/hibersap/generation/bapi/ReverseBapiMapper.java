@@ -35,21 +35,20 @@ public class ReverseBapiMapper
             destination = JCoDestinationManager.getDestination( sessionFactory.getProperties()
                 .getProperty( HibersapProperties.SESSION_FACTORY_NAME ) );
 
-        JCoFunctionTemplate ft = destination.getRepository().getFunctionTemplate( bapiName );
-        JCoFunction function = ft.getFunction();
-        System.out.println( ft.toString() );
+            JCoFunctionTemplate ft = destination.getRepository().getFunctionTemplate( bapiName );
+            JCoFunction function = ft.getFunction();
 
-        BapiMapping mapping = new BapiMapping( null, function.getName(), null );
+            BapiMapping mapping = new BapiMapping( null, function.getName(), null );
 
-        mapFields( mapping.getImportParameters(), function.getImportParameterList() );
-        mapFields( mapping.getExportParameters(), function.getExportParameterList() );
-        mapFields( mapping.getTableParameters(), function.getTableParameterList() );
+            mapFields( mapping.getImportParameters(), function.getImportParameterList() );
+            mapFields( mapping.getExportParameters(), function.getExportParameterList() );
+            mapFields( mapping.getTableParameters(), function.getTableParameterList() );
 
-        return mapping;
+            return mapping;
         }
         catch ( JCoException e )
         {
-            throw new HibersapException(e);
+            throw new HibersapException( e );
         }
     }
 
@@ -60,7 +59,6 @@ public class ReverseBapiMapper
         while ( iter.hasNextField() )
         {
             JCoField field = iter.nextField();
-            System.out.println( field.getName() );
             ParameterMapping param = getParameterMapping( field );
 
             if ( ParameterMapping.ParamType.FIELD == param.getParamType() )
@@ -94,12 +92,12 @@ public class ReverseBapiMapper
         }
         try
         {
-            Class<?> associatedClass = Class.forName( field.getClassNameOfValue());
+            Class<?> associatedClass = Class.forName( field.getClassNameOfValue() );
             return new FieldMapping( associatedClass, field.getName(), javaFieldName, null );
         }
         catch ( ClassNotFoundException e )
         {
-            throw new InternalHiberSapException("Can not get class for " + field.getClassNameOfValue(), e);
+            throw new InternalHiberSapException( "Can not get class for " + field.getClassNameOfValue(), e );
         }
     }
 

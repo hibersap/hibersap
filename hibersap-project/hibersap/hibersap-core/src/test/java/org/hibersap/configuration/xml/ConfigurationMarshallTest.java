@@ -10,60 +10,67 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ConfigurationMarshallTest {
+public class ConfigurationMarshallTest
+{
 
-	private JAXBContext jaxbContext;
+    private static final Log LOG = LogFactory.getLog( ConfigurationMarshallTest.class );
 
-	@Before
-	public void setup() throws JAXBException {
-		jaxbContext = JAXBContext.newInstance(HiberSap.class,
-				SessionFactoryConfig.class, Property.class);
-	}
+    private JAXBContext jaxbContext;
 
-	@Test
-	public void testParseOkConfiguration() throws Exception {
-		final InputStream configurationAsStream = getClass()
-				.getResourceAsStream("/xml-configurations/hibersapOK.xml");
-		Assert.assertNotNull(configurationAsStream);
+    @Before
+    public void setup()
+        throws JAXBException
+    {
+        jaxbContext = JAXBContext.newInstance( HiberSap.class, SessionFactoryConfig.class, Property.class );
+    }
 
-		final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-		final Object unmarshalledObject = unmarshaller
-				.unmarshal(configurationAsStream);
-		final HiberSap hiberSapMetaData = (HiberSap) unmarshalledObject;
+    @Test
+    public void testParseOkConfiguration()
+        throws Exception
+    {
+        final InputStream configurationAsStream = getClass().getResourceAsStream( "/xml-configurations/hibersapOK.xml" );
+        Assert.assertNotNull( configurationAsStream );
 
-		final SessionFactoryConfig sessionFactory = hiberSapMetaData
-				.getSessionFactory();
-		Assert.assertNotNull(sessionFactory);
+        final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        final Object unmarshalledObject = unmarshaller.unmarshal( configurationAsStream );
+        final HiberSap hiberSapMetaData = (HiberSap) unmarshalledObject;
 
-		Assert.assertEquals("A12", sessionFactory.getName());
-		Assert.assertEquals(2, sessionFactory.getClasses().size());
-	}
+        final SessionFactoryConfig sessionFactory = hiberSapMetaData.getSessionFactory();
+        Assert.assertNotNull( sessionFactory );
 
-	@Test
-	public void testMarshalling() throws Exception {
-		final List<Property> properties = new ArrayList<Property>();
-		final Property jcoProperty = new Property("name", "value");
-		properties.add(jcoProperty);
+        Assert.assertEquals( "A12", sessionFactory.getName() );
+        Assert.assertEquals( 2, sessionFactory.getClasses().size() );
+    }
 
-		final SessionFactoryConfig sessionFactoryMetaData = new SessionFactoryConfig(
-				"session-name", "ContextClass", properties);
+    @Test
+    public void testMarshalling()
+        throws Exception
+    {
+        final List<Property> properties = new ArrayList<Property>();
+        final Property jcoProperty = new Property( "name", "value" );
+        properties.add( jcoProperty );
 
-		final List<String> classes = new ArrayList<String>();
-		classes.add("package.Class1");
-		classes.add("package.Class2");
-		sessionFactoryMetaData.setClasses(classes);
+        final SessionFactoryConfig sessionFactoryMetaData = new SessionFactoryConfig( "session-name", "ContextClass",
+                                                                                      properties );
 
-		final HiberSap hiberSapMetaData = new HiberSap(sessionFactoryMetaData);
+        final List<String> classes = new ArrayList<String>();
+        classes.add( "package.Class1" );
+        classes.add( "package.Class2" );
+        sessionFactoryMetaData.setClasses( classes );
 
-		final Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+        final HiberSap hiberSapMetaData = new HiberSap( sessionFactoryMetaData );
 
-		final StringWriter stringWriter = new StringWriter();
-		marshaller.marshal(hiberSapMetaData, stringWriter);
-		System.out.println(stringWriter.toString());
-	}
+        final Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty( "jaxb.formatted.output", Boolean.TRUE );
+
+        final StringWriter stringWriter = new StringWriter();
+        marshaller.marshal( hiberSapMetaData, stringWriter );
+        LOG.info( stringWriter.toString() );
+    }
 }

@@ -98,6 +98,33 @@ public class FlightDetailBapi
     @Override
     public String toString()
     {
-        return "FlightDetailBapi[return:type=" + bapiReturn.getType() + ",message=" + bapiReturn.getMessage() + "]";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append( "AirlineId: " ).append( getAirlineId() ).append( '\n' );
+        sb.append( "ConnectionId: " ).append( getConnectionId() ).append( '\n' );
+        sb.append( "FlightDate: " ).append( getFlightDate() ).append( '\n' );
+
+        sb.append( "FlightData" ).append( '\n' );
+        final FlightData flightData = getFlightData();
+        sb.append( "\tAirlineId: " ).append( flightData.getAirlineId() ).append( '\n' );
+        sb.append( "\tAirportfr: " ).append( flightData.getAirportfr() ).append( '\n' );
+        sb.append( "\tAirportt: " ).append( flightData.getAirportto() ).append( '\n' );
+        sb.append( "\tCityfrom: " ).append( flightData.getCityfrom() ).append( '\n' );
+        sb.append( "\tCityto: " ).append( flightData.getCityto() ).append( '\n' );
+        sb.append( "\tConnectid: " ).append( flightData.getConnectid() ).append( '\n' );
+        sb.append( "\tCurr: " ).append( flightData.getCurr() ).append( '\n' );
+        sb.append( "\tPrice: " ).append( flightData.getPrice() ).append( '\n' );
+        sb.append( "\tArrtime: " ).append( flightData.getArrtime() ).append( '\n' );
+        sb.append( "\tDeptime: " ).append( flightData.getDeptime() ).append( '\n' );
+        sb.append( "\tFlightdate: " ).append( flightData.getFlightdate() ).append( '\n' );
+
+        sb.append( "BapiRet2" ).append( '\n' );
+        final BapiRet2 returnStruct = getReturn();
+        sb.append( "\tMessage: " ).append( returnStruct.getMessage() ).append( '\n' );
+        sb.append( "\tNumber: " ).append( returnStruct.getNumber() ).append( '\n' );
+        sb.append( "\tType: " ).append( returnStruct.getType() ).append( '\n' );
+        sb.append( "\tId: " ).append( returnStruct.getId() ).append( '\n' );
+
+        return sb.toString();
     }
 }

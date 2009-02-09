@@ -4,12 +4,15 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.configuration.HibersapProperties;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class HiberSapJaxbXmlParserTest
 {
+    private static final Log LOG = LogFactory.getLog( HiberSapJaxbXmlParserTest.class );
 
     @Test
     public void testOK()
@@ -47,7 +50,7 @@ public class HiberSapJaxbXmlParserTest
     private void testForNotNull( final Properties properties, final String propertyName )
     {
         final String propertyValue = (String) properties.get( propertyName );
-        System.out.println( propertyName + "=" + propertyValue );
+        LOG.info( propertyName + "=" + propertyValue );
         Assert.assertNotNull( propertyValue );
     }
 }

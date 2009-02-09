@@ -141,4 +141,40 @@ public class FlightListBapi
     {
         return this.toCountryKey;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append( "AirlineId: " ).append( getFromCountryKey() ).append( '\n' );
+        sb.append( "FromCity: " ).append( getFromCity() ).append( '\n' );
+        sb.append( "ToCountryKey: " ).append( getToCountryKey() ).append( '\n' );
+        sb.append( "ToCity: " ).append( getToCity() ).append( '\n' );
+        sb.append( "AirlineCarrier: " ).append( getAirlineCarrier() ).append( '\n' );
+        sb.append( "Afternoon: " ).append( getAfternoon() ).append( '\n' );
+        sb.append( "MaxRead: " ).append( getMaxRead() ).append( '\n' );
+
+        sb.append( "FlightData" );
+        final List<Flight> flights = getFlightList();
+        for ( final Flight flight : flights )
+        {
+            sb.append( "\t" ).append( flight.getAirportFrom() );
+            sb.append( "\t" ).append( flight.getAirportTo() );
+            sb.append( "\t" ).append( flight.getCarrierId() );
+            sb.append( "\t" ).append( flight.getConnectionId() );
+            sb.append( "\t" ).append( flight.getSeatsMax() );
+            sb.append( "\t" ).append( flight.getSeatsOccupied() );
+            sb.append( "\t" ).append( flight.getDepartureTime() );
+        }
+
+        sb.append( "\nReturn" );
+        final BapiRet2 returnStruct = getReturnData();
+        sb.append( "\tMessage: " ).append( returnStruct.getMessage() ).append( '\n' );
+        sb.append( "\tNumber: " ).append( returnStruct.getNumber() ).append( '\n' );
+        sb.append( "\tType: " ).append( returnStruct.getType() ).append( '\n' );
+        sb.append( "\tId: " ).append( returnStruct.getId() ).append( '\n' );
+
+        return sb.toString();
+    }
 }

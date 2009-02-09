@@ -26,9 +26,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
-import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.HibersapProperties;
 import org.hibersap.examples.AbstractHibersapTest;
@@ -44,6 +45,8 @@ import org.junit.Test;
 public class FlightDetailTest
     extends AbstractHibersapTest
 {
+    private static final Log LOG = LogFactory.getLog( FlightDetailTest.class );
+
     private final AnnotationConfiguration configuration = new AnnotationConfiguration();
 
     private SessionFactoryImpl sessionFactory;
@@ -72,7 +75,7 @@ public class FlightDetailTest
             final FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", date26Apr2002 );
             session.execute( flightDetail );
             session.getTransaction().commit();
-            showResult( flightDetail );
+            LOG.info( flightDetail );
         }
         finally
         {
@@ -106,32 +109,5 @@ public class FlightDetailTest
         {
             session.close();
         }
-    }
-
-    private void showResult( final FlightDetailBapi flightDetail )
-    {
-        System.out.println( "AirlineId: " + flightDetail.getAirlineId() );
-        System.out.println( "ConnectionId: " + flightDetail.getConnectionId() );
-        System.out.println( "FlightDate: " + flightDetail.getFlightDate() );
-
-        System.out.println( "FlightData" );
-        final FlightData flightData = flightDetail.getFlightData();
-        System.out.println( "\tAirlineId: " + flightData.getAirlineId() );
-        System.out.println( "\tAirportfr: " + flightData.getAirportfr() );
-        System.out.println( "\tAirportt: " + flightData.getAirportto() );
-        System.out.println( "\tCityfrom: " + flightData.getCityfrom() );
-        System.out.println( "\tCityto: " + flightData.getCityto() );
-        System.out.println( "\tConnectid: " + flightData.getConnectid() );
-        System.out.println( "\tCurr: " + flightData.getCurr() );
-        System.out.println( "\tPrice: " + flightData.getPrice() );
-        System.out.println( "\tArrtime: " + flightData.getArrtime() );
-        System.out.println( "\tDeptime: " + flightData.getDeptime() );
-        System.out.println( "\tFlightdate: " + flightData.getFlightdate() );
-        System.out.println( "BapiRet2" );
-        final BapiRet2 returnStruct = flightDetail.getReturn();
-        System.out.println( "\tMessage: " + returnStruct.getMessage() );
-        System.out.println( "\tNumber: " + returnStruct.getNumber() );
-        System.out.println( "\tType: " + returnStruct.getType() );
-        System.out.println( "\tId: " + returnStruct.getId() );
     }
 }

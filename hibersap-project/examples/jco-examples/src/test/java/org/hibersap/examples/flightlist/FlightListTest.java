@@ -17,9 +17,8 @@ package org.hibersap.examples.flightlist;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.List;
-
-import org.hibersap.bapi.BapiRet2;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
@@ -32,6 +31,8 @@ import org.junit.Test;
 public class FlightListTest
     extends AbstractHibersapTest
 {
+    private static final Log LOG = LogFactory.getLog( FlightListTest.class );
+
     @Test
     public void showFlightList()
     {
@@ -53,32 +54,6 @@ public class FlightListTest
 
     private void showResult( final FlightListBapi flightList )
     {
-        System.out.println( "AirlineId: " + flightList.getFromCountryKey() );
-        System.out.println( "FromCity: " + flightList.getFromCity() );
-        System.out.println( "ToCountryKey: " + flightList.getToCountryKey() );
-        System.out.println( "ToCity: " + flightList.getToCity() );
-        System.out.println( "AirlineCarrier: " + flightList.getAirlineCarrier() );
-        System.out.println( "Afternoon: " + flightList.getAfternoon() );
-        System.out.println( "MaxRead: " + flightList.getMaxRead() );
-
-        System.out.println( "\nFlightData" );
-        final List<Flight> flights = flightList.getFlightList();
-        for ( final Flight flight : flights )
-        {
-            System.out.print( "\t" + flight.getAirportFrom() );
-            System.out.print( "\t" + flight.getAirportTo() );
-            System.out.print( "\t" + flight.getCarrierId() );
-            System.out.print( "\t" + flight.getConnectionId() );
-            System.out.print( "\t" + flight.getSeatsMax() );
-            System.out.print( "\t" + flight.getSeatsOccupied() );
-            System.out.println( "\t" + flight.getDepartureTime() );
-        }
-
-        System.out.println( "\nReturn" );
-        final BapiRet2 returnStruct = flightList.getReturnData();
-        System.out.println( "\tMessage: " + returnStruct.getMessage() );
-        System.out.println( "\tNumber: " + returnStruct.getNumber() );
-        System.out.println( "\tType: " + returnStruct.getType() );
-        System.out.println( "\tId: " + returnStruct.getId() );
+        LOG.info( flightList );
     }
 }

@@ -5,21 +5,21 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import org.hibersap.bapi.BapiRet2;
-import org.hibersap.examples.flightdetail.FlightData;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.examples.flightdetail.FlightDetailBapi;
-import org.hibersap.examples.flightlist.Flight;
 import org.hibersap.examples.flightlist.FlightListBapi;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SapFlightServiceTest
 {
+    private static final Log LOG = LogFactory.getLog( SapFlightServiceTest.class );
+
     private static SapFlightService _service;
 
     @Test
@@ -58,59 +58,11 @@ public class SapFlightServiceTest
 
     private static void showResult( final FlightDetailBapi flightDetail )
     {
-        System.out.println( "AirlineId: " + flightDetail.getAirlineId() );
-        System.out.println( "ConnectionId: " + flightDetail.getConnectionId() );
-        System.out.println( "FlightDate: " + flightDetail.getFlightDate() );
-
-        System.out.println( "FlightData" );
-        final FlightData flightData = flightDetail.getFlightData();
-        System.out.println( "\tAirlineId: " + flightData.getAirlineId() );
-        System.out.println( "\tAirportfr: " + flightData.getAirportfr() );
-        System.out.println( "\tAirportt: " + flightData.getAirportto() );
-        System.out.println( "\tCityfrom: " + flightData.getCityfrom() );
-        System.out.println( "\tCityto: " + flightData.getCityto() );
-        System.out.println( "\tConnectid: " + flightData.getConnectid() );
-        System.out.println( "\tCurr: " + flightData.getCurr() );
-        System.out.println( "\tPrice: " + flightData.getPrice() );
-        System.out.println( "\tArrtime: " + flightData.getArrtime() );
-        System.out.println( "\tDeptime: " + flightData.getDeptime() );
-        System.out.println( "\tFlightdate: " + flightData.getFlightdate() );
-        System.out.println( "BapiRet2" );
-        final BapiRet2 returnStruct = flightDetail.getReturn();
-        System.out.println( "\tMessage: " + returnStruct.getMessage() );
-        System.out.println( "\tNumber: " + returnStruct.getNumber() );
-        System.out.println( "\tType: " + returnStruct.getType() );
-        System.out.println( "\tId: " + returnStruct.getId() );
+        LOG.info( flightDetail );
     }
 
     private void showResult( final FlightListBapi flightList )
     {
-        System.out.println( "AirlineId: " + flightList.getFromCountryKey() );
-        System.out.println( "FromCity: " + flightList.getFromCity() );
-        System.out.println( "ToCountryKey: " + flightList.getToCountryKey() );
-        System.out.println( "ToCity: " + flightList.getToCity() );
-        System.out.println( "AirlineCarrier: " + flightList.getAirlineCarrier() );
-        System.out.println( "Afternoon: " + flightList.getAfternoon() );
-        System.out.println( "MaxRead: " + flightList.getMaxRead() );
-
-        System.out.println( "\nFlightData" );
-        final List<Flight> flights = flightList.getFlightList();
-        for ( final Flight flight : flights )
-        {
-            System.out.print( "\t" + flight.getAirportFrom() );
-            System.out.print( "\t" + flight.getAirportTo() );
-            System.out.print( "\t" + flight.getCarrierId() );
-            System.out.print( "\t" + flight.getConnectionId() );
-            System.out.print( "\t" + flight.getSeatsMax() );
-            System.out.print( "\t" + flight.getSeatsOccupied() );
-            System.out.println( "\t" + flight.getDepartureTime() );
-        }
-
-        System.out.println( "\nReturn" );
-        final BapiRet2 returnStruct = flightList.getReturnData();
-        System.out.println( "\tMessage: " + returnStruct.getMessage() );
-        System.out.println( "\tNumber: " + returnStruct.getNumber() );
-        System.out.println( "\tType: " + returnStruct.getType() );
-        System.out.println( "\tId: " + returnStruct.getId() );
+        LOG.info( flightList );
     }
 }
