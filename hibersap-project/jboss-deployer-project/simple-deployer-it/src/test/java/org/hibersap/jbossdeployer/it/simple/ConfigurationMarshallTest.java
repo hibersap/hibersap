@@ -11,7 +11,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.hibersap.jbossdeployer.metadata.HiberSapMetaData;
-import org.hibersap.jbossdeployer.metadata.JCoProperty;
+import org.hibersap.jbossdeployer.metadata.Property;
 import org.hibersap.jbossdeployer.metadata.SessionFactoryMetaData;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class ConfigurationMarshallTest {
 	@Before
 	public void setup() throws JAXBException {
 		jaxbContext = JAXBContext.newInstance(HiberSapMetaData.class,
-				SessionFactoryMetaData.class, JCoProperty.class);
+				SessionFactoryMetaData.class, Property.class);
 	}
 
 	@Test
@@ -48,8 +48,8 @@ public class ConfigurationMarshallTest {
 
 	@Test
 	public void testMarshalling() throws Exception {
-		final List<JCoProperty> properties = new ArrayList<JCoProperty>();
-		final JCoProperty jcoProperty = new JCoProperty("name", "value");
+		final List<Property> properties = new ArrayList<Property>();
+		final Property jcoProperty = new Property("name", "value");
 		properties.add(jcoProperty);
 
 		final SessionFactoryMetaData sessionFactoryMetaData = new SessionFactoryMetaData(

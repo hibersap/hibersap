@@ -5,15 +5,15 @@
 <hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
 	<session-factory name="A12">
 		<context>org.hibersap.execution.jco.JCoContext</context>
-		<jco-properties>
+		<properties>
 			<property name="jco.client.client" value="800" />
 			<property name="jco.client.user" value="sapuser" />
 			<property name="jco.client.passwd" value="password" />
 			<property name="jco.client.lang" value="en" />
 			<property name="jco.client.ashost" value="10.20.80.76" />
 			<property name="jco.client.sysnr" value="00" />
-			<property name="jco.pool_size" value="1" />
-		</jco-properties>
+			<property name="jco.destination.pool_capacity" value="1" />
+		</properties>
 		
 		<class>org.test.Class1</class>
 		<class>org.test.Class2</class>

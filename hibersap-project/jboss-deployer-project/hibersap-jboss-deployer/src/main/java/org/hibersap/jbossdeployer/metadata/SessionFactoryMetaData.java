@@ -11,70 +11,80 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-//@XmlRootElement(name = "session-factoryX", namespace = HiberSapMetaData.NAMESPACE)
-@XmlType(namespace = HiberSapMetaData.NAMESPACE, propOrder = { "context",
-		"JCoProperties", "classes" })
+// @XmlRootElement(name = "session-factoryX", namespace = HiberSapMetaData.NAMESPACE)
+@XmlType(namespace = HiberSapMetaData.NAMESPACE, propOrder = { "context", "properties", "classes" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class SessionFactoryMetaData implements Serializable {
+public class SessionFactoryMetaData
+    implements Serializable
+{
 
-	@XmlTransient
-	private static final long serialVersionUID = 1;
+    @XmlTransient
+    private static final long serialVersionUID = 1;
 
-	private String name;
+    private String name;
 
-	private String context;
+    private String context;
 
-	private List<JCoProperty> jCoProperties;
+    private List<Property> properties;
 
-	private List<String> classes;
+    private List<String> classes;
 
-	public SessionFactoryMetaData() {
-	}
+    public SessionFactoryMetaData()
+    {
+    }
 
-	public SessionFactoryMetaData(final String name, final String context,
-			final List<JCoProperty> coProperties) {
-		super();
-		this.name = name;
-		this.context = context;
-		jCoProperties = coProperties;
-	}
+    public SessionFactoryMetaData( final String name, final String context, final List<Property> properties )
+    {
+        super();
+        this.name = name;
+        this.context = context;
+        this.properties = properties;
+    }
 
-	@XmlAttribute(required = true)
-	public String getName() {
-		return name;
-	}
+    @XmlAttribute(required = true)
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public void setName( final String name )
+    {
+        this.name = name;
+    }
 
-	// TODO: Klassentyp benutzen
-	@XmlElement(name = "context", required = false)
-	public String getContext() {
-		return context;
-	}
+    // TODO: Klassentyp benutzen
+    @XmlElement(name = "context", required = false)
+    public String getContext()
+    {
+        return context;
+    }
 
-	@XmlElement(name = "property", namespace = HiberSapMetaData.NAMESPACE)
-	@XmlElementWrapper(name = "jco-properties")
-	public List<JCoProperty> getJCoProperties() {
-		return jCoProperties;
-	}
+    @XmlElement(name = "property", namespace = HiberSapMetaData.NAMESPACE)
+    @XmlElementWrapper(name = "properties")
+    public List<Property> getProperties()
+    {
+        return properties;
+    }
 
-	public void setContext(final String context) {
-		this.context = context;
-	}
+    public void setContext( final String context )
+    {
+        this.context = context;
+    }
 
-	public void setJCoProperties(final List<JCoProperty> coProperties) {
-		jCoProperties = coProperties;
-	}
+    public void setProperties( final List<Property> properties )
+    {
+        this.properties = properties;
+    }
 
-	@XmlElement(name = "class", namespace = HiberSapMetaData.NAMESPACE)
-	public List<String> getClasses() {
-		return classes;
-	}
+    @XmlElement(name = "class", namespace = HiberSapMetaData.NAMESPACE)
+    public List<String> getClasses()
+    {
+        return classes;
+    }
 
-	public void setClasses(final List<String> classes) {
-		this.classes = classes;
-	}
+    public void setClasses( final List<String> classes )
+    {
+        this.classes = classes;
+    }
 
 }
