@@ -1,0 +1,37 @@
+%!TEX root = userguide.tex
+\chapter{Introduction to Hibersap}
+
+  Hibersap is a small framework that offers an abstraction layer on top of the SAP Java Connector (JCo).
+  It maps Java classes to SAP function modules using Java Annotations and reduces the technical code
+  to call a function in a SAP back-end system to a minimum. 
+  Hibersap's API is very similar to Hibernate, thus offering a familiar programming interface to developers.  
+
+\section*{Current Features}
+
+\begin{itemize}
+  \item Calling remote function modules in SAP systems
+  \item Mapping of ABAP function modules and their parameters to Java classes and their fields using Java Annotations.
+  \item Hibernate-like API completely hiding the JCo/JCA API.
+  \item Custom data type conversion using @Convert annotation and Converter classes.
+  \item Intercept execution of function modules using custom Interceptors.
+  \item Automatic error propagation using the @ThrowExceptionOnError annotation.
+  \item Configuration using XML or properties file
+  \item Using the SAP Java Connector (JCo), version 3, internally.
+  \item Alteratively, using a JCA compliant Resource Adapter in managed environments.
+  \item Switching between the use of JCo and JCA by means of configuration.
+  \item Manual transaction handling using JCo.
+  \item Container Managed Transactions (CMT) or Local Transactions using JCA.
+\end{itemize}
+
+
+\section*{Prospective Features}
+
+\begin{itemize}
+  \item Hibernate-like current session context strategy.
+  \item Automated lookup of mapped classes instead of adding them manually
+  \item JBoss5 deployer for annotated Hibersap classes.
+  \item Integration of the Hibernate Validation Framework to validate mapped fields.  
+  \item Using JCo 3 stateless calls.
+\end{itemize}
+
+In chapter \ref{cha:QuickStart} you'll find out how easy it is to use Hibersap.

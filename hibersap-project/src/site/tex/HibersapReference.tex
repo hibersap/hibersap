@@ -1,0 +1,45 @@
+% shell command for creating html output:
+% first argument: the name of the .tex file
+% second argument: the name of the .cfg file and a separate html page for each chapter. 
+% '1' instead of '2' creates a single html page for the whole document.
+% last argument: copy the html and css files to the specified folder.
+% htlatex HibersapReference "tex4ht,2" "" "-d..\..\..\target\site\tex"
+
+\documentclass[10pt,a4paper,titlepage]{book} 
+
+\setlength{\topmargin}{-1cm} 
+\setlength{\headsep}{1cm} 
+\setlength{\textheight}{24.5cm} 
+\setlength{\textwidth}{17.3cm} 
+\setlength{\evensidemargin}{-0.7cm} 
+\setlength{\oddsidemargin}{-0.7cm}
+
+\usepackage{fancyvrb} 
+\usepackage{ccaption} 
+\usepackage{color}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{url} \urlstyle{tt}
+\usepackage[colorlinks=true]{hyperref}
+
+\urldef{\urlHibersapSite}\url{http://hibersap.sourceforge.net} 
+\urldef{\urlHibersapDependencies}\url{http://hibersap.sourceforge.net/dependencies.html} 
+
+\begin{document} 
+
+\newcommand\HRule{\noindent\rule{\linewidth}{1.5pt}} 
+
+\include{TitlePage}  
+\pagenumbering{roman} 
+\tableofcontents 
+\newpage 
+\pagenumbering{arabic} 
+\include{Introduction} 
+\include{QuickStart} 
+\include{Installation} 
+\include{Configuration} 
+\appendix 
+
+\end{document}
