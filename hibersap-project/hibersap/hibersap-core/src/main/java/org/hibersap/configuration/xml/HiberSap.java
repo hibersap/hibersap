@@ -41,22 +41,22 @@ public class HiberSap {
 	@XmlTransient
 	private static final long serialVersionUID = 1;
 
-	private SessionFactory sessionFactory;
+	private SessionFactoryConfig sessionFactory;
 
 	public HiberSap() {
 		LOG.trace("created");
 	}
 
-	public HiberSap(final SessionFactory sessionFactory) {
+	public HiberSap(final SessionFactoryConfig sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public void setSessionFactory(final SessionFactory sessionFactory) {
+	public void setSessionFactory(final SessionFactoryConfig sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	@XmlElement(name = "session-factory", required = true, namespace = HiberSap.NAMESPACE)
-	public SessionFactory getSessionFactory() {
+	public SessionFactoryConfig getSessionFactory() {
 		return sessionFactory;
 	}
 }
