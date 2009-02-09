@@ -439,13 +439,13 @@ public class Flight
     <context>org.hibersap.execution.jco.JCoContext</context>
 
     <properties>
-      <property name="hibersap.jco.client.client" value="800" />
-      <property name="hibersap.jco.client.user" value="sapuser" />
-      <property name="hibersap.jco.client.passwd" value="password" />
-      <property name="hibersap.jco.client.lang" value="en" />
-      <property name="hibersap.jco.client.ashost" value="10.20.80.76" />
-      <property name="hibersap.jco.client.sysnr" value="00" />
-      <property name="hibersap.jco.pool_size" value="1" />
+      <property name="jco.client.client" value="800" />
+      <property name="jco.client.user" value="sapuser" />
+      <property name="jco.client.passwd" value="password" />
+      <property name="jco.client.lang" value="en" />
+      <property name="jco.client.ashost" value="10.20.80.76" />
+      <property name="jco.client.sysnr" value="00" />
+      <property name="jco.destination.pool_capacity" value="1" />
     </properties>
 
     <class>org.hibersap.examples.flightlist.FlightListBapi</class>
@@ -467,7 +467,7 @@ hibersap.jco.client.passwd=password
 hibersap.jco.client.lang=en
 hibersap.jco.client.ashost=10.20.80.76
 hibersap.jco.client.sysnr=00
-hibersap.jco.pool_size=1
+jco.destination.pool_capacity=1
 
 # Mapped classes
 hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi
