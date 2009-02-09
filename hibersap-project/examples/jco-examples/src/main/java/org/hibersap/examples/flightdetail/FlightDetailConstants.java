@@ -1,6 +1,6 @@
 package org.hibersap.examples.flightdetail;
 
-import org.hibersap.BapiConstants;
+import org.hibersap.bapi.BapiConstants;
 
 public interface FlightDetailConstants
     extends BapiConstants

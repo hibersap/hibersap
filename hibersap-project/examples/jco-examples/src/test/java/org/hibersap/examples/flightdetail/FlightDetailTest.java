@@ -30,10 +30,10 @@ import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.configuration.Environment;
+import org.hibersap.configuration.HibersapProperties;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionFactoryImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,13 +46,13 @@ public class FlightDetailTest
 {
     private final AnnotationConfiguration configuration = new AnnotationConfiguration();
 
-    private SessionFactory sessionFactory;
+    private SessionFactoryImpl sessionFactory;
 
     @Before
     public void setup()
     {
-        configuration.setProperty( Environment.SESSION_FACTORY_NAME, "F46" );
-        sessionFactory = configuration.buildSessionFactory();
+        configuration.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "F46" );
+        sessionFactory = (SessionFactoryImpl) configuration.buildSessionFactory();
     }
 
     @After

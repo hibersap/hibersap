@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 import org.apache.log4j.Logger;
 import org.hibersap.configuration.AnnotationConfiguration;
@@ -33,6 +35,7 @@ public class SapFlightServiceBean
         LOG.info( "DONE Initializing flight service" );
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public FlightDetailBapi showFlightDetail( final Date date )
     {
         LOG.info( "showFlightDetail" + date );
@@ -49,10 +52,11 @@ public class SapFlightServiceBean
         }
         finally
         {
-            session.close();
-        }
+             session.close();
+         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public FlightListBapi showFlightList()
     {
         LOG.info( "showFlightList" );

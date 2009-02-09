@@ -4,7 +4,7 @@
 <!-- A log4j config file for the cmp2 lab
 -->
 
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="true">
 
    <!-- ================================= -->
    <!-- Preserve messages in a local file -->

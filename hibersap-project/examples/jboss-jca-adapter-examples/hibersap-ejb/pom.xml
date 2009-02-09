@@ -53,6 +53,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hibersap</groupId>
+			<artifactId>hibersap-jca</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.hibersap.examples</groupId>
 			<artifactId>jco-examples</artifactId>
 			<version>${project.version}</version>

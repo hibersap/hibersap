@@ -20,13 +20,13 @@ package org.hibersap.examples.flightdetail;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibersap.BapiConstants;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.ThrowExceptionOnError;
+import org.hibersap.bapi.BapiConstants;
 import org.hibersap.bapi.BapiRet2;
 
 /**
@@ -93,5 +93,11 @@ public class FlightDetailBapi
     public BapiRet2 getReturn()
     {
         return bapiReturn;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "FlightDetailBapi[return:type=" + bapiReturn.getType() + ",message=" + bapiReturn.getMessage() + "]";
     }
 }

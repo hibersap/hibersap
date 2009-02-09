@@ -5,17 +5,17 @@
 
 		<!-- <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory> -->
 
-		<jco-properties>
-			<property name="client.client" value="800" />
-			<property name="client.user" value="sapuser" />
-			<property name="client.passwd"
+		<properties>
+			<property name="jco.client.client" value="800" />
+			<property name="jco.client.user" value="sapuser" />
+			<property name="jco.client.passwd"
 				value="password" />
-			<property name="client.lang" value="en" />
-			<property name="client.ashost"
+			<property name="jco.client.lang" value="en" />
+			<property name="jco.client.ashost"
 				value="10.20.80.76" />
-			<property name="client.sysnr" value="00" />
-			<property name="pool_size" value="1" />
-		</jco-properties>
+			<property name="jco.client.sysnr" value="00" />
+			<property name="jco.destination.pool_capacity" value="1" />
+		</properties>
 
 		<annotated-classes>
 			<class>org.hibersap.examples.flightlist.FlightListBapi</class>

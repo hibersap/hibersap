@@ -20,7 +20,6 @@ package org.hibersap.examples.flightlist;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibersap.BapiConstants;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Export;
@@ -29,6 +28,7 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
+import org.hibersap.bapi.BapiConstants;
 import org.hibersap.bapi.BapiRet2;
 import org.hibersap.conversion.BooleanConverter;
 
