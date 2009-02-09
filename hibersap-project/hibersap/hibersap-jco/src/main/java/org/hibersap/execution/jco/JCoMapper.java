@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibersap.BapiConstants;
 import org.hibersap.HibersapException;
+import org.hibersap.bapi.BapiConstants;
 import org.hibersap.execution.UnsafeCastHelper;
 
 import com.sap.conn.jco.JCoField;

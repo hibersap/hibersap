@@ -17,9 +17,12 @@ package org.hibersap.execution.jca;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.resource.cci.IndexedRecord;
@@ -29,8 +32,9 @@ import javax.resource.cci.Record;
 import net.sf.sapbapijca.adapter.cci.IndexedRecordImpl;
 import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
 
-import org.hibersap.BapiConstants;
-import org.hibersap.HibersapException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.bapi.BapiConstants;
 import org.hibersap.execution.UnsafeCastHelper;
 
 /**
@@ -38,16 +42,89 @@ import org.hibersap.execution.UnsafeCastHelper;
  */
 public class JCAMapper
 {
-    public MappedRecord mapFunctionMapValuesToMappedRecord( final Map<String, Object> functionMap )
+    private static final Log LOG = LogFactory.getLog( JCAMapper.class );
+
+    public MappedRecord mapFunctionMapValuesToMappedRecord( final String functionName,
+                                                            final Map<String, Object> functionMap )
     {
-        final MappedRecord record = new MappedRecordImpl( BapiConstants.IMPORT );
+        LOG.info( "mapFunctionMapValuesToMappedRecord() functionMap=" + functionMap );
+
+        final MappedRecord record = new MappedRecordImpl( functionName );
         final Map<String, Object> importMap = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.IMPORT ) );
         mapToMappedRecord( record, importMap );
         final Map<String, Object> tableMap = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.TABLE ) );
         mapToMappedRecord( record, tableMap );
+
+        LOG.info( "mapFunctionMapValuesToMappedRecord() record=" + record );
+
         return record;
     }
 
+    public void mapRecordToFunctionMap( final Map<String, Object> functionMap, final Map<String, Object> resultRecordMap )
+    {
+        LOG.info( "mapRecordToFunctionMap() recordMap=" + resultRecordMap );
+
+        for ( final Entry<String, Object> entry : resultRecordMap.entrySet() )
+        {
+            final Object recordValue = entry.getValue();
+            final String recordKey = entry.getKey();
+
+            LOG.debug( "mapping " + recordValue.getClass().getName() + ": " + recordKey + "=" + recordValue );
+
+            if ( recordValue instanceof MappedRecord )
+            {
+                final MappedRecord mappedResultRecord = (MappedRecord) recordValue;
+                final Map<String, Object> resultMap = new HashMap<String, Object>();
+                resultMap.put( mappedResultRecord.getRecordName(), mappedResultRecord );
+                Map<String, Object> export = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.EXPORT ) );
+                export.put( recordKey, recordValue );
+            }
+            else if ( recordValue instanceof IndexedRecord )
+            {
+                final IndexedRecord indexedResultRecord = (IndexedRecord) recordValue;
+                List<Map<String, Object>> table = new ArrayList<Map<String, Object>>();
+
+                for ( Object object : indexedResultRecord )
+                {
+                    MappedRecord mr = (MappedRecord) object;
+                    final Map<String, Object> line = new HashMap<String, Object>();
+
+                    @SuppressWarnings("unchecked")
+                    Set<String> keys = mr.keySet();
+
+                    for ( String key : keys )
+                    {
+                        line.put( key, mr.get( key ) );
+                    }
+                    table.add( line );
+                }
+
+                Map<String, Object> tables = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.TABLE ) );
+                tables.put( indexedResultRecord.getRecordName(), table );
+            }
+            else
+            {
+                Map<String, Object> export = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.EXPORT ) );
+                export.put( recordKey, recordValue );
+            }
+        }
+        LOG.info( "mapRecordToFunctionMap() functionMap=" + functionMap );
+    }
+
+    @SuppressWarnings("unchecked")
+    private void appendToRecord( final Record record, final String fieldName, final Object value )
+    {
+        if ( record instanceof IndexedRecord )
+        {
+            ( (IndexedRecord) record ).add( value );
+        }
+        else
+        {
+            ( (MappedRecord) record ).put( fieldName, value );
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     private void mapToMappedRecord( final Record record, final Map<String, Object> map )
     {
         for ( final String fieldName : map.keySet() )
@@ -66,13 +143,17 @@ public class JCAMapper
             else if ( Collection.class.isAssignableFrom( value.getClass() ) )
             {
                 final Collection<Map<String, Object>> tableMap = UnsafeCastHelper.castToCollectionOfMaps( value );
-                final Record table = new IndexedRecordImpl( fieldName );
+                final IndexedRecord table = new IndexedRecordImpl( fieldName );
 
                 appendToRecord( record, fieldName, table );
 
-                for ( final Map<String, Object> structureMap : tableMap )
+                int i = 0;
+                for ( final Map<String, Object> row : tableMap )
                 {
-                    mapToMappedRecord( table, structureMap );
+                    MappedRecordImpl rowRecord = new MappedRecordImpl( fieldName + ":row:" + i );
+                    mapToMappedRecord( rowRecord, row );
+                    table.add( rowRecord );
+                    i++;
                 }
             }
             else
@@ -81,47 +162,4 @@ public class JCAMapper
             }
         }
     }
-
-    @SuppressWarnings("unchecked")
-    private void appendToRecord( final Record record, final String fieldName, final Object value )
-    {
-        if ( record instanceof IndexedRecord )
-        {
-            ( (IndexedRecord) record ).add( value );
-        }
-        else
-        {
-            ( (MappedRecord) record ).put( fieldName, value );
-        }
-    }
-
-    public void mapRecordToFunctionMap( final Map<String, Object> functionMap, final Map<String, Object> resultRecordMap )
-    {
-        for ( final Entry<String, Object> entry : resultRecordMap.entrySet() )
-        {
-            final Object record = entry.getValue();
-            final String key = entry.getKey();
-
-            if ( record instanceof MappedRecord )
-            {
-                final MappedRecord mappedResultRecord = (MappedRecord) record;
-                final Map<String, Object> resultMap = new HashMap<String, Object>();
-                resultMap.put( mappedResultRecord.getRecordName(), mappedResultRecord );
-                functionMap.put( BapiConstants.EXPORT, resultMap );
-            }
-            else if ( record instanceof IndexedRecord )
-            {
-                final IndexedRecord indexedResultRecord = (IndexedRecord) record;
-                final Map<String, Object> tableMap = new HashMap<String, Object>();
-                tableMap.put( indexedResultRecord.getRecordName(), indexedResultRecord );
-
-                functionMap.put( BapiConstants.TABLE, tableMap );
-            }
-            else
-            {
-                throw new HibersapException( "Cannot handle result value: " + key + ":" + record );
-            }
-        }
-    }
-
 }

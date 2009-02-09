@@ -25,26 +25,46 @@ import javax.resource.ResourceException;
 import javax.resource.cci.ConnectionFactory;
 
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.Environment;
+import org.hibersap.configuration.HibersapProperties;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
 /**
- * Implementation for JCA, i.e. it uses a deployed resource adapter to connect to SAP.
+ * Implementation for JCA, which uses a deployed resource adapter to connect to SAP.
  * 
  * @author dahm
  */
 public class JCAContext
     implements Context
 {
+    private static final long serialVersionUID = 1L;
+
     private ConnectionFactory connectionFactory;
 
+    /**
+     * {@inheritDoc}
+     */
     public void configure( final Properties properties )
         throws HibersapException
     {
         final String jndiName = getJndiName( properties );
 
         connectionFactory = getConnectionFactory( jndiName );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Connection getConnection()
+    {
+        try
+        {
+            return new JCAConnection( connectionFactory.getConnection() );
+        }
+        catch ( final ResourceException e )
+        {
+            throw new HibersapException( "getConnection", e );
+        }
     }
 
     private ConnectionFactory getConnectionFactory( final String jndiName )
@@ -74,28 +94,19 @@ public class JCAContext
 
     private String getJndiName( final Properties properties )
     {
-        final String jndiName = (String) properties.get( Environment.JCA_CONNECTION_FACTORY );
+        final String jndiName = (String) properties.get( HibersapProperties.JCA_CONNECTION_FACTORY );
 
         if ( jndiName == null )
         {
             throw new HibersapException( "JCA connection factory not defined, missing tag "
-                + Environment.JCA_CONNECTION_FACTORY );
+                + HibersapProperties.JCA_CONNECTION_FACTORY );
         }
         return jndiName;
     }
 
-    public Connection getConnection()
-    {
-        try
-        {
-            return new JCAConnection( connectionFactory.getConnection() );
-        }
-        catch ( final ResourceException e )
-        {
-            throw new HibersapException( "getConnection", e );
-        }
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public void reset()
     {
         connectionFactory = null;

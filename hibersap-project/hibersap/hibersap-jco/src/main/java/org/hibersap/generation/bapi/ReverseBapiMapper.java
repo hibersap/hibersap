@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.hibersap.HibersapException;
 import org.hibersap.InternalHiberSapException;
-import org.hibersap.configuration.Environment;
+import org.hibersap.configuration.HibersapProperties;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.ParameterMapping;
@@ -33,7 +33,7 @@ public class ReverseBapiMapper
         try
         {
             destination = JCoDestinationManager.getDestination( sessionFactory.getProperties()
-                .getProperty( Environment.SESSION_FACTORY_NAME ) );
+                .getProperty( HibersapProperties.SESSION_FACTORY_NAME ) );
 
         JCoFunctionTemplate ft = destination.getRepository().getFunctionTemplate( bapiName );
         JCoFunction function = ft.getFunction();

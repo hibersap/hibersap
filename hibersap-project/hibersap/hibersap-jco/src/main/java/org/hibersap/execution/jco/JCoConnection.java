@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
-import org.hibersap.session.Session;
+import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
 import com.sap.conn.jco.JCoDestination;
@@ -51,7 +51,7 @@ public class JCoConnection
         this.destinationName = destinationName;
     }
 
-    public Transaction beginTransaction( Session session )
+    public Transaction beginTransaction( SessionImplementor session )
     {
         if ( transaction != null )
         {

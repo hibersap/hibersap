@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.execution.UnsafeCastHelper;
-import org.hibersap.session.Session;
+import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
 /**
@@ -55,7 +55,7 @@ public class JCAConnection
         this.connection = connection;
     }
 
-    public Transaction beginTransaction( final Session session )
+    public Transaction beginTransaction( final SessionImplementor session )
     {
         if ( transaction == null )
         {
@@ -90,7 +90,7 @@ public class JCAConnection
 
     public void execute( final String bapiName, final Map<String, Object> functionMap )
     {
-        final MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord( functionMap );
+        final MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord( bapiName, functionMap );
         final InteractionSpec interactionSpec = new InteractionSpecImpl( bapiName );
 
         LOG.debug( "JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = " + mappedInputRecord );

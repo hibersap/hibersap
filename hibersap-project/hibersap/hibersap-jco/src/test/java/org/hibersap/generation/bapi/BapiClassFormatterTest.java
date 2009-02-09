@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
@@ -33,14 +32,6 @@ public class BapiClassFormatterTest
         Map<String, String> classes = formatter.createClasses( bapiMapping, "org.hibersap.generated.test" );
 
         assertNotNull( classes );
-
-        Set<String> classNames = classes.keySet();
-        for ( String className : classNames )
-        {
-            System.out.println( "\n\n" + className + ":" );
-            System.out.println( classes.get( className ) );
-        }
-
         assertEquals( 3, classes.size() );
 
         assertTrue( classes.containsKey( "BapiTest" ) );

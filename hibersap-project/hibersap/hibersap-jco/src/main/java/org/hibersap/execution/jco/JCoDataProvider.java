@@ -25,6 +25,9 @@ import com.sap.conn.jco.ext.DestinationDataEventListener;
 import com.sap.conn.jco.ext.DestinationDataProvider;
 
 /**
+ * The Hibersap implementation of the JCo DestinationDataProvider. JCo destinations can be added and
+ * removed at runtime.
+ * 
  * @author Carsten Erker
  */
 public class JCoDataProvider
@@ -32,16 +35,28 @@ public class JCoDataProvider
 {
     Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
 
+    private DestinationDataEventListener eventListener;
+
     public void addDestination( String destinationName, Properties properties )
     {
+        // if ( wasAdded( destinationName ) )
+        // {
+        // throw new HibersapException( "A JCo destination named '" + destinationName +
+        // "' was already registered" );
+        // }
         propertiesForDestinationName.put( destinationName, properties );
+        eventListener.updated( destinationName );
     }
 
     public void removeDestination( String destinationName )
     {
         propertiesForDestinationName.remove( destinationName );
+        eventListener.deleted( destinationName );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Properties getDestinationProperties( String destinationName )
     {
         if ( wasAdded( destinationName ) )
@@ -59,13 +74,19 @@ public class JCoDataProvider
         return propertiesForDestinationName.containsKey( destinationName );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setDestinationDataEventListener( DestinationDataEventListener eventListener )
     {
-        // nothing to do
+        this.eventListener = eventListener;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean supportsEvents()
     {
-        return false;
+        return true;
     }
 }
