@@ -22,8 +22,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.ConfigurationException;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.ExecutionInterceptor;
 import org.hibersap.session.SapErrorInterceptor;
@@ -41,21 +44,78 @@ public abstract class Configuration
 {
     private static final long serialVersionUID = 1L;
 
-    protected Properties properties = Environment.getProperties();
+    private static final Log LOG = LogFactory.getLog( Configuration.class );
+
+    protected SessionFactoryConfig sessionFactoryConfig;
 
     protected final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
 
     protected final List<ExecutionInterceptor> interceptors = new ArrayList<ExecutionInterceptor>();
 
+    /**
+     * Creates a Configuration for a concrete Session Factory. The Session Factory must be
+     * configured in the hibersap.xml file.
+     * 
+     * @param sessionFactoryName The Session Factory name as specified in the hibersap.xml file
+     */
+    public Configuration( String sessionFactoryName )
+    {
+        this.sessionFactoryConfig = Environment.getHibersapConfig().getSessionFactory( sessionFactoryName );
+    }
+
+    /**
+     * Creates a Configuration for the first Session Factory specified in the hibersap.xml file.
+     * This method should only be used when there is exactly one Session Factory specified in
+     * hibersap.xml.
+     */
+    public Configuration()
+    {
+        List<SessionFactoryConfig> sessionFactories = Environment.getHibersapConfig().getSessionFactories();
+        int sfCount = sessionFactories.size();
+        if ( sfCount > 0 )
+        {
+            this.sessionFactoryConfig = sessionFactories.get( 0 );
+        }
+        else
+        {
+            throw new ConfigurationException( "Can not find a configured Session Factory" );
+        }
+        if ( sfCount > 1 )
+        {
+            LOG
+                .warn( "Only the first session factory ("
+                    + sessionFactoryConfig.getName()
+                    + ") specified in hibersap.xml was configured. To configure the other specified session factories "
+                    + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration implementation "
+                    + "with the sessionFactoryName argument." );
+        }
+    }
+
+    /**
+     * Creates a Configuration for programmatic configuration of Hibersap. You have to create a
+     * org.hibersap.configuration.xml.SessionFactoryConfig first.
+     * 
+     * @param sessionFactoryConfig The session factory configuration
+     */
+    public Configuration( SessionFactoryConfig sessionFactoryConfig )
+    {
+        this.sessionFactoryConfig = sessionFactoryConfig;
+    }
+
+    /**
+     * Builds the session factory for this Configuration.
+     * 
+     * @return The session factory
+     */
     public SessionFactory buildSessionFactory()
     {
         addInterceptor( new SapErrorInterceptor() );
-        return new SessionFactoryImpl( this, buildSettings( properties ) );
+        return new SessionFactoryImpl( this, buildSettings( sessionFactoryConfig ) );
     }
 
-    public Settings buildSettings( Properties props )
+    private Settings buildSettings( SessionFactoryConfig config )
     {
-        return SettingsFactory.create( props );
+        return SettingsFactory.create( config );
     }
 
     public Map<Class<?>, BapiMapping> getBapiMappings()
@@ -63,35 +123,14 @@ public abstract class Configuration
         return bapiMappingForClass;
     }
 
-    public Properties getProperties()
+    public SessionFactoryConfig getConfig()
     {
-        return properties;
+        return sessionFactoryConfig;
     }
 
-    /**
-     * Get a property.
-     */
-    public String getProperty( String key )
+    public void setConfig( SessionFactoryConfig config )
     {
-        return properties.getProperty( key );
-    }
-
-    /**
-     * Specify a completely new set of properties
-     */
-    public Configuration setProperties( Properties properties )
-    {
-        this.properties = properties;
-        return this;
-    }
-
-    /**
-     * Add or change a property.
-     */
-    public Configuration setProperty( String key, String value )
-    {
-        properties.put( key, value );
-        return this;
+        this.sessionFactoryConfig = config;
     }
 
     public List<ExecutionInterceptor> getInterceptors()

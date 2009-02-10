@@ -4,11 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
-import java.util.Properties;
-
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.DummyContext;
-import org.hibersap.configuration.HibersapProperties;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.junit.Test;
 
 public class SessionFactoryImplTest
@@ -17,16 +15,15 @@ public class SessionFactoryImplTest
     public void initialize()
         throws Exception
     {
-        Properties properties = new Properties();
-        properties.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "name" );
-        properties.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
+        SessionFactoryConfig sfConfig = new SessionFactoryConfig( "name" ).setContext( DummyContext.class.getName() );
 
         AnnotationConfiguration config = new AnnotationConfiguration();
-        config.setProperties( properties );
+        config.setConfig( sfConfig );
+
         SessionFactoryImpl factory = (SessionFactoryImpl) config.buildSessionFactory();
 
         assertSame( DummyContext.class, factory.getSettings().getContext().getClass() );
-        assertEquals( "name", factory.getProperties().getProperty( HibersapProperties.SESSION_FACTORY_NAME ) );
+        assertEquals( "name", factory.getConfig().getName() );
         assertNotNull( factory.getConverterCache() );
         assertNotNull( factory.getBapiMappings() );
         assertNotNull( factory.getInterceptors() );

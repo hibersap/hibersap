@@ -16,14 +16,16 @@ package org.hibersap.execution.jco;
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
-import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.configuration.HibersapProperties;
+import org.hibersap.configuration.xml.Property;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
@@ -46,24 +48,24 @@ public class JCoContext
     /**
      * {@inheritDoc}
      */
-    public void configure( final Properties props )
+    public void configure( final SessionFactoryConfig config )
         throws HibersapException
     {
         LOG.trace( "configure JCo context" );
 
         final Properties jcoProperties = new Properties();
-        Enumeration<?> keys = props.propertyNames();
-        while ( keys.hasMoreElements() )
+        Set<Property> properties = config.getProperties();
+
+        for ( Property property : properties )
         {
-            String key = (String) keys.nextElement();
-            if ( key.startsWith( JCO_PROPERTIES_PREFIX ) )
+            String name = property.getName();
+            if ( name.startsWith( JCO_PROPERTIES_PREFIX ) )
             {
-                Object value = props.getProperty( key );
-                jcoProperties.put( key, value );
+                jcoProperties.put( name, property.getValue() );
             }
         }
 
-        destinationName = props.getProperty( HibersapProperties.SESSION_FACTORY_NAME );
+        destinationName = config.getName();
         if ( StringUtils.isEmpty( destinationName ) )
         {
             throw new HibersapException( "A session factory name must be specified in property "

@@ -1,9 +1,13 @@
 package org.hibersap.configuration.xml;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -12,7 +16,6 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +30,7 @@ public class ConfigurationMarshallTest
     public void setup()
         throws JAXBException
     {
-        jaxbContext = JAXBContext.newInstance( HiberSap.class, SessionFactoryConfig.class, Property.class );
+        jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionFactoryConfig.class, Property.class );
     }
 
     @Test
@@ -35,36 +38,36 @@ public class ConfigurationMarshallTest
         throws Exception
     {
         final InputStream configurationAsStream = getClass().getResourceAsStream( "/xml-configurations/hibersapOK.xml" );
-        Assert.assertNotNull( configurationAsStream );
+        assertNotNull( configurationAsStream );
 
         final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         final Object unmarshalledObject = unmarshaller.unmarshal( configurationAsStream );
-        final HiberSap hiberSapMetaData = (HiberSap) unmarshalledObject;
+        final HibersapConfig hiberSapMetaData = (HibersapConfig) unmarshalledObject;
 
-        final SessionFactoryConfig sessionFactory = hiberSapMetaData.getSessionFactory();
-        Assert.assertNotNull( sessionFactory );
+        final List<SessionFactoryConfig> sessionFactories = hiberSapMetaData.getSessionFactories();
+        assertNotNull( sessionFactories );
+        assertEquals( 2, sessionFactories.size() );
 
-        Assert.assertEquals( "A12", sessionFactory.getName() );
-        Assert.assertEquals( 2, sessionFactory.getClasses().size() );
+        assertEquals( "A12", sessionFactories.get( 0 ).getName() );
+        assertEquals( "B34", sessionFactories.get( 1 ).getName() );
     }
 
     @Test
     public void testMarshalling()
         throws Exception
     {
-        final List<Property> properties = new ArrayList<Property>();
+        final Set<Property> properties = new HashSet<Property>();
         final Property jcoProperty = new Property( "name", "value" );
         properties.add( jcoProperty );
-
         final SessionFactoryConfig sessionFactoryMetaData = new SessionFactoryConfig( "session-name", "ContextClass",
                                                                                       properties );
 
-        final List<String> classes = new ArrayList<String>();
+        final Set<String> classes = new HashSet<String>();
         classes.add( "package.Class1" );
         classes.add( "package.Class2" );
         sessionFactoryMetaData.setClasses( classes );
 
-        final HiberSap hiberSapMetaData = new HiberSap( sessionFactoryMetaData );
+        final HibersapConfig hiberSapMetaData = new HibersapConfig( sessionFactoryMetaData );
 
         final Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty( "jaxb.formatted.output", Boolean.TRUE );

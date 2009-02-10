@@ -10,4 +10,8 @@ public class ConfigurationException
         super( msg );
     }
 
+    public ConfigurationException( String msg, Throwable t )
+    {
+        super( msg, t );
+    }
 }

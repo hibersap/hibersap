@@ -18,7 +18,8 @@ package org.hibersap.session;
  */
 
 import java.io.Serializable;
-import java.util.Properties;
+
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 
 /**
  * The client's interface to the SessionFactory. A SessionFactory is used to create Hibersap
@@ -29,25 +30,17 @@ import java.util.Properties;
 public interface SessionFactory
     extends Serializable
 {
-
     /**
-     * Gets a Session using the Current Session Context strategy.
+     * Get Configuration.
      * 
-     * @return
+     * @return The Configuration object
      */
-    Session getCurrentSession();
-
-    /**
-     * Get Properties.
-     * 
-     * @return
-     */
-    Properties getProperties();
+    SessionFactoryConfig getConfig();
 
     /**
      * Open a Session using a newly created connection to SAP.
      * 
-     * @return Session
+     * @return The Session
      */
     Session openSession();
 }

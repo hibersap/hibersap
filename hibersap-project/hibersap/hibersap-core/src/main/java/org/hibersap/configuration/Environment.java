@@ -17,14 +17,10 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibersap.HibersapException;
-import org.hibersap.configuration.xml.HiberSapJaxbXmlParser;
+import org.hibersap.configuration.xml.HibersapConfig;
+import org.hibersap.configuration.xml.HibersapJaxbXmlParser;
 
 /*
  * @author Carsten Erker
@@ -48,108 +44,35 @@ public final class Environment
 
     private static final Log LOG = LogFactory.getLog( Environment.class );
 
-    private static final Properties PROPERTIES = readProperties();
+    private static final HibersapConfig CONFIG = readConfig();
 
-    private static Properties readProperties()
+    private static HibersapConfig readConfig()
     {
         LOG.info( "Hibersap " + VERSION );
-        Properties result = readXMLProperties( HIBERSAP_XML_FILE );
-
-        if ( result.isEmpty() )
-        {
-            LOG.warn( "XML based configuration file " + HIBERSAP_XML_FILE
-                + " not found or not readable, trying to use properties file " + HIBERSAP_PROPERTIES_FILE );
-            result = readStringProperties( HIBERSAP_PROPERTIES_FILE );
-        }
-
-        addSystemProperties( result );
-
+        HibersapConfig result = readXMLProperties( HIBERSAP_XML_FILE );
         return result;
     }
 
-    static Properties readStringProperties( final String propertiesFile )
-    {
-        LOG.debug( "Trying to read properties from " + propertiesFile );
-
-        final Properties properties = new Properties();
-
-        try
-        {
-            final InputStream stream = ConfigHelper.getResourceAsStream( propertiesFile );
-
-            try
-            {
-                properties.load( stream );
-            }
-            catch ( final Exception e )
-            {
-                LOG.error( "problem loading properties from " + propertiesFile );
-            }
-            finally
-            {
-                closeStream( propertiesFile, stream );
-            }
-        }
-        catch ( final HibersapException he )
-        {
-            LOG.info( propertiesFile + " not found" );
-        }
-
-        return properties;
-    }
-
-    static Properties readXMLProperties( final String hibersapXmlFile )
+    static HibersapConfig readXMLProperties( final String hibersapXmlFile )
     {
         LOG.debug( "Trying to read properties from " + hibersapXmlFile );
-        final Properties properties = new Properties();
-
+        HibersapConfig hibersapConfig;
         try
         {
-            final HiberSapJaxbXmlParser hibersapXMLParser = new HiberSapJaxbXmlParser();
-            properties.putAll( hibersapXMLParser.parseResource( hibersapXmlFile ) );
-            LOG.debug( "Properties read from " + hibersapXmlFile + ": " + properties );
+            final HibersapJaxbXmlParser hibersapXMLParser = new HibersapJaxbXmlParser();
+            hibersapConfig = hibersapXMLParser.parseResource( hibersapXmlFile );
+            LOG.debug( "Properties read from " + hibersapXmlFile + ": " + hibersapConfig );
+            return hibersapConfig;
         }
         catch ( final Exception e )
         {
             LOG.error( "Problems with reading/parsing " + hibersapXmlFile, e );
-        }
-        return properties;
-    }
-
-    private static void addSystemProperties( final Properties properties )
-    {
-        try
-        {
-            properties.putAll( System.getProperties() );
-        }
-        catch ( final SecurityException se )
-        {
-            LOG.warn( "could not copy system properties, system properties will be ignored" );
+            return null;
         }
     }
 
-    private static void closeStream( final String fileName, final InputStream stream )
+    public static HibersapConfig getHibersapConfig()
     {
-        try
-        {
-            stream.close();
-        }
-        catch ( final IOException ioe )
-        {
-            LOG.error( "could not close stream on " + fileName, ioe );
-        }
-    }
-
-    /*
-     * Return <tt>System</tt> properties, extended by any properties specified in
-     * <tt>hibersap.properties</tt>.
-     * 
-     * @return Properties
-     */
-    public static Properties getProperties()
-    {
-        final Properties copy = new Properties();
-        copy.putAll( PROPERTIES );
-        return copy;
+        return CONFIG;
     }
 }

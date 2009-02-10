@@ -21,10 +21,10 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.hibersap.configuration.Configuration;
 import org.hibersap.configuration.Settings;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.model.BapiMapping;
 
@@ -39,7 +39,7 @@ public class SessionFactoryImpl
 {
     private static final long serialVersionUID = 1L;
 
-    final Properties properties;
+    final SessionFactoryConfig properties;
 
     private final Settings settings;
 
@@ -54,8 +54,7 @@ public class SessionFactoryImpl
     {
         this.settings = settings;
         this.converterCache = new ConverterCache();
-        properties = new Properties();
-        properties.putAll( configuration.getProperties() );
+        this.properties = configuration.getConfig();
         bapiMappings = Collections.unmodifiableMap( configuration.getBapiMappings() );
         interceptors = configuration.getInterceptors();
     }
@@ -87,16 +86,7 @@ public class SessionFactoryImpl
     /**
      * {@inheritDoc}
      */
-    public Session getCurrentSession()
-    {
-        // TODO implement current session context strategies
-        throw new RuntimeException( "not yet implemented" );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public Properties getProperties()
+    public SessionFactoryConfig getConfig()
     {
         return properties;
     }

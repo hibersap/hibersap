@@ -1,8 +1,7 @@
 package org.hibersap.configuration;
 
-import java.util.Properties;
-
 import org.hibersap.HibersapException;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
@@ -12,7 +11,7 @@ public class DummyContext
 
     private static final long serialVersionUID = 1L;
 
-    public void configure( Properties properties )
+    public void configure( SessionFactoryConfig config )
         throws HibersapException
     {
         // do nothing

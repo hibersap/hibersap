@@ -18,9 +18,9 @@ package org.hibersap.session;
  */
 
 import java.io.Serializable;
-import java.util.Properties;
 
 import org.hibersap.HibersapException;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.execution.Connection;
 
 /**
@@ -32,19 +32,20 @@ import org.hibersap.execution.Connection;
  * 
  * @author Carsten Erker
  */
-public interface Context extends Serializable
+public interface Context
+    extends Serializable
 {
     /**
      * Called by the framework at initialization time, i.e. when the SessionFactory is built. Allows
      * the subsystem to initialize itself. The implementation of this class must be specified in the
      * Hibersap configuration.
      * 
-     * @param properties The Hibersap configuration properties.
+     * @param config The Hibersap configuration properties.
      * 
      * @throws HibersapException The implementation of this method should throw a HibersapException
      *             if anything goes wrong.
      */
-    void configure( Properties properties )
+    void configure( SessionFactoryConfig config )
         throws HibersapException;
 
     /**

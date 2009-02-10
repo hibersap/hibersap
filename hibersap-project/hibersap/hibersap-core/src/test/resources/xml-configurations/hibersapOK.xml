@@ -17,4 +17,21 @@
 			<class>org.test.Class2</class>
 		</annotated-classes>
 	</session-factory>
+	<session-factory name="B34">
+		<context>org.hibersap.execution.jco.JCAContext</context>
+		<jca-connection-factory>java:/eis/sap/B34</jca-connection-factory>
+		<properties>
+			<property name="jco.client.client" value="800" />
+			<property name="jco.client.user" value="sapuser" />
+			<property name="jco.client.passwd" value="password" />
+			<property name="jco.client.lang" value="en" />
+			<property name="jco.client.ashost" value="10.20.80.77" />
+			<property name="jco.client.sysnr" value="00" />
+			<property name="jco.destination.pool_capacity" value="1" />
+		</properties>
+		<annotated-classes>
+			<class>org.test.Class1</class>
+			<class>org.test.Class3</class>
+		</annotated-classes>
+	</session-factory>
 </hibersap>

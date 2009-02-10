@@ -31,7 +31,6 @@ import org.apache.commons.logging.LogFactory;
 import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
 import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.configuration.HibersapProperties;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionFactoryImpl;
@@ -47,21 +46,21 @@ public class FlightDetailTest
 {
     private static final Log LOG = LogFactory.getLog( FlightDetailTest.class );
 
-    private final AnnotationConfiguration configuration = new AnnotationConfiguration();
+    private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
 
     private SessionFactoryImpl sessionFactory;
 
     @Before
     public void setup()
     {
-        configuration.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "F46" );
         sessionFactory = (SessionFactoryImpl) configuration.buildSessionFactory();
     }
 
     @After
     public void reset()
     {
-        sessionFactory.reset();
+        if ( sessionFactory != null )
+            sessionFactory.reset();
     }
 
     @Test

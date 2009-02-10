@@ -17,15 +17,16 @@ package org.hibersap.execution.jca;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.Properties;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.resource.ResourceException;
 import javax.resource.cci.ConnectionFactory;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibersap.ConfigurationException;
 import org.hibersap.HibersapException;
 import org.hibersap.configuration.HibersapProperties;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
@@ -44,10 +45,10 @@ public class JCAContext
     /**
      * {@inheritDoc}
      */
-    public void configure( final Properties properties )
+    public void configure( final SessionFactoryConfig config )
         throws HibersapException
     {
-        final String jndiName = getJndiName( properties );
+        final String jndiName = getJndiName( config );
 
         connectionFactory = getConnectionFactory( jndiName );
     }
@@ -92,13 +93,13 @@ public class JCAContext
         }
     }
 
-    private String getJndiName( final Properties properties )
+    private String getJndiName( final SessionFactoryConfig config )
     {
-        final String jndiName = (String) properties.get( HibersapProperties.JCA_CONNECTION_FACTORY );
+        final String jndiName = config.getJcaConnectionFactory();
 
-        if ( jndiName == null )
+        if ( StringUtils.isEmpty( jndiName ) )
         {
-            throw new HibersapException( "JCA connection factory not defined, missing tag "
+            throw new ConfigurationException( "JCA connection factory not defined, missing tag "
                 + HibersapProperties.JCA_CONNECTION_FACTORY );
         }
         return jndiName;

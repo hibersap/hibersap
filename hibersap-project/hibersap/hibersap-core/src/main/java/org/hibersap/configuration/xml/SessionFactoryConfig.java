@@ -1,7 +1,7 @@
 package org.hibersap.configuration.xml;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(namespace = HiberSap.NAMESPACE, propOrder = { "context", "jcaConnectionFactory", "properties", "classes" })
+@XmlType(namespace = HibersapConfig.NAMESPACE, propOrder = { "context", "jcaConnectionFactory", "properties", "classes" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class SessionFactoryConfig
 {
@@ -23,9 +23,9 @@ public class SessionFactoryConfig
 
     private String context;
 
-    private List<Property> properties = new ArrayList<Property>( 0 );
+    private Set<Property> properties = new HashSet<Property>( 0 );
 
-    private List<String> classes = new ArrayList<String>( 0 );
+    private Set<String> classes = new HashSet<String>( 0 );
 
     private String jcaConnectionFactory;
 
@@ -33,7 +33,12 @@ public class SessionFactoryConfig
     {
     }
 
-    public SessionFactoryConfig( final String name, final String context, final List<Property> properties )
+    public SessionFactoryConfig( String name )
+    {
+        this.name = name;
+    }
+
+    SessionFactoryConfig( final String name, final String context, final Set<Property> properties )
     {
         super();
         this.name = name;
@@ -52,50 +57,77 @@ public class SessionFactoryConfig
         this.name = name;
     }
 
-    @XmlElement(name = "context", required = false, namespace = HiberSap.NAMESPACE)
+    @XmlElement(name = "context", required = false, namespace = HibersapConfig.NAMESPACE)
     public String getContext()
     {
         return context;
     }
 
-    @XmlElement(name = "jca-connection-factory", required = false, namespace = HiberSap.NAMESPACE)
+    @XmlElement(name = "jca-connection-factory", required = false, namespace = HibersapConfig.NAMESPACE)
     public String getJcaConnectionFactory()
     {
         return jcaConnectionFactory;
     }
 
-    @XmlElement(name = "property", namespace = HiberSap.NAMESPACE)
-    @XmlElementWrapper(name = "properties", namespace = HiberSap.NAMESPACE)
-    public List<Property> getProperties()
+    @XmlElement(name = "property", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "properties", namespace = HibersapConfig.NAMESPACE)
+    public Set<Property> getProperties()
     {
         return properties;
     }
 
-    public void setContext( final String context )
-    {
-        this.context = context;
-    }
-
-    public void setJcaConnectionFactory( final String jcaConnectionFactory )
+    public SessionFactoryConfig setJcaConnectionFactory( final String jcaConnectionFactory )
     {
         this.jcaConnectionFactory = jcaConnectionFactory;
+        return this;
     }
 
-    public void setProperties( final List<Property> properties )
+    public void setProperties( final Set<Property> properties )
     {
         this.properties = properties;
     }
 
-    @XmlElement(name = "class", namespace = HiberSap.NAMESPACE)
-    @XmlElementWrapper(name = "annotated-classes", namespace = HiberSap.NAMESPACE)
-    public List<String> getClasses()
+    @XmlElement(name = "class", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "annotated-classes", namespace = HibersapConfig.NAMESPACE)
+    public Set<String> getClasses()
     {
         return classes;
     }
 
-    public void setClasses( final List<String> classes )
+    public void setClasses( final Set<String> classes )
     {
         this.classes = classes;
     }
 
+    public String getProperty( String name )
+    {
+        for ( Property property : properties )
+        {
+            if ( property.getName().equals( name ) )
+                return property.getValue();
+        }
+        return null;
+    }
+
+    public SessionFactoryConfig setContext( String context )
+    {
+        this.context = context;
+        return this;
+    }
+
+    public SessionFactoryConfig setProperty( String name, String value )
+    {
+        Property property = new Property( name, value );
+        if ( properties.contains( property ) )
+        {
+        }
+        properties.add( property );
+        return this;
+    }
+
+    public SessionFactoryConfig addClass( Class<?> annotatedClass )
+    {
+        classes.add( annotatedClass.getName() );
+        return this;
+    }
 }

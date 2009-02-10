@@ -14,7 +14,7 @@ import org.hibersap.session.SessionFactory;
 
 public class HibersapGenerator
 {
-    public void generate(String outputDir, String packagePath, String bapiName)
+    public void generate( String outputDir, String packagePath, String bapiName )
     {
         String packageDir = packagePath.replace( '.', File.separatorChar );
         File outputDirFile = new File( outputDir + File.separator + packageDir );
@@ -26,7 +26,7 @@ public class HibersapGenerator
         BapiMapping bapiMapping = mapper.map( bapiName, sessionFactory );
         BapiClassFormatter formatter = new BapiClassFormatter();
         Map<String, String> classForName = formatter.createClasses( bapiMapping, packagePath );
-        
+
         for ( String className : classForName.keySet() )
         {
             String fileName = className + ".java";

@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionFactory;
@@ -60,21 +61,26 @@ public class AnnotationConfiguration
 
     public AnnotationConfiguration()
     {
-        addAnnotatedClassesFromProperties();
+        super();
+        addAnnotatedClassesFromConfiguration();
     }
 
-    private void addAnnotatedClassesFromProperties()
+    public AnnotationConfiguration( String name )
     {
-        for ( final Object key : properties.keySet() )
-        {
-            final String keyString = key.toString();
+        super( name );
+        addAnnotatedClassesFromConfiguration();
+    }
 
-            if ( keyString.startsWith( HibersapProperties.BAPI_CLASSES_PREFIX ) )
-            {
-                final String valueClass = properties.getProperty( keyString );
-                LOG.info( "Found BAPI class " + keyString + " = " + valueClass );
-                addAnnotatedClass( SettingsFactory.getClassForName( valueClass, keyString ) );
-            }
+    public AnnotationConfiguration( SessionFactoryConfig config )
+    {
+        super( config );
+    }
+
+    private void addAnnotatedClassesFromConfiguration()
+    {
+        for ( String className : sessionFactoryConfig.getClasses() )
+        {
+            addAnnotatedClass( SettingsFactory.getClassForName( className ) );
         }
     }
 

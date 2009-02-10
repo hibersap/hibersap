@@ -20,9 +20,9 @@ package org.hibersap.session;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.hibersap.configuration.Settings;
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.model.BapiMapping;
 
@@ -45,12 +45,7 @@ public interface SessionFactoryImplementor
 
     ConverterCache getConverterCache();
 
-    /**
-     * Get Properties.
-     * 
-     * @return
-     */
-    Properties getProperties();
+    SessionFactoryConfig getConfig();
 
     Settings getSettings();
 

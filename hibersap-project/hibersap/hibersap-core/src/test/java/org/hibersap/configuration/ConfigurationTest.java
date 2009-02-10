@@ -18,18 +18,17 @@ package org.hibersap.configuration;
  */
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+import org.hibersap.configuration.xml.SessionFactoryConfig;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.ExecutionInterceptor;
 import org.hibersap.session.SapErrorInterceptor;
-import org.hibersap.session.SessionFactory;
-import org.hibersap.session.SessionFactoryImpl;
+import org.hibersap.session.SessionFactoryImplementor;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -37,11 +36,18 @@ import org.junit.Test;
  */
 public class ConfigurationTest
 {
-    private Configuration config = new Configuration()
+    private Configuration configuration;
+
+    @Before
+    @SuppressWarnings("serial")
+    public void createConfiguration()
     {
-        private static final long serialVersionUID = 1L;
-        // nothing to overwrite
-    };
+        configuration = new Configuration()
+        {
+            // nothing to overwrite
+        };
+        configuration.getConfig().setContext( DummyContext.class.getName() );
+    }
 
     @Test
     public void addInterceptor()
@@ -58,8 +64,8 @@ public class ConfigurationTest
                 // dummy
             }
         };
-        config.addInterceptor( dummyInterceptor );
-        SessionFactoryImpl sessionFactory = configAndBuildSessionFactory();
+        configuration.addInterceptor( dummyInterceptor );
+        SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
 
         assertTrue( sessionFactory.getInterceptors().contains( dummyInterceptor ) );
     }
@@ -68,25 +74,31 @@ public class ConfigurationTest
     public void setGetOverwriteProperties()
         throws Exception
     {
-        // initializes with system properties
-        assertNotNull( config.getProperty( "java.runtime.name" ) );
+        SessionFactoryConfig sfConfig = configuration.getConfig();
+
+        // overwrites context class
+        assertEquals( DummyContext.class.getName(), sfConfig.getContext() );
+        sfConfig.setContext( "test" );
+        assertEquals( "test", sfConfig.getContext() );
 
         // overwrites property
-        config.setProperty( "java.runtime.name", "test" );
-        assertEquals( "test", config.getProperty( "java.runtime.name" ) );
+        assertEquals( "user", sfConfig.getProperty( "jco.client.user" ) );
+        sfConfig.setProperty( "jco.client.user", "test" );
+        assertEquals( "test", sfConfig.getProperty( "jco.client.user" ) );
 
-        // overwrites all properties
-        Properties properties = new Properties();
-        properties.setProperty( "testkey", "testvalue" );
-        config.setProperties( properties );
-        assertEquals( 1, config.getProperties().size() );
-        assertEquals( "testvalue", config.getProperty( "testkey" ) );
+        // overwrites whole configuration
+        assertEquals( 8, sfConfig.getProperties().size() );
+        SessionFactoryConfig config = new SessionFactoryConfig().setProperty( "testkey", "testvalue" );
+        configuration.setConfig( config );
+        sfConfig = configuration.getConfig();
+        assertEquals( 1, sfConfig.getProperties().size() );
+        assertEquals( "testvalue", sfConfig.getProperty( "testkey" ) );
     }
 
     @Test
     public void settingsInitialized()
     {
-        SessionFactoryImpl sessionFactory = configAndBuildSessionFactory();
+        SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
         Settings settings = sessionFactory.getSettings();
 
         // Context class
@@ -96,17 +108,9 @@ public class ConfigurationTest
     @Test
     public void standardInterceptorsInitialized()
     {
-        SessionFactoryImpl sessionFactory = configAndBuildSessionFactory();
+        SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
         List<ExecutionInterceptor> interceptors = sessionFactory.getInterceptors();
         assertEquals( 1, interceptors.size() );
         assertEquals( SapErrorInterceptor.class, interceptors.get( 0 ).getClass() );
-    }
-
-    private SessionFactoryImpl configAndBuildSessionFactory()
-    {
-        config.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "Test" );
-        config.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
-        SessionFactory sessionFactory = config.buildSessionFactory();
-        return (SessionFactoryImpl) sessionFactory;
     }
 }

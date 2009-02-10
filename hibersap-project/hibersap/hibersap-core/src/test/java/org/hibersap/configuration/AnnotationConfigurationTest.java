@@ -15,7 +15,7 @@ public class AnnotationConfigurationTest
 {
     private static final Class<BapiTransactionCommit> BAPI_CLASS = BapiTransactionCommit.class;
 
-    private AnnotationConfiguration config = new AnnotationConfiguration();
+    private AnnotationConfiguration configuration = new AnnotationConfiguration();
 
     @Test
     public void addsStandardInterceptors()
@@ -27,7 +27,7 @@ public class AnnotationConfigurationTest
     @Test
     public void addsAnnotatedClass()
     {
-        config.addAnnotatedClass( BAPI_CLASS );
+        configuration.addAnnotatedClass( BAPI_CLASS );
         SessionFactoryImpl sessionFactory = configureAndBuildSessionFactory();
 
         Map<Class<?>, BapiMapping> bapiMappings = sessionFactory.getBapiMappings();
@@ -37,9 +37,8 @@ public class AnnotationConfigurationTest
 
     private SessionFactoryImpl configureAndBuildSessionFactory()
     {
-        config.setProperty( HibersapProperties.SESSION_FACTORY_NAME, "Test" );
-        config.setProperty( HibersapProperties.CONTEXT_CLASS, DummyContext.class.getName() );
-        SessionFactory sessionFactory = config.buildSessionFactory();
+        configuration.getConfig().setContext( DummyContext.class.getName() );
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
         return (SessionFactoryImpl) sessionFactory;
     }
 }
