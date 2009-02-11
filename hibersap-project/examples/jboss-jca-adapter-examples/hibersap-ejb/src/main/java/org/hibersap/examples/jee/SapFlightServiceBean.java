@@ -35,7 +35,11 @@ public class SapFlightServiceBean
         LOG.info( "DONE Initializing flight service" );
     }
 
-    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    /**
+     * Example using Container Managed Transaction (CMT): The container cares about transaction
+     * handling (see @TransactionAttribute annotation).
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public FlightDetailBapi showFlightDetail( final Date date )
     {
         LOG.info( "showFlightDetail" + date );
@@ -43,19 +47,21 @@ public class SapFlightServiceBean
 
         try
         {
-            session.beginTransaction();
             final FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", date );
             session.execute( flightDetail );
-            session.getTransaction().commit();
             LOG.info( "DONE showFlightDetail" + flightDetail );
             return flightDetail;
         }
         finally
         {
-             session.close();
-         }
+            session.close();
+        }
     }
 
+    /**
+     * Example using Bean Managed Transaction (BMT): No Transaction from the Container is propagated
+     * (see @TransactionAttribute annotation), so we do programmatic transaction handling.
+     */
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public FlightListBapi showFlightList()
     {
