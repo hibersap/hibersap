@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
-	<session-factory name="A12">
+	<session-manager name="A12">
 		<context>org.hibersap.execution.jco.JCoContext</context>
 		<jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
 		<properties>
@@ -16,8 +16,8 @@
 			<class>org.test.Class1</class>
 			<class>org.test.Class2</class>
 		</annotated-classes>
-	</session-factory>
-	<session-factory name="B34">
+	</session-manager>
+	<session-manager name="B34">
 		<context>org.hibersap.execution.jco.JCAContext</context>
 		<jca-connection-factory>java:/eis/sap/B34</jca-connection-factory>
 		<properties>
@@ -33,5 +33,5 @@
 			<class>org.test.Class1</class>
 			<class>org.test.Class3</class>
 		</annotated-classes>
-	</session-factory>
+	</session-manager>
 </hibersap>

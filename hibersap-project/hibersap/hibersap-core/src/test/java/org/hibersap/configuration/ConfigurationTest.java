@@ -23,11 +23,11 @@ import static junit.framework.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.ExecutionInterceptor;
 import org.hibersap.session.SapErrorInterceptor;
-import org.hibersap.session.SessionFactoryImplementor;
+import org.hibersap.session.SessionManagerImplementor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class ConfigurationTest
         {
             // nothing to overwrite
         };
-        configuration.getConfig().setContext( DummyContext.class.getName() );
+        configuration.getSessionManagerConfig().setContext( DummyContext.class.getName() );
     }
 
     @Test
@@ -65,16 +65,16 @@ public class ConfigurationTest
             }
         };
         configuration.addInterceptor( dummyInterceptor );
-        SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
+        SessionManagerImplementor sessionManager = (SessionManagerImplementor) configuration.buildSessionManager();
 
-        assertTrue( sessionFactory.getInterceptors().contains( dummyInterceptor ) );
+        assertTrue( sessionManager.getInterceptors().contains( dummyInterceptor ) );
     }
 
     @Test
     public void setGetOverwriteProperties()
         throws Exception
     {
-        SessionFactoryConfig sfConfig = configuration.getConfig();
+        SessionManagerConfig sfConfig = configuration.getSessionManagerConfig();
 
         // overwrites context class
         assertEquals( DummyContext.class.getName(), sfConfig.getContext() );
@@ -88,9 +88,9 @@ public class ConfigurationTest
 
         // overwrites whole configuration
         assertEquals( 8, sfConfig.getProperties().size() );
-        SessionFactoryConfig config = new SessionFactoryConfig().setProperty( "testkey", "testvalue" );
-        configuration.setConfig( config );
-        sfConfig = configuration.getConfig();
+        SessionManagerConfig config = new SessionManagerConfig().setProperty( "testkey", "testvalue" );
+        configuration.setSessionManagerConfig( config );
+        sfConfig = configuration.getSessionManagerConfig();
         assertEquals( 1, sfConfig.getProperties().size() );
         assertEquals( "testvalue", sfConfig.getProperty( "testkey" ) );
     }
@@ -98,8 +98,8 @@ public class ConfigurationTest
     @Test
     public void settingsInitialized()
     {
-        SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
-        Settings settings = sessionFactory.getSettings();
+        SessionManagerImplementor sessionManager = (SessionManagerImplementor) configuration.buildSessionManager();
+        Settings settings = sessionManager.getSettings();
 
         // Context class
         assertEquals( DummyContext.class, settings.getContext().getClass() );
@@ -108,8 +108,8 @@ public class ConfigurationTest
     @Test
     public void standardInterceptorsInitialized()
     {
-        SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
-        List<ExecutionInterceptor> interceptors = sessionFactory.getInterceptors();
+        SessionManagerImplementor sessionManager = (SessionManagerImplementor) configuration.buildSessionManager();
+        List<ExecutionInterceptor> interceptors = sessionManager.getInterceptors();
         assertEquals( 1, interceptors.size() );
         assertEquals( SapErrorInterceptor.class, interceptors.get( 0 ).getClass() );
     }

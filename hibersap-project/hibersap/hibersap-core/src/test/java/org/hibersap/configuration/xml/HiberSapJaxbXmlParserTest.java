@@ -19,10 +19,10 @@ public class HiberSapJaxbXmlParserTest
 
         assertNotNull( config );
 
-        List<SessionFactoryConfig> sessionFactories = config.getSessionFactories();
-        assertEquals( 2, sessionFactories.size() );
+        List<SessionManagerConfig> sessionManagers = config.getSessionManagers();
+        assertEquals( 2, sessionManagers.size() );
 
-        SessionFactoryConfig sf1 = sessionFactories.get( 0 );
+        SessionManagerConfig sf1 = sessionManagers.get( 0 );
         assertEquals( "A12", sf1.getName() );
         assertEquals( "org.hibersap.execution.jco.JCoContext", sf1.getContext() );
         assertEquals( "java:/eis/sap/A12", sf1.getJcaConnectionFactory() );
@@ -33,7 +33,7 @@ public class HiberSapJaxbXmlParserTest
         Set<String> classes = sf1.getClasses();
         assertEquals( 2, classes.size() );
 
-        SessionFactoryConfig sf2 = sessionFactories.get( 1 );
+        SessionManagerConfig sf2 = sessionManagers.get( 1 );
         assertEquals( "B34", sf2.getName() );
         assertEquals( "org.hibersap.execution.jco.JCAContext", sf2.getContext() );
         assertEquals( "java:/eis/sap/B34", sf2.getJcaConnectionFactory() );

@@ -26,12 +26,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.ExecutionInterceptor;
 import org.hibersap.session.SapErrorInterceptor;
-import org.hibersap.session.SessionFactory;
-import org.hibersap.session.SessionFactoryImpl;
+import org.hibersap.session.SessionManager;
+import org.hibersap.session.SessionManagerImpl;
 
 /**
  * Abstract Superclass for different configuration strategies. Implements properties / settings
@@ -46,74 +46,74 @@ public abstract class Configuration
 
     private static final Log LOG = LogFactory.getLog( Configuration.class );
 
-    protected SessionFactoryConfig sessionFactoryConfig;
+    protected SessionManagerConfig sessionManagerConfig;
 
     protected final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
 
     protected final List<ExecutionInterceptor> interceptors = new ArrayList<ExecutionInterceptor>();
 
     /**
-     * Creates a Configuration for a concrete Session Factory. The Session Factory must be
-     * configured in the hibersap.xml file.
+     * Creates a Configuration for a concrete SessionManager. The SessionManager must be configured
+     * in the hibersap.xml file.
      * 
-     * @param sessionFactoryName The Session Factory name as specified in the hibersap.xml file
+     * @param sessionManagerName The SessionManager name as specified in the hibersap.xml file
      */
-    public Configuration( String sessionFactoryName )
+    public Configuration( String sessionManagerName )
     {
-        this.sessionFactoryConfig = Environment.getHibersapConfig().getSessionFactory( sessionFactoryName );
+        this.sessionManagerConfig = Environment.getHibersapConfig().getSessionManager( sessionManagerName );
     }
 
     /**
-     * Creates a Configuration for the first Session Factory specified in the hibersap.xml file.
-     * This method should only be used when there is exactly one Session Factory specified in
+     * Creates a Configuration for the first SessionManager specified in the hibersap.xml file. This
+     * method should only be used when there is exactly one SessionManager specified in
      * hibersap.xml.
      */
     public Configuration()
     {
-        List<SessionFactoryConfig> sessionFactories = Environment.getHibersapConfig().getSessionFactories();
-        int sfCount = sessionFactories.size();
+        List<SessionManagerConfig> sessionManagers = Environment.getHibersapConfig().getSessionManagers();
+        int sfCount = sessionManagers.size();
         if ( sfCount > 0 )
         {
-            this.sessionFactoryConfig = sessionFactories.get( 0 );
+            this.sessionManagerConfig = sessionManagers.get( 0 );
         }
         else
         {
-            throw new ConfigurationException( "Can not find a configured Session Factory" );
+            throw new ConfigurationException( "Can not find a configured SessionManager" );
         }
         if ( sfCount > 1 )
         {
             LOG
-                .warn( "Only the first session factory ("
-                    + sessionFactoryConfig.getName()
-                    + ") specified in hibersap.xml was configured. To configure the other specified session factories "
+                .warn( "Only the first session manager ("
+                    + sessionManagerConfig.getName()
+                    + ") specified in hibersap.xml was configured. To configure the other specified session managers "
                     + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration implementation "
-                    + "with the sessionFactoryName argument." );
+                    + "with the sessionManagerName argument." );
         }
     }
 
     /**
      * Creates a Configuration for programmatic configuration of Hibersap. You have to create a
-     * org.hibersap.configuration.xml.SessionFactoryConfig first.
+     * org.hibersap.configuration.xml.SessionManagerConfig first.
      * 
-     * @param sessionFactoryConfig The session factory configuration
+     * @param sessionManagerConfig The session manager configuration
      */
-    public Configuration( SessionFactoryConfig sessionFactoryConfig )
+    public Configuration( SessionManagerConfig sessionManagerConfig )
     {
-        this.sessionFactoryConfig = sessionFactoryConfig;
+        this.sessionManagerConfig = sessionManagerConfig;
     }
 
     /**
-     * Builds the session factory for this Configuration.
+     * Builds the session manager for this Configuration.
      * 
-     * @return The session factory
+     * @return The session manager
      */
-    public SessionFactory buildSessionFactory()
+    public SessionManager buildSessionManager()
     {
         addInterceptor( new SapErrorInterceptor() );
-        return new SessionFactoryImpl( this, buildSettings( sessionFactoryConfig ) );
+        return new SessionManagerImpl( this, buildSettings( sessionManagerConfig ) );
     }
 
-    private Settings buildSettings( SessionFactoryConfig config )
+    private Settings buildSettings( SessionManagerConfig config )
     {
         return SettingsFactory.create( config );
     }
@@ -123,14 +123,14 @@ public abstract class Configuration
         return bapiMappingForClass;
     }
 
-    public SessionFactoryConfig getConfig()
+    public SessionManagerConfig getSessionManagerConfig()
     {
-        return sessionFactoryConfig;
+        return sessionManagerConfig;
     }
 
-    public void setConfig( SessionFactoryConfig config )
+    public void setSessionManagerConfig( SessionManagerConfig config )
     {
-        this.sessionFactoryConfig = config;
+        this.sessionManagerConfig = config;
     }
 
     public List<ExecutionInterceptor> getInterceptors()

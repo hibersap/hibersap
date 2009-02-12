@@ -1,7 +1,7 @@
 package org.hibersap.configuration;
 
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
@@ -11,7 +11,7 @@ public class DummyContext
 
     private static final long serialVersionUID = 1L;
 
-    public void configure( SessionFactoryConfig config )
+    public void configure( SessionManagerConfig config )
         throws HibersapException
     {
         // do nothing

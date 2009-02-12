@@ -24,37 +24,37 @@ import java.util.Map;
 
 import org.hibersap.configuration.Configuration;
 import org.hibersap.configuration.Settings;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
- * Implementation of the SessionFactory. A client uses the SessionFactory to create Hibernate
+ * Implementation of the SessionManager. A client uses the SessionManager to create Hibernate
  * Sessions.
  * 
  * @author Carsten Erker
  */
-public class SessionFactoryImpl
-    implements SessionFactory, SessionFactoryImplementor, Serializable
+public class SessionManagerImpl
+    implements SessionManager, SessionManagerImplementor, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    final SessionFactoryConfig properties;
+    final SessionManagerConfig properties;
 
     private final Settings settings;
 
     private final Map<Class<?>, BapiMapping> bapiMappings;
 
-    // TODO exists for each SessionFactory instance, should be global to remove redundancies
+    // TODO exists for each SessionManager instance, should be global to remove redundancies
     private final ConverterCache converterCache;
 
     private final List<ExecutionInterceptor> interceptors;
 
-    public SessionFactoryImpl( Configuration configuration, Settings settings )
+    public SessionManagerImpl( Configuration configuration, Settings settings )
     {
         this.settings = settings;
         this.converterCache = new ConverterCache();
-        this.properties = configuration.getConfig();
+        this.properties = configuration.getSessionManagerConfig();
         bapiMappings = Collections.unmodifiableMap( configuration.getBapiMappings() );
         interceptors = configuration.getInterceptors();
     }
@@ -86,7 +86,7 @@ public class SessionFactoryImpl
     /**
      * {@inheritDoc}
      */
-    public SessionFactoryConfig getConfig()
+    public SessionManagerConfig getConfig()
     {
         return properties;
     }

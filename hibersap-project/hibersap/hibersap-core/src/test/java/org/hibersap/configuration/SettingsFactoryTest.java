@@ -3,7 +3,7 @@ package org.hibersap.configuration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Context;
 import org.junit.Test;
 
@@ -13,8 +13,7 @@ public class SettingsFactoryTest
     public void initializesContextClass()
         throws Exception
     {
-        SessionFactoryConfig config = new SessionFactoryConfig( "Test" );
-        config.setContext( DummyContext.class.getName() );
+        SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( DummyContext.class.getName() );
 
         Settings settings = SettingsFactory.create( config );
 

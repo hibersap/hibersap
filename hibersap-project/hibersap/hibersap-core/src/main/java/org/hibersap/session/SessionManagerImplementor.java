@@ -18,29 +18,45 @@ package org.hibersap.session;
  */
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.Settings;
+import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.conversion.ConverterCache;
+import org.hibersap.mapping.model.BapiMapping;
 
 /**
- * The client's interface to the SessionFactory. A SessionFactory is used to create Hibersap
+ * The client's interface to the SessionManager. A SessionManager is used to create Hibersap
  * sessions.
  * 
  * @author Carsten Erker
  */
-public interface SessionFactory
+public interface SessionManagerImplementor
     extends Serializable
 {
+
     /**
-     * Get Configuration.
+     * Gets this SessionManager's BapiMappings.
      * 
-     * @return The Configuration object
+     * @return A BapiMappings for Classes map.
      */
-    SessionFactoryConfig getConfig();
+    Map<Class<?>, BapiMapping> getBapiMappings();
+
+    ConverterCache getConverterCache();
+
+    SessionManagerConfig getConfig();
+
+    Settings getSettings();
+
+    void reset();
 
     /**
      * Open a Session using a newly created connection to SAP.
      * 
-     * @return The Session
+     * @return Session
      */
     Session openSession();
+
+    List<ExecutionInterceptor> getInterceptors();
 }

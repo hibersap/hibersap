@@ -42,45 +42,46 @@ public class HibersapConfig
     @XmlTransient
     private static final long serialVersionUID = 1;
 
-    private final List<SessionFactoryConfig> sessionFactories = new ArrayList<SessionFactoryConfig>();
+    private final List<SessionManagerConfig> sessionManagers = new ArrayList<SessionManagerConfig>();
 
     public HibersapConfig()
     {
         LOG.trace( "created" );
     }
 
-    HibersapConfig( final SessionFactoryConfig sessionFactory )
+    HibersapConfig( final SessionManagerConfig sessionManager )
     {
-        this.sessionFactories.add( sessionFactory );
+        this.sessionManagers.add( sessionManager );
     }
 
-    public void setSessionFactories( final List<SessionFactoryConfig> sessionFactories )
+    public void setSessionManagers( final List<SessionManagerConfig> sessionManagers )
     {
-        this.sessionFactories.clear();
-        this.sessionFactories.addAll( sessionFactories );
+        this.sessionManagers.clear();
+        this.sessionManagers.addAll( sessionManagers );
     }
 
-    @XmlElement(name = "session-factory", required = true, namespace = HibersapConfig.NAMESPACE)
-    public List<SessionFactoryConfig> getSessionFactories()
+    @XmlElement(name = "session-manager", required = true, namespace = HibersapConfig.NAMESPACE)
+    public List<SessionManagerConfig> getSessionManagers()
     {
-        return sessionFactories;
+        return sessionManagers;
     }
 
-    public SessionFactoryConfig getSessionFactory( String name )
+    public SessionManagerConfig getSessionManager( String name )
     {
-        for ( SessionFactoryConfig config : sessionFactories )
+        for ( SessionManagerConfig config : sessionManagers )
         {
             if ( config.getName().equals( name ) )
             {
                 return config;
             }
         }
-        throw new ConfigurationException( "No configuration found for Session Factory name '" + name + "'" );
+        throw new ConfigurationException( "No configuration found for Session Manager name '" + name + "'" );
     }
 
-    public SessionFactoryConfig addSessionFactory( String name )
+    public SessionManagerConfig addSessionManager( String name )
     {
-        SessionFactoryConfig config = new SessionFactoryConfig( name );
+        SessionManagerConfig config = new SessionManagerConfig( name );
+        sessionManagers.add( config );
         return config;
     }
 }

@@ -20,7 +20,7 @@ package org.hibersap.session;
 import java.io.Serializable;
 
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 
 /**
@@ -36,7 +36,7 @@ public interface Context
     extends Serializable
 {
     /**
-     * Called by the framework at initialization time, i.e. when the SessionFactory is built. Allows
+     * Called by the framework at initialization time, i.e. when the SessionManager is built. Allows
      * the subsystem to initialize itself. The implementation of this class must be specified in the
      * Hibersap configuration.
      * 
@@ -45,11 +45,11 @@ public interface Context
      * @throws HibersapException The implementation of this method should throw a HibersapException
      *             if anything goes wrong.
      */
-    void configure( SessionFactoryConfig config )
+    void configure( SessionManagerConfig config )
         throws HibersapException;
 
     /**
-     * Called by the framework when the method org.hibersap.session.SessionFactory.reset() is
+     * Called by the framework when the method org.hibersap.session.SessionFManager.reset() is
      * called. Allows the subsystem to free resources etc.
      */
     void reset();

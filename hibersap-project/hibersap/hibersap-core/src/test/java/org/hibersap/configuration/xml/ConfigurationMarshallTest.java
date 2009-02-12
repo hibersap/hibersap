@@ -30,7 +30,7 @@ public class ConfigurationMarshallTest
     public void setup()
         throws JAXBException
     {
-        jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionFactoryConfig.class, Property.class );
+        jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
     }
 
     @Test
@@ -44,12 +44,12 @@ public class ConfigurationMarshallTest
         final Object unmarshalledObject = unmarshaller.unmarshal( configurationAsStream );
         final HibersapConfig hiberSapMetaData = (HibersapConfig) unmarshalledObject;
 
-        final List<SessionFactoryConfig> sessionFactories = hiberSapMetaData.getSessionFactories();
-        assertNotNull( sessionFactories );
-        assertEquals( 2, sessionFactories.size() );
+        final List<SessionManagerConfig> sessionManagers = hiberSapMetaData.getSessionManagers();
+        assertNotNull( sessionManagers );
+        assertEquals( 2, sessionManagers.size() );
 
-        assertEquals( "A12", sessionFactories.get( 0 ).getName() );
-        assertEquals( "B34", sessionFactories.get( 1 ).getName() );
+        assertEquals( "A12", sessionManagers.get( 0 ).getName() );
+        assertEquals( "B34", sessionManagers.get( 1 ).getName() );
     }
 
     @Test
@@ -59,15 +59,15 @@ public class ConfigurationMarshallTest
         final Set<Property> properties = new HashSet<Property>();
         final Property jcoProperty = new Property( "name", "value" );
         properties.add( jcoProperty );
-        final SessionFactoryConfig sessionFactoryMetaData = new SessionFactoryConfig( "session-name", "ContextClass",
+        final SessionManagerConfig sessionManagerMetaData = new SessionManagerConfig( "session-name", "ContextClass",
                                                                                       properties );
 
         final Set<String> classes = new HashSet<String>();
         classes.add( "package.Class1" );
         classes.add( "package.Class2" );
-        sessionFactoryMetaData.setClasses( classes );
+        sessionManagerMetaData.setClasses( classes );
 
-        final HibersapConfig hiberSapMetaData = new HibersapConfig( sessionFactoryMetaData );
+        final HibersapConfig hiberSapMetaData = new HibersapConfig( sessionManagerMetaData );
 
         final Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty( "jaxb.formatted.output", Boolean.TRUE );

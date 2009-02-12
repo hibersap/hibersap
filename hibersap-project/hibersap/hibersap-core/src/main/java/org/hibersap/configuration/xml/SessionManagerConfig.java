@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(namespace = HibersapConfig.NAMESPACE, propOrder = { "context", "jcaConnectionFactory", "properties", "classes" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class SessionFactoryConfig
+public class SessionManagerConfig
 {
 
     @XmlTransient
@@ -29,16 +29,16 @@ public class SessionFactoryConfig
 
     private String jcaConnectionFactory;
 
-    public SessionFactoryConfig()
+    public SessionManagerConfig()
     {
     }
 
-    public SessionFactoryConfig( String name )
+    public SessionManagerConfig( String name )
     {
         this.name = name;
     }
 
-    SessionFactoryConfig( final String name, final String context, final Set<Property> properties )
+    SessionManagerConfig( final String name, final String context, final Set<Property> properties )
     {
         super();
         this.name = name;
@@ -52,9 +52,10 @@ public class SessionFactoryConfig
         return name;
     }
 
-    public void setName( final String name )
+    public SessionManagerConfig setName( final String name )
     {
         this.name = name;
+        return this;
     }
 
     @XmlElement(name = "context", required = false, namespace = HibersapConfig.NAMESPACE)
@@ -76,7 +77,7 @@ public class SessionFactoryConfig
         return properties;
     }
 
-    public SessionFactoryConfig setJcaConnectionFactory( final String jcaConnectionFactory )
+    public SessionManagerConfig setJcaConnectionFactory( final String jcaConnectionFactory )
     {
         this.jcaConnectionFactory = jcaConnectionFactory;
         return this;
@@ -109,13 +110,13 @@ public class SessionFactoryConfig
         return null;
     }
 
-    public SessionFactoryConfig setContext( String context )
+    public SessionManagerConfig setContext( String context )
     {
         this.context = context;
         return this;
     }
 
-    public SessionFactoryConfig setProperty( String name, String value )
+    public SessionManagerConfig setProperty( String name, String value )
     {
         Property property = new Property( name, value );
         if ( properties.contains( property ) )
@@ -125,7 +126,7 @@ public class SessionFactoryConfig
         return this;
     }
 
-    public SessionFactoryConfig addClass( Class<?> annotatedClass )
+    public SessionManagerConfig addClass( Class<?> annotatedClass )
     {
         classes.add( annotatedClass.getName() );
         return this;

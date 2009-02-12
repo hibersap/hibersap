@@ -24,7 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Context;
 
 /**
@@ -37,7 +37,7 @@ public class SettingsFactory
 
     private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
 
-    public static Settings create( final SessionFactoryConfig config )
+    public static Settings create( final SessionManagerConfig config )
     {
         final Settings settings = new Settings();
 
@@ -67,7 +67,7 @@ public class SettingsFactory
         }
     }
 
-    private static Class<? extends Context> getContextClass( final SessionFactoryConfig config )
+    private static Class<? extends Context> getContextClass( final SessionManagerConfig config )
     {
         String contextClassName = config.getContext();
 

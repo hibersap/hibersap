@@ -38,7 +38,7 @@ public class SessionImpl
 
     private boolean closed = false;
 
-    private final SessionFactoryImplementor sessionFactory;
+    private final SessionManagerImplementor sessionManager;
 
     private PojoMapper pojoMapper;
 
@@ -46,12 +46,12 @@ public class SessionImpl
 
     private final Set<ExecutionInterceptor> interceptors = new HashSet<ExecutionInterceptor>();
 
-    public SessionImpl( SessionFactoryImplementor sessionFactory )
+    public SessionImpl( SessionManagerImplementor sessionManager )
     {
-        this.sessionFactory = sessionFactory;
-        pojoMapper = new PojoMapper( sessionFactory.getConverterCache() );
-        connection = sessionFactory.getSettings().getContext().getConnection();
-        interceptors.addAll( sessionFactory.getInterceptors() );
+        this.sessionManager = sessionManager;
+        pojoMapper = new PojoMapper( sessionManager.getConverterCache() );
+        connection = sessionManager.getSettings().getContext().getConnection();
+        interceptors.addAll( sessionManager.getInterceptors() );
     }
 
     public Transaction beginTransaction()
@@ -79,7 +79,7 @@ public class SessionImpl
     {
         errorIfClosed();
         Class<?> bapiClass = bapiObject.getClass();
-        Map<Class<?>, BapiMapping> bapiMappings = sessionFactory.getBapiMappings();
+        Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
         if ( bapiMappings.containsKey( bapiClass ) )
         {
             execute( bapiObject, bapiMappings.get( bapiClass ) );
@@ -114,9 +114,9 @@ public class SessionImpl
         pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
     }
 
-    public SessionFactoryImplementor getSessionFactory()
+    public SessionManagerImplementor getSessionManager()
     {
-        return sessionFactory;
+        return sessionManager;
     }
 
     public Transaction getTransaction()

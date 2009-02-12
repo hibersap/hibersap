@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.hibersap.configuration.xml.HibersapConfig;
 import org.hibersap.configuration.xml.Property;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.junit.Test;
 
 public class EnvironmentTest
@@ -16,7 +16,7 @@ public class EnvironmentTest
         throws Exception
     {
         final HibersapConfig config = Environment.readXMLProperties( Environment.HIBERSAP_XML_FILE );
-        SessionFactoryConfig sf = config.getSessionFactories().get( 0 );
+        SessionManagerConfig sf = config.getSessionManagers().get( 0 );
         assertEquals( "TEST", sf.getName() );
         assertEquals( "org.hibersap.execution.jco.JCoContext", sf.getContext() );
         assertEquals( "java:/eis/sap/A12", sf.getJcaConnectionFactory() );

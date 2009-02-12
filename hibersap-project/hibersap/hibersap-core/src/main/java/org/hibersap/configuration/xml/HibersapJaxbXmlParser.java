@@ -19,7 +19,7 @@ public class HibersapJaxbXmlParser
     {
         try
         {
-            jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionFactoryConfig.class, Property.class );
+            jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
         }
         catch ( final JAXBException e )
         {

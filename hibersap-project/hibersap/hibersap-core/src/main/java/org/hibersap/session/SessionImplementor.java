@@ -26,5 +26,5 @@ public interface SessionImplementor
 {
     void execute( Object bapi, BapiMapping bapiMapping );
 
-    SessionFactoryImplementor getSessionFactory();
+    SessionManagerImplementor getSessionManager();
 }

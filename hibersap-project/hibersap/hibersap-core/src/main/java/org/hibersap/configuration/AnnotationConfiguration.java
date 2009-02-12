@@ -19,15 +19,13 @@ package org.hibersap.configuration;
  * @author Carsten Erker
  */
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.ConfigurationException;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionManager;
 
 /**
  * Configures Hibersap using annotated BAPI classes.
@@ -41,10 +39,10 @@ import org.hibersap.session.SessionFactory;
  * <li>programmatically via addAnnotatedClass().</li>
  * </ol>
  * 
- * After calling buildSessionFactory() this instance can be discarded. The SessionFactory will be
+ * After calling buildSessionManager() this instance can be discarded. The SessionManager will be
  * used to interact with the back-end system. Properties may be overwritten using the methods in
  * this class' superclass, e.g. to specify different SAP systems in a test environment. For each SAP
- * system which will be accessed by the client application, one SessionFactory has to be built.
+ * system which will be accessed by the client application, one SessionManager has to be built.
  * 
  * @author Carsten Erker
  */
@@ -57,12 +55,15 @@ public class AnnotationConfiguration
 
     protected AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
-    private final Set<Class<? extends Object>> annotatedClasses = new HashSet<Class<? extends Object>>();
-
     public AnnotationConfiguration()
     {
         super();
         addAnnotatedClassesFromConfiguration();
+    }
+
+    public AnnotationConfiguration( SessionManagerConfig config )
+    {
+        super( config );
     }
 
     public AnnotationConfiguration( String name )
@@ -71,17 +72,33 @@ public class AnnotationConfiguration
         addAnnotatedClassesFromConfiguration();
     }
 
-    public AnnotationConfiguration( SessionFactoryConfig config )
+    /**
+     * Builds a SessionManager object. Provide properties and add BAPI classes before calling this
+     * method.
+     * 
+     * @return The SessionManager
+     */
+    @Override
+    public SessionManager buildSessionManager()
     {
-        super( config );
-    }
-
-    private void addAnnotatedClassesFromConfiguration()
-    {
-        for ( String className : sessionFactoryConfig.getClasses() )
+        bapiMappingForClass.clear();
+        for ( final String className : getSessionManagerConfig().getClasses() )
         {
-            addAnnotatedClass( SettingsFactory.getClassForName( className ) );
+            LOG.info( "Mapping class " + className );
+            try
+            {
+                Class<?> clazz = Class.forName( className );
+                final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
+                bapiMappingForClass.put( clazz, bapiMapping );
+            }
+            catch ( ClassNotFoundException e )
+            {
+                String message = "Cannot find class " + className + " in classpath";
+                LOG.error( message );
+                throw new ConfigurationException( message, e );
+            }
         }
+        return super.buildSessionManager();
     }
 
     /**
@@ -89,27 +106,16 @@ public class AnnotationConfiguration
      * 
      * @param bapiClass
      */
-    public void addAnnotatedClass( final Class<?> bapiClass )
+    private void addAnnotatedClass( final Class<?> bapiClass )
     {
-        annotatedClasses.add( bapiClass );
+        getSessionManagerConfig().addClass( bapiClass );
     }
 
-    /**
-     * Builds a SessionFactory object. Provide properties and add BAPI classes before calling this
-     * method.
-     * 
-     * @return The SessionFactory
-     */
-    @Override
-    public SessionFactory buildSessionFactory()
+    private void addAnnotatedClassesFromConfiguration()
     {
-        bapiMappingForClass.clear();
-        for ( final Class<? extends Object> clazz : annotatedClasses )
+        for ( String className : sessionManagerConfig.getClasses() )
         {
-            LOG.info( "Mapping class " + clazz.getName() );
-            final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
-            bapiMappingForClass.put( clazz, bapiMapping );
+            addAnnotatedClass( SettingsFactory.getClassForName( className ) );
         }
-        return super.buildSessionFactory();
     }
 }
