@@ -39,39 +39,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sap</groupId>
-			<artifactId>sap-jco</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sf.sapbapijca</groupId>
-			<artifactId>sap-bapi-jca</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.3</version>
-		</dependency>
-
-		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -84,13 +54,6 @@
 			<artifactId>easymock</artifactId>
 			<version>2.4</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.resource</groupId>
-			<artifactId>connector</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<repositories>

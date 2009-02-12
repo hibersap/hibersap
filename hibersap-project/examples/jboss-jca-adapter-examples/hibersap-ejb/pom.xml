@@ -67,6 +67,7 @@
 		<dependency>
 			<groupId>net.sf.sapbapijca</groupId>
 			<artifactId>sap-bapi-jca</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

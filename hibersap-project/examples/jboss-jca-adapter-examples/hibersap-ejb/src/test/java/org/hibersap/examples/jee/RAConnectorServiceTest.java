@@ -40,7 +40,8 @@ public class RAConnectorServiceTest
     public void testEmptyInputRecordCausesError()
         throws Exception
     {
-        final MappedRecord resultRecord = _service.getFlightList( new MappedRecordImpl( "Input" ) );
+        final MappedRecord resultRecord = _service
+            .getFlightList( new MappedRecordImpl( FlightListConstants.BAPI_NAME ) );
 
         assertNotNull( resultRecord );
         final MappedRecord returnRecord = (MappedRecord) resultRecord.get( BapiConstants.RETURN );
@@ -79,7 +80,7 @@ public class RAConnectorServiceTest
     @SuppressWarnings("unchecked")
     private MappedRecordImpl createInputRecord()
     {
-        final MappedRecordImpl record = new MappedRecordImpl( "Input" );
+        final MappedRecordImpl record = new MappedRecordImpl( FlightListConstants.BAPI_NAME );
 
         record.put( FlightListConstants.FROMCOUNTRYKEY, "DE" );
         record.put( FlightListConstants.FROMCITY, "Frankfurt" );

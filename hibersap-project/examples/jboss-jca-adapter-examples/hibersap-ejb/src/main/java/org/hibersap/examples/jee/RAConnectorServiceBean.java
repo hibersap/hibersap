@@ -7,15 +7,10 @@ import javax.resource.ResourceException;
 import javax.resource.cci.Connection;
 import javax.resource.cci.ConnectionFactory;
 import javax.resource.cci.Interaction;
-import javax.resource.cci.InteractionSpec;
 import javax.resource.cci.MappedRecord;
 import javax.resource.cci.ResourceAdapterMetaData;
 
-import net.sf.sapbapijca.adapter.cci.InteractionSpecImpl;
-import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
-
 import org.apache.log4j.Logger;
-import org.hibersap.examples.flightlist.FlightListConstants;
 import org.jboss.annotation.ejb.RemoteBinding;
 
 @Stateless
@@ -66,9 +61,8 @@ public class RAConnectorServiceBean
         assert connection != null : "connection != null";
         assert interaction != null : "interaction != null";
 
-        final InteractionSpec iSpec = new InteractionSpecImpl( FlightListConstants.BAPI_NAME );
-        final MappedRecord outputRecord = new MappedRecordImpl( "EXPORT" );
-        interaction.execute( iSpec, inputRecord, outputRecord );
+        final MappedRecord outputRecord = _sapResourceAdapter.getRecordFactory().createMappedRecord( "EXPORT" );
+        interaction.execute( null, inputRecord, outputRecord );
 
         return outputRecord;
     }
