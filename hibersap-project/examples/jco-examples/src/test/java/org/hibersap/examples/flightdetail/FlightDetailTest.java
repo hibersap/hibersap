@@ -33,7 +33,7 @@ import org.hibersap.SapException.SapError;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
-import org.hibersap.session.SessionFactoryImpl;
+import org.hibersap.session.SessionManagerImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,25 +48,25 @@ public class FlightDetailTest
 
     private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
 
-    private SessionFactoryImpl sessionFactory;
+    private SessionManagerImpl sessionManager;
 
     @Before
     public void setup()
     {
-        sessionFactory = (SessionFactoryImpl) configuration.buildSessionFactory();
+        sessionManager = (SessionManagerImpl) configuration.buildSessionManager();
     }
 
     @After
     public void reset()
     {
-        if ( sessionFactory != null )
-            sessionFactory.reset();
+        if ( sessionManager != null )
+            sessionManager.reset();
     }
 
     @Test
     public void showFlightDetail()
     {
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionManager.openSession();
         try
         {
             session.beginTransaction();
@@ -85,7 +85,7 @@ public class FlightDetailTest
     @Test
     public void showFlightDetailWithSapErrorMessage()
     {
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionManager.openSession();
 
         try
         {

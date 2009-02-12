@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionManager;
 import org.junit.Test;
 
 /**
@@ -37,8 +37,8 @@ public class FlightListTest
     public void showFlightList()
     {
         final AnnotationConfiguration configuration = new AnnotationConfiguration();
-        final SessionFactory sessionFactory = configuration.buildSessionFactory();
-        final Session session = sessionFactory.openSession();
+        final SessionManager sessionManager = configuration.buildSessionManager();
+        final Session session = sessionManager.openSession();
 
         try
         {

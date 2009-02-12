@@ -15,14 +15,14 @@ import org.hibersap.mapping.model.ObjectMapping;
 import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionManager;
 import org.junit.Test;
 
 import com.sap.conn.jco.JCoException;
 
 public class ReverseBapiMapperTest
 {
-    private SessionFactory sessionFactory;
+    private SessionManager sessionManager;
 
     private ReverseBapiMapper mapper = new ReverseBapiMapper();
 
@@ -31,9 +31,9 @@ public class ReverseBapiMapperTest
         throws JCoException
     {
         AnnotationConfiguration configuration = new AnnotationConfiguration();
-        sessionFactory = configuration.buildSessionFactory();
+        sessionManager = configuration.buildSessionManager();
 
-        BapiMapping map = mapper.map( "BAPI_SFLIGHT_GETLIST", sessionFactory );
+        BapiMapping map = mapper.map( "BAPI_SFLIGHT_GETLIST", sessionManager );
         assertNotNull( map );
         assertEquals( "BAPI_SFLIGHT_GETLIST", map.getBapiName() );
         assertEquals( null, map.getAssociatedClass() );
