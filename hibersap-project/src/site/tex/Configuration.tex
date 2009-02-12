@@ -3,35 +3,29 @@
 \label{cha:Configuration}
 
 Hibersap configuration consists of a set of properties. 
-There are three possibilities to configure Hibersap: 
+There are two possibilities to configure Hibersap: 
 \begin{itemize}
   \item XML file configuration 
-  \item Properties file configuration 
   \item Programmatic configuration
 \end{itemize}
 
 While bootstrapping, Hibersap first tries to configure itself looking for the /META-INF/hibersap.xml file in the
-classpath. If (and only if) the XML file was not found or does not contain any properties, Hibersap tries to locate the
-hibersap.properties file in the classpath and read the properties from there. When creating a SessionFactory,
-properties can be set or overwritten using programmatic configuration.
-
+classpath. When creating a SessionManager, configuration can be set or overwritten using programmatic configuration.
 
 Using an XML file is the preferred way to configure Hibersap in an application.
 
 
-
-
-
 \section{XML file configuration}
+\label{sec:XML file configuration}
 
 The format of the XML configuration file is heavily inspired by JPA's persistence.xml.
-If you have to access different SAP systems, you can define more than one SessionFactory by multiplying the
-session-factory XML element.
+If you have to access different SAP systems, you can define more than one SessionManager by multiplying the
+session-manager XML element.
 
 \begin{Verbatim}[frame=single,label=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
-  <session-factory name="A12">
+  <session-manager name="A12">
     <context>org.hibersap.execution.jco.JCoContext</context>
 
     <properties>
@@ -41,53 +35,65 @@ session-factory XML element.
       <property name="jco.client.lang" value="en" />
       <property name="jco.client.ashost" value="10.20.80.76" />
       <property name="jco.client.sysnr" value="00" />
-      <property name="jco.destination.pool_capacity" value="1" />
     </properties>
 
-    <class>org.hibersap.examples.flightlist.FlightListBapi</class>
-    <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
-  </session-factory>
+    <annotated-classes>
+      <class>org.hibersap.examples.flightlist.FlightListBapi</class>
+      <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
+    </annotated-classes>
+  </session-manager>
 </hibersap>
 \end{Verbatim}
 
-\section{Properties file configuration}
+To build a SessionManager using the hibersap.xml file, you simply have to create an object of
+class org.\-hibersap.\-configuration.\-AnnotationConfiguration, specifying the SessionManager name as an argument. Note 
+that there is also a default constructor without any arguments for AnnotationConfiguration which can be used if there 
+is only one SessionManager configured. Hibersap will issue a warning when there are more than one SessionManagers 
+configured, but the no-args constructor is used. 
 
-Note that using a properties file it is not possible to define more than one SessionFactory. If you have to access more
-than one SAP system in your application, you have to provide an XML properties file or manual configuration.
-
-\begin{Verbatim}[frame=single,label=hibersap.properties]
-# The session factory name
-hibersap.session_factory_name=A12
-
-# The context class
-hibersap.context_class=org.hibersap.execution.jco.JCoContext
-
-# Java Connector settings
-jco.client.client=800
-jco.client.user=sapuser
-jco.client.passwd=password
-jco.client.lang=en
-jco.client.ashost=10.20.80.76
-jco.client.sysnr=00
-jco.destination.pool_capacity=1
-
-# Mapped classes
-hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi
-hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
+\begin{Verbatim}[frame=single,label=hibersap.xml]
+AnnotationConfiguration configuration = new AnnotationConfiguration("A12");
+SessionManager sessionManager = configuration.buildSessionManager();
 \end{Verbatim}
 
 
 \section{Programmatic configuration}
+\label{sec:Programmatic configuration}
 
-After creating a Configuration object
-which is used to build the SessionFactory, properties can be set or overwritten using the methods
-Configuration.setProperty(String, String) or Configuration.setProperties(Properties).
+After creating a Configuration object which will be used to build the SessionManager, configuration can be set or
+overwritten programmatically.
 
-Using the setProperty() method of Hibersap's AnnotationConfiguration class, you can specify the properties
-programmatically. This method can be used to set properties that are not specified in a hibersap configuration file, but
-can also be used to overwrite properties defines there. This can be very convenient for a test setup, because you
-don't have to care for different properties files to be in place for different runtime environments, like test,
-integration and production.
+The information from the XML file is internally converted into a Java data structure reflicting the structure of the
+XML document. All configuration classes have Java Bean style accessor methods (get.. and set..) for
+their fields. 
+
+The starting point is the org.hibersap.configuration.HibersapConfig class. This class has a List of
+SessionManagerConfig objects. For programmatic configuration you have to change or create SessionManagerConfig for each 
+SessionManager you want to use. You can use method chaining\footnote{See
+\url{http://martinfowler.com/dslwip/MethodChaining.html} for a short discussion on method chaining.} to build the
+object. The following example creates a  SessionManagerConfig object that is equal to the one created internally by the
+hibersap.xml example in section \ref{sec:XML file configuration}. 
+
+\begin{Verbatim}[frame=single,label=Programmatic configuration]
+
+SessionManagerConfig cfg = new SessionManagerConfig( "A12" )
+    .setContext( JCoContext.class.getName() )
+    .setProperty( "jco.client.client", "800" )
+    .setProperty( "jco.client.user", "sapuser" )
+    .setProperty( "jco.client.passwd", "password" )
+    .setProperty( "jco.client.lang", "en" )
+    .setProperty( "jco.client.ashost", "10.20.80.76" )
+    .setProperty( "jco.client.sysnr", "00" )
+    .addClass( FlightListBapi.class )
+    .addClass( FlightDetailBapi.class );
+
+AnnotationConfiguration configuration = new AnnotationConfiguration(cfg);
+SessionManager sessionManager = configuration.buildSessionManager();
+
+\end{Verbatim}
+
+
+
 
 
 

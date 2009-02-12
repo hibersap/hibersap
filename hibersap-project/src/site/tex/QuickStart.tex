@@ -397,7 +397,7 @@ field containing the time fraction (i.e. Jan. 1st, 1970 plus time).
 
 \subsection{Configuration}
 
-To configure Hibersap, we need to specify a name for the SessionFactory (see next section),
+To configure Hibersap, we need to specify a name for the SessionManager (see next section),
 plus the properties for the Java Connector.
 There are three possibilities to configure Hibersap: Either to define the properties in a file named hibersap.properties
 or in an META-INF/hibersap.xml XML file, or programmatic configuration. 
@@ -413,13 +413,13 @@ JCo).
 \subsection{XML file configuration}
 
 The format of the XML configuration file is heavily inspired by JPA's persistence.xml.
-If you have to access different SAP systems, you can define more than one SessionFactory by multiplying the
-session-factory XML element.
+If you have to access different SAP systems, you can define more than one SessionManager by multiplying the
+session-manager XML element.
 
 \begin{Verbatim}[frame=single,label=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
-  <session-factory name="A12">
+  <session-manager name="A12">
     <context>org.hibersap.execution.jco.JCoContext</context>
 
     <properties>
@@ -434,18 +434,18 @@ session-factory XML element.
 
     <class>org.hibersap.examples.flightlist.FlightListBapi</class>
     <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
-  </session-factory>
+  </session-manager>
 </hibersap>
 \end{Verbatim}
 
 \subsection{Properties file configuration}
 
-Note that using a properties file it is not possible to define more than one SessionFactory. If you have to access more
+Note that using a properties file it is not possible to define more than one SessionManager. If you have to access more
 than one SAP system in your application, you have to provide an XML properties file or manual configuration.
 
 \begin{Verbatim}[frame=single,label=hibersap.properties]
-# The session factory name
-hibersap.session_factory_name=A12
+# The session manager name
+hibersap.session_manager_name=A12
 
 # Java Connector settings
 jco.client.client=800
@@ -474,37 +474,37 @@ integration and production.
 \subsection{Calling a function module}
 
 Hibersap's API is very close to Hibernate.
-There is the notion of a SessionFactory which should be created only once in an application,
+There is the notion of a SessionManager which should be created only once in an application,
 because it is rather expensive to create.
-One SessionFactory is needed for each SAP system which is used by the application.
+One SessionManager is needed for each SAP system which is used by the application.
 
-The SessionFactory is responsible for creating Sessions.
+The SessionManager is responsible for creating Sessions.
 A Session represents a connection to the SAP system. The first time we call a function module
 on a Session, Hibersap gets a connection from the underlying connection pool.
 When closing a session, the connection is returned to the pool. Therefore you have to take care
 always to close the session, preferably in a finally block, else the connection pool may
 get exhausted very fast.
 
-The following function configures a Hibersap SessionFactory.
+The following function configures a Hibersap SessionManager.
 First, an instance of type AnnotationConfiguration has to be created.
 Then we add our BAPI Class to the configuration (if it is not already listed in the configuration, see examples above).
 If needed, we could now set or overwrite properties using the configuration.setProperty().
-Finally, we build the SessionFactory.
-In a real application this should be done once, reusing the SessionFactory throughout the
+Finally, we build the SessionManager.
+In a real application this should be done once, reusing the SessionManager throughout the
 application's lifetime.
 
-\begin{Verbatim}[frame=single,label=Creating the SessionFactory]
-public SessionFactory createSessionFactory()
+\begin{Verbatim}[frame=single,label=Creating the SessionManager]
+public SessionManager createSessionManager()
 {
     AnnotationConfiguration configuration = new AnnotationConfiguration();
-    configuration.setProperty( Environment.SESSION_FACTORY_NAME, "F46" );
+    configuration.setProperty( Environment.SESSION_MANAGER_NAME, "F46" );
     configuration.addAnnotatedClass( MyBapi.class );
-    return configuration.buildSessionFactory();
+    return configuration.buildSessionManager();
 }
 \end{Verbatim}
 
 Now it is time to call the function module in SAP.
-After creating the SessionFactory and opening a new Session, we create an instance of our
+After creating the SessionManager and opening a new Session, we create an instance of our
 BAPI Class, passing all parameters needed to execute the function as Constructor arguments.
 Then we simply call the execute() method on the Session, passing the BAPI class,
 which actually performs the call to SAP. Now the flightListBapi object is enriched with all the
@@ -513,9 +513,9 @@ values which the function module returned and which we have mapped in our BAPI C
 \begin{Verbatim}[frame=single,label=Executing the function]
 public void showFlightList()
 {
-    SessionFactory sessionFactory = createSessionFactory();
+    SessionManager sessionManager = createSessionManager();
 
-    Session session = sessionFactory.openSession();
+    Session session = sessionManager.openSession();
     try
     {
         FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", 

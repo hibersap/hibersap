@@ -420,7 +420,7 @@ public class Flight
 
 ** Configuration
 
-  To configure Hibersap, you need to specify a name for the <<<SessionFactory>>> (see next section),
+  To configure Hibersap, you need to specify a name for the <<<SessionManager>>> (see next section),
   plus the properties for the Java Connector.
   There are two possibilities to configure Hibersap: Either you define the properties in a file named <<<hibersap.properties>>> 
   or in an <<<META-INF/hibersap.xml>>> XML file. Both of which have to be detectable in our application's classpath. Using an XML file is the preferred
@@ -435,7 +435,7 @@ public class Flight
 +----------------------------------------------------------------------------+
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
-  <session-factory name="A12">
+  <session-manager name="A12">
     <context>org.hibersap.execution.jco.JCoContext</context>
 
     <properties>
@@ -450,15 +450,15 @@ public class Flight
 
     <class>org.hibersap.examples.flightlist.FlightListBapi</class>
     <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
-  </session-factory>
+  </session-manager>
 </hibersap>
 +----------------------------------------------------------------------------+
 
 ** Properties file configuration
 
 +----------------------------------------------------------------------------+
-# The session factory name
-hibersap.session_factory_name=A12
+# The session manager name
+hibersap.session_manager_name=A12
 
 # Java Connector settings
 hibersap.jco.client.client=800
@@ -491,37 +491,37 @@ hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
 ** Calling a function module
 
   Hibersap's API is very close to Hibernate.
-  There is the notion of a <<<SessionFactory>>> which should be created only once in an application,
+  There is the notion of a <<<SessionManager>>> which should be created only once in an application,
   because it is rather expensive to create.
-  One <<<SessionFactory>>> is needed for each SAP system which is used by the application.
+  One <<<SessionManager>>> is needed for each SAP system which is used by the application.
 
-  The <<<SessionFactory>>> is responsible for creating <<<Session>>>s.
+  The <<<SessionManager>>> is responsible for creating <<<Session>>>s.
   A <<<Session>>> represents a connection to the SAP system. The first time we call a function module
   on a <<<Session>>>, Hibersap gets a connection from the underlying connection pool.
   When closing a session, the connection is returned to the pool. Therefore you have to take care
   always to close the session, preferably in a <<<finally>>> block, else the connection pool may
   get exhausted very fast.
 
-  The following function configures a Hibersap <<<SessionFactory>>>.
+  The following function configures a Hibersap <<<SessionManager>>>.
   First, an instance of type <<<AnnotationConfiguration>>> has to be created.
   Then we add our BAPI Class to the configuration (if it is not already listed in the configuration, see examples above).
   If needed, we could now set or overwrite properties using the <<<configuration.setProperty()>>>.
-  Finally, we build the <<<SessionFactory>>>.
-  In a real application this should be done once, reusing the <<<SessionFactory>>> throughout the
+  Finally, we build the <<<SessionManager>>>.
+  In a real application this should be done once, reusing the <<<SessionManager>>> throughout the
   application's lifetime.
 
 +--------------------------------------------------------------------------------------------------------------+
-public SessionFactory createSessionFactory()
+public SessionManager createSessionManager()
 {
     AnnotationConfiguration configuration = new AnnotationConfiguration();
-    configuration.setProperty( Environment.SESSION_FACTORY_NAME, "F46" );
+    configuration.setProperty( Environment.SESSION_MANAGER_NAME, "F46" );
     configuration.addAnnotatedClass( MyBapi.class );
-    return configuration.buildSessionFactory();
+    return configuration.buildSessionManager();
 }
 +--------------------------------------------------------------------------------------------------------------+
 
   Now it is time to call the function module in SAP.
-  After creating the <<<SessionFactory>>> and opening a new <<<Session>>>, we create an instance of our
+  After creating the <<<SessionManager>>> and opening a new <<<Session>>>, we create an instance of our
   BAPI Class, passing all parameters needed to execute the function as Constructor arguments.
   Then we simply call the <<<execute()>>> method on the <<<Session>>>, passing the BAPI class,
   which actually performs the call to SAP. Now the <<<flightListBapi>>> object is enriched with all the
@@ -530,9 +530,9 @@ public SessionFactory createSessionFactory()
 +--------------------------------------------------------------------------------------------------------------+
 public void showFlightList()
 {
-    SessionFactory sessionFactory = createSessionFactory();
+    SessionManager sessionManager = createSessionManager();
 
-    Session session = sessionFactory.openSession();
+    Session session = sessionManager.openSession();
     try
     {
         FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", null, false, 10 );
