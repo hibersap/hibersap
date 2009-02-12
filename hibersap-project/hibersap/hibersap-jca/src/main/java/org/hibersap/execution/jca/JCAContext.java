@@ -19,14 +19,12 @@ package org.hibersap.execution.jca;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.resource.ResourceException;
 import javax.resource.cci.ConnectionFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibersap.ConfigurationException;
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.HibersapProperties;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
@@ -45,7 +43,7 @@ public class JCAContext
     /**
      * {@inheritDoc}
      */
-    public void configure( final SessionFactoryConfig config )
+    public void configure( final SessionManagerConfig config )
         throws HibersapException
     {
         final String jndiName = getJndiName( config );
@@ -58,14 +56,7 @@ public class JCAContext
      */
     public Connection getConnection()
     {
-        try
-        {
-            return new JCAConnection( connectionFactory.getConnection() );
-        }
-        catch ( final ResourceException e )
-        {
-            throw new HibersapException( "getConnection", e );
-        }
+        return new JCAConnection( connectionFactory );
     }
 
     private ConnectionFactory getConnectionFactory( final String jndiName )
@@ -93,14 +84,13 @@ public class JCAContext
         }
     }
 
-    private String getJndiName( final SessionFactoryConfig config )
+    private String getJndiName( final SessionManagerConfig config )
     {
         final String jndiName = config.getJcaConnectionFactory();
 
         if ( StringUtils.isEmpty( jndiName ) )
         {
-            throw new ConfigurationException( "JCA connection factory not defined, missing tag "
-                + HibersapProperties.JCA_CONNECTION_FACTORY );
+            throw new ConfigurationException( "JCA connection factory not defined in Hibersap configuration" );
         }
         return jndiName;
     }

@@ -25,12 +25,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.resource.ResourceException;
 import javax.resource.cci.IndexedRecord;
 import javax.resource.cci.MappedRecord;
 import javax.resource.cci.Record;
-
-import net.sf.sapbapijca.adapter.cci.IndexedRecordImpl;
-import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
+import javax.resource.cci.RecordFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,20 +43,22 @@ public class JCAMapper
 {
     private static final Log LOG = LogFactory.getLog( JCAMapper.class );
 
-    public MappedRecord mapFunctionMapValuesToMappedRecord( final String functionName,
+    public MappedRecord mapFunctionMapValuesToMappedRecord( String bapiName, final RecordFactory recordFactory,
                                                             final Map<String, Object> functionMap )
+        throws ResourceException
     {
         LOG.info( "mapFunctionMapValuesToMappedRecord() functionMap=" + functionMap );
 
-        final MappedRecord record = new MappedRecordImpl( functionName );
+        MappedRecord mappedInputRecord = recordFactory.createMappedRecord( bapiName );
+
         final Map<String, Object> importMap = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.IMPORT ) );
-        mapToMappedRecord( record, importMap );
+        mapToMappedRecord( recordFactory, mappedInputRecord, importMap );
         final Map<String, Object> tableMap = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.TABLE ) );
-        mapToMappedRecord( record, tableMap );
+        mapToMappedRecord( recordFactory, mappedInputRecord, tableMap );
 
-        LOG.info( "mapFunctionMapValuesToMappedRecord() record=" + record );
+        LOG.info( "mapFunctionMapValuesToMappedRecord() record=" + mappedInputRecord );
 
-        return record;
+        return mappedInputRecord;
     }
 
     public void mapRecordToFunctionMap( final Map<String, Object> functionMap, final Map<String, Object> resultRecordMap )
@@ -125,7 +126,9 @@ public class JCAMapper
     }
 
     @SuppressWarnings("unchecked")
-    private void mapToMappedRecord( final Record record, final Map<String, Object> map )
+    private void mapToMappedRecord( final RecordFactory recordFactory, final Record record,
+                                    final Map<String, Object> map )
+        throws ResourceException
     {
         for ( final String fieldName : map.keySet() )
         {
@@ -134,24 +137,24 @@ public class JCAMapper
             if ( Map.class.isAssignableFrom( value.getClass() ) )
             {
                 final Map<String, Object> structureMap = UnsafeCastHelper.castToMap( value );
-                final Record structure = new MappedRecordImpl( fieldName );
+                final Record structure = recordFactory.createMappedRecord( fieldName );
 
                 appendToRecord( record, fieldName, structure );
 
-                mapToMappedRecord( structure, structureMap );
+                mapToMappedRecord( recordFactory, structure, structureMap );
             }
             else if ( Collection.class.isAssignableFrom( value.getClass() ) )
             {
                 final Collection<Map<String, Object>> tableMap = UnsafeCastHelper.castToCollectionOfMaps( value );
-                final IndexedRecord table = new IndexedRecordImpl( fieldName );
+                final IndexedRecord table = recordFactory.createIndexedRecord( fieldName );
 
                 appendToRecord( record, fieldName, table );
 
                 int i = 0;
                 for ( final Map<String, Object> row : tableMap )
                 {
-                    MappedRecordImpl rowRecord = new MappedRecordImpl( fieldName + ":row:" + i );
-                    mapToMappedRecord( rowRecord, row );
+                    MappedRecord rowRecord = recordFactory.createMappedRecord( fieldName + ":row:" + i );
+                    mapToMappedRecord( recordFactory, rowRecord, row );
                     table.add( rowRecord );
                     i++;
                 }

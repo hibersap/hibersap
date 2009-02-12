@@ -10,7 +10,7 @@ import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.generation.bapi.BapiClassFormatter;
 import org.hibersap.generation.bapi.ReverseBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionManager;
 
 public class HibersapGenerator
 {
@@ -21,9 +21,9 @@ public class HibersapGenerator
         outputDirFile.mkdirs();
 
         AnnotationConfiguration cfg = new AnnotationConfiguration();
-        SessionFactory sessionFactory = cfg.buildSessionFactory();
+        SessionManager sessionManager = cfg.buildSessionManager();
         ReverseBapiMapper mapper = new ReverseBapiMapper();
-        BapiMapping bapiMapping = mapper.map( bapiName, sessionFactory );
+        BapiMapping bapiMapping = mapper.map( bapiName, sessionManager );
         BapiClassFormatter formatter = new BapiClassFormatter();
         Map<String, String> classForName = formatter.createClasses( bapiMapping, packagePath );
 

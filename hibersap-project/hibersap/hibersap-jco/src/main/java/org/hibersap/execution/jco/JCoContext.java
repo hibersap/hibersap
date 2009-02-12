@@ -23,9 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.HibersapProperties;
 import org.hibersap.configuration.xml.Property;
-import org.hibersap.configuration.xml.SessionFactoryConfig;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
@@ -48,7 +47,7 @@ public class JCoContext
     /**
      * {@inheritDoc}
      */
-    public void configure( final SessionFactoryConfig config )
+    public void configure( final SessionManagerConfig config )
         throws HibersapException
     {
         LOG.trace( "configure JCo context" );
@@ -68,8 +67,7 @@ public class JCoContext
         destinationName = config.getName();
         if ( StringUtils.isEmpty( destinationName ) )
         {
-            throw new HibersapException( "A session factory name must be specified in property "
-                + HibersapProperties.SESSION_FACTORY_NAME );
+            throw new HibersapException( "A session manager name must be specified in Hibersap configuration" );
         }
 
         JCoEnvironment.registerDestination( destinationName, jcoProperties );

@@ -8,18 +8,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.resource.ResourceException;
 import javax.resource.cci.IndexedRecord;
 import javax.resource.cci.MappedRecord;
+import javax.resource.cci.RecordFactory;
 
 import net.sf.sapbapijca.adapter.cci.IndexedRecordImpl;
 import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
 
+import org.easymock.EasyMock;
+import org.easymock.IAnswer;
 import org.hibersap.execution.UnsafeCastHelper;
+import org.junit.Before;
 import org.junit.Test;
 
 public class JCAMapperTest
 {
-    private JCAMapper mapper = new JCAMapper();
+    private final class IndexedRecordAnswer
+        implements IAnswer<IndexedRecord>
+    {
+        public IndexedRecord answer()
+            throws Throwable
+        {
+            Object[] args = EasyMock.getCurrentArguments();
+            return new IndexedRecordImpl( (String) args[0] );
+        }
+    }
+
+    private final class MappedRecordAnswer
+        implements IAnswer<MappedRecord>
+    {
+        public MappedRecord answer()
+            throws Throwable
+        {
+            Object[] args = EasyMock.getCurrentArguments();
+            return new MappedRecordImpl( (String) args[0] );
+        }
+    }
+
+    private final JCAMapper mapper = new JCAMapper();
+
+    private final RecordFactory recordFactory = EasyMock.createMock( RecordFactory.class );
 
     @SuppressWarnings("unchecked")
     @Test
@@ -69,10 +98,9 @@ public class JCAMapperTest
     public void mapToMappedRecord()
         throws Exception
     {
-        Map<String, Object> functionMap = createFunctionMap();
-
         // map
-        MappedRecord record = mapper.mapFunctionMapValuesToMappedRecord( "BAPI_NAME", functionMap );
+        Map<String, Object> functionMap = createFunctionMap();
+        MappedRecord record = mapper.mapFunctionMapValuesToMappedRecord( "BAPI_NAME", recordFactory, functionMap );
 
         assertEquals( "BAPI_NAME", record.getRecordName() );
 
@@ -101,6 +129,17 @@ public class JCAMapperTest
         assertEquals( "tableField2", row2.get( "TABLE_FIELD1" ) );
         assertEquals( new Date( 2 ), row2.get( "TABLE_FIELD2" ) );
         assertEquals( 2, row2.get( "TABLE_FIELD3" ) );
+    }
+
+    @Before
+    public void setUp()
+        throws ResourceException
+    {
+        EasyMock.expect( recordFactory.createIndexedRecord( (String) EasyMock.notNull() ) )
+            .andAnswer( new IndexedRecordAnswer() ).anyTimes();
+        EasyMock.expect( recordFactory.createMappedRecord( (String) EasyMock.notNull() ) )
+            .andAnswer( new MappedRecordAnswer() ).anyTimes();
+        EasyMock.replay( recordFactory );
     }
 
     @SuppressWarnings("unchecked")

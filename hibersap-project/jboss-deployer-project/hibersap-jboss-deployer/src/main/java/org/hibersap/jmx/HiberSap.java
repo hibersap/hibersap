@@ -7,49 +7,58 @@ import org.jboss.kernel.spi.dependency.KernelController;
 import org.jboss.logging.Logger;
 import org.jboss.virtual.VirtualFile;
 
-public class HiberSap implements HiberSapMBean {
+public class HiberSap
+    implements HiberSapMBean
+{
 
-	private static final Logger LOG = Logger.getLogger(HiberSap.class);
+    private static final Logger LOG = Logger.getLogger( HiberSap.class );
 
-	private Object beanName;
+    private Object beanName;
 
-	private KernelController controller;
+    private KernelController controller;
 
-	@SuppressWarnings("unused")
-	private final VirtualFile root;
+    @SuppressWarnings("unused")
+    private final VirtualFile root;
 
-	private String sessionFactoryName;
+    private String sessionManagerName;
 
-	public HiberSap(final VirtualFile root) {
-		this.root = root;
-	}
+    public HiberSap( final VirtualFile root )
+    {
+        this.root = root;
+    }
 
-	public String getSessionFactoryName() {
-		return sessionFactoryName;
-	}
+    public String getSessionManagerName()
+    {
+        return sessionManagerName;
+    }
 
-	@Inject(fromContext = FromContext.NAME)
-	public void setBeanName(final Object beanName) {
-		this.beanName = beanName;
-	}
+    @Inject(fromContext = FromContext.NAME)
+    public void setBeanName( final Object beanName )
+    {
+        this.beanName = beanName;
+    }
 
-	@Inject(bean = KernelConstants.KERNEL_CONTROLLER_NAME)
-	public void setController(final KernelController controller) {
-		this.controller = controller;
-	}
+    @Inject(bean = KernelConstants.KERNEL_CONTROLLER_NAME)
+    public void setController( final KernelController controller )
+    {
+        this.controller = controller;
+    }
 
-	public void setSessionFactoryName(final String sessionFactoryName) {
-		this.sessionFactoryName = sessionFactoryName;
-	}
+    public void setSessionManagerName( final String sessionManagerName )
+    {
+        this.sessionManagerName = sessionManagerName;
+    }
 
-	public void start() {
-		LOG.debug("Starting HiberSap");
-		LOG.trace("beanName=" + beanName + " controller=" + controller);
+    public void start()
+    {
+        LOG.debug( "Starting HiberSap" );
+        LOG.trace( "beanName=" + beanName + " controller=" + controller );
 
-	}
+    }
 
-	public void stop() {
-		LOG.debug("Stopping HiberSap");
-	}
+    public void stop()
+    {
+        LOG.debug( "Stopping HiberSap" );
+    }
 
 }

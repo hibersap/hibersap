@@ -11,7 +11,7 @@ import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionManager;
 
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
@@ -26,12 +26,12 @@ import com.sap.conn.jco.JCoRecord;
 
 public class ReverseBapiMapper
 {
-    public BapiMapping map( String bapiName, SessionFactory sessionFactory )
+    public BapiMapping map( String bapiName, SessionManager sessionManager )
     {
         JCoDestination destination;
         try
         {
-            String sfName = sessionFactory.getConfig().getName();
+            String sfName = sessionManager.getConfig().getName();
             destination = JCoDestinationManager.getDestination( sfName );
 
             JCoFunctionTemplate ft = destination.getRepository().getFunctionTemplate( bapiName );

@@ -13,7 +13,7 @@ import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.flightdetail.FlightDetailBapi;
 import org.hibersap.examples.flightlist.FlightListBapi;
 import org.hibersap.session.Session;
-import org.hibersap.session.SessionFactory;
+import org.hibersap.session.SessionManager;
 import org.jboss.annotation.ejb.RemoteBinding;
 
 @Stateless
@@ -24,14 +24,14 @@ public class SapFlightServiceBean
 {
     private static final Logger LOG = Logger.getLogger( SapFlightServiceBean.class );
 
-    private SessionFactory sessionFactory;
+    private SessionManager sessionManager;
 
     @PostConstruct
     public void init()
     {
         LOG.info( "Initializing flight service" );
         final AnnotationConfiguration configuration = new AnnotationConfiguration();
-        sessionFactory = configuration.buildSessionFactory();
+        sessionManager = configuration.buildSessionManager();
         LOG.info( "DONE Initializing flight service" );
     }
 
@@ -43,7 +43,7 @@ public class SapFlightServiceBean
     public FlightDetailBapi showFlightDetail( final Date date )
     {
         LOG.info( "showFlightDetail" + date );
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionManager.openSession();
 
         try
         {
@@ -66,7 +66,7 @@ public class SapFlightServiceBean
     public FlightListBapi showFlightList()
     {
         LOG.info( "showFlightList" );
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionManager.openSession();
 
         try
         {

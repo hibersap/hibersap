@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
-	<session-factory name="A12">
+	<session-manager name="A12">
 		<context>org.hibersap.execution.jco.JCoContext</context>
 
 		<!-- <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory> -->
@@ -21,6 +21,6 @@
 			<class>org.hibersap.examples.flightlist.FlightListBapi</class>
 			<class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
 		</annotated-classes>
-	</session-factory>
+	</session-manager>
 </hibersap>
 

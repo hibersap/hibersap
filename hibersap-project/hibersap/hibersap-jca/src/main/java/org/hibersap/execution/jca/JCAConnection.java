@@ -20,11 +20,10 @@ package org.hibersap.execution.jca;
 import java.util.Map;
 
 import javax.resource.ResourceException;
-import javax.resource.cci.InteractionSpec;
+import javax.resource.cci.ConnectionFactory;
 import javax.resource.cci.MappedRecord;
 import javax.resource.cci.Record;
-
-import net.sf.sapbapijca.adapter.cci.InteractionSpecImpl;
+import javax.resource.cci.RecordFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,13 +45,23 @@ public class JCAConnection
 
     private final javax.resource.cci.Connection connection;
 
+    private RecordFactory recordFactory;
+
     private Transaction transaction;
 
     private final JCAMapper mapper = new JCAMapper();
 
-    public JCAConnection( final javax.resource.cci.Connection connection )
+    public JCAConnection( final ConnectionFactory connectionFactory )
     {
-        this.connection = connection;
+        try
+        {
+            connection = connectionFactory.getConnection();
+            recordFactory = connectionFactory.getRecordFactory();
+        }
+        catch ( ResourceException e )
+        {
+            throw new HibersapException( "Problem creating connection.", e );
+        }
     }
 
     public Transaction beginTransaction( final SessionImplementor session )
@@ -90,27 +99,27 @@ public class JCAConnection
 
     public void execute( final String bapiName, final Map<String, Object> functionMap )
     {
-        final MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord( bapiName, functionMap );
-        final InteractionSpec interactionSpec = new InteractionSpecImpl( bapiName );
-
-        LOG.debug( "JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = " + mappedInputRecord );
-
         Record result;
 
         try
         {
-            result = connection.createInteraction().execute( interactionSpec, mappedInputRecord );
+            MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord( bapiName, recordFactory,
+                                                                                        functionMap );
+
+            LOG.debug( "JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = "
+                + mappedInputRecord );
+
+            result = connection.createInteraction().execute( null, mappedInputRecord );
+
+            LOG.debug( "JCA Execute: " + bapiName + ", result = " + result );
+
+            final Map<String, Object> resultMap = UnsafeCastHelper.castToMap( result );
+            mapper.mapRecordToFunctionMap( functionMap, resultMap );
         }
         catch ( final ResourceException e )
         {
             throw new HibersapException( "Error executing function module " + bapiName, e );
         }
-
-        LOG.debug( "JCA Execute: " + bapiName + ", result = " + result );
-
-        final Map<String, Object> resultMap = UnsafeCastHelper.castToMap( result );
-
-        mapper.mapRecordToFunctionMap( functionMap, resultMap );
     }
 
     public Transaction getTransaction()

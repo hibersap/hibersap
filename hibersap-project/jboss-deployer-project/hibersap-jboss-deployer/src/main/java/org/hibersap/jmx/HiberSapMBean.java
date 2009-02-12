@@ -6,6 +6,6 @@ public interface HiberSapMBean {
 
 	void stop();
 
-	String getSessionFactoryName();
+	String getSessionManagerName();
 
 }

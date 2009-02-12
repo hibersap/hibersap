@@ -11,10 +11,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-// @XmlRootElement(name = "session-factoryX", namespace = HiberSapMetaData.NAMESPACE)
 @XmlType(namespace = HiberSapMetaData.NAMESPACE, propOrder = { "context", "properties", "classes" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class SessionFactoryMetaData
+public class SessionManagerMetaData
     implements Serializable
 {
 
@@ -29,11 +28,11 @@ public class SessionFactoryMetaData
 
     private List<String> classes;
 
-    public SessionFactoryMetaData()
+    public SessionManagerMetaData()
     {
     }
 
-    public SessionFactoryMetaData( final String name, final String context, final List<Property> properties )
+    public SessionManagerMetaData( final String name, final String context, final List<Property> properties )
     {
         super();
         this.name = name;
