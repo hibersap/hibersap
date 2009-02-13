@@ -8,7 +8,8 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.flightdetail.FlightDetailBapi;
 import org.hibersap.examples.flightlist.FlightListBapi;
@@ -22,7 +23,7 @@ import org.jboss.annotation.ejb.RemoteBinding;
 public class SapFlightServiceBean
     implements SapFlightService
 {
-    private static final Logger LOG = Logger.getLogger( SapFlightServiceBean.class );
+    private static final Log LOG = LogFactory.getLog( SapFlightServiceBean.class );
 
     private SessionManager sessionManager;
 

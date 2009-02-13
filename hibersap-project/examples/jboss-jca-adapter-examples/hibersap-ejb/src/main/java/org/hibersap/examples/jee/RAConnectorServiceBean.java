@@ -10,7 +10,8 @@ import javax.resource.cci.Interaction;
 import javax.resource.cci.MappedRecord;
 import javax.resource.cci.ResourceAdapterMetaData;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.annotation.ejb.RemoteBinding;
 
 @Stateless
@@ -19,7 +20,7 @@ import org.jboss.annotation.ejb.RemoteBinding;
 public class RAConnectorServiceBean
     implements RAConnectorService
 {
-    private static final Logger LOG = Logger.getLogger( RAConnectorServiceBean.class );
+    private static final Log LOG = LogFactory.getLog( RAConnectorServiceBean.class );
 
     @Resource(mappedName = RA_JNDI_NAME)
     private ConnectionFactory _sapResourceAdapter;
