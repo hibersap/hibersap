@@ -18,8 +18,6 @@ import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.session.SessionManager;
 import org.junit.Test;
 
-import com.sap.conn.jco.JCoException;
-
 public class ReverseBapiMapperTest
 {
     private SessionManager sessionManager;
@@ -28,7 +26,7 @@ public class ReverseBapiMapperTest
 
     @Test
     public void mapBapi()
-        throws JCoException
+        throws Exception
     {
         AnnotationConfiguration configuration = new AnnotationConfiguration();
         sessionManager = configuration.buildSessionManager();
