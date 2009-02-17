@@ -200,6 +200,11 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 				<version>5.0.0.CR2</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.1.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<reporting>
@@ -218,10 +223,10 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 	</reporting>
 	<repositories>
 		<repository>
-        	<id>repository.jboss.com</id>
-        	<name>Jboss Repository for Maven</name>
-        	<url>http://repository.jboss.com/maven2/</url>
-  			<layout>default</layout>
+			<id>repository.jboss.com</id>
+			<name>Jboss Repository for Maven</name>
+			<url>http://repository.jboss.com/maven2/</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 </project>
