@@ -205,6 +205,12 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>
 			</dependency>
+			<dependency>
+				<groupId>com.sap</groupId>
+				<artifactId>sap-jco</artifactId>
+				<version>3.0.0</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<reporting>

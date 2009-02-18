@@ -19,10 +19,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<forkMode>once</forkMode>
+						<argLine>-ea -d64</argLine>
 					<!--
-					<argLine>-ea -d64</argLine>
-					 -->
 					<argLine>-ea</argLine>
+					-->
 					<environmentVariables>
 						<LD_LIBRARY_PATH>
 							${sap.jco.lib.path}
@@ -50,7 +50,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>sun-jaxb</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -70,6 +69,11 @@
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sap</groupId>
+			<artifactId>sap-jco</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
