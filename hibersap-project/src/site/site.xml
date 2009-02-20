@@ -23,9 +23,10 @@
 
 		<menu name="Hibersap Documentation" inherit="none">
 			<item name="Features" href="About.html" />
-			<item name="Quick Start Guide" href="QuickStartGuide.html" />
+			<item name="Documentation" href="Documentation.html" />
 		</menu>
-
+    
+    	<menu ref="modules"/>
 		<menu ref="reports" />
 	</body>
 </project>
