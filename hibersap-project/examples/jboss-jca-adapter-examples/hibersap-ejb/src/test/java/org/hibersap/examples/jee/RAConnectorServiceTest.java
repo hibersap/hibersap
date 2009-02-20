@@ -12,14 +12,13 @@ import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
 
 import org.hibersap.bapi.BapiConstants;
 import org.hibersap.examples.flightlist.FlightListConstants;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RAConnectorServiceTest
 {
     private static RAConnectorService _service;
 
-    @BeforeClass
+    // @BeforeClass
     public static void setUp()
         throws Exception
     {
@@ -36,7 +35,7 @@ public class RAConnectorServiceTest
         // to avoid errors when the other tests are disabled
     }
 
-    @Test
+    // @Test
     public void testEmptyInputRecordCausesError()
         throws Exception
     {
@@ -51,7 +50,7 @@ public class RAConnectorServiceTest
         assertEquals( "E", type );
     }
 
-    @Test
+    // @Test
     public void testFlightList()
         throws Exception
     {

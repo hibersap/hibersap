@@ -13,7 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.examples.flightdetail.FlightDetailBapi;
 import org.hibersap.examples.flightlist.FlightListBapi;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SapFlightServiceTest
@@ -28,7 +27,7 @@ public class SapFlightServiceTest
         // to avoid errors when the other tests are disabled
     }
 
-    @BeforeClass
+    // @BeforeClass
     public static void setUp()
         throws Exception
     {
