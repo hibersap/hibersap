@@ -19,10 +19,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<forkMode>once</forkMode>
-						<argLine>-ea -d64</argLine>
 					<!--
-					<argLine>-ea</argLine>
+						<argLine>-ea -d64</argLine>
 					-->
+					<argLine>-ea</argLine>
 					<environmentVariables>
 						<LD_LIBRARY_PATH>
 							${sap.jco.lib.path}
