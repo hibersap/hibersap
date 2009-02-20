@@ -5,7 +5,7 @@
 \section{Installation}
 
 \begin{itemize}
-  \item Download Hibersap 
+  \item Download hibersap.jar and hibersap-jco.jar. 
   \item Download dependent libraries (see \urlHibersapDependencies)
   \item Download SAP Java Connector 3.0 (\url{http://service.sap.com/connectors}) and extract the sapjco3.jar and the
   sapjco3 native library. 
@@ -397,24 +397,13 @@ field containing the time fraction (i.e. Jan. 1st, 1970 plus time).
 
 \subsection{Configuration}
 
-To configure Hibersap, we need to specify a name for the SessionManager (see next section),
-plus the properties for the Java Connector.
-There are three possibilities to configure Hibersap: Either to define the properties in a file named hibersap.properties
-or in an META-INF/hibersap.xml XML file, or programmatic configuration. 
-However, using an XML file is the preferred way to configure your application.
-The properties file as well as the xml file must be detectable in the application's classpath. 
+To configure Hibersap, we need to specify a minimum set of information for the Hibersap framework,
+plus properties for the Java Connector. To accomplish this, we create an XML file named hibersap.xml in a folder
+named META-INF. Hibersap will look for this file in the classpath under ``/META-INF/hibersap.xml''.
 
 In the example we use a minimum set of JCo properties to be able to connect to the back-end SAP system.
-You can find constants for Hibersap's property names in the class Environment,
-whereas names for JCo properties are specified in the JCo library interface JCoProperties (see javadoc provided with
-JCo).
-
-
-\subsection{XML file configuration}
-
-The format of the XML configuration file is heavily inspired by JPA's persistence.xml.
-If you have to access different SAP systems, you can define more than one SessionManager by multiplying the
-session-manager XML element.
+All valid JCo properties are specified in the JCo library interface com.sap.conn.jco.ext.\-DestinationDataProvider (see
+javadoc provided with JCo).
 
 \begin{Verbatim}[frame=single,label=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
@@ -433,42 +422,9 @@ session-manager XML element.
     </properties>
 
     <class>org.hibersap.examples.flightlist.FlightListBapi</class>
-    <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
   </session-manager>
 </hibersap>
 \end{Verbatim}
-
-\subsection{Properties file configuration}
-
-Note that using a properties file it is not possible to define more than one SessionManager. If you have to access more
-than one SAP system in your application, you have to provide an XML properties file or manual configuration.
-
-\begin{Verbatim}[frame=single,label=hibersap.properties]
-# The session manager name
-hibersap.session_manager_name=A12
-
-# Java Connector settings
-jco.client.client=800
-jco.client.user=sapuser
-jco.client.passwd=password
-jco.client.lang=en
-jco.client.ashost=10.20.80.76
-jco.client.sysnr=00
-jco.destination.pool_capacity=1
-
-# Mapped classes
-hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi
-hibersap.bapi_class.1=org.hibersap.examples.flightdetail.FlightDetailBapi
-\end{Verbatim}
-
-
-\subsection{Manual configuration}
-
-Using the setProperty() method of Hibersap's AnnotationConfiguration class, you can specify the properties
-programmatically. This method can be used to set properties that are not specified in a hibersap configuration file, but
-can also be used to overwrite properties defines there. This can be very convenient for a test setup, because you
-don't have to care for different properties files to be in place for different runtime environments, like test,
-integration and production.
 
 
 \subsection{Calling a function module}
@@ -483,7 +439,7 @@ A Session represents a connection to the SAP system. The first time we call a fu
 on a Session, Hibersap gets a connection from the underlying connection pool.
 When closing a session, the connection is returned to the pool. Therefore you have to take care
 always to close the session, preferably in a finally block, else the connection pool may
-get exhausted very fast.
+get exhausted sooner or later.
 
 The following function configures a Hibersap SessionManager.
 First, an instance of type AnnotationConfiguration has to be created.
