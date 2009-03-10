@@ -135,7 +135,6 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 
 	<properties>
 		<hibersap.version>${project.version}</hibersap.version>
-		<sap.jco.lib.path>/Themen/SAP-JCO/JCO3</sap.jco.lib.path>
 	</properties>
 	<modules>
 		<module>hibersap</module>
