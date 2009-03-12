@@ -24,6 +24,7 @@
 		<menu name="Hibersap Documentation" inherit="none">
 			<item name="Features" href="About.html" />
 			<item name="Documentation" href="Documentation.html" />
+			<item name="Developer's Guide" href="DevelopersGuide.html" />
 		</menu>
     
     	<menu ref="modules"/>
