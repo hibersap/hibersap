@@ -207,7 +207,7 @@ A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 			<dependency>
 				<groupId>com.sap</groupId>
 				<artifactId>sap-jco</artifactId>
-				<version>3.0.0</version>
+				<version>3.0.1</version>
 				<scope>provided</scope>
 			</dependency>
 		</dependencies>
