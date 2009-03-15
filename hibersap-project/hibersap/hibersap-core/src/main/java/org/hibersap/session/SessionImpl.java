@@ -46,11 +46,25 @@ public class SessionImpl
 
     private final Set<ExecutionInterceptor> interceptors = new HashSet<ExecutionInterceptor>();
 
+    private final Credentials credentials;
+
     public SessionImpl( SessionManagerImplementor sessionManager )
     {
+        this( sessionManager, null );
+    }
+
+    public SessionImpl( SessionManagerImplementor sessionManager, Credentials credentials )
+    {
         this.sessionManager = sessionManager;
+        this.credentials = credentials;
+
         pojoMapper = new PojoMapper( sessionManager.getConverterCache() );
         connection = sessionManager.getSettings().getContext().getConnection();
+        if ( credentialsProvided() )
+        {
+            LOG.debug( "Providing credentials" );
+            connection.setCredentials( credentials );
+        }
         interceptors.addAll( sessionManager.getInterceptors() );
     }
 
@@ -65,6 +79,11 @@ public class SessionImpl
         errorIfClosed();
         connection.close();
         setClosed();
+    }
+
+    private boolean credentialsProvided()
+    {
+        return credentials != null;
     }
 
     private void errorIfClosed()

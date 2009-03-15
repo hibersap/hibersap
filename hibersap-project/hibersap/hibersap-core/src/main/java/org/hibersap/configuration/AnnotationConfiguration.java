@@ -108,7 +108,7 @@ public class AnnotationConfiguration
      */
     private void addAnnotatedClass( final Class<?> bapiClass )
     {
-        getSessionManagerConfig().addClass( bapiClass );
+        getSessionManagerConfig().addAnnotatedClass( bapiClass );
     }
 
     private void addAnnotatedClassesFromConfiguration()

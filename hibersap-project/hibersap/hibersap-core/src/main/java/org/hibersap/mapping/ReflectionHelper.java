@@ -1,7 +1,7 @@
 package org.hibersap.mapping;
 
-/*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+/**
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -33,6 +33,21 @@ import org.hibersap.HibersapException;
  */
 public class ReflectionHelper
 {
+    public static Class<?> getClassForName( String className )
+        throws ClassNotFoundException
+    {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try
+        {
+            return Class.forName( className, true, classLoader );
+
+        }
+        catch ( ClassNotFoundException e )
+        {
+            return Class.forName( className );
+        }
+    }
+
     /**
      * Get the array type of type, or null if type is not an array.
      * 
@@ -168,11 +183,11 @@ public class ReflectionHelper
         }
     }
 
-    public static Object newInstance( Class<? extends Object> clazz )
+    public static Object newInstance( Class<?> clazz )
     {
         try
         {
-            Constructor<? extends Object> defaultConstructor = clazz.getDeclaredConstructor();
+            Constructor<?> defaultConstructor = clazz.getDeclaredConstructor();
             defaultConstructor.setAccessible( true );
             return defaultConstructor.newInstance();
         }

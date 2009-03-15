@@ -1,7 +1,7 @@
 package org.hibersap.execution.jca;
 
-/*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+/**
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.execution.UnsafeCastHelper;
+import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
@@ -43,24 +44,24 @@ public class JCAConnection
 {
     private static Log LOG = LogFactory.getLog( JCAConnection.class );
 
-    private final javax.resource.cci.Connection connection;
-
     private RecordFactory recordFactory;
 
     private Transaction transaction;
 
     private final JCAMapper mapper = new JCAMapper();
 
-    public JCAConnection( final ConnectionFactory connectionFactory )
+    private final ConnectionProvider connectionProvider;
+
+    public JCAConnection( final ConnectionFactory connectionFactory, String connectionSpecFactoryName )
     {
+        connectionProvider = new ConnectionProvider( connectionFactory, connectionSpecFactoryName );
         try
         {
-            connection = connectionFactory.getConnection();
             recordFactory = connectionFactory.getRecordFactory();
         }
         catch ( ResourceException e )
         {
-            throw new HibersapException( "Problem creating connection.", e );
+            throw new HibersapException( "Problem creating RecordFactory.", e );
         }
     }
 
@@ -72,7 +73,7 @@ public class JCAConnection
 
             try
             {
-                transaction = new JCATransaction( connection.getLocalTransaction() );
+                transaction = new JCATransaction( connectionProvider.getConnection().getLocalTransaction() );
             }
             catch ( final ResourceException e )
             {
@@ -89,7 +90,7 @@ public class JCAConnection
     {
         try
         {
-            connection.close();
+            connectionProvider.getConnection().close();
         }
         catch ( final ResourceException e )
         {
@@ -109,7 +110,7 @@ public class JCAConnection
             LOG.debug( "JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = "
                 + mappedInputRecord );
 
-            result = connection.createInteraction().execute( null, mappedInputRecord );
+            result = connectionProvider.getConnection().createInteraction().execute( null, mappedInputRecord );
 
             LOG.debug( "JCA Execute: " + bapiName + ", result = " + result );
 
@@ -125,5 +126,10 @@ public class JCAConnection
     public Transaction getTransaction()
     {
         return transaction;
+    }
+
+    public void setCredentials( Credentials credentials )
+    {
+        connectionProvider.setCredentials( credentials );
     }
 }

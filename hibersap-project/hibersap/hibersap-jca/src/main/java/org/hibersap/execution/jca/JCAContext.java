@@ -1,7 +1,7 @@
 package org.hibersap.execution.jca;
 
-/*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+/**
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -22,10 +22,13 @@ import javax.naming.NamingException;
 import javax.resource.cci.ConnectionFactory;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
 import org.hibersap.HibersapException;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
+import org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory;
 import org.hibersap.session.Context;
 
 /**
@@ -38,7 +41,14 @@ public class JCAContext
 {
     private static final long serialVersionUID = 1L;
 
+    private static final Log LOG = LogFactory.getLog( JCAContext.class );
+
+    private static final String DEFAULT_CONNECTION_SPEC_FACTORY_CLASS = SapBapiJcaAdapterConnectionSpecFactory.class
+        .getName();
+
     private ConnectionFactory connectionFactory;
+
+    private String connectionSpecFactoryName;
 
     /**
      * {@inheritDoc}
@@ -47,8 +57,21 @@ public class JCAContext
         throws HibersapException
     {
         final String jndiName = getJndiName( config );
-
         connectionFactory = getConnectionFactory( jndiName );
+        connectionSpecFactoryName = getConnectionSpecFactoryName( config );
+    }
+
+    private String getConnectionSpecFactoryName( SessionManagerConfig config )
+    {
+        String className = config.getJcaConnectionSpecFactory();
+
+        if ( StringUtils.isEmpty( className ) )
+        {
+            LOG.info( "JCA ConnectionSpecFactory not defined in Hibersap configuration, using default: "
+                + DEFAULT_CONNECTION_SPEC_FACTORY_CLASS );
+            className = DEFAULT_CONNECTION_SPEC_FACTORY_CLASS;
+        }
+        return className;
     }
 
     /**
@@ -56,7 +79,7 @@ public class JCAContext
      */
     public Connection getConnection()
     {
-        return new JCAConnection( connectionFactory );
+        return new JCAConnection( connectionFactory, connectionSpecFactoryName );
     }
 
     private ConnectionFactory getConnectionFactory( final String jndiName )

@@ -23,7 +23,7 @@ import org.hibersap.HibersapException;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 
-/**
+/*
  * One of the interfaces (the other being org.hibersap.execution.Connection) to interact with the
  * concrete subsystem that implements the communication with SAP (e.g. JCo, JCA).
  * 
@@ -35,7 +35,7 @@ import org.hibersap.execution.Connection;
 public interface Context
     extends Serializable
 {
-    /**
+    /*
      * Called by the framework at initialization time, i.e. when the SessionManager is built. Allows
      * the subsystem to initialize itself. The implementation of this class must be specified in the
      * Hibersap configuration.
@@ -43,18 +43,18 @@ public interface Context
      * @param config The Hibersap configuration properties.
      * 
      * @throws HibersapException The implementation of this method should throw a HibersapException
-     *             if anything goes wrong.
+     * if anything goes wrong.
      */
     void configure( SessionManagerConfig config )
         throws HibersapException;
 
-    /**
+    /*
      * Called by the framework when the method org.hibersap.session.SessionFManager.reset() is
      * called. Allows the subsystem to free resources etc.
      */
     void reset();
 
-    /**
+    /*
      * Called by the framework when a new Session is created. The subsystem must provide an
      * implementation of the interface org.hibersap.execution.Connection.
      * 

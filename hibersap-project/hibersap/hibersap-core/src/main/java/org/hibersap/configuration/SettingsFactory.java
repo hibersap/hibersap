@@ -1,7 +1,7 @@
 package org.hibersap.configuration;
 
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -97,15 +97,22 @@ public class SettingsFactory
     {
         try
         {
-            return Class.forName( contextClassName );
+            return Class.forName( contextClassName, true, Thread.currentThread().getContextClassLoader() );
         }
-        catch ( final ClassNotFoundException e )
+        catch ( Exception exc )
         {
-            throw new ConfigurationException( "Class " + contextClassName + " not found in classpath.", e );
-        }
-        catch ( final Exception e )
-        {
-            throw new ConfigurationException( "Class " + contextClassName + " could not be loaded", e );
+            try
+            {
+                return Class.forName( contextClassName );
+            }
+            catch ( final ClassNotFoundException e )
+            {
+                throw new ConfigurationException( "Class " + contextClassName + " not found.", e );
+            }
+            catch ( final Exception e )
+            {
+                throw new ConfigurationException( "Class " + contextClassName + " could not be loaded", e );
+            }
         }
     }
 }

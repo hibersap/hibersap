@@ -28,7 +28,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.model.BapiMapping;
 
-/**
+/*
  * Implementation of the SessionManager. A client uses the SessionManager to create Hibernate
  * Sessions.
  * 
@@ -39,7 +39,7 @@ public class SessionManagerImpl
 {
     private static final long serialVersionUID = 1L;
 
-    final SessionManagerConfig properties;
+    final SessionManagerConfig config;
 
     private final Settings settings;
 
@@ -54,12 +54,12 @@ public class SessionManagerImpl
     {
         this.settings = settings;
         this.converterCache = new ConverterCache();
-        this.properties = configuration.getSessionManagerConfig();
+        this.config = configuration.getSessionManagerConfig();
         bapiMappings = Collections.unmodifiableMap( configuration.getBapiMappings() );
         interceptors = configuration.getInterceptors();
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public void reset()
@@ -67,7 +67,7 @@ public class SessionManagerImpl
         settings.getContext().reset();
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public Map<Class<?>, BapiMapping> getBapiMappings()
@@ -75,7 +75,7 @@ public class SessionManagerImpl
         return bapiMappings;
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public ConverterCache getConverterCache()
@@ -83,15 +83,15 @@ public class SessionManagerImpl
         return this.converterCache;
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public SessionManagerConfig getConfig()
     {
-        return properties;
+        return config;
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public Settings getSettings()
@@ -99,7 +99,7 @@ public class SessionManagerImpl
         return settings;
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public Session openSession()
@@ -107,7 +107,15 @@ public class SessionManagerImpl
         return new SessionImpl( this );
     }
 
-    /**
+    /*
+     * {@inheritDoc}
+     */
+    public Session openSession( Credentials credentials )
+    {
+        return new SessionImpl( this, credentials );
+    }
+
+    /*
      * {@inheritDoc}
      */
     public List<ExecutionInterceptor> getInterceptors()

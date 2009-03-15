@@ -27,7 +27,7 @@ public class AnnotationConfigurationTest
     @Test
     public void addsAnnotatedClass()
     {
-        configuration.getSessionManagerConfig().addClass( BAPI_CLASS );
+        configuration.getSessionManagerConfig().addAnnotatedClass( BAPI_CLASS );
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
         Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();

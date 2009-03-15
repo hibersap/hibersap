@@ -28,7 +28,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
-/**
+/*
  * Uses the SAP Java Connector to connect to SAP.
  * 
  * @author Carsten Erker
@@ -44,7 +44,7 @@ public class JCoContext
 
     private String destinationName;
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public void configure( final SessionManagerConfig config )
@@ -73,7 +73,7 @@ public class JCoContext
         JCoEnvironment.registerDestination( destinationName, jcoProperties );
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public void reset()
@@ -82,7 +82,7 @@ public class JCoContext
         destinationName = null;
     }
 
-    /**
+    /*
      * {@inheritDoc}
      */
     public Connection getConnection()

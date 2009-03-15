@@ -1,7 +1,7 @@
 package org.hibersap.execution.jco;
 
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -21,15 +21,18 @@ import java.util.Map;
 
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
+import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
+import com.sap.conn.jco.JCoCustomDestination;
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoRepository;
+import com.sap.conn.jco.JCoCustomDestination.UserData;
 
-/**
+/*
  * @author Carsten Erker
  */
 public class JCoConnection
@@ -45,12 +48,17 @@ public class JCoConnection
 
     private final String destinationName;
 
+    private Credentials credentials;
+
     public JCoConnection( String destinationName )
     {
         this.jcoMapper = new JCoMapper();
         this.destinationName = destinationName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Transaction beginTransaction( SessionImplementor session )
     {
         if ( transaction != null )
@@ -61,6 +69,11 @@ public class JCoConnection
         transaction.begin();
 
         return transaction;
+    }
+
+    public void close()
+    {
+        endStatefulConnection();
     }
 
     public void execute( String bapiName, Map<String, Object> functionMap )
@@ -99,27 +112,52 @@ public class JCoConnection
         jcoMapper.putFunctionValuesToFunctionMap( function, functionMap );
     }
 
-    private JCoRepository getRepository()
-    {
-        try
-        {
-            return destination.getRepository();
-        }
-        catch ( JCoException e )
-        {
-            throw new HibersapException( "Can not get repository from destination " + destination.getDestinationName(),
-                                         e );
-        }
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public Transaction getTransaction()
     {
         return transaction;
     }
 
-    public void close()
+    /**
+     * {@inheritDoc}
+     */
+    public void setCredentials( Credentials credentials )
     {
-        endStatefulConnection();
+        this.credentials = credentials;
+    }
+
+    private void copyCredentialsToUserData( Credentials cred, UserData data )
+    {
+        if ( cred.getAliasUser() != null )
+        {
+            data.setAliasUser( cred.getAliasUser() );
+        }
+        if ( cred.getClient() != null )
+        {
+            data.setClient( cred.getClient() );
+        }
+        if ( cred.getLanguage() != null )
+        {
+            data.setLanguage( cred.getLanguage() );
+        }
+        if ( cred.getPassword() != null )
+        {
+            data.setPassword( cred.getPassword() );
+        }
+        if ( cred.getSsoTicket() != null )
+        {
+            data.setSSOTicket( cred.getSsoTicket() );
+        }
+        if ( cred.getUser() != null )
+        {
+            data.setUser( cred.getUser() );
+        }
+        if ( cred.getX509Certificate() != null )
+        {
+            data.setX509Certificate( cred.getX509Certificate() );
+        }
     }
 
     private void endStatefulConnection()
@@ -139,6 +177,27 @@ public class JCoConnection
         }
     }
 
+    private JCoCustomDestination getCustomDestination( JCoDestination dest, Credentials cred )
+    {
+        JCoCustomDestination custDest = dest.createCustomDestination();
+        UserData data = custDest.getUserLogonData();
+        copyCredentialsToUserData( cred, data );
+        return custDest;
+    }
+
+    private JCoRepository getRepository()
+    {
+        try
+        {
+            return destination.getRepository();
+        }
+        catch ( JCoException e )
+        {
+            throw new HibersapException( "Can not get repository from destination " + destination.getDestinationName(),
+                                         e );
+        }
+    }
+
     private void startStatefulConnection()
     {
         destination = JCoEnvironment.getDestination( destinationName );
@@ -147,6 +206,11 @@ public class JCoConnection
         {
             throw new RuntimeException( "A stateful JCo session was already started for the given destination "
                 + "in the current thread." );
+        }
+
+        if ( credentials != null )
+        {
+            destination = getCustomDestination( destination, credentials );
         }
 
         jcoContext.begin( destination );
