@@ -105,18 +105,18 @@ public class FlightDetailBapi
         sb.append( "FlightDate: " ).append( getFlightDate() ).append( '\n' );
 
         sb.append( "FlightData" ).append( '\n' );
-        final FlightData flightData = getFlightData();
-        sb.append( "\tAirlineId: " ).append( flightData.getAirlineId() ).append( '\n' );
-        sb.append( "\tAirportfr: " ).append( flightData.getAirportfr() ).append( '\n' );
-        sb.append( "\tAirportt: " ).append( flightData.getAirportto() ).append( '\n' );
-        sb.append( "\tCityfrom: " ).append( flightData.getCityfrom() ).append( '\n' );
-        sb.append( "\tCityto: " ).append( flightData.getCityto() ).append( '\n' );
-        sb.append( "\tConnectid: " ).append( flightData.getConnectid() ).append( '\n' );
-        sb.append( "\tCurr: " ).append( flightData.getCurr() ).append( '\n' );
-        sb.append( "\tPrice: " ).append( flightData.getPrice() ).append( '\n' );
-        sb.append( "\tArrtime: " ).append( flightData.getArrtime() ).append( '\n' );
-        sb.append( "\tDeptime: " ).append( flightData.getDeptime() ).append( '\n' );
-        sb.append( "\tFlightdate: " ).append( flightData.getFlightdate() ).append( '\n' );
+        final FlightData data = getFlightData();
+        sb.append( "\tAirlineId: " ).append( data.getAirlineId() ).append( '\n' );
+        sb.append( "\tAirportfr: " ).append( data.getAirportfr() ).append( '\n' );
+        sb.append( "\tAirportt: " ).append( data.getAirportto() ).append( '\n' );
+        sb.append( "\tCityfrom: " ).append( data.getCityfrom() ).append( '\n' );
+        sb.append( "\tCityto: " ).append( data.getCityto() ).append( '\n' );
+        sb.append( "\tConnectid: " ).append( data.getConnectid() ).append( '\n' );
+        sb.append( "\tCurr: " ).append( data.getCurr() ).append( '\n' );
+        sb.append( "\tPrice: " ).append( data.getPrice() ).append( '\n' );
+        sb.append( "\tArrtime: " ).append( data.getArrtime() ).append( '\n' );
+        sb.append( "\tDeptime: " ).append( data.getDeptime() ).append( '\n' );
+        sb.append( "\tFlightdate: " ).append( data.getFlightdate() ).append( '\n' );
 
         sb.append( "BapiRet2" ).append( '\n' );
         final BapiRet2 returnStruct = getReturn();

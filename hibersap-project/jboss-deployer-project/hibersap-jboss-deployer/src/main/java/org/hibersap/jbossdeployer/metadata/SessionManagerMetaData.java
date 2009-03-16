@@ -30,6 +30,7 @@ public class SessionManagerMetaData
 
     public SessionManagerMetaData()
     {
+        // JAXB needs a default constructor
     }
 
     public SessionManagerMetaData( final String name, final String context, final List<Property> properties )

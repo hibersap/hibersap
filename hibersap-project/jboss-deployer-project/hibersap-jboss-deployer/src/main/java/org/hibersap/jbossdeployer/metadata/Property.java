@@ -18,6 +18,7 @@ public class Property
 
     public Property()
     {
+        // JAXB needs a default constructor
     }
 
     public Property( final String name, final String value )

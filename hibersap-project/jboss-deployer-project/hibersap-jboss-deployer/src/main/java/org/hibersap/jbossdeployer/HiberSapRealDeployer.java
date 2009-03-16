@@ -9,7 +9,6 @@ import org.hibersap.jmx.HiberSapMBean;
 import org.jboss.aop.microcontainer.aspects.jmx.JMX;
 import org.jboss.beans.metadata.spi.BeanMetaData;
 import org.jboss.beans.metadata.spi.builder.BeanMetaDataBuilder;
-import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.deployers.spi.deployer.helpers.AbstractSimpleRealDeployer;
 import org.jboss.deployers.structure.spi.DeploymentUnit;
 import org.jboss.deployers.vfs.spi.structure.VFSDeploymentUnit;
@@ -34,7 +33,6 @@ public class HiberSapRealDeployer
 
     @Override
     public void deploy( final DeploymentUnit unit, final HiberSapMetaData metaData )
-        throws DeploymentException
     {
         LOG.trace( "deploy(" + unit + " , " + metaData + ")" );
         if ( ( unit instanceof VFSDeploymentUnit ) == false )
