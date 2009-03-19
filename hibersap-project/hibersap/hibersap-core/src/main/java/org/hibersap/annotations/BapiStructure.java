@@ -18,7 +18,7 @@ package org.hibersap.annotations;
  */
 
 /**
- * Declare Bapi return structure
+ * Maps the Java class to a structure in a remote function module's interface.
  * 
  * @author Carsten Erker
  */

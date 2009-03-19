@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declare which return structure contains the error codes to generate a SapException.
+ * Generate a SapException when the function module returns errors in a RETURN structure or table.
  * 
  * @author Carsten Erker
  */
@@ -41,7 +41,7 @@ public @interface ThrowExceptionOnError
 
     /**
      * The message types which Hibersap shall interpret as an error. In these cases an Exception
-     * will be thrown.
+     * will be thrown. The RETURN structure's field TYPE is compared to the message types.
      */
     String[] errorMessageTypes() default { "E", "A" };
 }

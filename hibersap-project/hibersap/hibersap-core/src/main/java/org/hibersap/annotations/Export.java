@@ -24,8 +24,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Declare parameter as an export parameter of the Bapi.
- *
+ * Defines field to be an export parameter of the remote function module's interface. Field must
+ * additionally be annotated using @Parameter.
+ * 
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
