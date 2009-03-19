@@ -5,7 +5,7 @@
 % last argument: copy the html and css files to the specified folder.
 % htlatex HibersapReference "tex4ht,2" "" "-d..\..\..\target\site\tex"
 
-\documentclass[10pt,a4paper,titlepage]{book} 
+\documentclass[12pt,a4paper,titlepage]{book} 
 
 \setlength{\topmargin}{-1cm} 
 \setlength{\headsep}{1cm} 
@@ -26,11 +26,12 @@
 \usepackage[colorlinks=true]{hyperref}
 
 \urldef{\urlHibersapSite}\url{http://hibersap.sourceforge.net} 
-\urldef{\urlHibersapDependencies}\url{http://hibersap.sourceforge.net/dependencies.html} 
+\urldef{\urlHibersapDependencies}\url{http://hibersap.sourceforge.net/dependency-convergence.html} 
 
 \begin{document} 
 
 \newcommand\HRule{\noindent\rule{\linewidth}{1.5pt}} 
+\newcommand\HibersapVersion{\input{version}}
 
 \include{TitlePage}  
 \pagenumbering{roman} 
@@ -41,9 +42,8 @@
 \include{QuickStart} 
 \include{Installation} 
 \include{Configuration} 
-\include{Transactions} 
-\include{Security} 
-\include{Mapping} 
+\include{Usage} 
+\include{Testing} 
 \appendix 
 
 \end{document}

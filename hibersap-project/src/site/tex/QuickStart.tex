@@ -1,4 +1,4 @@
-%!TEX root = userguide.tex
+%!TEX root = HibersapReference.tex
 \chapter{Quick Start}
 \label{cha:QuickStart}
 
@@ -18,7 +18,7 @@
 
 \section{The first application}
 
-We are going to write a small example application that will call the SAP function BAPI\_SFLIGHT\_GETLIST.
+We are going to write a small example application that will call the SAP function BAPI\_\-SFLIGHT\_\-GETLIST.
 This function is part of a demo application in SAP that offers a simplified flight-booking system.
 The code can be found in project {\tt hibersap-examples}. The same rules apply for that project, i.e. the native
 library must be in that project's directory, too.
@@ -53,24 +53,25 @@ The import parameters are simple types, whereas the export and table parameter a
 The RETURN parameter is of type BAPIRET2, which is a standard structure that can be found in many function modules'
 interfaces and that is not specific to this BAPI. See table \ref{tab:Bapiret2}.
 
-\begin{table}
+\begin{table}[H]
   \centering
   \begin{tabular}{lll} \toprule 
     \textbf{Component name} & \textbf{Type}     & \textbf{Description} \\ \midrule
-    TYPE                    & Character         & Message type: S Success, E Error, W Warning, I Info, A Abort \\ 
-    ID                      & Character         & Messages, message class \\  
-    NUMBER                  & Numeric character & Messages, message number \\ 
-    MESSAGE                 & Character         & Message text \\ 
-    LOG\_NO                 & Character         & Application log: log number \\ 
-    LOG\_MSG\_NO            & Numeric character & Application log: Internal message serial number \\ 
-    MESSAGE\_V1             & Character         & Messages, message variables \\ 
-    MESSAGE\_V2             & Character         & Messages, message variables \\ 
-    MESSAGE\_V3             & Character         & Messages, message variables \\ 
-    MESSAGE\_V4             & Character         & Messages, message variables \\ 
-    PARAMETER               & Character         & Parameter name \\ 
-    ROW                     & 4-byte integer    & Lines in parameter \\ 
-    FIELD                   & Character         & Field in parameter \\ 
-    SYSTEM                  & Character         & Logical system from which message originates \\ \bottomrule
+    TYPE                  & Character               & Message type: S Success, E Error, W Warning, \\ 
+                             &                             & I Info, A Abort \\ 
+    ID                      & Character                & Messages, message class \\  
+    NUMBER              & Numeric character   & Messages, message number \\ 
+    MESSAGE             & Character               & Message text \\ 
+    LOG\_NO            & Character                & Application log: log number \\ 
+    LOG\_MSG\_NO   & Numeric character    & Application log: Internal message serial number \\ 
+    MESSAGE\_V1      & Character               & Messages, message variables \\ 
+    MESSAGE\_V2      & Character               & Messages, message variables \\ 
+    MESSAGE\_V3      & Character               & Messages, message variables \\ 
+    MESSAGE\_V4      & Character               & Messages, message variables \\ 
+    PARAMETER          & Character              & Parameter name \\ 
+    ROW                    & 4-byte integer        & Lines in parameter \\ 
+    FIELD                   & Character              & Field in parameter \\ 
+    SYSTEM                & Character              & Logical system from which message originates \\ \bottomrule
   \end{tabular}
   \caption{Structure BAPIRET2}
   \label{tab:Bapiret2}
@@ -174,33 +175,9 @@ a table of complex types, any parameter type argument will be ignored by Hibersa
 The Java type of each simple field is related to the SAP field's data type.
 Hibersap relies on the Java Connector's conversion scheme as shown in table \ref{tab:JCoConversion}.
 
-\begin{table}
-  \centering
-  \begin{tabular}{lll} \toprule
-    \textbf{ABAP type} & \textbf{Description}       & \textbf{Java type} \\ \midrule
-    C                  & Character                  & java.lang.String \\
-    N                  & Numerical character        & java.lang.String \\
-    D                  & Date                       & java.lang.Date \\
-    T                  & Time                       & java.lang.Date \\
-    X                  & Byte field                 & byte[] \\
-    P                  & Packed number              & java.lang.BigDecimal \\
-    I                  & 4-byte integer             & int \\
-    F                  & Floating point number      & double \\
-    STRING             & Variable-length character  & java.lang.String \\
-    XSTRING            & Variable-length byte field & byte[] \\ \bottomrule
-  \end{tabular}
-  \caption{SAP Java Connector type conversion}
-  \label{tab:JCoConversion}
-\end{table}
-
-Hibersap allows to convert a parameter's data type to any Java type and vice versa.
-E. g., ABAP does not have a boolean type. Usually a boolean in ABAP is represented by a
-character field of length 1. A parameter is true if it equals to 'X', false if it is empty.
-
 The @Convert annotation on the field afternoon in the listing above tells Hibersap
-to use a Converter of type BooleanConverter to convert the parameter AFTERNOON to a
-Java boolean value.
-It is easy to write your own converter by implementing the org.hibersap.conversion.Converter interface.
+to use a Converter of type BooleanConverter to convert the parameter AFTERNOON which is a character field of length 1 to a
+Java boolean value. See section \ref{cha:Mapping} on how to implement custom Converters.
 
 To conclude the example, we write a constructor which takes all the import parameters as arguments,
 initializing the corresponding fields.
@@ -402,7 +379,7 @@ plus properties for the Java Connector. To accomplish this, we create an XML fil
 named META-INF. Hibersap will look for this file in the classpath under ``/META-INF/hibersap.xml''.
 
 In the example we use a minimum set of JCo properties to be able to connect to the back-end SAP system.
-All valid JCo properties are specified in the JCo library interface com.sap.conn.jco.ext.\-DestinationDataProvider (see
+All valid JCo properties are specified in the JCo library interface com.\-sap.\-conn.\-jco.\-ext.\-DestinationDataProvider (see
 javadoc provided with JCo).
 
 \begin{Verbatim}[frame=single,label=hibersap.xml]
@@ -441,20 +418,12 @@ When closing a session, the connection is returned to the pool. Therefore you ha
 always to close the session, preferably in a finally block, else the connection pool may
 get exhausted sooner or later.
 
-The following function configures a Hibersap SessionManager.
-First, an instance of type AnnotationConfiguration has to be created.
-Then we add our BAPI Class to the configuration (if it is not already listed in the configuration, see examples above).
-If needed, we could now set or overwrite properties using the configuration.setProperty().
-Finally, we build the SessionManager.
-In a real application this should be done once, reusing the SessionManager throughout the
-application's lifetime.
+The following function configures a Hibersap SessionManager. First, an instance of type AnnotationConfiguration has to be created for the named SessionManager, as specified in hibersap.xml. Finally, we build the SessionManager. In a real application this should be done once, reusing the SessionManager throughout the application's lifetime.
 
 \begin{Verbatim}[frame=single,label=Creating the SessionManager]
 public SessionManager createSessionManager()
 {
-    AnnotationConfiguration configuration = new AnnotationConfiguration();
-    configuration.setProperty( Environment.SESSION_MANAGER_NAME, "F46" );
-    configuration.addAnnotatedClass( MyBapi.class );
+    AnnotationConfiguration configuration = new AnnotationConfiguration("A12");
     return configuration.buildSessionManager();
 }
 \end{Verbatim}
@@ -474,7 +443,8 @@ public void showFlightList()
     Session session = sessionManager.openSession();
     try
     {
-        FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", 
+        FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", 
+                                                        "DE", "Berlin", 
                                                         null, false, 10 );
         session.execute( flightList );
         showResult( flightList );
