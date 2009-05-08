@@ -41,72 +41,64 @@ import org.junit.Test;
 /**
  * @author Carsten Erker
  */
-public class FlightDetailTest
-    extends AbstractHibersapTest
-{
-    private static final Log LOG = LogFactory.getLog( FlightDetailTest.class );
+public class FlightDetailTest extends AbstractHibersapTest {
+	private static final Log LOG = LogFactory.getLog(FlightDetailTest.class);
 
-    private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
+	private final AnnotationConfiguration configuration = new AnnotationConfiguration(
+			"A12");
 
-    private SessionManagerImpl sessionManager;
+	private SessionManagerImpl sessionManager;
 
-    @Before
-    public void setup()
-    {
-        sessionManager = (SessionManagerImpl) configuration.buildSessionManager();
-    }
+	@Before
+	public void setup() {
+		sessionManager = (SessionManagerImpl) configuration
+				.buildSessionManager();
+	}
 
-    @After
-    public void reset()
-    {
-        if ( sessionManager != null )
-            sessionManager.reset();
-    }
+	@After
+	public void reset() {
+		if (sessionManager != null) {
+			sessionManager.reset();
+		}
+	}
 
-    @Test
-    public void showFlightDetail()
-    {
-        final Session session = sessionManager.openSession();
-        try
-        {
-            session.beginTransaction();
-            final Date date26Apr2002 = new GregorianCalendar( 2002, Calendar.APRIL, 26 ).getTime();
-            final FlightDetailBapi flightDetail = new FlightDetailBapi( "AZ", "0788", date26Apr2002 );
-            session.execute( flightDetail );
-            session.getTransaction().commit();
-            LOG.info( flightDetail );
-        }
-        finally
-        {
-            session.close();
-        }
-    }
+	@Test
+	public void testShowFlightDetail() {
+		final Session session = sessionManager.openSession();
+		try {
+			session.beginTransaction();
+			final Date date26Apr2002 = new GregorianCalendar(2002,
+					Calendar.APRIL, 26).getTime();
+			final FlightDetailBapi flightDetail = new FlightDetailBapi("AZ",
+					"0788", date26Apr2002);
+			session.execute(flightDetail);
+			session.getTransaction().commit();
+			LOG.info(flightDetail);
+		} finally {
+			session.close();
+		}
+	}
 
-    @Test
-    public void showFlightDetailWithSapErrorMessage()
-    {
-        final Session session = sessionManager.openSession();
+	@Test
+	public void testShowFlightDetailWithSapErrorMessage() {
+		final Session session = sessionManager.openSession();
 
-        try
-        {
-            session.beginTransaction();
-            final FlightDetailBapi flightDetail = new FlightDetailBapi( "XY", "1234", new Date() );
-            session.execute( flightDetail );
-            fail();
-        }
-        catch ( final SapException e )
-        {
-            final List<SapError> errors = e.getErrors();
-            assertEquals( 1, errors.size() );
-            final SapError error = errors.get( 0 );
-            assertEquals( "600", error.getNumber() );
-            assertEquals( "BC_BOR", error.getId() );
-            assertEquals( "E", error.getType() );
-            assertTrue( error.getMessage().indexOf( "XY1234" ) > -1 );
-        }
-        finally
-        {
-            session.close();
-        }
-    }
+		try {
+			session.beginTransaction();
+			final FlightDetailBapi flightDetail = new FlightDetailBapi("XY",
+					"1234", new Date());
+			session.execute(flightDetail);
+			fail();
+		} catch (final SapException e) {
+			final List<SapError> errors = e.getErrors();
+			assertEquals(1, errors.size());
+			final SapError error = errors.get(0);
+			assertEquals("600", error.getNumber());
+			assertEquals("BC_BOR", error.getId());
+			assertEquals("E", error.getType());
+			assertTrue(error.getMessage().indexOf("XY1234") > -1);
+		} finally {
+			session.close();
+		}
+	}
 }

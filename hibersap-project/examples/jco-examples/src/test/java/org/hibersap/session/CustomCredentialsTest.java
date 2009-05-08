@@ -20,7 +20,6 @@ package org.hibersap.session;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibersap.SapException;
@@ -34,71 +33,63 @@ import org.junit.Test;
 import com.sap.conn.jco.monitor.JCoConnectionData;
 import com.sap.conn.jco.monitor.JCoConnectionMonitor;
 
-public class CustomCredentialsTest
-    extends AbstractHibersapTest
-{
-    private AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
+public class CustomCredentialsTest extends AbstractHibersapTest {
+	private final AnnotationConfiguration configuration = new AnnotationConfiguration(
+			"A12");
 
-    private SessionManagerImpl sessionManager;
+	private SessionManagerImpl sessionManager;
 
-    @Before
-    public void setup()
-    {
-        sessionManager = (SessionManagerImpl) configuration.buildSessionManager();
-    };
+	@Before
+	public void setup() {
+		sessionManager = (SessionManagerImpl) configuration
+				.buildSessionManager();
+	};
 
-    @After
-    public void reset()
-    {
-        if ( sessionManager != null )
-            sessionManager.reset();
-    }
+	@After
+	public void reset() {
+		if (sessionManager != null) {
+			sessionManager.reset();
+		}
+	}
 
-    @Test
-    public void connectToSapWithCustomCredentials()
-        throws Exception
-    {
+	@Test
+	public void testConnectToSapWithCustomCredentials() throws Exception {
 
-        Credentials credentials = new Credentials().setUser( "CERKER" ).setPassword( "password" ).setLanguage( "DE" );
+		final Credentials credentials = new Credentials().setUser("CERKER")
+				.setPassword("password").setLanguage("DE");
 
-        Session session = sessionManager.openSession( credentials );
+		final Session session = sessionManager.openSession(credentials);
 
-        // make sure a connection to SAP was established
-        try
-        {
-            session.execute( new FlightListBapi( "BERLIN", "DE", "FRANKFURT", "DE", "LH", false, 1 ) );
-        }
-        catch ( SapException e )
-        {
-            // expected when there are no lines found
-        }
-        finally
-        {
-            session.close();
-        }
+		// make sure a connection to SAP was established
+		try {
+			session.execute(new FlightListBapi("BERLIN", "DE", "FRANKFURT",
+					"DE", "LH", false, 1));
+		} catch (final SapException e) {
+			// expected when there are no lines found
+		} finally {
+			session.close();
+		}
 
-        JCoConnectionData connectionUsed = getConnectionDataUsed();
-        assertNotNull( connectionUsed );
+		final JCoConnectionData connectionUsed = getConnectionDataUsed();
+		assertNotNull(connectionUsed);
 
-        // these parameters should be used instead of the configured ones
-        assertEquals( "CERKER", connectionUsed.getAbapUser() );
-        assertEquals( "DE", connectionUsed.getAbapLanguage() );
+		// these parameters should be used instead of the configured ones
+		assertEquals("CERKER", connectionUsed.getAbapUser());
+		assertEquals("DE", connectionUsed.getAbapLanguage());
 
-        // this parameter should not be overwritten, the configuration should be used
-        assertEquals( "800", connectionUsed.getAbapClient() );
-    }
+		// this parameter should not be overwritten, the configuration should be
+		// used
+		assertEquals("800", connectionUsed.getAbapClient());
+	}
 
-    private JCoConnectionData getConnectionDataUsed()
-    {
-        List<? extends JCoConnectionData> list = JCoConnectionMonitor.getConnectionsData();
-        for ( Iterator<? extends JCoConnectionData> iterator = list.iterator(); iterator.hasNext(); )
-        {
-            JCoConnectionData data = iterator.next();
-            if ( "BAPI_SFLIGHT_GETLIST".equals( data.getFunctionModuleName() ) )
-            {
-                return data;
-            }
-        }
-        return null;
-    }
+	private JCoConnectionData getConnectionDataUsed() {
+		final List<? extends JCoConnectionData> list = JCoConnectionMonitor
+				.getConnectionsData();
+		for (final JCoConnectionData data : list) {
+			if ("BAPI_SFLIGHT_GETLIST".equals(data.getFunctionModuleName())) {
+				return data;
+			}
+		}
+		return null;
+	}
 }
