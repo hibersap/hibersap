@@ -103,6 +103,13 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
 				<version>1.0-alpha-4</version>
 				<executions>
@@ -121,6 +128,7 @@
 The path to the native dynamic JCo library must be specified to
 execute the tests. You could define it in your settings.xml.
 A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
+The name of the property is: sap.jco.lib.path
 ]]>
 									</message>
 								</requireProperty>
