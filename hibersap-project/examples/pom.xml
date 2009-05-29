@@ -1,74 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap.examples</groupId>
 	<artifactId>examples</artifactId>
 	<packaging>pom</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>Examples for HiberSap</name>
+	
 	<parent>
 		<artifactId>hibersap-project</artifactId>
 		<groupId>org.hibersap</groupId>
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
 
-				<configuration>
-					<encoding>utf-8</encoding>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-
-		</plugins>
-	</build>
-
-	<properties>
-	  <hibersap.version>${project.version}</hibersap.version>
-	</properties>
 	<modules>
 		<module>jco-examples</module>
 		<module>jboss-jca-adapter-examples</module>
 	</modules>
 
-	<dependencies></dependencies>
+<!-- 
+ 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.5</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
 				<groupId>javax.xml.bind</groupId>
 				<artifactId>jaxb-api</artifactId>
-				<version>2.1</version>
-				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.jboss</groupId>
 				<artifactId>jboss-common-core</artifactId>
-				<version>2.2.8.GA</version>
-				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.jboss.jbossas</groupId>
 				<artifactId>jboss-as-system-jmx</artifactId>
-				<version>5.0.0.CR2</version>
-				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.jboss.jbossas</groupId>
 				<artifactId>jboss-as-j2se</artifactId>
-				<version>5.0.0.CR2</version>
-				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	-->
 </project>
