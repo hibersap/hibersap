@@ -27,7 +27,7 @@
 
 	<distributionManagement>
 		<site>
-			<id></id>
+			<id>site.spree.de</id>
 			<url>scp://jbosscc.spree.de:54711/var/www/projects/${artifactId}/${version}</url>
 		</site>
 
