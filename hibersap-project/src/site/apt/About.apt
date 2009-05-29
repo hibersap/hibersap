@@ -32,14 +32,14 @@ About Hibersap
   
   * Automatic error propagation using the @ThrowExceptionOnError annotation.
   
-  * Configuration using XML or properties file
+  * Configuration using XML
 
+  * Using the SAP Java Resource Adapter (JRA) instead of JCo. Switch between these technologies by means of configuration.
+    This makes it possible to run integration tests without a container.
+  
 * Prospective Features
 
   * Hook-in for Application Server's transaction manager to use Container Managed Transactions (CMT) for Hibersap calls.
-  
-  * Using the SAP Java Resource Adapter (JRA) instead of JCo. Switch between these technologies by means of configuration.
-    This makes it possible to run integration tests without a container.
   
   * Hibernate-like current session context strategy.
   
