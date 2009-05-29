@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<server>
+	<mbean code="org.hibersap.jboss4.deployer.HibersapDeployer" name="org.hibersap:service=HibersapDeployer">
+		<depends>jboss.system:service=ServiceController</depends>
+	</mbean>
+</server>
