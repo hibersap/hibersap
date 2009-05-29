@@ -28,7 +28,8 @@
 	<distributionManagement>
 		<site>
 			<id>site.spree.de</id>
-			<url>scp://jbosscc.spree.de:54711/var/www/projects/${artifactId}/${version}</url>
+			<name>Hibersap Site</name>
+			<url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/0.2-SNAPSHOT</url>
 		</site>
 
 		<snapshotRepository>
