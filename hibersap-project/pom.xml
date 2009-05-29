@@ -63,6 +63,11 @@
 		</url>
 	</scm>
 
+	<organization>
+		<name>Akquinet Tech@Spree GmbH</name>
+		<url>http://www.akquinet.de</url>
+	</organization>
+
 	<developers>
 		<developer>
 			<id>cerker</id>
@@ -91,6 +96,16 @@
 			<email>markus.dahm at akquinet dot de</email>
 			<organization>akquinet tech@spree GmbH</organization>
 			<organizationUrl>http://www.akquinet.de</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</developer>
+		<developer>
+		 <id>abendt</id>
+		 <name>Alphonse Bendt</name>
+		 <email>alphonse.bendt at akquinet dot de</email>
+		 <organization>akquinet tech@spree GmbH</organization>
+		 <organizationUrl>http://www.akquinet.de</organizationUrl>
 			<roles>
 				<role>Developer</role>
 			</roles>
