@@ -1,113 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.hibersap</groupId>
 	<artifactId>hibersap</artifactId>
 	<version>0.2-SNAPSHOT</version>
 	<name>Hibersap</name>
 	<packaging>pom</packaging>
+	
 	<licenses>
 		<license>
 			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
 			<url>http://www.gnu.org/licenses/lgpl.txt</url>
 		</license>
 	</licenses>
+
 	<parent>
 		<artifactId>hibersap-project</artifactId>
 		<groupId>org.hibersap</groupId>
 		<version>0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<build>
-		<plugins></plugins>
-	</build>
+
 	<modules>
 		<module>hibersap-core</module>
 		<module>hibersap-jco</module>
 		<module>hibersap-jca</module>
 	</modules>
-	<profiles></profiles>
+	
 	<dependencies>
 		<dependency>
 			<groupId>sun-jaxb</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>sun-jaxb</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>stax</groupId>
 			<artifactId>stax-api</artifactId>
-			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.sap</groupId>
 			<artifactId>sap-jco</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sf.sapbapijca</groupId>
 			<artifactId>sap-bapi-jca</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.3</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.5</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.resource</groupId>
 			<artifactId>connector</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 </project>

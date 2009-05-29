@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -21,54 +23,24 @@
 		<target.dir>target</target.dir>
 	</properties>
 
-	<build>
-		<plugins>
-		</plugins>
-	</build>
-
 	<modules>
+		<module>hibersap-sap</module>
 		<module>hibersap-ejb</module>
 		<module>hibersap-ear</module>
 	</modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymockclassextension</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
 	<dependencyManagement>
 		<dependencies>
-
-			<dependency>
-				<groupId>net.sf.sapbapijca</groupId>
-				<artifactId>sap-bapi-jca</artifactId>
-				<version>1.0.0</version>
-				<scope>provided</scope>
-			</dependency>
-
 			<dependency>
 				<groupId>org.hibersap</groupId>
 				<artifactId>hibersap-core</artifactId>
 				<version>0.2-SNAPSHOT</version>
-				<type>jar</type>
 			</dependency>
 
 			<dependency>
 				<groupId>org.hibersap.examples</groupId>
 				<artifactId>jco-library</artifactId>
 				<version>0.2-SNAPSHOT</version>
-				<type>jar</type>
 			</dependency>
 
 			<dependency>
