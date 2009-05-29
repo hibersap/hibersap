@@ -34,7 +34,7 @@ public class HibersapJaxbXmlParser
         return parseResource( resourceStream, resourceName );
     }
 
-    private HibersapConfig parseResource( final InputStream resourceStream, final String resourceName )
+    public HibersapConfig parseResource( final InputStream resourceStream, final String resourceName )
         throws HibersapParseException
     {
         Unmarshaller unmarshaller;
