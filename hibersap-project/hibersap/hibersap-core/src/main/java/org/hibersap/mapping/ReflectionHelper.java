@@ -148,7 +148,7 @@ public class ReflectionHelper
         return getGenericType( genericType );
     }
 
-    public static Class<?> getGenericType( Type genericType )
+    private static Class<?> getGenericType( Type genericType )
     {
         if ( genericType instanceof ParameterizedType )
         {
@@ -206,12 +206,17 @@ public class ReflectionHelper
         }
         catch ( InvocationTargetException e )
         {
-            throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
+            throw new HibersapException( "Default constructor threw an exception: " + clazz.getName(), e );
         }
     }
 
     public static void setFieldValue( Object bean, String fieldName, Object value )
     {
+        if ( bean == null )
+        {
+            throw new HibersapException( "Cannot set a value on a null object" );
+        }
+
         if ( value == null )
         {
             throw new HibersapException( "Cannot set null value on field " + fieldName + " of bean "
@@ -231,8 +236,8 @@ public class ReflectionHelper
         }
         catch ( NoSuchFieldException e )
         {
-            throw new HibersapException( "Can not assign an object of type " + value.getClass().getName()
-                + " to the field " + bean.getClass().getName() + "." + fieldName, e );
+            throw new HibersapException( "Class " + bean.getClass().getName() + " does not have a field named "
+                + fieldName, e );
         }
         catch ( IllegalArgumentException e )
         {
