@@ -74,6 +74,6 @@ public class ConfigurationMarshallTest
 
         final StringWriter stringWriter = new StringWriter();
         marshaller.marshal( hiberSapMetaData, stringWriter );
-        LOG.info( stringWriter.toString() );
+        LOG.debug( stringWriter.toString() );
     }
 }
