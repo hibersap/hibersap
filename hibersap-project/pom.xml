@@ -101,11 +101,11 @@
 			</roles>
 		</developer>
 		<developer>
-		 <id>abendt</id>
-		 <name>Alphonse Bendt</name>
-		 <email>alphonse.bendt at akquinet dot de</email>
-		 <organization>akquinet tech@spree GmbH</organization>
-		 <organizationUrl>http://www.akquinet.de</organizationUrl>
+			<id>abendt</id>
+			<name>Alphonse Bendt</name>
+			<email>alphonse.bendt at akquinet dot de</email>
+			<organization>akquinet tech@spree GmbH</organization>
+			<organizationUrl>http://www.akquinet.de</organizationUrl>
 			<roles>
 				<role>Developer</role>
 			</roles>
@@ -161,13 +161,87 @@ The name of the property is: sap.jco.lib.path
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>bakersoftware</groupId>
+				<artifactId>maven-replacer-plugin</artifactId>
+				<version>0.0.9</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>src/site/tex/version.tex</file>
+							<token>.+</token>
+							<value>${project.version}</value>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>de.akquinet.maven</groupId>
+				<artifactId>maven-latex-plugin</artifactId>
+				<version>0.2-SNAPSHOT</version>
+				<inherited>false</inherited>
+				<!--configuration>
+					<settings>
+						<texPath>/usr/bin</texPath>
+					</settings>
+				</configuration-->
+				<executions>
+					<execution>
+						<configuration>
+							<settings>
+								<outputDirectory>reference</outputDirectory>
+							</settings>
+						</configuration>
+						<phase>site</phase>
+						<goals>
+							<goal>latex</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>HTML multipage</id>
+						<configuration>
+							<settings>
+								<outputDirectory>reference/html_multipage</outputDirectory>
+								<tex4htCommandArgs>
+									<tex4htCommandArg>"tex4ht,2"</tex4htCommandArg>
+								</tex4htCommandArgs>
+							</settings>
+						</configuration>
+						<phase>site</phase>
+						<goals>
+							<goal>tex4ht</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>HTML singlepage</id>
+						<configuration>
+							<settings>
+								<outputDirectory>reference/html_singlepage</outputDirectory>
+								<tex4htCommandArgs>
+									<tex4htCommandArg>"tex4ht,1"</tex4htCommandArg>
+								</tex4htCommandArgs>
+							</settings>
+						</configuration>
+						<phase>site</phase>
+						<goals>
+							<goal>tex4ht</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
-
 					<configuration>
 						<source>1.5</source>
 						<target>1.5</target>
@@ -337,6 +411,7 @@ The name of the property is: sap.jco.lib.path
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin
 				</artifactId>
+				<version>RELEASE</version>
 			</plugin>
 		</plugins>
 	</reporting>

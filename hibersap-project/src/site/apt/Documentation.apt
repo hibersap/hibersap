@@ -11,9 +11,9 @@ Hibersap Documentation
 
 * Reference Manual
 
-  * {{{reference/multihtml/HibersapReference.html}Multi page HTML}}
+  * {{{reference/html_multipage/HibersapReference.html}Multi page HTML}}
   
-  * {{{reference/singlehtml/HibersapReference.html}Single page HMTL}}
+  * {{{reference/html_singlepage/HibersapReference.html}Single page HMTL}}
   
   * {{{reference/HibersapReference.pdf}PDF}}
 
