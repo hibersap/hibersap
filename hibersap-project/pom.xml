@@ -187,11 +187,11 @@ The name of the property is: sap.jco.lib.path
 				<artifactId>maven-latex-plugin</artifactId>
 				<version>0.2-SNAPSHOT</version>
 				<inherited>false</inherited>
-				<!--configuration>
+				<configuration>
 					<settings>
 						<texPath>/usr/bin</texPath>
 					</settings>
-				</configuration-->
+				</configuration>
 				<executions>
 					<execution>
 						<configuration>
