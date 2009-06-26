@@ -33,7 +33,7 @@ import org.junit.Test;
 public class DateUtilTest
 {
     @Test
-    public void joinDateAndTime()
+    public void testJoinDateAndTime()
     {
         Date date = DateUtil.newDate( 2008, Calendar.JULY, 3 );
         Date time = DateUtil.newDate( 1970, Calendar.JANUARY, 1, 22, 56, 32 );
@@ -45,7 +45,7 @@ public class DateUtilTest
     }
 
     @Test
-    public void stripDate()
+    public void testStripDate()
     {
         Date datetime = DateUtil.newDate( 2008, Calendar.JULY, 3, 22, 56, 32 );
         Date expected = DateUtil.newDate( 1970, Calendar.JANUARY, 1, 22, 56, 32 );
@@ -56,7 +56,7 @@ public class DateUtilTest
     }
 
     @Test
-    public void stripTime()
+    public void testStripTime()
     {
         Date datetime = DateUtil.newDate( 2008, Calendar.JULY, 3, 22, 56, 32 );
         Date expected = DateUtil.newDate( 2008, Calendar.JULY, 3 );
@@ -64,5 +64,18 @@ public class DateUtilTest
         Date stripped = DateUtil.stripTime( datetime );
 
         assertEquals( expected, stripped );
+    }
+
+    @Test
+    public void testNewDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(DateUtil.newDate(1970, Calendar.SEPTEMBER, 27));
+        assertEquals(27, calendar.get(Calendar.DAY_OF_MONTH));
+        assertEquals(Calendar.SEPTEMBER, calendar.get(Calendar.MONTH));
+        assertEquals(1970, calendar.get(Calendar.YEAR));
+        assertEquals(0, calendar.get(Calendar.HOUR));
+        assertEquals(0, calendar.get(Calendar.MINUTE));
+        assertEquals(0, calendar.get(Calendar.SECOND));
+        assertEquals(0, calendar.get(Calendar.MILLISECOND));
     }
 }
