@@ -424,4 +424,12 @@ The name of the property is: sap.jco.lib.path
 			</url>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>repository.jboss.com</id>
+			<name>Jboss Repository for Maven</name>
+			<url>http://repository.jboss.com/maven2/
+			</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
