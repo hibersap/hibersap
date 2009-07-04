@@ -17,6 +17,7 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.hibersap.mapping.model.BapiMapping;
@@ -25,6 +26,7 @@ import org.hibersap.mapping.model.BapiMapping;
  * @author Carsten Erker
  */
 public interface ExecutionInterceptor
+    extends Serializable
 {
     void beforeExecute( BapiMapping bapiMapping, Map<String, Object> functionMap );
 

@@ -17,6 +17,8 @@ package org.hibersap.configuration.xml;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,7 +29,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.logging.Log;
@@ -43,25 +44,21 @@ import org.hibersap.session.ExecutionInterceptor;
     "interceptorClasses" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class SessionManagerConfig
+    implements Serializable
 {
-
-    @XmlTransient
-    private static final long serialVersionUID = 1;
-
-    @XmlTransient
-    private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
+    private transient static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
 
     private String name;
 
     private String context = "org.hibersap.execution.jco.JCoContext";
 
-    private final Set<Property> properties = new HashSet<Property>();
+    private final HashSet<Property> properties = new HashSet<Property>();
 
-    private Map<String, String> nameValues = null;
+    private final HashMap<String, String> nameValues = new HashMap<String, String>();
 
-    private Set<String> classes = new HashSet<String>();
+    private final HashSet<String> classes = new HashSet<String>();
 
-    private Set<String> interceptorClasses = new HashSet<String>();
+    private final HashSet<String> interceptorClasses = new HashSet<String>();
 
     private String jcaConnectionFactory;
 
@@ -144,7 +141,7 @@ public class SessionManagerConfig
         LOG.debug( "SETPROPS" );
         this.properties.clear();
         this.properties.addAll( properties );
-        nameValues = null;
+        nameValues.clear();
 
     }
 
@@ -157,7 +154,8 @@ public class SessionManagerConfig
 
     public void setClasses( final Set<String> classes )
     {
-        this.classes = classes;
+        this.classes.clear();
+        this.classes.addAll( classes );
     }
 
     public String getProperty( final String propertyName )
@@ -206,12 +204,11 @@ public class SessionManagerConfig
         // @XmlAccessorType(XmlAccessType.PROPERTY)
         // Unfortunately the value of properties is still set to the field,
         // thus, we have to build the map lazily...
-        if ( nameValues == null )
+        if ( nameValues.isEmpty() )
         {
-            nameValues = new HashMap<String, String>( properties.size() );
             for ( final Property property : properties )
             {
-                final String oldValue = nameValues.put( property.getName(), property.getValue() );
+                nameValues.put( property.getName(), property.getValue() );
             }
         }
         assert nameValues != null;
@@ -234,9 +231,10 @@ public class SessionManagerConfig
         return interceptorClasses;
     }
 
-    public void setInteceptorClasses( final Set<String> interceptorClasses )
+    public void setInteceptorClasses( final Collection<String> interceptorClasses )
     {
-        this.interceptorClasses = interceptorClasses;
+        this.interceptorClasses.clear();
+        this.interceptorClasses.addAll( interceptorClasses );
     }
 
     public void addInterceptor( Class<? extends ExecutionInterceptor> interceptorClass )

@@ -1,5 +1,7 @@
 package org.hibersap.conversion;
 
+import java.io.Serializable;
+
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
  * 
@@ -27,6 +29,7 @@ package org.hibersap.conversion;
  * @author Carsten Erker
  */
 public interface Converter
+    extends Serializable
 {
     /**
      * Convert the SAP value, as it is returned by the underlying interfacing technology (e.g. the

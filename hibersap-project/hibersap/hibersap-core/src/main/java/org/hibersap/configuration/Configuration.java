@@ -48,7 +48,7 @@ public abstract class Configuration
 
     protected SessionManagerConfig sessionManagerConfig;
 
-    protected final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
+    protected final HashMap<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
 
     protected final List<ExecutionInterceptor> interceptors = new ArrayList<ExecutionInterceptor>();
 

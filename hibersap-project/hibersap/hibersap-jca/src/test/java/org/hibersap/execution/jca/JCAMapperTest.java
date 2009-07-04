@@ -24,7 +24,7 @@ import org.junit.Test;
 
 public class JCAMapperTest
 {
-    private final class IndexedRecordAnswer
+    final class IndexedRecordAnswer
         implements IAnswer<IndexedRecord>
     {
         public IndexedRecord answer()
@@ -35,7 +35,7 @@ public class JCAMapperTest
         }
     }
 
-    private final class MappedRecordAnswer
+    final class MappedRecordAnswer
         implements IAnswer<MappedRecord>
     {
         public MappedRecord answer()

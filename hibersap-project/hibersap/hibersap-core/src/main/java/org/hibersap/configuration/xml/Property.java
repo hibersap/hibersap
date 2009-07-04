@@ -1,5 +1,7 @@
 package org.hibersap.configuration.xml;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -8,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "property", namespace = HibersapConfig.NAMESPACE)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Property
+    implements Serializable
 {
 
     @XmlAttribute(name = "name")

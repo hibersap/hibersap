@@ -19,6 +19,7 @@ package org.hibersap.session;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,13 +38,11 @@ import org.hibersap.mapping.model.BapiMapping;
 public class SessionManagerImpl
     implements SessionManager, SessionManagerImplementor, Serializable
 {
-    private static final long serialVersionUID = 1L;
-
     final SessionManagerConfig config;
 
     private final Settings settings;
 
-    private final Map<Class<?>, BapiMapping> bapiMappings;
+    private final HashMap<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
 
     // TODO exists for each SessionManager instance, should be global to remove redundancies
     private final ConverterCache converterCache;
@@ -55,7 +54,7 @@ public class SessionManagerImpl
         this.settings = settings;
         this.converterCache = new ConverterCache();
         this.config = configuration.getSessionManagerConfig();
-        bapiMappings = Collections.unmodifiableMap( configuration.getBapiMappings() );
+        bapiMappings.putAll( configuration.getBapiMappings() );
         interceptors = configuration.getInterceptors();
     }
 
@@ -72,7 +71,7 @@ public class SessionManagerImpl
      */
     public Map<Class<?>, BapiMapping> getBapiMappings()
     {
-        return bapiMappings;
+        return Collections.unmodifiableMap( bapiMappings );
     }
 
     /*
