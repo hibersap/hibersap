@@ -59,40 +59,39 @@ Table \ref{tab:Annotations} shows an overview of the Hibersap annotations.
 
 \begin{table}[H]
   \centering
-  \begin{tabular}{lll} \toprule 
-    \textbf{Annotation}     & \textbf{Description / Parameters} \\ \midrule
-    @Bapi                   & Maps a Java class to a Remote Function Module in SAP.\\
-                            & \textbf{value} The name of the RFM, e.g. BAPI\_FLIGHT\_GETLIST\\ 
+   \begin{tabularx}{\textwidth}{ l X }
+    \toprule 
+    \textbf{Annotation}     & \textbf{Description / Parameters} \\ 
+    \midrule
+    @Bapi                     Maps a Java class to a Remote Function Module in SAP.\\
+                              \textbf{value} The name of the RFM, e.g. BAPI\_FLIGHT\_GETLIST\\ 
     @BapiStructure          & Maps the Java class to a structure in an RFM's interface \\
     @Parameter              & Maps a field to a parameter of the RFM's interface.\\
-                            & \textbf{value} The parameter's name as defined by the RFM. \\
-                            & \textbf{type} The parameter's type, either ParamType.SIMPLE for a \\
-                            &               scalar type or ParamType.STRUCTURE for complex types. \\
-                            &               Default: SIMPLE. \\
-    @Import                 & Defines a field annotated with @Parameter to be an import \\
-                            & parameter. \\
-    @Export                 & Defines a field annotated with @Parameter to be an export \\
-                            & parameter. \\
-    @Table                  & Defines a field annotated with @Parameter to be a table \\
-                            & parameter. \\
-    @Convert                & The parameter's data type will be converted by the given\\
-                            & Converter, i.e. the Java field's data type may differ from  \\
-                            & the JCo data type conversion pattern.\\
-                            & \textbf{converter} An implementation of org.hibersap.conversion.\\
-                            & Converter. \\
-    @ThrowExceptionOnError  & Generate a SapException when the function module returns \\
-                            & errors in a RETURN structure or table. \\
-                            & \textbf{returnStructure} Contains the path to the BAPI's return \\
-                            & structure or table. The first element should be 'EXPORT' or  \\
-                            & 'TABLE' to indicate if the return structure is defined as an \\
-                            & export or table parameter. The last element is the name of the  \\
-                            & return structure, usually 'RETURN'. \\
-                            & \textbf{errorMessageTypes} The message types which Hibersap \\
-                            & shall interpret as an error. In these cases an Exception\\
-                            & will be thrown. The RETURN structure's field TYPE is \\
-                            & compared to the message types.\\
+                              \textbf{value} The parameter's name as defined by the RFM. \\
+                              \textbf{type} The parameter's type, either ParamType.SIMPLE for a 
+                                            scalar type or ParamType.STRUCTURE for complex types. 
+                                            Default: SIMPLE. \\
+    @Import                 & Defines a field annotated with @Parameter to be an import parameter. \\
+    @Export                 & Defines a field annotated with @Parameter to be an export parameter. \\
+    @Table                  & Defines a field annotated with @Parameter to be a table parameter. \\
+    @Convert                & The parameter's data type will be converted by the given Converter, 
+                              i.e. the Java field's data type may differ from 
+                              the JCo data type conversion pattern.\\
+                              \textbf{converter} An implementation of org.hibersap.conversion.
+                              Converter. \\
+    @ThrowExceptionOnError  & Generate a SapException when the function module returns
+                              errors in a RETURN structure or table. \\
+                              \textbf{returnStructure} Contains the path to the BAPI's return
+                              structure or table. The first element should be 'EXPORT' or 
+                              'TABLE' to indicate if the return structure is defined as an
+                              export or table parameter. The last element is the name of the 
+                              return structure, usually 'RETURN'. \\
+                              \textbf{errorMessageTypes} The message types which Hibersap 
+                              shall interpret as an error. In these cases an Exception
+                              will be thrown. The RETURN structure's field TYPE is 
+                              compared to the message types.\\
     \bottomrule
-  \end{tabular}
+  \end{tabularx}
   \caption{Hibersap annotations: Overview}
   \label{tab:Annotations}
 \end{table}

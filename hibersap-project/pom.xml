@@ -29,7 +29,7 @@
 		<site>
 			<id>site.spree.de</id>
 			<name>Hibersap Site</name>
-			<url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/0.2-SNAPSHOT</url>
+			<url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
 		</site>
 
 		<snapshotRepository>
@@ -54,12 +54,12 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/
+			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project/
 		</connection>
 		<developerConnection>
-			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/
+			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project/
 		</developerConnection>
-		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/
+		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/trunk/hibersap-project
 		</url>
 	</scm>
 
@@ -187,11 +187,6 @@ The name of the property is: sap.jco.lib.path
 				<artifactId>maven-latex-plugin</artifactId>
 				<version>0.2-SNAPSHOT</version>
 				<inherited>false</inherited>
-				<configuration>
-					<settings>
-						<texPath>/usr/bin</texPath>
-					</settings>
-				</configuration>
 				<executions>
 					<execution>
 						<configuration>
