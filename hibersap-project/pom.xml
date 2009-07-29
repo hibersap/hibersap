@@ -208,7 +208,8 @@ The name of the property is: sap.jco.lib.path
 									<tex4htCommandArg>tex4ht,2</tex4htCommandArg>
 									<tex4htCommandArg></tex4htCommandArg>
 									<tex4htCommandArg></tex4htCommandArg>
-									<tex4htCommandArg>-interaction=nonstopmode --src-specials</tex4htCommandArg>
+									<tex4htCommandArg>-interaction=nonstopmode
+										--src-specials</tex4htCommandArg>
 								</tex4htCommandArgs>
 							</settings>
 						</configuration>
@@ -226,7 +227,8 @@ The name of the property is: sap.jco.lib.path
 									<tex4htCommandArg>tex4ht,1</tex4htCommandArg>
 									<tex4htCommandArg></tex4htCommandArg>
 									<tex4htCommandArg></tex4htCommandArg>
-									<tex4htCommandArg>-interaction=nonstopmode --src-specials</tex4htCommandArg>
+									<tex4htCommandArg>-interaction=nonstopmode
+										--src-specials</tex4htCommandArg>
 								</tex4htCommandArgs>
 							</settings>
 						</configuration>
