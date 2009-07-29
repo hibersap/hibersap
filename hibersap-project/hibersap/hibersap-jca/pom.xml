@@ -21,5 +21,10 @@
 			<artifactId>hibersap-core</artifactId>
 			<version>0.2-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>javax.resource</groupId>
+			<artifactId>connector</artifactId>
+		</dependency>		
 	</dependencies>
 </project>

@@ -13,9 +13,6 @@ import javax.resource.cci.IndexedRecord;
 import javax.resource.cci.MappedRecord;
 import javax.resource.cci.RecordFactory;
 
-import net.sf.sapbapijca.adapter.cci.IndexedRecordImpl;
-import net.sf.sapbapijca.adapter.cci.MappedRecordImpl;
-
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
 import org.hibersap.execution.UnsafeCastHelper;
@@ -31,7 +28,7 @@ public class JCAMapperTest
             throws Throwable
         {
             Object[] args = EasyMock.getCurrentArguments();
-            return new IndexedRecordImpl( (String) args[0] );
+            return new MyIndexedRecord( (String) args[0] );
         }
     }
 
@@ -42,7 +39,7 @@ public class JCAMapperTest
             throws Throwable
         {
             Object[] args = EasyMock.getCurrentArguments();
-            return new MappedRecordImpl( (String) args[0] );
+            return new MyMappedRecord( (String) args[0] );
         }
     }
 
@@ -146,7 +143,7 @@ public class JCAMapperTest
     private void addExportAndTableParameters( Map<String, Object> resultRecord )
     {
         // add export parameters
-        MappedRecordImpl exportStruct1 = new MappedRecordImpl( "EXPORT_PARAM1" );
+        MyMappedRecord exportStruct1 = new MyMappedRecord( "EXPORT_PARAM1" );
         exportStruct1.put( "STRUCT_FIELD1", "structField1" );
         exportStruct1.put( "STRUCT_FIELD2", 2 );
 
@@ -155,15 +152,15 @@ public class JCAMapperTest
         resultRecord.put( "EXPORT_PARAM3", new Date( 3 ) );
 
         // add table parameter
-        MappedRecordImpl tableRowRecord1 = new MappedRecordImpl( "TABLE_PARAM2:row:0" );
+        MyMappedRecord tableRowRecord1 = new MyMappedRecord( "TABLE_PARAM2:row:0" );
         tableRowRecord1.put( "TABLE_FIELD1", "tableField1_1" );
         tableRowRecord1.put( "TABLE_FIELD2", 12 );
 
-        MappedRecordImpl tableRowRecord2 = new MappedRecordImpl( "TABLE_PARAM2:row:1" );
+        MyMappedRecord tableRowRecord2 = new MyMappedRecord( "TABLE_PARAM2:row:1" );
         tableRowRecord2.put( "TABLE_FIELD1", "tableField2_1" );
         tableRowRecord2.put( "TABLE_FIELD2", 22 );
 
-        IndexedRecordImpl tableRecord = new IndexedRecordImpl( "TABLE_PARAM2" );
+        MyIndexedRecord tableRecord = new MyIndexedRecord( "TABLE_PARAM2" );
         tableRecord.add( tableRowRecord1 );
         tableRecord.add( tableRowRecord2 );
 
