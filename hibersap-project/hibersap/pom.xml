@@ -8,7 +8,7 @@
 	<version>0.2-SNAPSHOT</version>
 	<name>Hibersap</name>
 	<packaging>pom</packaging>
-	
+
 	<licenses>
 		<license>
 			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
@@ -28,36 +28,11 @@
 		<module>hibersap-jco</module>
 		<module>hibersap-jca</module>
 	</modules>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>sun-jaxb</groupId>
 			<artifactId>jaxb-api</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>sun-jaxb</groupId>
-			<artifactId>jaxb-impl</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sap</groupId>
-			<artifactId>sap-jco</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sf.sapbapijca</groupId>
-			<artifactId>sap-bapi-jca</artifactId>
 		</dependency>
 
 		<dependency>
@@ -68,16 +43,6 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.resource</groupId>
-			<artifactId>connector</artifactId>
 		</dependency>
 	</dependencies>
 
