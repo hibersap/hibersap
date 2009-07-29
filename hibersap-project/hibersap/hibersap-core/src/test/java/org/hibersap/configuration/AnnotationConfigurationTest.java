@@ -18,14 +18,14 @@ public class AnnotationConfigurationTest
     private AnnotationConfiguration configuration = new AnnotationConfiguration();
 
     @Test
-    public void addsStandardInterceptors()
+    public void testAddsStandardInterceptors()
     {
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
         assertEquals( 1, sessionManager.getInterceptors().size() );
     }
 
     @Test
-    public void addsAnnotatedClass()
+    public void testAddsAnnotatedClass()
     {
         configuration.getSessionManagerConfig().addAnnotatedClass( BAPI_CLASS );
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();

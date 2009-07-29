@@ -10,7 +10,7 @@ public class BooleanConverterTest
     private BooleanConverter converter = new BooleanConverter();
 
     @Test
-    public void convertToJava()
+    public void testConvertToJava()
     {
         assertEquals( true, converter.convertToJava( "X" ) );
         assertEquals( true, converter.convertToJava( "x" ) );
@@ -22,11 +22,10 @@ public class BooleanConverterTest
         assertConversionExceptionToJava( "Y" );
         assertConversionExceptionToJava( null );
         assertConversionExceptionToJava( new Integer( 0 ) );
-
     }
 
     @Test
-    public void convertToSap()
+    public void testConvertToSap()
     {
         assertEquals( "X", converter.convertToSap( true ) );
         assertEquals( "", converter.convertToSap( false ) );

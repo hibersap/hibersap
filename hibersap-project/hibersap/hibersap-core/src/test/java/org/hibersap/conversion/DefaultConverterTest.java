@@ -9,7 +9,7 @@ public class DefaultConverterTest
     private DefaultConverter converter = new DefaultConverter();
 
     @Test
-    public void convertToJava()
+    public void testConvertToJava()
     {
         assertEquals( null, converter.convertToJava( null ) );
         assertEquals( "", converter.convertToJava( "" ) );
@@ -18,7 +18,7 @@ public class DefaultConverterTest
     }
 
     @Test
-    public void convertToSap()
+    public void testConvertToSap()
     {
         assertEquals( null, converter.convertToSap( null ) );
         assertEquals( "", converter.convertToSap( "" ) );

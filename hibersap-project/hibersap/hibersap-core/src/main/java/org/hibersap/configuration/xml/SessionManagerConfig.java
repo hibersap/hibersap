@@ -52,13 +52,13 @@ public class SessionManagerConfig
 
     private String context = "org.hibersap.execution.jco.JCoContext";
 
-    private final HashSet<Property> properties = new HashSet<Property>();
+    private final Set<Property> properties = new HashSet<Property>();
 
-    private final HashMap<String, String> nameValues = new HashMap<String, String>();
+    private final Map<String, String> nameValues = new HashMap<String, String>();
 
-    private final HashSet<String> classes = new HashSet<String>();
+    private final Set<String> classes = new HashSet<String>();
 
-    private final HashSet<String> interceptorClasses = new HashSet<String>();
+    private final Set<String> interceptorClasses = new HashSet<String>();
 
     private String jcaConnectionFactory;
 
@@ -220,8 +220,8 @@ public class SessionManagerConfig
     @Override
     public String toString()
     {
-        return "Session Configuration: " + name + "\nContext: " + context + "\nProperties: " + properties
-            + "\nClasses: " + classes;
+        return "Session Configuration: " + name + ", Context: " + context + ", Properties: " + properties
+            + ", Classes: " + classes;
     }
 
     @XmlElement(name = "class", namespace = HibersapConfig.NAMESPACE)
@@ -240,5 +240,82 @@ public class SessionManagerConfig
     public void addInterceptor( Class<? extends ExecutionInterceptor> interceptorClass )
     {
         interceptorClasses.add( interceptorClass.getName() );
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ( ( classes == null ) ? 0 : classes.hashCode() );
+        result = prime * result + ( ( context == null ) ? 0 : context.hashCode() );
+        result = prime * result + ( ( interceptorClasses == null ) ? 0 : interceptorClasses.hashCode() );
+        result = prime * result + ( ( jcaConnectionFactory == null ) ? 0 : jcaConnectionFactory.hashCode() );
+        result = prime * result + ( ( jcaConnectionSpecFactory == null ) ? 0 : jcaConnectionSpecFactory.hashCode() );
+        result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
+        result = prime * result + ( ( properties == null ) ? 0 : properties.hashCode() );
+        return result;
+    }
+
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass() != obj.getClass() )
+            return false;
+        SessionManagerConfig other = (SessionManagerConfig) obj;
+        if ( classes == null )
+        {
+            if ( other.classes != null )
+                return false;
+        }
+        else if ( !classes.equals( other.classes ) )
+            return false;
+        if ( context == null )
+        {
+            if ( other.context != null )
+                return false;
+        }
+        else if ( !context.equals( other.context ) )
+            return false;
+        if ( interceptorClasses == null )
+        {
+            if ( other.interceptorClasses != null )
+                return false;
+        }
+        else if ( !interceptorClasses.equals( other.interceptorClasses ) )
+            return false;
+        if ( jcaConnectionFactory == null )
+        {
+            if ( other.jcaConnectionFactory != null )
+                return false;
+        }
+        else if ( !jcaConnectionFactory.equals( other.jcaConnectionFactory ) )
+            return false;
+        if ( jcaConnectionSpecFactory == null )
+        {
+            if ( other.jcaConnectionSpecFactory != null )
+                return false;
+        }
+        else if ( !jcaConnectionSpecFactory.equals( other.jcaConnectionSpecFactory ) )
+            return false;
+        if ( name == null )
+        {
+            if ( other.name != null )
+                return false;
+        }
+        else if ( !name.equals( other.name ) )
+            return false;
+        if ( properties == null )
+        {
+            if ( other.properties != null )
+                return false;
+        }
+        else if ( !properties.equals( other.properties ) )
+            return false;
+        return true;
     }
 }

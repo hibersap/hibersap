@@ -27,7 +27,7 @@ public class ConverterCacheTest
     private ConverterCache cache = new ConverterCache();
 
     @Test
-    public void createsOneInstanceOfEachClass()
+    public void testCreatesOneInstanceOfEachClass()
     {
         cache.getConverter( CharConverter.class );
         assertEquals( 1, cache.getSize() );
@@ -40,13 +40,13 @@ public class ConverterCacheTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void throwsExceptionOnNullArgument()
+    public void testThrowsExceptionOnNullArgument()
     {
         cache.getConverter( null );
     }
 
     @Test(expected = HibersapException.class)
-    public void throwsHibersapExceptionIfNotInstantiable()
+    public void testThrowsHibersapExceptionIfNotInstantiable()
     {
         cache.getConverter( Converter.class );
     }

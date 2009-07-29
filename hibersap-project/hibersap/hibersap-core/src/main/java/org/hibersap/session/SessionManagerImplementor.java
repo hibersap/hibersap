@@ -18,8 +18,8 @@ package org.hibersap.session;
  */
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibersap.configuration.Settings;
 import org.hibersap.configuration.xml.SessionManagerConfig;
@@ -58,5 +58,5 @@ public interface SessionManagerImplementor
      */
     Session openSession();
 
-    List<ExecutionInterceptor> getInterceptors();
+    Set<ExecutionInterceptor> getInterceptors();
 }

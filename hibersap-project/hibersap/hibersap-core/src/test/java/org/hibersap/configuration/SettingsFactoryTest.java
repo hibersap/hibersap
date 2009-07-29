@@ -10,7 +10,7 @@ import org.junit.Test;
 public class SettingsFactoryTest
 {
     @Test
-    public void initializesContextClass()
+    public void testInitializesContextClass()
         throws Exception
     {
         SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( DummyContext.class.getName() );

@@ -8,7 +8,6 @@ import org.hibersap.session.Context;
 public class DummyContext
     implements Context
 {
-
     private static final long serialVersionUID = 1L;
 
     public void configure( SessionManagerConfig config )
@@ -27,4 +26,17 @@ public class DummyContext
         // do nothing
     }
 
+    @Override
+    public int hashCode()
+    {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( obj instanceof DummyContext )
+            return true;
+        return false;
+    }
 }

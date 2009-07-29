@@ -20,7 +20,7 @@ public class PojoMapper_ToPojoTest
     private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
     @Test
-    public void mapFunctionMapToPojo()
+    public void testMapFunctionMapToPojo()
     {
         Map<String, Object> functionMap = createMap();
 

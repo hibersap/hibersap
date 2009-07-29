@@ -11,7 +11,7 @@ import org.junit.Test;
 public class HibersapConfigTest
 {
     @Test
-    public void create()
+    public void testCreate()
         throws Exception
     {
         HibersapConfig config = new HibersapConfig();
@@ -24,7 +24,8 @@ public class HibersapConfigTest
         config.addSessionManager( "Sm2" ).setContext( "org.hibersap.execution.jca.JCAContext" )
             .setJcaConnectionFactory( "java:/eis/sap/B34" ).setProperty( "key3", "value3" ).setProperty( "key4",
                                                                                                          "value4" )
-            .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class ).addInterceptor( SapErrorInterceptor.class );
+            .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class )
+            .addInterceptor( SapErrorInterceptor.class );
 
         assertProperties( config, "Sm1", "org.hibersap.execution.jco.JCoContext", "java:/eis/sap/A12", "key1",
                           "value1", "key2", "value2" );

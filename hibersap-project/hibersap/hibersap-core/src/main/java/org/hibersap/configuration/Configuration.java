@@ -18,10 +18,11 @@ package org.hibersap.configuration;
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,9 +49,9 @@ public abstract class Configuration
 
     protected SessionManagerConfig sessionManagerConfig;
 
-    protected final HashMap<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
+    protected final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
 
-    protected final List<ExecutionInterceptor> interceptors = new ArrayList<ExecutionInterceptor>();
+    protected final Set<ExecutionInterceptor> interceptors = new HashSet<ExecutionInterceptor>();
 
     /**
      * Creates a Configuration for a concrete SessionManager. The SessionManager must be configured
@@ -133,7 +134,7 @@ public abstract class Configuration
         this.sessionManagerConfig = config;
     }
 
-    public List<ExecutionInterceptor> getInterceptors()
+    public Set<ExecutionInterceptor> getInterceptors()
     {
         return interceptors;
     }

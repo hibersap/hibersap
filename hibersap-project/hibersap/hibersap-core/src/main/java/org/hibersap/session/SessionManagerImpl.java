@@ -20,8 +20,8 @@ package org.hibersap.session;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibersap.configuration.Configuration;
 import org.hibersap.configuration.Settings;
@@ -35,19 +35,19 @@ import org.hibersap.mapping.model.BapiMapping;
  * 
  * @author Carsten Erker
  */
-public class SessionManagerImpl
+public final class SessionManagerImpl
     implements SessionManager, SessionManagerImplementor, Serializable
 {
-    final SessionManagerConfig config;
+    private final SessionManagerConfig config;
 
     private final Settings settings;
 
-    private final HashMap<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
+    private final Map<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
 
     // TODO exists for each SessionManager instance, should be global to remove redundancies
     private final ConverterCache converterCache;
 
-    private final List<ExecutionInterceptor> interceptors;
+    private final Set<ExecutionInterceptor> interceptors;
 
     public SessionManagerImpl( Configuration configuration, Settings settings )
     {
@@ -117,8 +117,16 @@ public class SessionManagerImpl
     /*
      * {@inheritDoc}
      */
-    public List<ExecutionInterceptor> getInterceptors()
+    public Set<ExecutionInterceptor> getInterceptors()
     {
-        return interceptors;
+        return Collections.unmodifiableSet( interceptors );
+    }
+
+    @Override
+    public String toString()
+    {
+        String format = "SessionManagerImpl[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
+        return String.format( format, config.toString(), settings.getContext(), converterCache.toString(),
+                              interceptors, bapiMappings );
     }
 }

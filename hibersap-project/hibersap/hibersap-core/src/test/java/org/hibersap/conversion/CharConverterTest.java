@@ -9,7 +9,7 @@ public class CharConverterTest
     private CharConverter converter = new CharConverter();
 
     @Test
-    public void convertToJava()
+    public void testConvertToJava()
     {
         assertEquals( ' ', converter.convertToJava( null ) );
         assertEquals( ' ', converter.convertToJava( " " ) );
@@ -18,7 +18,7 @@ public class CharConverterTest
     }
 
     @Test
-    public void convertToSap()
+    public void testConvertToSap()
     {
         assertEquals( "", converter.convertToSap( null ) );
         assertEquals( " ", converter.convertToSap( ' ' ) );

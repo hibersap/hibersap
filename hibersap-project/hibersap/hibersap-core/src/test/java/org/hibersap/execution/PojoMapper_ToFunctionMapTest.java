@@ -23,7 +23,7 @@ public class PojoMapper_ToFunctionMapTest
     private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
     @Test
-    public void mapPojoToFunctionMap()
+    public void testMapPojoToFunctionMap()
     {
         TestStructure structure = new TestStructure( 'c' );
         TestStructure tableStructure1 = new TestStructure( '1' );
@@ -65,7 +65,7 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void mapWithNullValues()
+    public void testMapWithNullValues()
     {
         MyTestBapi bapi = new MyTestBapi( null, null, null );
 

@@ -128,4 +128,10 @@ public class BapiMapping
     {
         return tableParams;
     }
+
+    @Override
+    public String toString()
+    {
+        return getClass().getSimpleName() + "[BAPI: " + bapiName + ", MappedClass: " + associatedClass + "]";
+    }
 }

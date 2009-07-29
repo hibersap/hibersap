@@ -5,7 +5,7 @@ import org.junit.Test;
 public class SessionImplTest
 {
     @Test
-    public void initialize()
+    public void testInitialize()
     {
         // TODO
     }
