@@ -23,11 +23,16 @@ The format of the XML configuration file is heavily inspired by JPA's persistenc
 If you have to access different SAP systems, you can define more than one SessionManager by multiplying the
 session-manager XML element.
 
-\begin{Verbatim}[frame=single,label=hibersap.xml]
+\begin{lstlisting}[language=XML,caption=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
   <session-manager name="A12">
-    <context>org.hibersap.execution.jco.JCoContext</context>
+    <context>org.hibersap.execution.jco.JCAContext</context>
+
+    <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
+    <jca-connectionspec-factory>
+      org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory
+    </jca-connectionspec-factory>
 
     <properties>
       <property name="jco.client.client" value="800" />
@@ -44,11 +49,11 @@ session-manager XML element.
     </annotated-classes>
     
     <interceptor-classes>
-      <class>org.hibersap.session.SapErrorInterceptor</class>
+      <class>com.mypackage.MyHibersapInterceptor</class>
     <interceptor-classes>
   </session-manager>
 </hibersap>
-\end{Verbatim}
+\end{lstlisting}
 
 Table \ref{tab:ConfigurationParameters} shows a list of the configuration parameters.
 
@@ -61,13 +66,19 @@ Table \ref{tab:ConfigurationParameters} shows a list of the configuration parame
     \midrule
     context                 &     
     The fully qualified class name of the Context class. This class must implement org.hibersap.session.Context and acts as a facade to
-    the actually used interfacing technology, such as the SAP Java Connector (JCo) or a JCA compatible Resource Adapter. Possible 
-    implementations are org.hibersap.execution.jco.JCoContext or org.hibersap.execution.jca.JCAContext. (Default: JCoContext.) 
+    the actually used interfacing technology. Existing 
+    implementations are org.hibersap.execution.jco.JCoContext for the SAP Java Connector (JCo) or org.hibersap.execution.jca.JCAContext 
+    for a JCA compatible Resource Adapter. (Default: JCoContext.) 
     \\
     jca-connection-factory  & 
     The JNDI name of the JCA Connection Factory. This parameter has to be specified if the application uses a JCA compatible resource 
     adapter. The resource adapter has to be deployed on the application server independently from Hibersap and the application, defining 
     a JNDI name. Hibersap will use this name to look up the resource adapter's ConnectionFactory. 
+    \\
+    jca-connectionspec-factory &
+    The fully qualified class name of the ConnectionSpecFactory implementation used to get a ConnectionSpec object. A ConnectionSpec is
+    is used to provide data such as a user name and password for the current session. An existing implementation is 
+    SapBapiJcaAdapterConnectionSpecFactory.
     \\
     properties                   & 
     Zero or more additional properties. These depend on the interfacing technology in use. For the SAP JCo, all the JCo-specific 
@@ -88,13 +99,13 @@ Table \ref{tab:ConfigurationParameters} shows a list of the configuration parame
 To build a SessionManager using the hibersap.xml file, you simply have to create an object of
 class org.\-hibersap.\-configuration.\-AnnotationConfiguration, specifying the SessionManager name as an argument. Note 
 that there is also a default constructor for AnnotationConfiguration which can be used if there 
-is only one SessionManager configured. Hibersap will issue a warning when there are more than one SessionManagers 
+is only one configured SessionManager. Hibersap will issue a warning when there are more than one SessionManagers 
 configured, but the no-args constructor is used. 
 
-\begin{Verbatim}[frame=single,label=hibersap.xml]
-AnnotationConfiguration configuration = new AnnotationConfiguration("A12");
+\begin{lstlisting}[label=hibersap.xml]
+AnnotationConfiguration configuration= new AnnotationConfiguration("A12");
 SessionManager sessionManager = configuration.buildSessionManager();
-\end{Verbatim}
+\end{lstlisting}
 
 
 \section{Programmatic configuration}
@@ -107,16 +118,17 @@ The information from the XML file is internally converted into a Java data struc
 XML document. All configuration classes have Java Bean style accessor methods (get.. and set..) for
 their fields. 
 
-The starting point is the org.hibersap.configuration.HibersapConfig class. This class has a List of
-SessionManagerConfig objects. For programmatic configuration you have to change or create SessionManagerConfig for each 
+For programmatic configuration you have to change or create SessionManagerConfig for each 
 SessionManager you want to use. You can use method chaining to build the
 object. The following example creates a  SessionManagerConfig object that is equal to the one created internally by the
 hibersap.xml example in section \ref{sec:XML file configuration}. 
 
-\begin{Verbatim}[frame=single,label=Programmatic configuration]
-
+\begin{lstlisting}[caption=Programmatic configuration]
 SessionManagerConfig cfg = new SessionManagerConfig( "A12" )
     .setContext( JCoContext.class.getName() )
+    .setJcaConnectionFactory( "java:/eis/sap/A12" )
+    .setJcaConnectionSpecFactory( "org.hibersap.execution.jca.cci." 
+                              + "SapBapiJcaAdapterConnectionSpecFactory" )
     .setProperty( "jco.client.client", "800" )
     .setProperty( "jco.client.user", "sapuser" )
     .setProperty( "jco.client.passwd", "password" )
@@ -125,12 +137,11 @@ SessionManagerConfig cfg = new SessionManagerConfig( "A12" )
     .setProperty( "jco.client.sysnr", "00" )
     .addAnnotatedClass( FlightListBapi.class )
     .addAnnotatedClass( FlightDetailBapi.class )
-    .addInterceptor(SapErrorInterceptor.class);
+    .addInterceptor( MyHibersapInterceptor.class );
 
 AnnotationConfiguration configuration = new AnnotationConfiguration(cfg);
 SessionManager sessionManager = configuration.buildSessionManager();
-
-\end{Verbatim}
+\end{lstlisting}
 
 
 

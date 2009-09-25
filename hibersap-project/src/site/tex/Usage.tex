@@ -11,47 +11,47 @@ For a complete example of how to define Hibersap classes and mappings, see chapt
 \subsection{The annotations}
 Since Hibersap maps SAP Remote Function Modules to plain Java classes, an application must define one class for each function module that acts a kind of proxy for the function module. This class is called a BAPI class and has to be annotated with the @Bapi\footnote{All Hibersap annotations and enumerations used by annotations are declared in the package org.hibersap.annotations.} annotation\footnote{Actually, a BAPI is a special kind of a Remote Function Module but gives a more handy term.}. The annotation's value property defines the name of the corresponding function module:
 
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}
 @Bapi("BAPI_SFLIGHT_GETLIST") 
 public class FlightListBapi {...}
-\end{Verbatim}
+\end{lstlisting}
 
 A function module's interface usually has a set of parameters which are either of a scalar data type (such as a number, a text or a date) or of a complex data type (in ABAP called structure, a set of parameters of scalar data types). Scalar parameters can be mapped directly to a field of the BAPI class, whereas structures are mapped to complex Java types, i.e. classes with a set of fields. In Hibersap, these classes representing an ABAP structure are annotated with the @BapiStructure annotation. Since Structure class instances need to be created by Hibersap, they must have a default constructor.
 
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}
 @BapiStructure 
 public class BapiRet2 {...}
-\end{Verbatim}
+\end{lstlisting}
 
 To map parameters of a function module to fields of Java classes, those fields have to be annotated with the @Parameter annotation. Here, Hibersap needs to know the name of the function module's parameter as well as its type using the annotation's value and type properties respectively. The Enumeration ParameterType defines the types STRUCTURE and SIMPLE for parameters of a complex or scalar type:
 
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}
 @Export 
 @Parameter(value = "RETURN", type = ParameterType.STRUCTURE) 
 private BapiRet2 returnData;
-\end{Verbatim}
+\end{lstlisting}
 
 Since the interface parameters of ABAP functions are divided into import, export and table parameters, Hibersap has to know where to find the corresponding parameters. The @Import, @Export and @Table annotations provide this information. However, since members of complex parameters should always be scalar parameters, we only have to use these annotations on ``top-level'' parameters, i.e. parameters of the BAPI class. Parameters of Structure classes just need the @Parameter annotation:
 
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}
 @BapiStructure 
 public class BapiRet2 {
     @Parameter("MESSAGE") 
     private String message; 
     ...
 }
-\end{Verbatim}
+\end{lstlisting}
 
 ABAP tables are lists of complex parameters. As such they are mapped to a java.util.Collection field. Hibersap again needs to know the name of the ABAP parameter as provided by the @Parameter annotation and its type as provided by the @Table annotation. A special characteristic of table parameters is that they can be used as import parameters as well as export parameters. Tables that import data to the function module are filled by the Java application, Hibersap will use the application-provided Collection to populate the table. Tables that export data from the function module will be read by Hibersap and copied to the corresponding Collection. Hibersap detects the type of the Collection's element by identifying its generic type, which means that it is crucial to define the Collection with a generic type (the class Flight in the example): 
 
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}
 @Bapi("BAPI_SFLIGHT_GETLIST") 
 public class FlightListBapi {
     @Table 
     @Parameter("FLIGHTLIST") 
     private List<Flight> flightList;
 }
-\end{Verbatim}
+\end{lstlisting}
 
 The Java field representing a table need not be defined as a concrete implementation. When Hibersap creates a Collection, it creates a java.util.HashSet for fields defined as java.util.Set and a java.util.ArrayList for fields defined as java.util.Collection or java.util.List.
 
@@ -63,33 +63,41 @@ Table \ref{tab:Annotations} shows an overview of the Hibersap annotations.
     \toprule 
     \textbf{Annotation}     & \textbf{Description / Parameters} \\ 
     \midrule
-    @Bapi                     Maps a Java class to a Remote Function Module in SAP.\\
-                              \textbf{value} The name of the RFM, e.g. BAPI\_FLIGHT\_GETLIST\\ 
-    @BapiStructure          & Maps the Java class to a structure in an RFM's interface \\
-    @Parameter              & Maps a field to a parameter of the RFM's interface.\\
-                              \textbf{value} The parameter's name as defined by the RFM. \\
+    @Bapi                   & Maps a Java class to a Remote Function Module in SAP.
+                              \textbf{value} The name of the RFM, e.g. BAPI\_FLIGHT\_GETLIST
+    \\ 
+    @BapiStructure          & Maps the Java class to a structure in an RFM's interface 
+    \\
+    @Parameter              & Maps a field to a parameter of the RFM's interface.
+                              \textbf{value} The parameter's name as defined by the RFM. 
                               \textbf{type} The parameter's type, either ParamType.SIMPLE for a 
                                             scalar type or ParamType.STRUCTURE for complex types. 
-                                            Default: SIMPLE. \\
-    @Import                 & Defines a field annotated with @Parameter to be an import parameter. \\
-    @Export                 & Defines a field annotated with @Parameter to be an export parameter. \\
-    @Table                  & Defines a field annotated with @Parameter to be a table parameter. \\
+                                            Default: SIMPLE. 
+    \\
+    @Import                 & Defines a field annotated with @Parameter to be an import parameter. 
+    \\
+    @Export                 & Defines a field annotated with @Parameter to be an export parameter. 
+    \\
+    @Table                  & Defines a field annotated with @Parameter to be a table parameter. 
+    \\
     @Convert                & The parameter's data type will be converted by the given Converter, 
                               i.e. the Java field's data type may differ from 
-                              the JCo data type conversion pattern.\\
+                              the JCo data type conversion pattern.
                               \textbf{converter} An implementation of org.hibersap.conversion.
-                              Converter. \\
+                              Converter. 
+    \\
     @ThrowExceptionOnError  & Generate a SapException when the function module returns
-                              errors in a RETURN structure or table. \\
+                              errors in a RETURN structure or table. 
                               \textbf{returnStructure} Contains the path to the BAPI's return
                               structure or table. The first element should be 'EXPORT' or 
                               'TABLE' to indicate if the return structure is defined as an
                               export or table parameter. The last element is the name of the 
-                              return structure, usually 'RETURN'. \\
+                              return structure, usually 'RETURN'. 
                               \textbf{errorMessageTypes} The message types which Hibersap 
                               shall interpret as an error. In these cases an Exception
                               will be thrown. The RETURN structure's field TYPE is 
-                              compared to the message types.\\
+                              compared to the message types.
+    \\
     \bottomrule
   \end{tabularx}
   \caption{Hibersap annotations: Overview}
@@ -124,14 +132,15 @@ Hibersap allows to convert a parameter's data type to any Java type and vice ver
 
 You can use Hibersap Converters to do any kind of data type conversion. There are a few Converters defined in the package org.hibersap.conversion. However, it is easy to write your own converter by implementing the org.hibersap.conversion.Converter interface:
 
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}[caption=The Converter interface]
 public interface Converter
 {
     /**
-     * Convert the SAP value, as it is returned by the underlying interfacing 
-     * technology (e.g. the SAP Java Connector, JCo) to the Java data type of 
-     * the corresponding BAPI class field. Hibersap will call this method after 
-     * calling the SAP function and before setting the field in the Java class.
+     * Convert the SAP value, as it is returned by the underlying 
+     * interfacing technology (e.g. the SAP Java Connector, JCo) 
+     * to the Java data type of the corresponding BAPI class field. 
+     * Hibersap will call this method after calling the SAP function
+     * and before setting the field in the Java class.
      * 
      * @param sapValue The object which is returned by the SAP interface
      * @return The converted value
@@ -140,10 +149,10 @@ public interface Converter
     Object convertToJava( Object sapValue ) throws ConversionException;
 
     /**
-     * Convert the Java value of the corresponding BAPI class field to the data
-     * type as it is expected by the underlying interfacing technology (e.g. 
-     * the SAP Java Connector, JCo). Hibersap will call this method before 
-     * calling the SAP function.
+     * Convert the Java value of the corresponding BAPI class field to the 
+     * data type as it is expected by the underlying interfacing 
+     * technology (e.g. the SAP Java Connector, JCo). Hibersap will call 
+     * this method before calling the SAP function.
      * 
      * @param javaValue The value of the BAPI class field
      * @return The converted value
@@ -151,24 +160,25 @@ public interface Converter
      */
     Object convertToSap( Object javaValue ) throws ConversionException;
 }
-\end{Verbatim}
+\end{lstlisting}
 
 \section{Calling Function Modules}
 
 \subsection{Configure Hibersap and build a SessionManager}
 Chapter \ref{cha:Configuration} explains in detail how to configure Hibersap. The following code snippet assumes that there is the /META-INF/hibersap.xml configuration file in the application's classpath and shows how to build a SessionManager:
 
-\begin{Verbatim}[frame=single,label=Building the SessionManager]
-AnnotationConfiguration configuration = new AnnotationConfiguration("A12"); 
-SessionManager sessionManager = configuration.buildSessionManager();
-\end{Verbatim}
 
+\begin{lstlisting}[caption=Building the SessionManager]
+AnnotationConfiguration configuration= new AnnotationConfiguration("A12"); 
+SessionManager sessionManager = configuration.buildSessionManager();
+\end{lstlisting}
+    
 The SessionManager should be created only once in an application's lifetime. It depends on the kind of application how to store the SessionManager instances. E.g., in a web application, it may be created in a ServletContextListener when starting the web application and put into the servlet context, in a stand-alone application it may be created and managed by a utility with static accessor methods or -- more advisable -- by a dependency injection container such as Pico Container, Guice or Spring.
 
 
 \subsection{Calling a function in SAP}
 
-\begin{Verbatim}[frame=single,label=Executing the function]
+\begin{lstlisting}[caption=Executing the BAPI function]
 Session session = sessionManager.openSession();
 try
 {
@@ -182,7 +192,7 @@ finally
 {
     session.close();
 }
-\end{Verbatim}
+\end{lstlisting}
 
 
 \section{Transaction Management} 

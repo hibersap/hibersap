@@ -5,7 +5,7 @@
 \section{Installation}
 
 \begin{itemize}
-  \item Download hibersap.jar and hibersap-jco.jar. 
+  \item Download hibersap-core.jar and hibersap-jco.jar. 
   \item Download dependent libraries (see \\ \urlHibersapDependencies)
   \item Download SAP Java Connector 3.0 (\url{http://service.sap.com/connectors}) and extract the sapjco3.jar and the
   sapjco3 native library. 
@@ -28,21 +28,21 @@ library must be in that project's directory, too.
 
 This is the function module's interface in SAP:
 
-\begin{Verbatim}[frame=single,label=The ABAP Function]
+\begin{lstlisting}[language={[R/3 6.10]ABAP},caption=The ABAP Function]
 FUNCTION BAPI_SFLIGHT_GETLIST.
   IMPORTING
      VALUE(FROMCOUNTRYKEY) LIKE  BAPISFDETA-COUNTRYFR
-     VALUE(FROMCITY) LIKE  BAPISFDETA-CITYFROM
-     VALUE(TOCOUNTRYKEY) LIKE  BAPISFDETA-COUNTRYTO
-     VALUE(TOCITY) LIKE  BAPISFDETA-CITYTO
+     VALUE(FROMCITY)       LIKE  BAPISFDETA-CITYFROM
+     VALUE(TOCOUNTRYKEY)   LIKE  BAPISFDETA-COUNTRYTO
+     VALUE(TOCITY)         LIKE  BAPISFDETA-CITYTO
      VALUE(AIRLINECARRIER) LIKE  BAPISFDETA-CARRID DEFAULT SPACE
-     VALUE(AFTERNOON) LIKE  BAPI\_AUX-AFTERNOON DEFAULT SPACE
-     VALUE(MAXREAD) LIKE  BAPI\_AUX-MAXREAD DEFAULT 0
+     VALUE(AFTERNOON)      LIKE  BAPI_AUX-AFTERNOON DEFAULT SPACE
+     VALUE(MAXREAD)        LIKE  BAPI_AUX-MAXREAD DEFAULT 0
   EXPORTING
-     VALUE(RETURN) LIKE  BAPIRET2 STRUCTURE  BAPIRET2
+     VALUE(RETURN)         LIKE  BAPIRET2 STRUCTURE  BAPIRET2
   TABLES
-     FLIGHTLIST STRUCTURE  BAPISFLIST
-\end{Verbatim}
+     FLIGHTLIST            STRUCTURE  BAPISFLIST
+\end{lstlisting}
 
 This function module takes some parameters that represent search criteria to look up flights in SAP's database.
 The matching flights are returned in the FLIGHTLIST table, which contains information such as
@@ -111,7 +111,7 @@ A BAPI class is defined using the Hibersap class annotation @Bapi,
 which has a name argument specifying the name of the SAP function module we want to call.
 (All Hibersap annotations can be found in the package org.hibersap.annotations.)
 
-\begin{Verbatim}[frame=single,label=The BAPI class]
+\begin{lstlisting}[caption=The BAPI class]
 package org.hibersap.examples.flightlist;
 
 import java.util.List;
@@ -122,7 +122,7 @@ public class FlightListBapi
 {
   ...
 }
-\end{Verbatim}
+\end{lstlisting}
 
 The fields that are mapped to the function module's parameters are annotated with the
 @Import, @Export or @Table annotations.
@@ -133,44 +133,44 @@ The enumeration ParameterType defines possible values, the default type for elem
 In most cases we have to specify a parameter's name only. Since table parameters always represent
 a table of complex types, any parameter type argument will be ignored by Hibersap.
 
-\begin{Verbatim}[frame=single,label=The BAPI fields]
-    @Import
-    @Parameter("FROMCOUNTRYKEY")
-    private final String fromCountryKey;
+\begin{lstlisting}[caption=The BAPI fields]
+@Import
+@Parameter("FROMCOUNTRYKEY")
+private final String fromCountryKey;
 
-    @Import
-    @Parameter("FROMCITY")
-    private final String fromCity;
+@Import
+@Parameter("FROMCITY")
+private final String fromCity;
 
-    @Import
-    @Parameter("TOCOUNTRYKEY")
-    private final String toCountryKey;
+@Import
+@Parameter("TOCOUNTRYKEY")
+private final String toCountryKey;
 
-    @Import
-    @Parameter("TOCITY")
-    private final String toCity;
+@Import
+@Parameter("TOCITY")
+private final String toCity;
 
-    @Import
-    @Parameter("AIRLINECARRIER")
-    private final String airlineCarrier;
+@Import
+@Parameter("AIRLINECARRIER")
+private final String airlineCarrier;
 
-    @Import
-    @Parameter("AFTERNOON")
-    @Convert(converter = BooleanConverter.class)
-    private final boolean afternoon;
+@Import
+@Parameter("AFTERNOON")
+@Convert(converter = BooleanConverter.class)
+private final boolean afternoon;
 
-    @Import
-    @Parameter("MAXREAD")
-    private final int maxRead;
+@Import
+@Parameter("MAXREAD")
+private final int maxRead;
 
-    @Export
-    @Parameter(value="RETURN", type = ParameterType.STRUCTURE)
-    private BapiRet2 returnData;
+@Export
+@Parameter(value="RETURN", type = ParameterType.STRUCTURE)
+private BapiRet2 returnData;
 
-    @Table
-    @Parameter("FLIGHTLIST")
-    private List<Flight> flightList;
-\end{Verbatim}
+@Table
+@Parameter("FLIGHTLIST")
+private List<Flight> flightList;
+\end{lstlisting}
 
 The Java type of each simple field is related to the SAP field's data type.
 Hibersap relies on the Java Connector's conversion scheme as shown in table \ref{tab:JCoConversion}.
@@ -182,36 +182,36 @@ Java boolean value. See section \ref{cha:Mapping} on how to implement custom Con
 To conclude the example, we write a constructor which takes all the import parameters as arguments,
 initializing the corresponding fields.
 
-\begin{Verbatim}[frame=single,label=The constructor,samepage=true]
-    public FlightListBapi( String fromCountryKey,
-                           String fromCity,
-                           String toCountryKey,
-                           String toCity,
-                           String airlineCarrier,
-                           boolean afternoon,
-                           int maxRead )
-    {
-        this.fromCountryKey = fromCountryKey;
-        this.fromCity = fromCity;
-        this.toCountryKey = toCountryKey;
-        this.toCity = toCity;
-        this.airlineCarrier = airlineCarrier;
-        this.afternoon = afternoon;
-        this.maxRead = maxRead;
-    }
-\end{Verbatim}
+\begin{lstlisting}[caption=The constructor]
+public FlightListBapi( String fromCountryKey,
+                       String fromCity,
+                       String toCountryKey,
+                       String toCity,
+                       String airlineCarrier,
+                       boolean afternoon,
+                       int maxRead )
+{
+    this.fromCountryKey = fromCountryKey;
+    this.fromCity = fromCity;
+    this.toCountryKey = toCountryKey;
+    this.toCity = toCity;
+    this.airlineCarrier = airlineCarrier;
+    this.afternoon = afternoon;
+    this.maxRead = maxRead;
+}
+\end{lstlisting}
 
 Finally, we should add a getter method for each field.
 Hibersap does not need setter methods, because all fields are set using reflection.
 We could of course add additional fields and methods if needed.
 
-\begin{Verbatim}[frame=single,label=The getter methods]
-    public boolean getAfternoon()
-    {
-        return this.afternoon;
-    }
-    ...
-\end{Verbatim}
+\begin{lstlisting}[caption=The getter methods]
+public boolean getAfternoon()
+{
+    return this.afternoon;
+}
+...
+\end{lstlisting}
 
 \HRule
 
@@ -235,7 +235,7 @@ One for the complex export parameter RETURN, which is named BapiRet2, after the 
 It is another annotated simple Java class with fields related to some of the function module's parameter.
 To keep the example simple, we do not map all the fields of the RETURN parameter.
 
-\begin{Verbatim}[frame=single,label=The BapiRet2 class]
+\begin{lstlisting}[caption=The BapiRet2 class]
 package org.hibersap.bapi;
 
 import org.hibersap.annotations.*;
@@ -277,7 +277,7 @@ public class BapiRet2
         return this.message;
     }
 }
-\end{Verbatim}
+\end{lstlisting}
 
 The class is annotated with @BapiStructure to tell Hibersap that it maps to
 a complex parameter on the SAP side. Each particular field is annotated with the
@@ -289,7 +289,7 @@ Second, there is a Java class that Hibersap will map to the table parameter FLIG
 which in our example is simply called Flight.
 The table FLIGHTLIST will be filled by SAP with the flight information matching our request.
 
-\begin{Verbatim}[frame=single,label=The Flight class]
+\begin{lstlisting}[caption=The Flight class]
 package org.hibersap.examples.flightlist;
 
 import java.util.Date;
@@ -362,7 +362,7 @@ public class Flight
         return this.seatsOccupied;
     }
 }
-\end{Verbatim}
+\end{lstlisting}
 
 Please note that the method getDepartureTime() does not simply return the field departureTime
 but calls a utility method DateUtil.joinDateAndTime(). This is done here because ABAP does not know a
@@ -382,7 +382,7 @@ In the example we use a minimum set of JCo properties to be able to connect to t
 All valid JCo properties are specified in the JCo library interface com.\-sap.\-conn.\-jco.\-ext.\-DestinationDataProvider (see
 javadoc provided with JCo).
 
-\begin{Verbatim}[frame=single,label=hibersap.xml]
+\begin{lstlisting}[language=XML,caption=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap>
   <session-manager name="A12">
@@ -401,7 +401,7 @@ javadoc provided with JCo).
     <class>org.hibersap.examples.flightlist.FlightListBapi</class>
   </session-manager>
 </hibersap>
-\end{Verbatim}
+\end{lstlisting}
 
 
 \subsection{Calling a function module}
@@ -420,13 +420,14 @@ get exhausted sooner or later.
 
 The following function configures a Hibersap SessionManager. First, an instance of type AnnotationConfiguration has to be created for the named SessionManager, as specified in hibersap.xml. Finally, we build the SessionManager. In a real application this should be done once, reusing the SessionManager throughout the application's lifetime.
 
-\begin{Verbatim}[frame=single,label=Creating the SessionManager]
+\begin{lstlisting}[caption=Creating the SessionManager]
 public SessionManager createSessionManager()
 {
-    AnnotationConfiguration configuration = new AnnotationConfiguration("A12");
+    AnnotationConfiguration configuration 
+        = new AnnotationConfiguration("A12");
     return configuration.buildSessionManager();
 }
-\end{Verbatim}
+\end{lstlisting}
 
 Now it is time to call the function module in SAP.
 After creating the SessionManager and opening a new Session, we create an instance of our
@@ -435,7 +436,7 @@ Then we simply call the execute() method on the Session, passing the BAPI class,
 which actually performs the call to SAP. Now the flightListBapi object is enriched with all the
 values which the function module returned and which we have mapped in our BAPI Class.
 
-\begin{Verbatim}[frame=single,label=Executing the function]
+\begin{lstlisting}[caption=Executing the function]
 public void showFlightList()
 {
     SessionManager sessionManager = createSessionManager();
@@ -454,19 +455,20 @@ public void showFlightList()
         session.close();
     }
 }
-\end{Verbatim}
+\end{lstlisting}
 
 To see the result of the function call, we simply print the BAPI class' fields to the console in the
 showResult() method:
 
-\begin{Verbatim}[frame=single,label=Printing the results]
+\begin{lstlisting}[caption=Printing the results]
 private void showResult( FlightListBapi flightList )
 {
     System.out.println( "AirlineId: " + flightList.getFromCountryKey() );
     System.out.println( "FromCity: " + flightList.getFromCity() );
     System.out.println( "ToCountryKey: " + flightList.getToCountryKey() );
     System.out.println( "ToCity: " + flightList.getToCity() );
-    System.out.println( "AirlineCarrier: " + flightList.getAirlineCarrier() );
+    System.out.println( "AirlineCarrier: " + flightList
+                                             .getAirlineCarrier() );
     System.out.println( "Afternoon: " + flightList.getAfternoon() );
     System.out.println( "MaxRead: " + flightList.getMaxRead() );
 
@@ -490,12 +492,12 @@ private void showResult( FlightListBapi flightList )
     System.out.println( "\tType: " + returnStruct.getType() );
     System.out.println( "\tId: " + returnStruct.getId() );
 }
-\end{Verbatim}
+\end{lstlisting}
 
 In the example, we are looking for all flights from Frankfurt to Berlin.
 The result should look like follows, in this example, there were two flights found.
 
-\begin{Verbatim}[frame=single,label=A successful result]
+\begin{lstlisting}[language=,label=A successful result]
 AirlineId: DE
 FromCity: Frankfurt
 ToCountryKey: DE
@@ -513,15 +515,15 @@ Return
 	Number: 000
 	Type: S
 	Id:
-\end{Verbatim}
+\end{lstlisting}
 
 If there were no flights found, the return field will contain the following data returned by SAP:
 
-\begin{Verbatim}[frame=single,label=The result when no data was found]
+\begin{lstlisting}[language=,label=The result when no data was found]
 Return
 	Message: No corresponding flights found
 	Number: 150
 	Type: E
 	Id: BC_BOR
-\end{Verbatim}
+\end{lstlisting}
 
