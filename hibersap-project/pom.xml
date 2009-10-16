@@ -59,9 +59,9 @@
 	</issueManagement>
 
 	<scm>
-		<connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/tags/hibersap-project-1.0</connection>
-		<developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/tags/hibersap-project-1.0</developerConnection>
-		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/tags/hibersap-project-1.0</url>
+		<connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project</connection>
+		<developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project</developerConnection>
+		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/trunk/hibersap-project</url>
 	</scm>
 
 	<organization>
