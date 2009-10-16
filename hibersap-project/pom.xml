@@ -4,7 +4,7 @@
 	<groupId>org.hibersap</groupId>
 	<artifactId>hibersap-project</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>hibersap-project</name>
 
 	<description>
@@ -398,7 +398,7 @@ The name of the property is: sap.jco.lib.path
 			<dependency>
 				<groupId>org.hibersap</groupId>
 				<artifactId>hibersap-core</artifactId>
-				<version>1.0</version>
+				<version>1.1-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

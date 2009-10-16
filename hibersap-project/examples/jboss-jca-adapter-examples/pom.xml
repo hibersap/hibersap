@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap.examples</groupId>
 	<artifactId>jboss-jca-adapter-examples</artifactId>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Examples for the jboss-jca-adapter</name>
 	<packaging>pom</packaging>
 
 	<parent>
 		<artifactId>examples</artifactId>
 		<groupId>org.hibersap.examples</groupId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -30,19 +30,19 @@
 			<dependency>
 				<groupId>org.hibersap</groupId>
 				<artifactId>hibersap-core</artifactId>
-				<version>1.0</version>
+				<version>1.1-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.hibersap.examples</groupId>
-				<artifactId>jco-library</artifactId>
-				<version>0.2-SNAPSHOT</version>
+				<artifactId>jco-examples</artifactId>
+				<version>1.1-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.hibersap.examples</groupId>
 				<artifactId>hibersap-ejb</artifactId>
-				<version>1.0</version>
+				<version>1.1-SNAPSHOT</version>
 				<type>ejb</type>
 			</dependency>
 

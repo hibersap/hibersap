@@ -2,13 +2,13 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>hibersap-jboss-deployer</artifactId>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>Jboss Deployer</name>
 
 	<parent>
 		<artifactId>jboss-deployer-project</artifactId>
 		<groupId>org.hibersap</groupId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 		
