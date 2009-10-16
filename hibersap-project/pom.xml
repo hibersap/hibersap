@@ -32,10 +32,19 @@
 			<url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
 		</site>
 
-		<snapshotRepository>
-			<id>snapshots.spree.de</id>
-			<url>dav:https://www.spree.de/maven-repository/libs-snapshots-local</url>
-		</snapshotRepository>
+        <repository>
+          <id>releases.spree.de</id>
+          <name>ATS Maven Repository</name>
+          <url>https://www.spree.de/maven-repository/libs-releases-local</url>
+          <uniqueVersion>false</uniqueVersion>
+         </repository>
+
+         <snapshotRepository>
+           <id>snapshots.spree.de</id>
+           <name>ATS Snapshot Repository</name>
+           <url>dav:https://www.spree.de/maven-repository/libs-snapshots-local</url>
+           <uniqueVersion>false</uniqueVersion>
+         </snapshotRepository>
 	</distributionManagement>
 
 	<licenses>
@@ -112,7 +121,7 @@
 		</developer>
 	</developers>
 
-	<ciManagement>
+	<ciManagement> 
 		<system>hudson</system>
 		<url>https://jbosscc.spree.de:8443/hudson/view/HiberSap
 		</url>
