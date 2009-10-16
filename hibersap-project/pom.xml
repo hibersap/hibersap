@@ -194,7 +194,7 @@ The name of the property is: sap.jco.lib.path
 			<plugin>
 				<groupId>de.akquinet.maven</groupId>
 				<artifactId>maven-latex-plugin</artifactId>
-				<version>0.2-SNAPSHOT</version>
+				<version>1.0</version>
 				<inherited>false</inherited>
 				<executions>
 					<execution>
