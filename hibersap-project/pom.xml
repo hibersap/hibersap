@@ -30,14 +30,14 @@
 		</site>
 
         <repository>
-          <id>releases.spree.de</id>
+          <id>central</id>
           <name>ATS Maven Repository</name>
           <url>https://www.spree.de/maven-repository/libs-releases-local</url>
           <uniqueVersion>false</uniqueVersion>
          </repository>
 
          <snapshotRepository>
-           <id>snapshots.spree.de</id>
+           <id>snapshots</id>
            <name>ATS Snapshot Repository</name>
            <url>dav:https://www.spree.de/maven-repository/libs-snapshots-local</url>
            <uniqueVersion>false</uniqueVersion>
