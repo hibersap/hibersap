@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap.examples</groupId>
 	<artifactId>jco-examples</artifactId>
 	<name>Examples for Hibersap-JCo</name>
-	<version>0.2-SNAPSHOT</version>
+	<version>1.0</version>
 	<parent>
 		<artifactId>examples</artifactId>
 		<groupId>org.hibersap.examples</groupId>
-		<version>0.2-SNAPSHOT</version>
+		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.hibersap</groupId>
 			<artifactId>hibersap-jco</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

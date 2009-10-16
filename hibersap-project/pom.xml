@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap</groupId>
 	<artifactId>hibersap-project</artifactId>
 	<packaging>pom</packaging>
-	<version>0.2-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>hibersap-project</name>
 
 	<description>
@@ -62,14 +59,9 @@
 	</issueManagement>
 
 	<scm>
-		<connection>
-			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project/
-		</connection>
-		<developerConnection>
-			scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project/
-		</developerConnection>
-		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/trunk/hibersap-project
-		</url>
+		<connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/tags/hibersap-project-1.0</connection>
+		<developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/tags/hibersap-project-1.0</developerConnection>
+		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/tags/hibersap-project-1.0</url>
 	</scm>
 
 	<organization>
@@ -215,8 +207,8 @@ The name of the property is: sap.jco.lib.path
 								<outputDirectory>reference/html_multipage</outputDirectory>
 								<tex4htCommandArgs>
 									<tex4htCommandArg>tex4ht,2</tex4htCommandArg>
-									<tex4htCommandArg></tex4htCommandArg>
-									<tex4htCommandArg></tex4htCommandArg>
+									<tex4htCommandArg />
+									<tex4htCommandArg />
 									<tex4htCommandArg>-interaction=nonstopmode
 										--src-specials</tex4htCommandArg>
 								</tex4htCommandArgs>
@@ -234,8 +226,8 @@ The name of the property is: sap.jco.lib.path
 								<outputDirectory>reference/html_singlepage</outputDirectory>
 								<tex4htCommandArgs>
 									<tex4htCommandArg>tex4ht,1</tex4htCommandArg>
-									<tex4htCommandArg></tex4htCommandArg>
-									<tex4htCommandArg></tex4htCommandArg>
+									<tex4htCommandArg />
+									<tex4htCommandArg />
 									<tex4htCommandArg>-interaction=nonstopmode
 										--src-specials</tex4htCommandArg>
 								</tex4htCommandArgs>
@@ -406,7 +398,7 @@ The name of the property is: sap.jco.lib.path
 			<dependency>
 				<groupId>org.hibersap</groupId>
 				<artifactId>hibersap-core</artifactId>
-				<version>0.2-SNAPSHOT</version>
+				<version>1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -1,18 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<artifactId>jboss-jca-adapter-examples</artifactId>
 		<groupId>org.hibersap.examples</groupId>
-		<version>0.2-SNAPSHOT</version>
+		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.hibersap.examples</groupId>
 	<artifactId>hibersap-ear</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>ear</packaging>
 	<name>hibersap-ear</name>
 
@@ -20,8 +18,7 @@
 		<dependency>
 			<groupId>org.hibersap</groupId>
 			<artifactId>hibersap-core</artifactId>
-			<version>0.2-SNAPSHOT</version>
-			<type>ejb</type>
+			<version>1.0</version>
 
 			<exclusions>
 				<exclusion>
@@ -38,7 +35,7 @@
 		<dependency>
 			<groupId>org.hibersap.examples</groupId>
 			<artifactId>jco-examples</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>jar</type>
 			<exclusions>
 				<exclusion>
@@ -55,7 +52,7 @@
 		<dependency>
 			<groupId>org.hibersap.examples</groupId>
 			<artifactId>hibersap-ejb</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>ejb</type>
 		</dependency>
 
