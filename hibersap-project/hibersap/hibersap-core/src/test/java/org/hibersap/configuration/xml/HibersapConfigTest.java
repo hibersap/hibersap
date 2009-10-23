@@ -25,7 +25,7 @@ public class HibersapConfigTest
             .setJcaConnectionFactory( "java:/eis/sap/B34" ).setProperty( "key3", "value3" ).setProperty( "key4",
                                                                                                          "value4" )
             .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class )
-            .addInterceptor( SapErrorInterceptor.class );
+            .addInterceptorClass( SapErrorInterceptor.class );
 
         assertProperties( config, "Sm1", "org.hibersap.execution.jco.JCoContext", "java:/eis/sap/A12", "key1",
                           "value1", "key2", "value2" );
@@ -48,7 +48,7 @@ public class HibersapConfigTest
         assertEquals( 2, sessionManager.getProperties().size() );
         assertEquals( smPropVal1, sessionManager.getProperty( smPropKey1 ) );
         assertEquals( smPropVal2, sessionManager.getProperty( smPropKey2 ) );
-        Set<String> annotatedClasses = sessionManager.getClasses();
+        Set<String> annotatedClasses = sessionManager.getAnnotatedClasses();
         assertEquals( 2, annotatedClasses.size() );
         assertTrue( "SessionManager " + smName, annotatedClasses.contains( String.class.getName() ) );
         assertTrue( annotatedClasses.contains( Integer.class.getName() ) );

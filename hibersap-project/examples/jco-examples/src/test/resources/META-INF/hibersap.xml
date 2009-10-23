@@ -17,10 +17,10 @@
 			<property name="jco.destination.pool_capacity" value="1" />
 		</properties>
 
-		<annotated-classes>
+		<annotatedClasses>
 			<class>org.hibersap.examples.flightlist.FlightListBapi</class>
 			<class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
-		</annotated-classes>
+		</annotatedClasses>
 	</session-manager>
 </hibersap>
 

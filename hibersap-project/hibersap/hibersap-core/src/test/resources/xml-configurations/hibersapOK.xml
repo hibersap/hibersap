@@ -13,10 +13,10 @@
 			<property name="jco.client.sysnr" value="00" />
 			<property name="jco.destination.pool_capacity" value="1" />
 		</properties>
-		<annotated-classes>
+		<annotatedClasses>
 			<class>org.test.Class1</class>
 			<class>org.test.Class2</class>
-		</annotated-classes>
+		</annotatedClasses>
 	</session-manager>
 	<session-manager name="B34">
 		<context>org.hibersap.execution.jco.JCAContext</context>
@@ -30,13 +30,13 @@
 			<property name="jco.client.sysnr" value="00" />
 			<property name="jco.destination.pool_capacity" value="1" />
 		</properties>
-		<annotated-classes>
+		<annotatedClasses>
 			<class>org.test.Class1</class>
 			<class>org.test.Class3</class>
-		</annotated-classes>
-		<interceptor-classes>
+		</annotatedClasses>
+		<interceptorClasses>
 			<class>org.test.Class4</class>
 			<class>org.test.Class5</class>
-		</interceptor-classes>
+		</interceptorClasses>
 	</session-manager>
 </hibersap>

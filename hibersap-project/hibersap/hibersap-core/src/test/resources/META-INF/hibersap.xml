@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
-  <session-manager name="TEST">
-    <context>org.hibersap.execution.jco.JCoContext</context>
+    <session-manager name="TEST">
+        <context>org.hibersap.execution.jco.JCoContext</context>
 
-	<jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
+        <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
 
-    <properties>
-      <property name="jco.client.user" value="user" />
-      <property name="jco.client.passwd" value="password" />
-      <property name="jco.client.client" value="42" />
-      <property name="jco.client.lang" value="en" />
-      <property name="jco.client.ashost" value="127.0.0.1" />
-      <property name="jco.client.sysnr" value="00" />
-      <property name="jco.destination.pool_capacity" value="1" />
-    </properties>
+        <properties>
+            <property name="jco.client.user" value="user"/>
+            <property name="jco.client.passwd" value="password"/>
+            <property name="jco.client.client" value="42"/>
+            <property name="jco.client.lang" value="en"/>
+            <property name="jco.client.ashost" value="127.0.0.1"/>
+            <property name="jco.client.sysnr" value="00"/>
+            <property name="jco.destination.pool_capacity" value="1"/>
+        </properties>
 
-<!-- 
-    <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
--->
-  </session-manager>
+        <annotatedClasses>
+            <class>org.hibersap.bapi.BapiTransactionCommit</class>
+        </annotatedClasses>
+
+        <interceptorClasses>
+            <class>org.hibersap.session.SapErrorInterceptor</class>
+        </interceptorClasses>
+    </session-manager>
 </hibersap>
 

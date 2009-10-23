@@ -10,7 +10,7 @@ There are two possibilities to configure Hibersap:
   \item Programmatic configuration
 \end{itemize}
 
-While bootstrapping, Hibersap first tries to configure itself looking for the /META-INF/hibersap.xml file in the
+While bootstrapping, Hibersap first tries to configure itself looking for the \linebreak /META-INF/hibersap.xml file in the
 classpath. When creating a SessionManager, configuration can be set or overwritten using programmatic configuration.
 
 Using an XML file is the preferred way to configure Hibersap.
@@ -25,7 +25,7 @@ session-manager XML element.
 
 \begin{lstlisting}[language=XML,caption=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
-<hibersap>
+<hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
   <session-manager name="A12">
     <context>org.hibersap.execution.jco.JCAContext</context>
 
@@ -43,14 +43,14 @@ session-manager XML element.
       <property name="jco.client.sysnr" value="00" />
     </properties>
 
-    <annotated-classes>
+    <annotatedClasses>
       <class>org.hibersap.examples.flightlist.FlightListBapi</class>
       <class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
-    </annotated-classes>
+    </annotatedClasses>
     
-    <interceptor-classes>
+    <interceptorClasses>
       <class>com.mypackage.MyHibersapInterceptor</class>
-    <interceptor-classes>
+    <interceptorClasses>
   </session-manager>
 </hibersap>
 \end{lstlisting}
@@ -84,10 +84,10 @@ Table \ref{tab:ConfigurationParameters} shows a list of the configuration parame
     Zero or more additional properties. These depend on the interfacing technology in use. For the SAP JCo, all the JCo-specific 
     properties must be defined here. 
     \\
-    annotated-classes        & 
+    annotatedClasses        & 
     All annotated BAPI classes which are used with the SessionManager must be listed here. 
     \\
-    interceptor-classes       & 
+    interceptorClasses       & 
     A list of the interceptor classes. These must implement org.hibersap.session.ExecutionInterceptor and are called before and after a 
     SAP function module gets executed. \\ 
     \bottomrule

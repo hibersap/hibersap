@@ -40,7 +40,7 @@ import org.hibersap.session.ExecutionInterceptor;
     "jcaConnectionFactory",
     "jcaConnectionSpecFactory",
     "properties",
-    "classes",
+    "annotatedClasses",
     "interceptorClasses" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class SessionManagerConfig
@@ -56,7 +56,7 @@ public class SessionManagerConfig
 
     private final Map<String, String> nameValues = new HashMap<String, String>();
 
-    private final Set<String> classes = new HashSet<String>();
+    private final Set<String> annotatedClasses = new HashSet<String>();
 
     private final Set<String> interceptorClasses = new HashSet<String>();
 
@@ -146,16 +146,16 @@ public class SessionManagerConfig
     }
 
     @XmlElement(name = "class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "annotated-classes", namespace = HibersapConfig.NAMESPACE)
-    public Set<String> getClasses()
+    @XmlElementWrapper(name = "annotatedClasses", namespace = HibersapConfig.NAMESPACE)
+    public Set<String> getAnnotatedClasses()
     {
-        return classes;
+        return annotatedClasses;
     }
 
-    public void setClasses( final Set<String> classes )
+    public void setAnnotatedClasses( final Set<String> annotatedClasses )
     {
-        this.classes.clear();
-        this.classes.addAll( classes );
+        this.annotatedClasses.clear();
+        this.annotatedClasses.addAll( annotatedClasses );
     }
 
     public String getProperty( final String propertyName )
@@ -193,7 +193,7 @@ public class SessionManagerConfig
 
     public SessionManagerConfig addAnnotatedClass( final Class<?> annotatedClass )
     {
-        classes.add( annotatedClass.getName() );
+        annotatedClasses.add( annotatedClass.getName() );
         return this;
     }
 
@@ -211,7 +211,6 @@ public class SessionManagerConfig
                 nameValues.put( property.getName(), property.getValue() );
             }
         }
-        assert nameValues != null;
         assert nameValues.size() == properties.size() : "Map " + nameValues.size() + "!= Set " + properties.size();
 
         return nameValues;
@@ -221,23 +220,23 @@ public class SessionManagerConfig
     public String toString()
     {
         return "Session Configuration: " + name + ", Context: " + context + ", Properties: " + properties
-            + ", Classes: " + classes;
+            + ", Classes: " + annotatedClasses;
     }
 
     @XmlElement(name = "class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "interceptor-classes", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "interceptorClasses", namespace = HibersapConfig.NAMESPACE)
     public Set<String> getInterceptorClasses()
     {
         return interceptorClasses;
     }
 
-    public void setInteceptorClasses( final Collection<String> interceptorClasses )
+    public void setInterceptorClasses( final Collection<String> interceptorClasses )
     {
         this.interceptorClasses.clear();
         this.interceptorClasses.addAll( interceptorClasses );
     }
 
-    public void addInterceptor( Class<? extends ExecutionInterceptor> interceptorClass )
+    public void addInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
     {
         interceptorClasses.add( interceptorClass.getName() );
     }
@@ -247,7 +246,7 @@ public class SessionManagerConfig
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( ( classes == null ) ? 0 : classes.hashCode() );
+        result = prime * result + ( ( annotatedClasses == null ) ? 0 : annotatedClasses.hashCode() );
         result = prime * result + ( ( context == null ) ? 0 : context.hashCode() );
         result = prime * result + ( ( interceptorClasses == null ) ? 0 : interceptorClasses.hashCode() );
         result = prime * result + ( ( jcaConnectionFactory == null ) ? 0 : jcaConnectionFactory.hashCode() );
@@ -267,12 +266,12 @@ public class SessionManagerConfig
         if ( getClass() != obj.getClass() )
             return false;
         SessionManagerConfig other = (SessionManagerConfig) obj;
-        if ( classes == null )
+        if ( annotatedClasses == null )
         {
-            if ( other.classes != null )
+            if ( other.annotatedClasses != null )
                 return false;
         }
-        else if ( !classes.equals( other.classes ) )
+        else if ( !annotatedClasses.equals( other.annotatedClasses) )
             return false;
         if ( context == null )
         {

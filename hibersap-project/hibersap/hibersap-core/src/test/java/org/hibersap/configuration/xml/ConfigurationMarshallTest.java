@@ -65,7 +65,7 @@ public class ConfigurationMarshallTest
         final Set<String> classes = new HashSet<String>();
         classes.add( "package.Class1" );
         classes.add( "package.Class2" );
-        sessionManagerMetaData.setClasses( classes );
+        sessionManagerMetaData.setAnnotatedClasses( classes );
 
         final HibersapConfig hiberSapMetaData = new HibersapConfig( sessionManagerMetaData );
 

@@ -6,10 +6,10 @@
 \label{cha:Mapping}
 The main task of Hibersap is to map Remote Function Modules (RFMs) which are defined in SAP R/3 to Java classes. To accomplish this, Hibersap provides a set of Java annotations that map Java classes and their fields to the elements of the function module's interface. This section provides detailed information on the Hibersap annotations and on how data types are converted.
 
-For a complete example of how to define Hibersap classes and mappings, see chapter \ref{cha:QuickStart} or the Hibersap examples code.
+For a complete example of how to define Hibersap classes and mappings, see chapter \ref{cha:QuickStart} or checkout the Hibersap examples code from the source code repository.
 
 \subsection{The annotations}
-Since Hibersap maps SAP Remote Function Modules to plain Java classes, an application must define one class for each function module that acts a kind of proxy for the function module. This class is called a BAPI class and has to be annotated with the @Bapi\footnote{All Hibersap annotations and enumerations used by annotations are declared in the package org.hibersap.annotations.} annotation\footnote{Actually, a BAPI is a special kind of a Remote Function Module but gives a more handy term.}. The annotation's value property defines the name of the corresponding function module:
+Since Hibersap maps SAP Remote Function Modules to plain Java classes, an application must define one class for each function module that acts as a kind of proxy for the function module. This class is called a BAPI class and has to be annotated with the @Bapi\footnote{All Hibersap annotations and enumerations used by annotations are declared in the package org.hibersap.annotations.} annotation\footnote{Actually, a BAPI is a special kind of a Remote Function Module but gives a more handy term.}. The annotation's value property defines the name of the corresponding function module:
 
 \begin{lstlisting}
 @Bapi("BAPI_SFLIGHT_GETLIST") 
@@ -128,7 +128,7 @@ Hibersap relies on the Java Connector's conversion scheme as shown in table \ref
   \label{tab:JCoConversion}
 \end{table}
 
-Hibersap allows to convert a parameter's data type to any Java type and vice versa. For example, ABAP does not have a boolean data type. Usually a boolean in ABAP is represented by a character field of length 1. A parameter is true if it equals to 'X', false if it is empty.
+Hibersap allows to convert a parameter's data type to any Java type and vice versa. For example, ABAP does not have a boolean data type. Usually a boolean in ABAP is represented by a character field of length 1. A parameter is true if it equals to 'X', false if it is empty. With a Hibersap Converter it is possible to map an ABAP ``boolean'' parameter to a boolean field in Java.
 
 You can use Hibersap Converters to do any kind of data type conversion. There are a few Converters defined in the package org.hibersap.conversion. However, it is easy to write your own converter by implementing the org.hibersap.conversion.Converter interface:
 
@@ -162,10 +162,16 @@ public interface Converter
 }
 \end{lstlisting}
 
+To use a converter, you simply have to annotate the filed in the BAPI or Structure class with Hibersap's @Convert annotation, specifying the Converter that should be called:
+
+\begin{lstlisting}[caption=Using a converter]
+@Import@Parameter ( "SHOW_DETAILS" )@Convert(converter = BooleanConverter.class)private	final boolean showDetails;
+\end{lstlisting}
+
 \section{Calling Function Modules}
 
 \subsection{Configure Hibersap and build a SessionManager}
-Chapter \ref{cha:Configuration} explains in detail how to configure Hibersap. The following code snippet assumes that there is the /META-INF/hibersap.xml configuration file in the application's classpath and shows how to build a SessionManager:
+Chapter \ref{cha:Configuration} explains in detail how to configure Hibersap. The following code snippet assumes that there is the /META-INF/hibersap.xml configuration file defining a SessionManager named ``A12'' in the application's classpath and shows how to build a SessionManager:
 
 
 \begin{lstlisting}[caption=Building the SessionManager]
@@ -173,10 +179,12 @@ AnnotationConfiguration configuration= new AnnotationConfiguration("A12");
 SessionManager sessionManager = configuration.buildSessionManager();
 \end{lstlisting}
     
-The SessionManager should be created only once in an application's lifetime. It depends on the kind of application how to store the SessionManager instances. E.g., in a web application, it may be created in a ServletContextListener when starting the web application and put into the servlet context, in a stand-alone application it may be created and managed by a utility with static accessor methods or -- more advisable -- by a dependency injection container such as Pico Container, Guice or Spring.
+The SessionManager should be created only once in an application's lifetime. It depends on the kind of application how to store the SessionManager instances. E.g. in a web application it may be created and shut down in a ServletContextListener when starting the web application and put into the servlet context, in a stand-alone application it may be created and managed by a utility class with static accessor methods or -- more advisable -- by a dependency injection container such as Pico Container, Guice or Spring.
 
 
 \subsection{Calling a function in SAP}
+
+Calling a remote function module in SAP is as easy as opening a new Session via the SessionManager, creating the BAPI class with the required parameters, and calling the Session's execute() method with the Bapi class as an argument.
 
 \begin{lstlisting}[caption=Executing the BAPI function]
 Session session = sessionManager.openSession();
@@ -194,36 +202,150 @@ finally
 }
 \end{lstlisting}
 
+After the call to session.execute(), the Bapi class is populated with the SAP function's return parameters as it is
+defined in the parameter mappings.
+
+A physical connection to the SAP system is created during the first call to the Session's execute() method. 
+It is crucial to close the Session after the last call to the execute() method. If Sessions are not
+closed, the connection pool may get exhausted. Therefore it is strongly recommended to close the Session in a
+finally block like in the above example. This way, even if one of the method calls in the try block throws
+a RuntimeException, the Session will still be closed.
+ 
+If the application keeps sessions open for a long time, connections may also get shut down 
+by the SAP system after some timeout period or the may get broken due to network related reasons. 
+This means that Sessions should have a short lifetime (just like database sessions), usually a Session should 
+be used for a single request or unit of work.  
+
+Hibersap Sessions are inexpensive to create, the Java Connector's connection pool takes care of 
+an efficient connection management (if properly configured), and Hibersap will not akquire a 
+SAP-connection before it is needed. Thus, Sessions should be used once and then discarded.  
 
 \section{Transaction Management} 
 
+SAP R/3 allows external callers of its function modules to control logical units of work (transactions). 
+Calling applications may call a number of function modules and commit or rollback all changes made during
+the function calls. This can be done by calling special BAPIs named ``BAPI\_TRANSACTION\_COMMIT'' and 
+``BAPI\_TRANSACTION\_ROLLBACK''.\footnote{Please note that not all Remote Function Modules and even not 
+all BAPIs in SAP R/3 support this feature. Special care has to be taken in the ABAP code which should not
+call a COMMIT WORK itself. See SAP note 0131838, "Collective Note for BAPIs with the Commit Work Command"
+for a list of BAPIs that are not transaction enabled.}
+
+Using Hibersap, it is very easy to start and end transactions, you do not have to map and call these BAPIs yourself. Depending on the chosen interfacing technology, you can either handle your transactions manually (JCo and JCA) or use Container Managed Transactions (JCA only).
+
 \subsection{Manual transaction handling}
+
+The Hibersap Session has a method beginTransaction() which must be called when starting the transaction. beginTransaction() returns a Transaction object on which you can later call the methods commit() or rollback() to tell SAP to commit or rollback all changes made during the transaction.
+
+\begin{lstlisting}[caption=Manual transaction handling]
+Session session = sessionManager.openSession();
+Transaction transaction = null;
+try
+{
+    transaction = session.beginTransaction();
+    session.execute( bapiClass1 );
+    ...
+    session.execute( bapiClassN );
+	transaction.commit();
+}
+catch (Exception e)
+{
+    if (transaction != null)
+        transaction.rollback();
+}
+finally
+{
+    session.close();
+}
+\end{lstlisting}
 
 \subsection{Container Managed Transactions}
 
+Applications running in an application server that use EJBs and a Java EE compatible Resource Adapter, may profit of the
+app server's capability of automatically handle transactions. In this case, the application code does not have to
+take care of starting, committing and rolling back transactions. 
+
+See section \ref{sec:JavaEEIntegration} for a detailed discussion on Container Managed Transactions.
 
 \section{Authentication}
 
 \subsection{Using a central User}
 
+The most common way to interact with a SAP system in enterprise applications is to use a central SAP user that is shared by all users of the application. Using this kind of authentication is a matter of configuration. When using Hibersap with JCo, the user credentials are defined in the Hibersap configuration. When using Hibersap with JCA, the credentials are usually defined in the resource adapter.
+
 \subsection{Per-session authentication}
+\label{sec:PerSessionAuthentication}
+
+If the application has to provide user credentials, e.g. when each application user log on to the SAP system using his own SAP account, you can specify logon credentials for each Hibersap session you create.
+
+When obtaining a Session from the SessionManager, the method openSession(Credentials) must be used. The authentication information is specified in the Credentials object.
+
+\begin{lstlisting}[caption=Component-managed authentication]
+Credentials credentials = new Credentials()
+    .setUser("atuttle")
+    .setPassword("myPassw0rd")
+    .setLanguage("EN");
+Session session = sessionManager.openSession( credentials );
+session.execute( bapiClass );
+...
+\end{lstlisting}
+
+The attributes defined in the Credentials object are simply passed on to SAP. Table 
+\ref{tab:SAPCredentials} lists the possible fields including the corresponding JCo parameter as defined in interface DestinationDataProvider of the SAP Java Connector version 3.
+
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+   \begin{tabularx}{\textwidth}{ l X l }
+    \toprule
+    \textbf{Credentials field} & \textbf{Description}               & \textbf{JCo parameter} \\ 
+    \midrule
+    user                       & SAP logon user                     & JCO\_USER \\
+    aliasUser                  & SAP logon user alias, can be used 
+                                 instead of logon user              & JCO\_ALIAS\_USER \\
+    client                     & SAP client                         & JCO\_CLIENT \\
+    language                   & Logon language ISO code            & JCO\_LANG \\
+    password                   & Logon password                     & JCO\_PASSWD \\
+    ssoTicket                  & SAP Cookie Version 2 as logon 
+                                 ticket for SSO based 
+                                 authentication                     & JCO\_MYSAPSSO2 \\
+    x509Certificate            & X509 certificate for certificate 
+                                 based authentication               & JCO\_X509CERT \\
+    \bottomrule
+  \end{tabularx}
+  \caption{SAP Java Connector type conversion}
+  \label{tab:SAPCredentials}
+\end{table}
 
 \subsection{Single sign-on}
+\label{sec:SingleSignOn}
 
+A special case of per-session authentication is the use of single sign-on. In a SAP environment it is common to use SAP Logon Tickets issued by SAP systems. In a web application / portal scenario the ticket is stored in a cookie named MYSAPSSO2 in the HTTP user session. After obtaining this ticket it has to be passed to the Hibersap session by setting the ssoTicket field of the Credentials object like described in the previous section \ref{sec:PerSessionAuthentication}.
 
 \section{Java EE application server integration}
-If developing applications which run inside a Java EE application server, it is strongly recommended using Hibersap in combination with a JCA compatible resource adapter. A resource adapter offers some important features which will be treated in this section.
+\label{sec:JavaEEIntegration}
+If developing applications which run inside a Java EE application server and make use of Enterprise Java Beans (EJB), it is 
+strongly recommended using Hibersap in combination with a JCA compatible resource adapter. A resource adapter offers some important features which will be treated in this section.
 
 \subsection{Transaction Management} 
-The application server's transaction manager is used to handle transactions. In combination with EJBs and Container Managed Transactions (CMT), the code does not need to care about transaction demarcation, because the container sets the transaction boundaries implicitly. This simplifies development and reduces the probability of error. 
+The application server's transaction manager is used to handle transactions. In combination with EJBs and Container Managed Transactions (CMT), the code does not need to care about transaction demarcation, because the container sets the transaction boundaries implicitly. This simplifies development and reduces the probability of errors. If using CMT, all the 
+function calls to SAP which take place during an EJB method call are running in one transaction. If the EJB method returns 
+normally, the transaction manager commits the transaction. In case of an error, the transaction is automatically 
+rolled back. Error here means that a RuntimeException is thrown or an application exception configured with the 
+rollback=true attribute. (Note that Hibersap only throws runtime exceptions.)
 
-Unfortunately, SAP R/3 does not provide the two-phase commit protocol (2PC) which is necessary for a resource to participate in a distributed transaction. The effect is that resource adapters for SAP R/3 support only local transactions, which is no problem if there is only one resource (the SAP R/3 system) enlisting in a transaction. If there are multiple resources participating in one transaction (e.g. a SAP R/3 system, a database and/or a JMS system), the transaction manager starts a distributed transaction which requires 2PC aware resources as its participants. The good news is that some application servers (e.g. JBoss Application Server, Bea Weblogic or SAP WebAS) support a strategy called Last Resource Commit Optimization which makes it possible for a single non-2PC-aware resource to enlist in a distributed transaction. This is transparent for the programmer.
+Unfortunately, SAP R/3 does not provide the two-phase commit protocol (2PC) which is necessary for a resource to participate in a distributed transaction. The effect is that resource adapters for SAP R/3 support only local transactions, which is no problem if there is only one resource (the SAP R/3 system) enlisting in a transaction. If there are multiple resources participating in one distributed transaction (e.g. a SAP R/3 system, a database and/or a JMS system), the transaction manager starts a distributed transaction which requires 2PC aware resources as its participants. The good news is that some application servers (e.g. JBoss Application Server, Bea Weblogic or SAP WebAS) support a strategy called Last Resource Commit Optimization which makes it possible for a single non-2PC-aware resource to enlist in a distributed transaction. This is transparent for the programmer.
 
 %TODO code examples 
 
 \subsection{Security Management}
-With a resource adapter there are two methods to authenticate with the SAP R/3 system, container-managed and component-managed authentication. Using the former, the credentials (user name and password) are configured centrally in the resource adapter and the container uses these to automatically sign in whenever connecting to the SAP system. With component-managed authentication, an application passes credentials each time a connection is obtained from the resource adapter. This method is used when each user of the application signs in using its own SAP user, e.g. by entering the SAP user name and password in the application or when using single sign-on with logon tickets. Hibersap supports both methods.
+With a resource adapter there are two methods to authenticate with the SAP R/3 system, container-managed and component-managed authentication. Using the former, the credentials (user name and password) are configured centrally in the resource adapter and the container uses these to automatically sign in whenever connecting to the SAP system. With component-managed authentication, an application passes credentials each time a connection is obtained from the resource adapter. This method is used when each user of the application signs in using its own SAP user, e.g. by entering the SAP user name and password in the application or when using single sign-on with logon tickets. Hibersap supports both authentication methods.
+
+Container-managed authentication is simply a matter of configuration. The Resource Adapter will use the provided username/password combination (e.g. a central, technical SAP user).
+
+Using component-managed authentication, the application has to provide authentication information itself. This may be e.g. a username/password combination entered by the application user, or a single sign-on login ticket obtained from the HTTP session. Section \ref{sec:PerSessionAuthentication} shows how to use different authentication information on a per-session basis, section \ref{sec:SingleSignOn} shows how to use single sign-on tickets.  
 
 \subsection{Configuration}
-Another advantage of using a resource adapter over using JCo directly is that a resource adapter can be deployed and configured independent of the applications that use it. Thus it is not necessary to reconfigure and redeploy all applications that connect to a SAP system whenever connection parameters change. Instead, only the resource adapter has to be reconfigured. Since the configuration of the resource adapter specifies all the necessary properties to access the SAP system, the Hibersap configuration only needs to specify the resource adapter's JNDI name that is used to look up the adapter's connection factory. 
+Another advantage of using a resource adapter over using JCo directly is that a resource adapter can be deployed and configured independent of the applications that use it. Thus it is not necessary to reconfigure and redeploy all applications that connect to a SAP system whenever connection parameters (e.g. the SAP system's host name) change. 
+Instead, only the resource adapter has to be reconfigured. Since the configuration of the resource adapter specifies 
+all the necessary properties to access the SAP system, the Hibersap configuration only needs to specify the resource adapter's JNDI name that is used to look up the adapter's connection factory. 
 

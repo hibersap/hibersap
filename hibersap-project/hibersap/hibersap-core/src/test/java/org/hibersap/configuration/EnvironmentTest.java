@@ -1,6 +1,9 @@
 package org.hibersap.configuration;
 
+import org.hibersap.bapi.BapiTransactionCommit;
+import org.hibersap.session.SapErrorInterceptor;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -29,5 +32,13 @@ public class EnvironmentTest
             if ( "jco.client.client".equals( property.getName() ) )
                 assertEquals( "42", property.getValue() );
         }
+
+        final Set<String> classes = sf.getAnnotatedClasses();
+        assertEquals(1, classes.size());
+        assertTrue(classes.contains(BapiTransactionCommit.class.getName()));
+
+        final Set<String> interceptorClasses = sf.getInterceptorClasses();
+        assertEquals(1, interceptorClasses.size());
+        assertTrue(interceptorClasses.contains(SapErrorInterceptor.class.getName()));
     }
 }

@@ -49,7 +49,7 @@ public class HiberSapJaxbXmlParserTest
         Set<Property> properties = sf1.getProperties();
         assertEquals( 7, properties.size() );
 
-        Set<String> classes = sf1.getClasses();
+        Set<String> classes = sf1.getAnnotatedClasses();
         assertEquals( 2, classes.size() );
 
         assertEquals( 0, sf1.getInterceptorClasses().size() );
@@ -64,7 +64,7 @@ public class HiberSapJaxbXmlParserTest
         properties = sf2.getProperties();
         assertEquals( 7, properties.size() );
 
-        classes = sf2.getClasses();
+        classes = sf2.getAnnotatedClasses();
         assertEquals( 2, classes.size() );
 
         Set<String> interceptors = sf2.getInterceptorClasses();

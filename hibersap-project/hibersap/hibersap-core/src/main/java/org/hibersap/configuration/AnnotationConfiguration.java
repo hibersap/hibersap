@@ -82,11 +82,12 @@ public class AnnotationConfiguration
     public SessionManager buildSessionManager()
     {
         bapiMappingForClass.clear();
-        for ( final String className : getSessionManagerConfig().getClasses() )
+        for ( final String className : getSessionManagerConfig().getAnnotatedClasses() )
         {
             LOG.info( "Mapping class " + className );
             try
             {
+                LOG.info("Mapping BAPI class " + className);
                 Class<?> clazz = Class.forName( className );
                 final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
                 bapiMappingForClass.put( clazz, bapiMapping );
@@ -113,7 +114,7 @@ public class AnnotationConfiguration
 
     private void addAnnotatedClassesFromConfiguration()
     {
-        for ( String className : sessionManagerConfig.getClasses() )
+        for ( String className : sessionManagerConfig.getAnnotatedClasses() )
         {
             addAnnotatedClass( SettingsFactory.getClassForName( className ) );
         }

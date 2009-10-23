@@ -41,7 +41,7 @@ public class SessionManagerConfigTest
         assertEquals( 2, cfg.getProperties().size() );
         assertEquals( "value1", cfg.getProperty( "key1" ) );
         assertEquals( "value2", cfg.getProperty( "key2" ) );
-        Set<String> annotatedClasses = cfg.getClasses();
+        Set<String> annotatedClasses = cfg.getAnnotatedClasses();
         assertEquals( 2, annotatedClasses.size() );
         assertTrue( annotatedClasses.contains( Integer.class.getName() ) );
         assertTrue( annotatedClasses.contains( String.class.getName() ) );

@@ -5,20 +5,66 @@
 \section{Installation}
 
 \begin{itemize}
-  \item Download hibersap-core.jar and hibersap-jco.jar. 
-  \item Download dependent libraries (see \\ \urlHibersapDependencies)
-  \item Download SAP Java Connector 3.0 (\url{http://service.sap.com/connectors}) and extract the sapjco3.jar and the
-  sapjco3 native library. 
-  \item Put all jar files (including hibersap.jar) into your project's classpath (or use Maven to declare the
-  dependencies)
+
+  \item Make sure Maven2 is installed on your computer.
+  
+  \item Download SAP Java Connector 3 (\url{http://service.sap.com/connectors}) and extract the sapjco3.jar and the sapjco3 native library. (In the example, we assume you use version 3.0.1, if not you should use the correct version number.)
+  
+  \item Install sapjco3 jar to your local Maven repository from the commandline: ``mvn install:install -file 
+  		-DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.1 -Dpackaging=jar -Dfile= sapjco3.jar''.
+  
+  \item Create a Maven project with the repositories and dependencies elements like in listing \ref{lst:pom.xml}. 
+  
   \item Put the JCo native library into your library path or into the folder your application will be started
     from (e. g. the root folder of your Eclipse project that contains your main class).
+    
+  \item Put the Java classes that are described in this chapter into the folder \$project\_home/src/ main/java.
+
 \end{itemize} 
 
+\begin{lstlisting}[language=,caption=The Maven pom.xml,escapechar=|,label=lst:pom.xml]
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>|\textit{com.mycomp}|</groupId>
+    <artifactId>|\textit{hibersap-example}|</artifactId>
+    <version>1.0</version>
+    <repositories>
+        <repository>
+            <id>repository.hibersap</id>
+            <name>Hibersap Repository for Maven</name>
+            <url>
+              http://hibersap.svn.sourceforge.net/viewvc/hibersap/m2repo
+            </url>
+        </repository>
+    </repositories>                 
+    <dependencies>
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-core</artifactId>
+            <version>|\HibersapVersion|</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-jco</artifactId>
+            <version>|\HibersapVersion|</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sap</groupId>
+            <artifactId>sap-jco</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+    </dependencies>
+</project>
+\end{lstlisting}
+
+If you don't want to use Maven to build the application, you can look up the dependencies of hibersap-core and hibersap-jco under the following link: \urlHibersapDependencies
 
 \section{The first Hibersap application}
 
-We are going to write a small example application that will call the SAP function BAPI\_\-SFLIGHT\_\-GETLIST.
+We are going to write a small example application that will call the SAP function \linebreak BAPI\_SFLIGHT\_GETLIST.
 This function is part of a demo application in SAP that offers a simplified flight-booking system.
 The code can be found in project {\tt hibersap-examples}. The same rules apply for that project, i.e. the native
 library must be in that project's directory, too.
@@ -80,7 +126,7 @@ interfaces and that is not specific to this BAPI. See table \ref{tab:Bapiret2}.
 The FLIGHTLIST table's lines are of type BAPISFLIST which contains the following fields, as shown in table
 \ref{tab:Bapisflist}.
 
-\begin{table}
+\begin{table}[H]
   \centering
   \begin{tabular}{lll} \toprule
     \textbf{Component name} & \textbf{Type}        & \textbf{Description} \\ \midrule
@@ -375,16 +421,15 @@ field containing the time fraction (i.e. Jan. 1st, 1970 plus time).
 \subsection{Configuration}
 
 To configure Hibersap, we need to specify a minimum set of information for the Hibersap framework,
-plus properties for the Java Connector. To accomplish this, we create an XML file named hibersap.xml in a folder
-named META-INF. Hibersap will look for this file in the classpath under ``/META-INF/hibersap.xml''.
+plus properties for the Java Connector. To accomplish this, we create an XML file named hibersap.xml in \$project\_home/src/main/resources/META-INF. Hibersap will look for this file in the classpath under ``/META-INF/hibersap.xml''.
 
 In the example we use a minimum set of JCo properties to be able to connect to the back-end SAP system.
-All valid JCo properties are specified in the JCo library interface com.\-sap.\-conn.\-jco.\-ext.\-DestinationDataProvider (see
+All valid JCo properties are specified in the JCo library interface com.sap.conn. jco.ext.DestinationDataProvider (see
 javadoc provided with JCo).
 
 \begin{lstlisting}[language=XML,caption=hibersap.xml]
 <?xml version="1.0" encoding="UTF-8"?>
-<hibersap>
+<hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
   <session-manager name="A12">
     <context>org.hibersap.execution.jco.JCoContext</context>
 
@@ -398,7 +443,9 @@ javadoc provided with JCo).
       <property name="jco.destination.pool_capacity" value="1" />
     </properties>
 
-    <class>org.hibersap.examples.flightlist.FlightListBapi</class>
+    <annotatedClasses>
+      <class>org.hibersap.examples.flightlist.FlightListBapi</class>
+    </annotatedClasses>
   </session-manager>
 </hibersap>
 \end{lstlisting}
@@ -494,6 +541,8 @@ private void showResult( FlightListBapi flightList )
 }
 \end{lstlisting}
 
+Finally, create a main method that calls the showFlightList() method. Build the project with maven on the command-line using ``mvn compile'' and run the main class, or run it directly from your IDE.
+
 In the example, we are looking for all flights from Frankfurt to Berlin.
 The result should look like follows, in this example, there were two flights found.
 
@@ -526,4 +575,6 @@ Return
 	Type: E
 	Id: BC_BOR
 \end{lstlisting}
+
+To see further examples, you may check out the complete hibersap project from the subversion source code repository. See the information provided at the Hibersap project site \url{http://hibersap.sourceforge.net}. There you will also find examples of using Hibersap in a Java EE application server with a JCA resource adapter. 
 
