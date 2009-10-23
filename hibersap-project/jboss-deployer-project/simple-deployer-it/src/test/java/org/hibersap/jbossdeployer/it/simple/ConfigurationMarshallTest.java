@@ -47,6 +47,7 @@ public class ConfigurationMarshallTest
         Assert.assertNotNull( sessionManager );
 
         Assert.assertEquals( "A12", sessionManager.getName() );
+        Assert.assertNotNull( sessionManager.getClasses() );
         Assert.assertEquals( 2, sessionManager.getClasses().size() );
     }
 

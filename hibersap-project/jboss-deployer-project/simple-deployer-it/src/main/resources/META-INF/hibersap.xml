@@ -15,9 +15,7 @@
             <property name="jco.destination.pool_capacity" value="1"/>
         </properties>
 
-        <annotatedClasses>
-            <class>org.test.Class1</class>
-            <class>org.test.Class2</class>
-        </annotatedClasses>
+        <class>org.test.Class1</class>
+        <class>org.test.Class2</class>
     </session-manager>
 </hibersap>
