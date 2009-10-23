@@ -17,39 +17,43 @@ About Hibersap
 * Current Features
 
   * Calling remote function modules in SAP systems
-  
-  * Mapping of ABAP function modules and their parameters to Java classes and their fields using Java Annotations.
-  
-  * Using the SAP Java Connector (JCo), version 3, internally.
-  
-  * Hibernate-like API completely hiding the JCo API.
-  
-  * Manual transaction handling.
-  
-  * Custom data type conversion using @Convert annotation and Converter classes.
-  
-  * Intercept execution of function modules using custom Interceptors.
-  
-  * Automatic error propagation using the @ThrowExceptionOnError annotation.
-  
-  * Configuration using XML
 
-  * Using the SAP Java Resource Adapter (JRA) instead of JCo. Switch between these technologies by means of configuration.
-    This makes it possible to run integration tests without a container.
-  
+  * Mapping of ABAP function modules and their parameters to Java classes and their fields using Java Annotations.
+
+  * Hibernate-like API completely hiding the JCo/JCA API.
+
+  * Custom data type conversion using @Convert annotation and Converter classes.
+
+  * Intercept execution of function modules using custom Interceptors.
+
+  * Automatic error propagation using the @ThrowExceptionOnError annotation.
+
+  * Configuration using XML file or programmatic configuration
+
+  * Using the SAP Java Connector (JCo), version 3, internally.
+
+  * Alteratively, using a JCA compliant Resource Adapter in managed environments.
+
+  * Switching between the use of JCo and JCA by means of configuration.
+
+  * Manual transaction handling using JCo.
+
+  * Local Transactions using JCA.
+
+  * Container Managed Transactions (CMT) using JCA.
+
+  * Distributed Transactions with Application Servers that support Last Resource Commit Optimization.
+
+  * Application and container managed security.
+
 * Prospective Features
 
-  * Hook-in for Application Server's transaction manager to use Container Managed Transactions (CMT) for Hibersap calls.
-  
+  * Automated lookup of mapped classes instead of adding them manually to the configuration.
+
+  * JBoss5 deployer for annotated Hibersap classes.
+
   * Hibernate-like current session context strategy.
-  
-  * Automated lookup of mapped classes instead of adding them manually
-  
-  * JBoss deployer for annotated Hibersap classes.
-  
+
   * Integration of the Hibernate Validation Framework to validate mapped fields.
   
   * Using JCo 3 stateless calls.
-    
-  
-  
