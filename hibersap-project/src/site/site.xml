@@ -1,17 +1,17 @@
 <project name="Hibersap">
 	<bannerLeft>
 		<name>Hibersap</name>
-		<src>images/HibersapLogoSmall.png</src>
+		<src>http://hibersap.sourceforge.net/images/HibersapLogoSmall.png</src>
 		<href>http://hibersap.sourceforge.net/</href>
 	</bannerLeft>
 	<bannerRight>
 		<name>akquinet</name>
-		<src>images/akquinet-logo.jpg</src>
+		<src>http://hibersap.sourceforge.net/images/akquinet-logo.jpg</src>
 		<href>http://www.akquinet.de/</href>
 	</bannerRight>
 	<poweredBy>
 		<logo name="Sourceforge" href="http://sourceforge.net/"
-			img="images/sourceforge-logo.png" />
+			img="http://hibersap.sourceforge.net/images/sourceforge-logo.png" />
 		<logo name="Maven" href="http://maven.apache.org/"
 			img="http://maven.apache.org/images/logos/maven-feather.png" />
 	</poweredBy>
