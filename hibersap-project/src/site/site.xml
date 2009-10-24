@@ -15,6 +15,7 @@
 		<logo name="Maven" href="http://maven.apache.org/"
 			img="http://maven.apache.org/images/logos/maven-feather.png" />
 	</poweredBy>
+    <version position="right"/>
 	<body>
 		<links>
 			<item name="Project page"
