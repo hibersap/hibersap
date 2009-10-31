@@ -1,439 +1,467 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.hibersap</groupId>
-	<artifactId>hibersap-project</artifactId>
-	<packaging>pom</packaging>
-	<version>1.1-SNAPSHOT</version>
-	<name>hibersap-project</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-project</artifactId>
+    <packaging>pom</packaging>
+    <version>1.1-SNAPSHOT</version>
+    <name>hibersap-project</name>
 
-	<description>
-		Hibersap is a small framework that offers an abstraction
-		layer
-		on top of the SAP Java Connector (JCo). It maps Java classes to
-		SAP function modules using Java Annotations and reduces the
-		technical
-		code to call a function in a SAP back-end system to a
-		minimum.
-		Hibersap's API is very similar to Hibernate, thus
-		offering a familiar
-		programming interface to developers.
-	</description>
+    <description>
+        Hibersap is a small framework that offers an abstraction
+        layer
+        on top of the SAP Java Connector (JCo). It maps Java classes to
+        SAP function modules using Java Annotations and reduces the
+        technical
+        code to call a function in a SAP back-end system to a
+        minimum.
+        Hibersap's API is very similar to Hibernate, thus
+        offering a familiar
+        programming interface to developers.
+    </description>
 
-	<url>http://hibersap.sourceforge.net</url>
+    <url>http://hibersap.sourceforge.net</url>
 
-	<distributionManagement>
-		<site>
-			<id>site.spree.de</id>
-			<name>Hibersap Site</name>
-			<url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
-		</site>
+    <distributionManagement>
+        <site>
+              <id>site.spree.de</id>
+              <name>Hibersap Snapshot Site</name>
+              <url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
+          </site>
+
+        <!--site>
+            <id>hibersap.sf.net</id>
+            <name>Hibersap Release Site</name>
+            <url>scp://shell.sourceforge.net/home/groups/h/hi/hibersap/htdocs</url>
+        </site-->
 
         <repository>
-          <id>central</id>
-          <name>ATS Maven Repository</name>
-          <url>https://www.spree.de/maven-repository/libs-releases-local</url>
-          <uniqueVersion>false</uniqueVersion>
-         </repository>
+            <id>central</id>
+            <name>ATS Maven Repository</name>
+            <url>https://www.spree.de/maven-repository/libs-releases-local</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
 
-         <snapshotRepository>
-           <id>snapshots</id>
-           <name>ATS Snapshot Repository</name>
-           <url>dav:https://www.spree.de/maven-repository/libs-snapshots-local</url>
-           <uniqueVersion>false</uniqueVersion>
-         </snapshotRepository>
-	</distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>ATS Snapshot Repository</name>
+            <url>dav:https://www.spree.de/maven-repository/libs-snapshots-local</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<licenses>
-		<license>
-			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt
-			</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt
+            </url>
+        </license>
+    </licenses>
 
-	<issueManagement>
-		<system>Sourceforge Tracker</system>
-		<url>https://sourceforge.net/tracker/?group_id=225273
-		</url>
-	</issueManagement>
+    <issueManagement>
+        <system>Sourceforge Tracker</system>
+        <url>https://sourceforge.net/tracker/?group_id=225273
+        </url>
+    </issueManagement>
 
-	<scm>
-		<connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project</connection>
-		<developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project</developerConnection>
-		<url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/trunk/hibersap-project</url>
-	</scm>
+    <scm>
+        <connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project</connection>
+        <developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project
+        </developerConnection>
+        <url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/trunk/hibersap-project</url>
+    </scm>
 
-	<organization>
-		<name>Akquinet Tech@Spree GmbH</name>
-		<url>http://www.akquinet.de</url>
-	</organization>
+    <organization>
+        <name>Akquinet Tech@Spree GmbH</name>
+        <url>http://www.akquinet.de</url>
+    </organization>
 
-	<developers>
-		<developer>
-			<id>cerker</id>
-			<name>Carsten Erker</name>
-			<email>carsten.erker at akquinet dot de</email>
-			<organization>akquinet tech@spree GmbH</organization>
-			<organizationUrl>http://www.akquinet.de</organizationUrl>
-			<roles>
-				<role>Project Creator</role>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>tfink</id>
-			<name>Torsten Fink</name>
-			<email>torsten.fink at akquinet dot de</email>
-			<organization>akquinet tech@spree GmbH</organization>
-			<organizationUrl>http://www.akquinet.de</organizationUrl>
-			<roles>
-				<role>Architect</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>dahm</id>
-			<name>Markus Dahm</name>
-			<email>markus.dahm at akquinet dot de</email>
-			<organization>akquinet tech@spree GmbH</organization>
-			<organizationUrl>http://www.akquinet.de</organizationUrl>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>abendt</id>
-			<name>Alphonse Bendt</name>
-			<email>alphonse.bendt at akquinet dot de</email>
-			<organization>akquinet tech@spree GmbH</organization>
-			<organizationUrl>http://www.akquinet.de</organizationUrl>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>cerker</id>
+            <name>Carsten Erker</name>
+            <email>carsten.erker at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Project Creator</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>tfink</id>
+            <name>Torsten Fink</name>
+            <email>torsten.fink at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Architect</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>dahm</id>
+            <name>Markus Dahm</name>
+            <email>markus.dahm at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>abendt</id>
+            <name>Alphonse Bendt</name>
+            <email>alphonse.bendt at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
 
-	<ciManagement> 
-		<system>hudson</system>
-		<url>https://jbosscc.spree.de:8443/hudson/view/HiberSap
-		</url>
-	</ciManagement>
+    <ciManagement>
+        <system>hudson</system>
+        <url>https://jbosscc.spree.de:8443/hudson/view/HiberSap
+        </url>
+    </ciManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin
-				</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin
+                </artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.0-alpha-4</version>
-				<executions>
-					<execution>
-						<id>enforce-property</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireProperty>
-									<property>sap.jco.lib.path</property>
-									<message><![CDATA[
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.0-alpha-4</version>
+                <executions>
+                    <execution>
+                        <id>enforce-property</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireProperty>
+                                    <property>sap.jco.lib.path</property>
+                                    <message><![CDATA[
 The path to the native dynamic JCo library must be specified to
 execute the tests. You could define it in your settings.xml.
 A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
 The name of the property is: sap.jco.lib.path
 ]]>
-									</message>
-								</requireProperty>
-							</rules>
-							<fail>true</fail>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                                    </message>
+                                </requireProperty>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<groupId>bakersoftware</groupId>
-				<artifactId>maven-replacer-plugin</artifactId>
-				<version>0.0.9</version>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<phase>pre-site</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-						<configuration>
-							<file>src/site/tex/version.tex</file>
-							<token>.+</token>
-							<value>${project.version}</value>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>bakersoftware</groupId>
+                <artifactId>maven-replacer-plugin</artifactId>
+                <version>0.0.9</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                            <file>src/site/tex/version.tex</file>
+                            <token>.+</token>
+                            <value>${project.version}</value>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<groupId>de.akquinet.maven</groupId>
-				<artifactId>maven-latex-plugin</artifactId>
-				<version>1.0</version>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<configuration>
-							<settings>
-								<outputDirectory>reference</outputDirectory>
-							</settings>
-						</configuration>
-						<phase>site</phase>
-						<goals>
-							<goal>latex</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>HTML multipage</id>
-						<configuration>
-							<settings>
-								<outputDirectory>reference/html_multipage</outputDirectory>
-								<tex4htCommandArgs>
-									<tex4htCommandArg>tex4ht,2</tex4htCommandArg>
-									<tex4htCommandArg />
-									<tex4htCommandArg />
-									<tex4htCommandArg>-interaction=nonstopmode
-										--src-specials</tex4htCommandArg>
-								</tex4htCommandArgs>
-							</settings>
-						</configuration>
-						<phase>site</phase>
-						<goals>
-							<goal>tex4ht</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>HTML singlepage</id>
-						<configuration>
-							<settings>
-								<outputDirectory>reference/html_singlepage</outputDirectory>
-								<tex4htCommandArgs>
-									<tex4htCommandArg>tex4ht,1</tex4htCommandArg>
-									<tex4htCommandArg />
-									<tex4htCommandArg />
-									<tex4htCommandArg>-interaction=nonstopmode
-										--src-specials</tex4htCommandArg>
-								</tex4htCommandArgs>
-							</settings>
-						</configuration>
-						<phase>site</phase>
-						<goals>
-							<goal>tex4ht</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>de.akquinet.maven</groupId>
+                <artifactId>maven-latex-plugin</artifactId>
+                <version>1.0</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <settings>
+                                <outputDirectory>reference</outputDirectory>
+                            </settings>
+                        </configuration>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>latex</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>HTML multipage</id>
+                        <configuration>
+                            <settings>
+                                <outputDirectory>reference/html_multipage</outputDirectory>
+                                <tex4htCommandArgs>
+                                    <tex4htCommandArg>tex4ht,2</tex4htCommandArg>
+                                    <tex4htCommandArg/>
+                                    <tex4htCommandArg/>
+                                    <tex4htCommandArg>-interaction=nonstopmode
+                                        --src-specials
+                                    </tex4htCommandArg>
+                                </tex4htCommandArgs>
+                            </settings>
+                        </configuration>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>tex4ht</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>HTML singlepage</id>
+                        <configuration>
+                            <settings>
+                                <outputDirectory>reference/html_singlepage</outputDirectory>
+                                <tex4htCommandArgs>
+                                    <tex4htCommandArg>tex4ht,1</tex4htCommandArg>
+                                    <tex4htCommandArg/>
+                                    <tex4htCommandArg/>
+                                    <tex4htCommandArg>-interaction=nonstopmode
+                                        --src-specials
+                                    </tex4htCommandArg>
+                                </tex4htCommandArgs>
+                            </settings>
+                        </configuration>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>tex4ht</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>1.5</source>
-						<target>1.5</target>
-					</configuration>
-				</plugin>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
 
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>cobertura-maven-plugin</artifactId>
-					<version>RELEASE</version>
-				</plugin>
-			</plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>RELEASE</version>
+                </plugin>
+            </plugins>
 
-		</pluginManagement>
-	</build>
+        </pluginManagement>
+    </build>
 
-	<properties>
-		<hibersap.version>${project.version}</hibersap.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+    <properties>
+        <hibersap.version>${project.version}</hibersap.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
-	<modules>
-		<module>hibersap</module>
-		<module>examples</module>
-		<module>jboss-deployer-project</module>
-		<module>hibersap-jboss4-deployer</module>
-	</modules>
+    <modules>
+        <module>hibersap</module>
+        <module>examples</module>
+        <module>jboss-deployer-project</module>
+        <module>hibersap-jboss4-deployer</module>
+    </modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.5</version>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>sun-jaxb</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.1.9</version>
-				<scope>provided</scope>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>sun-jaxb</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.1.9</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>sun-jaxb</groupId>
-				<artifactId>jaxb-impl</artifactId>
-				<version>2.1.9</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>sun-jaxb</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>2.1.9</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>stax</groupId>
-				<artifactId>stax-api</artifactId>
-				<version>1.0.1</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>stax</groupId>
+                <artifactId>stax-api</artifactId>
+                <version>1.0.1</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>javax.activation</groupId>
-				<artifactId>activation</artifactId>
-				<version>1.1</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>1.1</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.5</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.5</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.1</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.1</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss</groupId>
-				<artifactId>jboss-common-core</artifactId>
-				<version>2.2.8.GA</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-common-core</artifactId>
+                <version>2.2.8.GA</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.jbossas</groupId>
-				<artifactId>jboss-as-system-jmx</artifactId>
-				<version>5.0.0.CR2</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.jbossas</groupId>
+                <artifactId>jboss-as-system-jmx</artifactId>
+                <version>5.0.0.CR2</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jboss.jbossas</groupId>
-				<artifactId>jboss-as-j2se</artifactId>
-				<version>5.0.0.CR2</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.jbossas</groupId>
+                <artifactId>jboss-as-j2se</artifactId>
+                <version>5.0.0.CR2</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
-			</dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.sap</groupId>
-				<artifactId>sap-jco</artifactId>
-				<version>3.0.1</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>com.sap</groupId>
+                <artifactId>sap-jco</artifactId>
+                <version>[3.0,4.0)</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.3</version>
-			</dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.3</version>
+            </dependency>
 
-			<dependency>
-				<groupId>dom4j</groupId>
-				<artifactId>dom4j</artifactId>
-				<version>1.6.1</version>
-			</dependency>
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+            </dependency>
 
-			<dependency>
-				<groupId>net.sf.sapbapijca</groupId>
-				<artifactId>sap-bapi-jca</artifactId>
-				<version>1.0.0</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>net.sf.sapbapijca</groupId>
+                <artifactId>sap-bapi-jca</artifactId>
+                <version>1.0.0</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>javax.resource</groupId>
-				<artifactId>connector</artifactId>
-				<version>1.0</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>javax.resource</groupId>
+                <artifactId>connector</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.hibersap</groupId>
-				<artifactId>hibersap-core</artifactId>
-				<version>1.1-SNAPSHOT</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.hibersap</groupId>
+                <artifactId>hibersap-core</artifactId>
+                <version>1.1-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.4.3</version>
-			</plugin>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.4.3</version>
+            </plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin
-				</artifactId>
-				<version>RELEASE</version>
-			</plugin>
-		</plugins>
-	</reporting>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin
+                </artifactId>
+                <version>RELEASE</version>
+            </plugin>
 
-	<repositories>
-		<repository>
-			<id>repository.jboss.com</id>
-			<name>Jboss Repository for Maven</name>
-			<url>http://repository.jboss.com/maven2/
-			</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>repository.jboss.com</id>
-			<name>Jboss Repository for Maven</name>
-			<url>http://repository.jboss.com/maven2/
-			</url>
-		</pluginRepository>
-	</pluginRepositories>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.5</version>
+                <reportSets>
+                    <reportSet>
+                        <id>html</id>
+                        <configuration>
+                            <doctitle>Javadoc for Hibersap ${project.version}</doctitle>
+                            <windowtitle>Javadoc for Hibersap ${project.version}</windowtitle>
+                        </configuration>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <repositories>
+        <repository>
+            <id>repository.jboss.com</id>
+            <name>Jboss Repository for Maven</name>
+            <url>http://repository.jboss.com/maven2/
+            </url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.jboss.com</id>
+            <name>Jboss Repository for Maven</name>
+            <url>http://repository.jboss.com/maven2/
+            </url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
