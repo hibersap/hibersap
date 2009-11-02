@@ -98,8 +98,8 @@ public abstract class AbstractConnectionSpecFactory
         }
         catch (IllegalArgumentException e)
         {
-            final String msg = "No such constructor: ";
-            throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
+            throw new InternalHiberSapException("No such constructor: "
+                    + getSignature(connectionSpecClass, constructorArguments), e);
         }
         catch (InstantiationException e)
         {
