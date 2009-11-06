@@ -43,9 +43,9 @@ mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.0 
 
 * Code formatting
 
-The Hibersap code formatting is defined in Eclipse format in
-hibersap-project/src/site/resources/eclipse/hibersap-formatter.xml.
+  * The Hibersap code formatting is defined in Eclipse format in
+    hibersap-project/src/site/resources/eclipse/hibersap-formatter.xml.
 
-If you are working with IntelliJ IDEA, install the External Formatter plugin and configure it to use the
-hibersap-project/.settings/org.eclipse.jdt.core.prefs file. The plugin can be downloaded here:
-http://plugins.intellij.net/plugin/?&id=1605
+  * If you are working with IntelliJ IDEA, install the External Formatter plugin and configure it to use the
+    hibersap-project/.settings/org.eclipse.jdt.core.prefs file. The plugin can be downloaded here:
+    http://plugins.intellij.net/plugin/?&id=1605
