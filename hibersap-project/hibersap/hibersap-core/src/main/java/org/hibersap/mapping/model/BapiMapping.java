@@ -17,14 +17,17 @@ package org.hibersap.mapping.model;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.apache.commons.lang.StringUtils;
+import org.hibersap.MappingException;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibersap.MappingException;
-
 /**
+ * This class is the framework internal representation of mappings between SAP function modules (BAPIs)
+ * and Java classes.
+ * 
  * @author Carsten Erker
  */
 public class BapiMapping
@@ -40,7 +43,7 @@ public class BapiMapping
 
         public ErrorHandling( String pathToReturnStructure, String[] errorMessageTypes )
         {
-            this.errorMessageTypes = errorMessageTypes;
+            this.errorMessageTypes = errorMessageTypes.clone();
             throwExceptionOnError = StringUtils.isNotEmpty( pathToReturnStructure );
             this.pathToReturnStructure = pathToReturnStructure;
         }
