@@ -22,7 +22,7 @@ package org.hibersap.bapi;
  * 
  * @author Markus Dahm
  */
-class BapiConstants
+public class BapiConstants
 {
     public static final String RETURN = "RETURN";
 
