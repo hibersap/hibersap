@@ -22,49 +22,49 @@ package org.hibersap.bapi;
  * 
  * @author Markus Dahm
  */
-public interface BapiConstants
+class BapiConstants
 {
-    String RETURN = "RETURN";
+    public static final String RETURN = "RETURN";
 
-    String TYPE = "TYPE";
+    public static final String TYPE = "TYPE";
 
-    String ID = "ID";
+    public static final String ID = "ID";
 
-    String NUMBER = "NUMBER";
+    public static final String NUMBER = "NUMBER";
 
-    String MESSAGE = "MESSAGE";
+    public static final String MESSAGE = "MESSAGE";
 
-    String LOG_NO = "LOG_NO";
+    public static final String LOG_NO = "LOG_NO";
 
-    String LOG_MSG_NO = "LOG_MSG_NO";
+    public static final String LOG_MSG_NO = "LOG_MSG_NO";
 
-    String MESSAGE_V1 = "MESSAGE_V1";
+    public static final String MESSAGE_V1 = "MESSAGE_V1";
 
-    String MESSAGE_V2 = "MESSAGE_V2";
+    public static final String MESSAGE_V2 = "MESSAGE_V2";
 
-    String MESSAGE_V3 = "MESSAGE_V3";
+    public static final String MESSAGE_V3 = "MESSAGE_V3";
 
-    String MESSAGE_V4 = "MESSAGE_V4";
+    public static final String MESSAGE_V4 = "MESSAGE_V4";
 
-    String PARAMETER = "PARAMETER";
+    public static final String PARAMETER = "PARAMETER";
 
-    String ROW = "ROW";
+    public static final String ROW = "ROW";
 
-    String FIELD = "FIELD";
+    public static final String FIELD = "FIELD";
 
-    String SYSTEM = "SYSTEM";
+    public static final String SYSTEM = "SYSTEM";
 
-    String BAPI_TRANSACTION_COMMIT = "BAPI_TRANSACTION_COMMIT";
+    public static final String BAPI_TRANSACTION_COMMIT = "BAPI_TRANSACTION_COMMIT";
 
-    String BAPI_TRANSACTION_ROLLBACK = "BAPI_TRANSACTION_ROLLBACK";
+    public static final String BAPI_TRANSACTION_ROLLBACK = "BAPI_TRANSACTION_ROLLBACK";
 
-    String EXPORT_RETURN = "EXPORT/RETURN";
+    public static final String EXPORT_RETURN = "EXPORT/RETURN";
 
-    String WAIT = "WAIT";
+    public static final String WAIT = "WAIT";
 
-    String IMPORT = "IMPORT";
+    public static final String IMPORT = "IMPORT";
 
-    String EXPORT = "EXPORT";
+    public static final String EXPORT = "EXPORT";
 
-    String TABLE = "TABLE";
+    public static final String TABLE = "TABLE";
 }
