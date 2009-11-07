@@ -29,11 +29,11 @@ public abstract class ParameterMapping
         FIELD, STRUCTURE, TABLE
     };
 
-    protected final Class<?> associatedType;
+    private final Class<?> associatedType;
 
-    protected final String sapName;
+    private final String sapName;
 
-    protected final String javaName;
+    private final String javaName;
 
     public ParameterMapping( Class<?> associatedType, String sapName, String javaName )
     {

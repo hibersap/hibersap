@@ -17,14 +17,6 @@ package org.hibersap.execution.jca;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.Map;
-
-import javax.resource.ResourceException;
-import javax.resource.cci.ConnectionFactory;
-import javax.resource.cci.MappedRecord;
-import javax.resource.cci.Record;
-import javax.resource.cci.RecordFactory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -34,6 +26,13 @@ import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
+import javax.resource.ResourceException;
+import javax.resource.cci.ConnectionFactory;
+import javax.resource.cci.MappedRecord;
+import javax.resource.cci.Record;
+import javax.resource.cci.RecordFactory;
+import java.util.Map;
+
 /**
  * Implementation for JCA, i.e. it uses a deployed resource adapter to connect to SAP.
  * 
@@ -42,7 +41,7 @@ import org.hibersap.session.Transaction;
 public class JCAConnection
     implements Connection
 {
-    private static Log LOG = LogFactory.getLog( JCAConnection.class );
+    private static final Log LOG = LogFactory.getLog( JCAConnection.class );
 
     private RecordFactory recordFactory;
 

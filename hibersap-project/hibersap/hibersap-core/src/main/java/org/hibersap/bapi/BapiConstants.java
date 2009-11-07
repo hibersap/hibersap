@@ -24,6 +24,11 @@ package org.hibersap.bapi;
  */
 public class BapiConstants
 {
+    private BapiConstants()
+    {
+        // Utility class that should not be instantiated.
+    }
+
     public static final String RETURN = "RETURN";
 
     public static final String TYPE = "TYPE";

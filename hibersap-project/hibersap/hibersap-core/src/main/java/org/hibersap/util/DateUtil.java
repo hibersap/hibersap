@@ -28,7 +28,7 @@ import org.apache.commons.lang.time.DateUtils;
 /**
  * @author Carsten Erker
  */
-public class DateUtil
+public final class DateUtil
 {
     public static Date joinDateAndTime( Date date, Date time )
     {

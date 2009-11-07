@@ -17,12 +17,13 @@ package org.hibersap.execution.jco;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.sap.conn.jco.ext.DestinationDataEventListener;
+import com.sap.conn.jco.ext.DestinationDataProvider;
+import org.hibersap.HibersapException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import com.sap.conn.jco.ext.DestinationDataEventListener;
-import com.sap.conn.jco.ext.DestinationDataProvider;
 
 /**
  * The Hibersap implementation of the JCo DestinationDataProvider. JCo destinations can be added and
@@ -33,7 +34,7 @@ import com.sap.conn.jco.ext.DestinationDataProvider;
 public class JCoDataProvider
     implements DestinationDataProvider
 {
-    Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
+    private Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
 
     private DestinationDataEventListener eventListener;
 
@@ -65,7 +66,7 @@ public class JCoDataProvider
         }
         else
         {
-            throw new RuntimeException( "No JCo destination with name " + destinationName + " found" );
+            throw new HibersapException( "No JCo destination with name " + destinationName + " found" );
         }
     }
 

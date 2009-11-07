@@ -1,7 +1,5 @@
 package org.hibersap.jbossdeployer;
 
-import java.lang.annotation.Annotation;
-
 import org.hibersap.jbossdeployer.metadata.HiberSapMetaData;
 import org.hibersap.jbossdeployer.metadata.SessionManagerMetaData;
 import org.hibersap.jmx.HiberSap;
@@ -15,6 +13,8 @@ import org.jboss.deployers.vfs.spi.structure.VFSDeploymentUnit;
 import org.jboss.logging.Logger;
 import org.jboss.util.id.GUID;
 import org.jboss.virtual.VirtualFile;
+
+import java.lang.annotation.Annotation;
 
 public class HiberSapRealDeployer
     extends AbstractSimpleRealDeployer<HiberSapMetaData>
@@ -35,7 +35,7 @@ public class HiberSapRealDeployer
     public void deploy( final DeploymentUnit unit, final HiberSapMetaData metaData )
     {
         LOG.trace( "deploy(" + unit + " , " + metaData + ")" );
-        if ( ( unit instanceof VFSDeploymentUnit ) == false )
+        if ( !( unit instanceof VFSDeploymentUnit ) )
         {
             LOG.error( "I can only deploy VFSDeploymentUnits. I abort deployment." );
             return;
@@ -68,29 +68,7 @@ public class HiberSapRealDeployer
         final BeanMetaDataBuilder builder = BeanMetaDataBuilder.createBuilder( ( GUID.asString() + "$HiberSap" ),
                                                                                HiberSap.class.getName() );
 
-        final JMX jmxAnnotation = new JMX()
-        {
-            public Class<? extends Annotation> annotationType()
-            {
-                return JMX.class;
-            }
-
-            public Class<?> exposedInterface()
-            {
-                return HiberSapMBean.class;
-            }
-
-            public String name()
-            {
-                // TODO: create a unique name
-                return "hibersap:name=myHiberSapChangeMePLEASE";
-            }
-
-            public boolean registerDirectly()
-            {
-                return true;
-            }
-        };
+        final JMX jmxAnnotation = new JMXAnnotation();
         builder.addAnnotation( jmxAnnotation );
 
         if ( root != null )
@@ -102,8 +80,7 @@ public class HiberSapRealDeployer
         final BeanMetaData result = builder.getBeanMetaData();
         LOG.trace( "created builder " + result );
 
-        final BeanMetaData beanMetaData = result;
-        return beanMetaData;
+        return result;
     }
 
     /**
@@ -114,5 +91,30 @@ public class HiberSapRealDeployer
     public void setScanFromTop( final boolean scanFromTop )
     {
         this.scanFromTop = scanFromTop;
+    }
+
+    private static class JMXAnnotation
+        implements JMX
+    {
+        public Class<? extends Annotation> annotationType()
+        {
+            return JMX.class;
+        }
+
+        public Class<?> exposedInterface()
+        {
+            return HiberSapMBean.class;
+        }
+
+        public String name()
+        {
+            // TODO: create a unique name
+            return "hibersap:name=myHiberSapChangeMePLEASE";
+        }
+
+        public boolean registerDirectly()
+        {
+            return true;
+        }
     }
 }

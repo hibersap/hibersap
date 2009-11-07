@@ -1,12 +1,5 @@
 package org.hibersap.jboss4.deployer;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.management.ObjectName;
-
 import org.apache.log4j.Logger;
 import org.hibersap.configuration.xml.HibersapConfig;
 import org.hibersap.configuration.xml.HibersapJaxbXmlParser;
@@ -19,187 +12,240 @@ import org.jboss.mx.util.MBeanProxyExt;
 import org.jboss.mx.util.ObjectNameConverter;
 import org.jboss.system.ServiceControllerMBean;
 
-public class HibersapDeployer extends SubDeployerSupport implements
-		SubDeployer, HibersapDeployerMBean {
+import javax.management.ObjectName;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(HibersapDeployer.class);
+public class HibersapDeployer
+    extends SubDeployerSupport
+    implements SubDeployer, HibersapDeployerMBean
+{
 
-	private ServiceControllerMBean serviceController;
+    private static final Logger LOGGER = Logger.getLogger( HibersapDeployer.class );
 
-	private SubDeployer thisProxy;
+    private ServiceControllerMBean serviceController;
 
-	public HibersapDeployer() {
-		setSuffixes(new String[] { ".sap", ".jar" });
+    private SubDeployer thisProxy;
 
-		// before the jar deployer!
-		setRelativeOrder(350);
-	}
+    public HibersapDeployer()
+    {
+        setSuffixes( new String[] { ".sap", ".jar" } );
 
-	@Override
-	protected void startService() throws Exception {
-		serviceController = (ServiceControllerMBean) MBeanProxyExt.create(
-				ServiceControllerMBean.class,
-				ServiceControllerMBean.OBJECT_NAME, server);
-		thisProxy = (SubDeployer) MBeanProxyExt.create(SubDeployer.class, super
-				.getServiceName(), super.getServer());
-		mainDeployer.addDeployer(thisProxy);
-	}
+        // before the jar deployer!
+        setRelativeOrder( 350 );
+    }
 
-	@Override
-	protected void stopService() throws Exception {
-		mainDeployer.removeDeployer(thisProxy);
-		serviceController = null;
-		thisProxy = null;
-	}
+    @Override
+    protected void startService()
+        throws Exception
+    {
+        serviceController = (ServiceControllerMBean) MBeanProxyExt.create( ServiceControllerMBean.class,
+                                                                           ServiceControllerMBean.OBJECT_NAME, server );
+        thisProxy = (SubDeployer) MBeanProxyExt.create( SubDeployer.class, super.getServiceName(), super.getServer() );
+        mainDeployer.addDeployer( thisProxy );
+    }
 
-	/**
-	 * copied from EJB3Deployer
-	 */
-	public static boolean hasFile(DeploymentInfo di, String filePath) {
-		String urlStr = di.url.getFile();
-		try {
-			URL dd = di.localCl.findResource(filePath);
-			if (dd != null) {
+    @Override
+    protected void stopService()
+        throws Exception
+    {
+        mainDeployer.removeDeployer( thisProxy );
+        serviceController = null;
+        thisProxy = null;
+    }
 
-				// If the DD url is not a subset of the urlStr then this is
-				// coming
-				// from a jar referenced by the deployment jar manifest and the
-				// this deployment jar it should not be treated as persistence
-				if (di.localUrl != null) {
-					urlStr = di.localUrl.toString();
-				}
+    /**
+     * copied from EJB3Deployer
+     */
+    public static boolean hasFile( DeploymentInfo di, String filePath )
+    {
+        String urlStr = di.url.getFile();
+        try
+        {
+            URL dd = di.localCl.findResource( filePath );
+            if ( dd != null )
+            {
 
-				String ddStr = dd.toString();
-				if (ddStr.indexOf(urlStr) >= 0) {
-					return true;
-				}
-			}
-		} catch (Exception ignore) {
-		}
-		return false;
-	}
+                // If the DD url is not a subset of the urlStr then this is
+                // coming
+                // from a jar referenced by the deployment jar manifest and the
+                // this deployment jar it should not be treated as persistence
+                if ( di.localUrl != null )
+                {
+                    urlStr = di.localUrl.toString();
+                }
 
-	@Override
-	public boolean accepts(DeploymentInfo di) {
+                String ddStr = dd.toString();
+                if ( ddStr.indexOf( urlStr ) >= 0 )
+                {
+                    return true;
+                }
+            }
+        }
+        catch ( Exception ignore )
+        {
+        }
+        return false;
+    }
 
-		System.out.println("accept " + di);
+    @Override
+    public boolean accepts( DeploymentInfo di )
+    {
 
-		String url = di.url.getFile();
+        LOGGER.trace( "accept " + di );
 
-		System.out.println("accept url " + url);
+        String url = di.url.getFile();
 
-		boolean hasFile = hasFile(di, "META-INF/hibersap.xml");
+        LOGGER.trace( "accept url " + url );
 
-		System.out.println("accept hasFile " + hasFile);
+        boolean hasFile = hasFile( di, "META-INF/hibersap.xml" );
 
-		LOGGER.debug("Deployer accepting file " + url + " => " + hasFile);
-		return hasFile;
-	}
+        LOGGER.trace( "accept hasFile " + hasFile );
 
-	@Override
-	public void init(DeploymentInfo di) throws DeploymentException {
+        LOGGER.debug( "Deployer accepting file " + url + " => " + hasFile );
+        return hasFile;
+    }
 
-		System.out.println("init " + di);
+    @Override
+    public void init( DeploymentInfo di )
+        throws DeploymentException
+    {
 
-		try {
-			if (di.url.getProtocol().equalsIgnoreCase("file")) {
-				File file = new File(di.url.getFile());
+        LOGGER.trace( "init " + di );
 
-				if (!file.isDirectory()) {
-					// If not directory we watch the package
-					di.watch = di.url;
-				} else {
-					// If directory we watch the xml files
-					di.watch = new URL(di.url, "META-INF/hibersap.xml");
-				}
-			} else {
-				// We watch the top only, no directory support
-				di.watch = di.url;
-			}
-		} catch (Exception e) {
-			if (e instanceof DeploymentException) {
-				throw (DeploymentException) e;
-			}
-			throw new DeploymentException("failed to initialize", e);
-		}
+        try
+        {
+            if ( di.url.getProtocol().equalsIgnoreCase( "file" ) )
+            {
+                File file = new File( di.url.getFile() );
 
-		System.out.println("init " + di);
+                if ( !file.isDirectory() )
+                {
+                    // If not directory we watch the package
+                    di.watch = di.url;
+                }
+                else
+                {
+                    // If directory we watch the xml files
+                    di.watch = new URL( di.url, "META-INF/hibersap.xml" );
+                }
+            }
+            else
+            {
+                // We watch the top only, no directory support
+                di.watch = di.url;
+            }
+        }
+        catch ( Exception e )
+        {
+            if ( e instanceof DeploymentException )
+            {
+                throw (DeploymentException) e;
+            }
+            throw new DeploymentException( "failed to initialize", e );
+        }
 
-		// invoke super-class initialization
-		super.init(di);
-	}
+        LOGGER.trace( "init " + di );
 
-	@Override
-	public void create(DeploymentInfo di) throws DeploymentException {
+        // invoke super-class initialization
+        super.init( di );
+    }
 
-		System.out.println("start " + di);
+    @Override
+    public void create( DeploymentInfo di )
+        throws DeploymentException
+    {
 
-		URL url = (di.localUrl != null ? di.localUrl : di.url);
+        LOGGER.trace( "start " + di );
 
-		URL dd = di.localCl.findResource("META-INF/hibersap.xml");
+        URL url = ( di.localUrl != null ? di.localUrl : di.url );
 
-		System.out.println("init: " + url);
+        URL dd = di.localCl.findResource( "META-INF/hibersap.xml" );
 
-		try {
-			InputStream in = dd.openStream();
-			try {
-				HibersapConfig config = new HibersapJaxbXmlParser()
-						.parseResource(in, dd.toString());
-				LOGGER.info("deploy " + url + " " + config);
+        LOGGER.trace( "init: " + url );
 
-				HibersapService hibersapService = new HibersapService(config, di.localCl);
+        try
+        {
+            InputStream in = dd.openStream();
+            try
+            {
+                HibersapConfig config = new HibersapJaxbXmlParser().parseResource( in, dd.toString() );
+                LOGGER.info( "deploy " + url + " " + config );
 
-				String name = "org.hibersap:service=HibersapService,module="
-						+ di.shortName;
-				ObjectName jmxName = ObjectNameConverter.convert(name);
-				di.getServer().registerMBean(hibersapService, jmxName);
-				di.deployedObject = jmxName;
-				serviceController.create(di.deployedObject);
-			} catch (Exception e) {
-				throw new DeploymentException(e);
+                HibersapService hibersapService = new HibersapService( config, di.localCl );
 
-			} finally {
-				in.close();
-			}
-		} catch (IOException e1) {
-			throw new DeploymentException(e1);
-		}
+                String name = "org.hibersap:service=HibersapService,module=" + di.shortName;
+                ObjectName jmxName = ObjectNameConverter.convert( name );
+                di.getServer().registerMBean( hibersapService, jmxName );
+                di.deployedObject = jmxName;
+                serviceController.create( di.deployedObject );
+            }
+            catch ( Exception e )
+            {
+                throw new DeploymentException( e );
 
-		super.create(di);
-	}
-	
-	@Override
-	public void start(DeploymentInfo di) throws DeploymentException {
-		try {
-			serviceController.start(di.deployedObject);
-		} catch (Exception e) {
-			throw new DeploymentException(e);
-		}
-		
-		super.stop(di);
-	}
+            }
+            finally
+            {
+                in.close();
+            }
+        }
+        catch ( IOException e1 )
+        {
+            throw new DeploymentException( e1 );
+        }
 
-	@Override
-	public void stop(DeploymentInfo di) throws DeploymentException {
-		try {
-			serviceController.stop(di.deployedObject);
-		} catch (Exception e) {
-			throw new DeploymentException(e);
-		}
+        super.create( di );
+    }
 
-		super.stop(di);
-	}
+    @Override
+    public void start( DeploymentInfo di )
+        throws DeploymentException
+    {
+        try
+        {
+            serviceController.start( di.deployedObject );
+        }
+        catch ( Exception e )
+        {
+            throw new DeploymentException( e );
+        }
 
-	@Override
-	public void destroy(DeploymentInfo di) throws DeploymentException {
-		try {
-			serviceController.destroy(di.deployedObject);
-			serviceController.remove(di.deployedObject);
-		} catch (Exception e) {
-			throw new DeploymentException(e);
-		}
+        super.stop( di );
+    }
 
-		super.destroy(di);
-	}
+    @Override
+    public void stop( DeploymentInfo di )
+        throws DeploymentException
+    {
+        try
+        {
+            serviceController.stop( di.deployedObject );
+        }
+        catch ( Exception e )
+        {
+            throw new DeploymentException( e );
+        }
+
+        super.stop( di );
+    }
+
+    @Override
+    public void destroy( DeploymentInfo di )
+        throws DeploymentException
+    {
+        try
+        {
+            serviceController.destroy( di.deployedObject );
+            serviceController.remove( di.deployedObject );
+        }
+        catch ( Exception e )
+        {
+            throw new DeploymentException( e );
+        }
+
+        super.destroy( di );
+    }
 }

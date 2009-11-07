@@ -53,7 +53,7 @@ public class AnnotationConfiguration
 
     private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
 
-    protected AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
+    private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
     public AnnotationConfiguration()
     {
@@ -87,7 +87,7 @@ public class AnnotationConfiguration
             LOG.info( "Mapping class " + className );
             try
             {
-                LOG.info("Mapping BAPI class " + className);
+                LOG.info( "Mapping BAPI class " + className );
                 Class<?> clazz = Class.forName( className );
                 final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
                 getBapiMappings().put( clazz, bapiMapping );
@@ -105,7 +105,7 @@ public class AnnotationConfiguration
     /**
      * Adds an annotated BAPI class to the Configuration.
      * 
-     * @param bapiClass The BAPI class
+     * @param bapiClass The BAPI class.
      */
     private void addAnnotatedClass( final Class<?> bapiClass )
     {

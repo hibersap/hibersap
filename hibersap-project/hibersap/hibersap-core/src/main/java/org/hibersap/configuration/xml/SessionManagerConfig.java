@@ -42,7 +42,7 @@ import java.util.Set;
     "annotatedClasses",
     "interceptorClasses" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class SessionManagerConfig
+public final class SessionManagerConfig
     implements Serializable
 {
     private transient static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );

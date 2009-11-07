@@ -17,27 +17,26 @@
  */
 package org.hibersap.configuration.xml;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.ConfigurationException;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.ConfigurationException;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement(name = "hibersap", namespace = HibersapConfig.NAMESPACE)
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class HibersapConfig
+public final class HibersapConfig
 {
-    public final static String NAMESPACE = "urn:hibersap:hibersap-configuration:1.0";
+    public static final String NAMESPACE = "urn:hibersap:hibersap-configuration:1.0";
 
     @XmlTransient
-    private static Log LOG = LogFactory.getLog( HibersapConfig.class );
+    private static final Log LOG = LogFactory.getLog( HibersapConfig.class );
 
     @XmlTransient
     private static final long serialVersionUID = 1;

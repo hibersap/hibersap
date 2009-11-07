@@ -47,11 +47,11 @@ public class SapBapiJcaAdapterConnectionSpecFactory
         }
         catch ( IllegalArgumentException e )
         {
-            throw new InternalHiberSapException( e.getMessage() );
+            throw new InternalHiberSapException( e.getMessage(), e );
         }
         catch ( ClassNotFoundException e )
         {
-            throw new InternalHiberSapException( e.getMessage() );
+            throw new InternalHiberSapException( e.getMessage(), e );
         }
     }
 }

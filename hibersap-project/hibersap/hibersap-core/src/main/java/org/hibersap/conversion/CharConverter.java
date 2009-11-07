@@ -48,7 +48,9 @@ public class CharConverter
         throws ConversionException
     {
         if ( javaValue == null )
+        {
             return "";
+        }
         Character valueChar = (Character) javaValue;
         return "" + valueChar;
     }

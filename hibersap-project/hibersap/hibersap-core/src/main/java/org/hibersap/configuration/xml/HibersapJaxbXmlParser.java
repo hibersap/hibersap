@@ -67,8 +67,7 @@ public class HibersapJaxbXmlParser
                 + unmarshalledObject.getClass().getSimpleName() );
 
         }
-        final HibersapConfig hiberSapConfig = (HibersapConfig) unmarshalledObject;
-        return hiberSapConfig;
+        return (HibersapConfig) unmarshalledObject;
     }
 
     private InputStream accessResource( final String resourceName )

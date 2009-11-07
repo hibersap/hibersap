@@ -3,7 +3,7 @@ package org.hibersap.execution;
 import java.util.Collection;
 import java.util.Map;
 
-public class UnsafeCastHelper
+public final class UnsafeCastHelper
 {
     private UnsafeCastHelper()
     {

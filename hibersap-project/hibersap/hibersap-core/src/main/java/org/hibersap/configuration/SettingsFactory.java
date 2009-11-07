@@ -37,6 +37,11 @@ public class SettingsFactory
 
     private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
 
+    private SettingsFactory()
+    {
+        // should not be instantiated
+    }
+
     public static Settings create( final SessionManagerConfig config )
     {
         final Settings settings = new Settings();
@@ -56,14 +61,19 @@ public class SettingsFactory
         {
             return clazz.newInstance();
         }
+        catch ( final IllegalAccessException e )
+        {
+            throw new ConfigurationException( "The class " + clazz
+                + " must be accessible.", e );
+        }
         catch ( final InstantiationException e )
         {
             throw new ConfigurationException( "The class " + clazz
-                + " must be accessible and must have a public default constructor." );
+                + " must be accessible and must have a public default constructor.", e );
         }
-        catch ( final IllegalAccessException e )
+        catch ( final ConfigurationException e )
         {
-            throw new HibersapException( "The class " + clazz + " must hava a public default constructor." );
+            throw new HibersapException( "The class " + clazz + " must hava a public default constructor.", e );
         }
     }
 

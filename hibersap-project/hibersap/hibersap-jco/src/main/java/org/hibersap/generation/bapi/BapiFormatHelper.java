@@ -2,6 +2,11 @@ package org.hibersap.generation.bapi;
 
 public class BapiFormatHelper
 {
+    private BapiFormatHelper()
+    {
+        // should not be instantiated
+    }
+
     public static String getCamelCaseSmall( String sapName )
     {
         StringBuffer result = new StringBuffer( "_" );

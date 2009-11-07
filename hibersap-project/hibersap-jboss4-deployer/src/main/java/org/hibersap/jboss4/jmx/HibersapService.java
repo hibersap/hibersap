@@ -1,138 +1,148 @@
 package org.hibersap.jboss4.jmx;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
-import javax.naming.NamingException;
-
 import org.apache.log4j.Logger;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.xml.HibersapConfig;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 
-public class HibersapService implements HibersapServiceMBean {
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-	private static final Logger LOGGER = Logger
-			.getLogger(HibersapService.class);
+public class HibersapService
+    implements HibersapServiceMBean
+{
 
-	private final HibersapConfig config;
+    private static final Logger LOGGER = Logger.getLogger( HibersapService.class );
 
-	private final AtomicBoolean status = new AtomicBoolean();
+    private final HibersapConfig config;
 
-	private final List<AnnotationConfiguration> configs = new ArrayList<AnnotationConfiguration>();
+    private final AtomicBoolean status = new AtomicBoolean();
 
-	private ClassLoader cl;
+    private final List<AnnotationConfiguration> configs = new ArrayList<AnnotationConfiguration>();
 
-	public HibersapService(HibersapConfig config, ClassLoader classLoader) {
-		this.config = config;
-		this.cl = classLoader;
-	}
+    private ClassLoader cl;
 
-	public void start() {
-		if (status.compareAndSet(false, true)) {
-			LOGGER.info("Start");
+    public HibersapService( HibersapConfig config, ClassLoader classLoader )
+    {
+        this.config = config;
+        this.cl = classLoader;
+    }
 
-			Iterator<SessionManagerConfig> i = config.getSessionManagers()
-					.iterator();
+    public void start()
+    {
+        if ( status.compareAndSet( false, true ) )
+        {
+            LOGGER.info( "Start" );
 
-			while (i.hasNext()) {
-				SessionManagerConfig sessionManagerConfig = i.next();
+            for ( SessionManagerConfig smConfig : config.getSessionManagers() )
+            {
+                AnnotationConfiguration annotationConfiguration = new AnnotationConfiguration( smConfig );
 
-				AnnotationConfiguration annotationConfiguration = new AnnotationConfiguration(
-						sessionManagerConfig);
+                configs.add( annotationConfiguration );
 
-				configs.add(annotationConfiguration);
+                register( configs );
+            }
+        }
+    }
 
-				register(configs);
-			}
-		}
-	}
+    private void register( List<AnnotationConfiguration> annotationConfigurations )
+    {
+        try
+        {
+            InitialContext ic = new InitialContext();
 
-	private void register(List<AnnotationConfiguration> configs2) {
-		try {
-			InitialContext ic = new InitialContext();
+            try
+            {
+                ic.lookup( "java:hibersap" );
+            }
+            catch ( NameNotFoundException e )
+            {
+                ic.createSubcontext( "java:hibersap" );
+            }
 
-			try {
-				ic.lookup("java:hibersap");
-			} catch (NameNotFoundException e) {
-				ic.createSubcontext("java:hibersap");
-			}
+            Context context = (Context) ic.lookup( "java:hibersap" );
 
-			Context context = (Context) ic.lookup("java:hibersap");
+            ClassLoader old = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader( cl );
+            try
+            {
 
-			ClassLoader old = Thread.currentThread().getContextClassLoader();
-			Thread.currentThread().setContextClassLoader(cl);
-			try {
-				Iterator<AnnotationConfiguration> i = configs2.iterator();
+                for ( AnnotationConfiguration annotationConfig : annotationConfigurations )
+                {
 
-				while (i.hasNext()) {
-					AnnotationConfiguration configuration = i.next();
+                    context.bind( annotationConfig.getSessionManagerConfig().getName(), annotationConfig
+                        .buildSessionManager() );
+                }
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( old );
+                ic.close();
+            }
+        }
+        catch ( NamingException e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
 
-					context.bind(configuration.getSessionManagerConfig()
-							.getName(), configuration.buildSessionManager());
-				}
-			} finally {
-				Thread.currentThread().setContextClassLoader(old);
-				ic.close();
-			}
-		} catch (NamingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public void stop()
+    {
+        if ( status.compareAndSet( true, false ) )
+        {
+            LOGGER.info( "Stop" );
 
-	public void stop() {
-		if (status.compareAndSet(true, false)) {
-			LOGGER.info("Stop");
+            unregister( configs );
 
-			unregister(configs);
+            configs.clear();
+        }
+    }
 
-			configs.clear();
-		}
-	}
+    private void unregister( List<AnnotationConfiguration> annotationConfigurations )
+    {
+        try
+        {
+            InitialContext ic = new InitialContext();
 
-	private void unregister(List<AnnotationConfiguration> configs2) {
-		try {
-			InitialContext ic = new InitialContext();
+            try
+            {
 
-			try {
-				Iterator<AnnotationConfiguration> i = configs2.iterator();
+                for ( AnnotationConfiguration annotationConfiguration : annotationConfigurations )
+                {
 
-				while (i.hasNext()) {
-					AnnotationConfiguration configuration = i.next();
+                    ic.unbind( "java:hibersap/" + annotationConfiguration.getSessionManagerConfig().getName() );
+                }
+            }
+            finally
+            {
+                ic.close();
+            }
+        }
+        catch ( NamingException e )
+        {
+            throw new RuntimeException( e );
+        }
+    }
 
-					ic
-							.unbind("java:hibersap/"
-									+ configuration.getSessionManagerConfig()
-											.getName());
-				}
-			} finally {
-				ic.close();
-			}
-		} catch (NamingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public String getStatus()
+    {
+        return status.get() ? "STARTED" : "STOPPED";
+    }
 
-	public String getStatus() {
-		return status.get() ? "STARTED" : "STOPPED";
-	}
+    public String viewConfiguration()
+    {
+        StringBuilder builder = new StringBuilder();
 
-	public String viewConfiguration() {
-		StringBuilder builder = new StringBuilder();
+        for ( SessionManagerConfig smConfig : config.getSessionManagers() )
+        {
+            builder.append( smConfig.toString() );
+        }
 
-		Iterator<SessionManagerConfig> i = config.getSessionManagers()
-				.iterator();
-		
-		while (i.hasNext()) {
-			SessionManagerConfig next = i.next();
-			builder.append(next.toString());
-		}
-		
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 }

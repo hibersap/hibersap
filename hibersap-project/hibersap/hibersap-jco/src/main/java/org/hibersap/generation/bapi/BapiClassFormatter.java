@@ -124,13 +124,11 @@ public class BapiClassFormatter
         if ( typeAnnotation != null )
         {
             String type = String.format( TYPE_ANNOTATION_FORMAT, typeAnnotation.getName() );
-            String field = String.format( BAPI_FIELD_FORMAT, type, parameter, javaType, javaName );
-            return field;
+            return String.format( BAPI_FIELD_FORMAT, type, parameter, javaType, javaName );
         }
         else
         {
-            String field = String.format( STRUCTURE_FIELD_FORMAT, parameter, javaType, javaName );
-            return field;
+            return String.format( STRUCTURE_FIELD_FORMAT, parameter, javaType, javaName );
         }
     }
 

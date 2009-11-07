@@ -23,22 +23,22 @@ public class RAConnectorServiceBean
     private static final Log LOG = LogFactory.getLog( RAConnectorServiceBean.class );
 
     @Resource(mappedName = RA_JNDI_NAME)
-    private ConnectionFactory _sapResourceAdapter;
+    private ConnectionFactory sapResourceAdapter;
 
     public MappedRecord getFlightList( final MappedRecord inputRecord )
         throws ResourceException
     {
-        if ( _sapResourceAdapter != null )
+        if ( sapResourceAdapter != null )
         {
-            LOG.info( "Found resource adapter at " + RA_JNDI_NAME + ": " + _sapResourceAdapter + " = "
-                + _sapResourceAdapter.getClass() );
+            LOG.info( "Found resource adapter at " + RA_JNDI_NAME + ": " + sapResourceAdapter + " = "
+                + sapResourceAdapter.getClass() );
 
-            final ResourceAdapterMetaData metaData = _sapResourceAdapter.getMetaData();
+            final ResourceAdapterMetaData metaData = sapResourceAdapter.getMetaData();
 
             LOG.info( "Metadata: " + metaData.getAdapterName() + "/" + metaData.getAdapterVendorName() + "/"
                 + metaData.getAdapterVersion() );
 
-            final Connection connection = _sapResourceAdapter.getConnection();
+            final Connection connection = sapResourceAdapter.getConnection();
             final Interaction interaction = connection.createInteraction();
 
             try
@@ -62,7 +62,7 @@ public class RAConnectorServiceBean
         assert connection != null : "connection != null";
         assert interaction != null : "interaction != null";
 
-        final MappedRecord outputRecord = _sapResourceAdapter.getRecordFactory().createMappedRecord( "EXPORT" );
+        final MappedRecord outputRecord = sapResourceAdapter.getRecordFactory().createMappedRecord( "EXPORT" );
         interaction.execute( null, inputRecord, outputRecord );
 
         return outputRecord;

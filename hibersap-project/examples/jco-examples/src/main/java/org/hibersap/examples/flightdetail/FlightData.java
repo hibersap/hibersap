@@ -36,90 +36,90 @@ public class FlightData
     private static final long serialVersionUID = 1L;
 
     @Parameter(FlightDetailConstants.CARRID)
-    private String _airlineId;
+    private String airlineId;
 
     @Parameter(FlightDetailConstants.CONNID)
-    private String _connectid;
+    private String connectid;
 
     @Parameter(FlightDetailConstants.FLDATE)
-    private Date _flightdate;
+    private Date flightdate;
 
     @Parameter(FlightDetailConstants.AIRPFROM)
-    private String _airportfr;
+    private String airportfr;
 
     @Parameter(FlightDetailConstants.CITYFROM)
-    private String _cityfrom;
+    private String cityfrom;
 
     @Parameter(FlightDetailConstants.AIRPTO)
-    private String _airportto;
+    private String airportto;
 
     @Parameter(FlightDetailConstants.CITYTO)
-    private String _cityto;
+    private String cityto;
 
     @Parameter(FlightDetailConstants.DEPTIME)
-    private Date _deptime;
+    private Date deptime;
 
     @Parameter(FlightDetailConstants.ARRTIME)
-    private Date _arrtime;
+    private Date arrtime;
 
     @Parameter(FlightDetailConstants.PRICE)
-    private BigDecimal _price;
+    private BigDecimal price;
 
     @Parameter(FlightDetailConstants.CURRENCY)
-    private String _curr;
+    private String curr;
 
     public String getAirlineId()
     {
-        return _airlineId;
+        return airlineId;
     }
 
     public String getAirportfr()
     {
-        return _airportfr;
+        return airportfr;
     }
 
     public String getAirportto()
     {
-        return _airportto;
+        return airportto;
     }
 
     public Date getArrtime()
     {
-        return _arrtime;
+        return arrtime;
     }
 
     public String getCityfrom()
     {
-        return _cityfrom;
+        return cityfrom;
     }
 
     public String getCityto()
     {
-        return _cityto;
+        return cityto;
     }
 
     public String getConnectid()
     {
-        return _connectid;
+        return connectid;
     }
 
     public String getCurr()
     {
-        return _curr;
+        return curr;
     }
 
     public Date getDeptime()
     {
-        return _deptime;
+        return deptime;
     }
 
     public Date getFlightdate()
     {
-        return _flightdate;
+        return flightdate;
     }
 
     public BigDecimal getPrice()
     {
-        return _price;
+        return price;
     }
 }

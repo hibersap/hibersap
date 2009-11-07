@@ -17,20 +17,19 @@ package org.hibersap.execution.jco;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.Map;
-
+import com.sap.conn.jco.JCoCustomDestination;
+import com.sap.conn.jco.JCoCustomDestination.UserData;
+import com.sap.conn.jco.JCoDestination;
+import com.sap.conn.jco.JCoException;
+import com.sap.conn.jco.JCoFunction;
+import com.sap.conn.jco.JCoRepository;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
 
-import com.sap.conn.jco.JCoCustomDestination;
-import com.sap.conn.jco.JCoDestination;
-import com.sap.conn.jco.JCoException;
-import com.sap.conn.jco.JCoFunction;
-import com.sap.conn.jco.JCoRepository;
-import com.sap.conn.jco.JCoCustomDestination.UserData;
+import java.util.Map;
 
 /*
  * @author Carsten Erker
@@ -130,34 +129,39 @@ public class JCoConnection
 
     private void copyCredentialsToUserData( Credentials cred, UserData data )
     {
-        if ( cred.getAliasUser() != null )
+        if ( isNotNull( cred.getAliasUser() ) )
         {
             data.setAliasUser( cred.getAliasUser() );
         }
-        if ( cred.getClient() != null )
+        if ( isNotNull( cred.getClient() ) )
         {
             data.setClient( cred.getClient() );
         }
-        if ( cred.getLanguage() != null )
+        if ( isNotNull( cred.getLanguage() ) )
         {
             data.setLanguage( cred.getLanguage() );
         }
-        if ( cred.getPassword() != null )
+        if ( isNotNull( cred.getPassword() ) )
         {
             data.setPassword( cred.getPassword() );
         }
-        if ( cred.getSsoTicket() != null )
+        if ( isNotNull( cred.getSsoTicket() ) )
         {
             data.setSSOTicket( cred.getSsoTicket() );
         }
-        if ( cred.getUser() != null )
+        if ( isNotNull( cred.getUser() ) )
         {
             data.setUser( cred.getUser() );
         }
-        if ( cred.getX509Certificate() != null )
+        if ( isNotNull( cred.getX509Certificate() ) )
         {
             data.setX509Certificate( cred.getX509Certificate() );
         }
+    }
+
+    private boolean isNotNull( Object object )
+    {
+        return object != null;
     }
 
     private void endStatefulConnection()
@@ -204,7 +208,7 @@ public class JCoConnection
 
         if ( jcoContext.isStateful( destination ) )
         {
-            throw new RuntimeException( "A stateful JCo session was already started for the given destination "
+            throw new HibersapException( "A stateful JCo session was already started for the given destination "
                 + "in the current thread." );
         }
 

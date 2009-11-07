@@ -33,11 +33,6 @@ public final class Environment
     public static final String VERSION = "1.0";
 
     /*
-     * Where to find the hibersap.properties configuration file in the classpath.
-     */
-    public static final String HIBERSAP_PROPERTIES_FILE = "/hibersap.properties";
-
-    /*
      * Where to find the hibersap.xml configuration file in the classpath.
      */
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
@@ -46,11 +41,15 @@ public final class Environment
 
     private static final HibersapConfig CONFIG = readConfig();
 
+    private Environment()
+    {
+        // should not be instantiated
+    }
+
     private static HibersapConfig readConfig()
     {
         LOG.info( "Hibersap " + VERSION );
-        HibersapConfig result = readXMLProperties( HIBERSAP_XML_FILE );
-        return result;
+        return readXMLProperties( HIBERSAP_XML_FILE );
     }
 
     static HibersapConfig readXMLProperties( final String hibersapXmlFile )

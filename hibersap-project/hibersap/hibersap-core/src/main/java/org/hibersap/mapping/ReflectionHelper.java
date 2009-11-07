@@ -17,6 +17,8 @@ package org.hibersap.mapping;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.HibersapException;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -26,13 +28,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import org.hibersap.HibersapException;
-
 /**
  * @author Carsten Erker
  */
-public class ReflectionHelper
+public final class ReflectionHelper
 {
+    private static final String MSG_CAN_NOT_CREATE_INSTANCE = "Can not create an instance of type ";
+
     public static Class<?> getClassForName( String className )
         throws ClassNotFoundException
     {
@@ -51,8 +53,8 @@ public class ReflectionHelper
     /**
      * Get the array type of type, or null if type is not an array.
      * 
-     * @param type
-     * @return
+     * @param type The array class type.
+     * @return The type of the array components.
      */
     public static Class<?> getArrayType( Class<?> type )
     {
@@ -67,7 +69,7 @@ public class ReflectionHelper
      * Get the underlying class for a type, or null if the type is a variable type. Stolen from:
      * http://www.artima.com/weblogs/viewpost.jsp?thread=208860
      * 
-     * @param type the type
+     * @param type The type
      * @return the underlying class
      */
     private static Class<?> getClass( Type type )
@@ -104,8 +106,7 @@ public class ReflectionHelper
         Class<?> clazz = bean.getClass();
         try
         {
-            java.lang.reflect.Field declaredField = clazz.getDeclaredField( fieldName );
-            return declaredField;
+            return clazz.getDeclaredField( fieldName );
         }
         catch ( SecurityException e )
         {
@@ -175,11 +176,11 @@ public class ReflectionHelper
         }
         catch ( InstantiationException e )
         {
-            throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
+            throw new HibersapException( MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
+            throw new HibersapException( MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e );
         }
     }
 
@@ -194,11 +195,11 @@ public class ReflectionHelper
         // TODO add meaningful message to exceptions
         catch ( InstantiationException e )
         {
-            throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
+            throw new HibersapException( MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new HibersapException( "Can not create an instance of type " + clazz.getName(), e );
+            throw new HibersapException( MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e );
         }
         catch ( NoSuchMethodException e )
         {

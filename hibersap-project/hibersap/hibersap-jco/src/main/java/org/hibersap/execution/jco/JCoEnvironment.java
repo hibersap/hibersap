@@ -17,29 +17,33 @@ package org.hibersap.execution.jco;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.Properties;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.HibersapException;
-
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.Environment;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.HibersapException;
+
+import java.util.Properties;
 
 /**
  * This class acts as a wrapper for the ugly static JCo classes.
- *
+ * 
  * @author Carsten Erker
  */
 public class JCoEnvironment
 {
     private static final Log LOG = LogFactory.getLog( JCoEnvironment.class );
 
+    private JCoEnvironment()
+    {
+        // should not be instantiated
+    }
+
     /**
-     * JCo's Environment class doesn't offer any methods to check if a provider class is already registered,
-     * but we need to dynamically register destinations
+     * JCo's Environment class doesn't offer any methods to check if a provider class is already
+     * registered, but we need to dynamically register destinations
      */
     private static final JCoDataProvider destinationDataProvider;
 
@@ -69,7 +73,7 @@ public class JCoEnvironment
         }
         catch ( JCoException e )
         {
-            throw new HibersapException( "Can not get the destination named '" + destinationName + "'" );
+            throw new HibersapException( "Can not get the destination named '" + destinationName + "'", e );
         }
     }
 }
