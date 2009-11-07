@@ -17,11 +17,6 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.hibersap.MappingException;
 import org.hibersap.SapException;
@@ -29,9 +24,20 @@ import org.hibersap.SapException.SapError;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.execution.UnsafeCastHelper;
 import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.mapping.model.BapiMapping.ErrorHandling;
+import org.hibersap.mapping.model.ErrorHandling;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 /**
+ * Throws a SapException after the execution of a BAPI call when SAP returned an Error message.
+ * Checks the given RETURN structure or table parameter for the occurrence of the given error types.
+ * The path to the RETURN structure and the error types are defined in the ThrowExceptionOnError
+ * annotation.
+ * 
+ * @see org.hibersap.annotations.ThrowExceptionOnError
  * @author Carsten Erker
  */
 public class SapErrorInterceptor

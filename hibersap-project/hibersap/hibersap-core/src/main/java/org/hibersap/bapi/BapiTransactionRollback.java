@@ -17,12 +17,15 @@ package org.hibersap.bapi;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.Serializable;
-
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.ThrowExceptionOnError;
 
+import java.io.Serializable;
+
 /**
+ * BAPI class to rollback a transaction. Maps to the BAPI_TRANSACTION_ROLLBACK function module in
+ * SAP.
+ * 
  * @author Carsten Erker
  */
 @Bapi(BapiConstants.BAPI_TRANSACTION_ROLLBACK)

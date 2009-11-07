@@ -4,35 +4,34 @@ package org.hibersap.mapping;
  * Copyright (C) 2008 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
- *
- * Hibersap is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Hibersap is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
  * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
+ * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
+ * Lesser General Public License as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * 
+ * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
+ * not, see <http://www.gnu.org/licenses/>.
  */
-
-import java.lang.reflect.Field;
 
 import org.hibersap.MappingException;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.mapping.model.ErrorHandling;
 import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.ObjectMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-import org.hibersap.mapping.model.BapiMapping.ErrorHandling;
 
+import java.lang.reflect.Field;
 
 /**
+ * Creates a BAPI Mapping for Annotated classes.
+ * 
  * @author Carsten Erker
  */
 public class AnnotationBapiMapper
@@ -125,12 +124,10 @@ public class AnnotationBapiMapper
     }
 
     /**
-     * Takes an annotated BAPI class and creates a BapiMapping. The BapiMapping is
-     * used when a BAPI gets executed to map SAP parameters to fields of the BAPI
-     * class.
+     * Takes an annotated BAPI class and creates a BapiMapping. The BapiMapping is used when a BAPI
+     * gets executed to map SAP parameters to fields of the BAPI class.
      * 
-     * @param clazz
-     *            The annotated Bapi class.
+     * @param clazz The annotated Bapi class.
      * @return The BapiMapping
      */
     public BapiMapping mapBapi( Class<?> clazz )

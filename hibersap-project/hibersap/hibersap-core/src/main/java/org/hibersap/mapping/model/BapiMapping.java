@@ -20,50 +20,17 @@ package org.hibersap.mapping.model;
 import org.apache.commons.lang.StringUtils;
 import org.hibersap.MappingException;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class is the framework internal representation of mappings between SAP function modules (BAPIs)
- * and Java classes.
+ * This class is the framework internal representation of mappings between SAP function modules
+ * (BAPIs) and Java classes.
  * 
  * @author Carsten Erker
  */
 public class BapiMapping
 {
-    public static class ErrorHandling
-        implements Serializable
-    {
-        private final boolean throwExceptionOnError;
-
-        private final String pathToReturnStructure;
-
-        private final String[] errorMessageTypes;
-
-        public ErrorHandling( String pathToReturnStructure, String[] errorMessageTypes )
-        {
-            this.errorMessageTypes = errorMessageTypes.clone();
-            throwExceptionOnError = StringUtils.isNotEmpty( pathToReturnStructure );
-            this.pathToReturnStructure = pathToReturnStructure;
-        }
-
-        public String[] getErrorMessageTypes()
-        {
-            return this.errorMessageTypes;
-        }
-
-        public String getPathToReturnStructure()
-        {
-            return this.pathToReturnStructure;
-        }
-
-        public boolean isThrowExceptionOnError()
-        {
-            return this.throwExceptionOnError;
-        }
-    }
-
     private final String bapiName;
 
     private Class<?> associatedClass;

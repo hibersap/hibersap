@@ -1,9 +1,6 @@
 package org.hibersap.examples.flightlist;
 
-import org.hibersap.bapi.BapiConstants;
-
 public interface FlightListConstants
-    extends BapiConstants
 {
     String BAPI_NAME = "BAPI_SFLIGHT_GETLIST";
 
