@@ -119,7 +119,7 @@ public final class SessionManagerImpl
      */
     public Set<ExecutionInterceptor> getInterceptors()
     {
-        return Collections.unmodifiableSet( interceptors );
+        return interceptors;
     }
 
     @Override

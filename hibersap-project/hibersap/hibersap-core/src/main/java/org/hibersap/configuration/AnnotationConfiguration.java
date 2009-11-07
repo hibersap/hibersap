@@ -81,7 +81,7 @@ public class AnnotationConfiguration
     @Override
     public SessionManager buildSessionManager()
     {
-        bapiMappingForClass.clear();
+        getBapiMappings().clear();
         for ( final String className : getSessionManagerConfig().getAnnotatedClasses() )
         {
             LOG.info( "Mapping class " + className );
@@ -90,7 +90,7 @@ public class AnnotationConfiguration
                 LOG.info("Mapping BAPI class " + className);
                 Class<?> clazz = Class.forName( className );
                 final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
-                bapiMappingForClass.put( clazz, bapiMapping );
+                getBapiMappings().put( clazz, bapiMapping );
             }
             catch ( ClassNotFoundException e )
             {
@@ -105,7 +105,7 @@ public class AnnotationConfiguration
     /**
      * Adds an annotated BAPI class to the Configuration.
      * 
-     * @param bapiClass
+     * @param bapiClass The BAPI class
      */
     private void addAnnotatedClass( final Class<?> bapiClass )
     {
@@ -114,7 +114,7 @@ public class AnnotationConfiguration
 
     private void addAnnotatedClassesFromConfiguration()
     {
-        for ( String className : sessionManagerConfig.getAnnotatedClasses() )
+        for ( String className : getSessionManagerConfig().getAnnotatedClasses() )
         {
             addAnnotatedClass( SettingsFactory.getClassForName( className ) );
         }
