@@ -18,26 +18,28 @@ package org.hibersap.conversion;
  */
 
 /**
- * Converts between Java boolean and SAP CHAR type. A Java value of true will be
- * converted to "X", A Java value of false will be converted to an empty String and vice
- * versa.
+ * Converts between Java boolean and SAP CHAR type. A Java value of true will be converted to "X", A
+ * Java value of false will be converted to an empty String and vice versa.
  * 
  * @author Carsten Erker
  */
 public class BooleanConverter
     implements Converter
 {
+    /**
+     * {@inheritDoc}
+     */
     public Object convertToJava( Object sapValue )
         throws ConversionException
     {
         if ( sapValue == null )
         {
-            throw new ConversionException( "SAP returned null" );
+            throwConversionException("SAP returned null");
         }
         if ( !String.class.isInstance( sapValue ) )
         {
-            throw new ConversionException( "Expected: " + String.class.getName() + " but was: "
-                + sapValue.getClass().getName() );
+            throwConversionException("Expected: " + String.class.getName() + " but was: "
+                + sapValue.getClass().getName());
         }
         String value = ( (String) sapValue ).trim();
         if ( "X".equalsIgnoreCase( value ) )
@@ -50,30 +52,31 @@ public class BooleanConverter
         }
         else
         {
-            throw new ConversionException( "Expected 'X' or '', but SAP returned '" + value + "'" );
+            throwConversionException("Expected 'X' or '', but SAP returned '" + value + "'");
         }
+        return null; // cannot be reached
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object convertToSap( Object javaValue )
         throws ConversionException
     {
         if ( javaValue == null )
         {
-            throw new ConversionException( "Java value is null" );
+            throwConversionException("Java value is null");
         }
         if ( !Boolean.class.isInstance( javaValue ) )
         {
-            throw new ConversionException( "Expected: " + Boolean.class.getName() + " but was: "
-                + javaValue.getClass().getName() );
+            throwConversionException("Expected: " + Boolean.class.getName() + " but was: "
+                + javaValue.getClass().getName());
         }
-        boolean value = ( (Boolean) javaValue ).booleanValue();
-        if ( value )
-        {
-            return "X";
-        }
-        else
-        {
-            return "";
-        }
+        return javaValue == Boolean.TRUE ? "X" : "";
+    }
+
+    private void throwConversionException(String msg)
+    {
+        throw new ConversionException( msg );
     }
 }

@@ -24,7 +24,7 @@ public class ErrorHandling
 
     public String[] getErrorMessageTypes()
     {
-        return this.errorMessageTypes;
+        return errorMessageTypes == null ? null : errorMessageTypes;
     }
 
     public String getPathToReturnStructure()
