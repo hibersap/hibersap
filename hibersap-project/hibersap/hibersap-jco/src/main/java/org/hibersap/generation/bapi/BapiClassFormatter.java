@@ -1,11 +1,5 @@
 package org.hibersap.generation.bapi;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
@@ -16,31 +10,37 @@ import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ParameterMapping;
+import org.hibersap.mapping.model.ParameterMapping.ParamType;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-import org.hibersap.mapping.model.ParameterMapping.ParamType;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BapiClassFormatter
 {
-    private static final String classFormat = "package %s;%n%n%s%npublic class %s%n{%n%s}";
+    private static final String CLASS_FORMAT = "package %s;%n%n%s%npublic class %s%n{%n%s}";
 
-    private static final String bapiFieldFormat = "\t%s%n\t%s%n\tprivate %s %s;%n%n";
+    private static final String BAPI_FIELD_FORMAT = "\t%s%n\t%s%n\tprivate %s %s;%n%n";
 
-    private static final String structureFieldFormat = "\t%s%n\tprivate %s %s;%n%n";
+    private static final String STRUCTURE_FIELD_FORMAT = "\t%s%n\tprivate %s %s;%n%n";
 
-    private static final String getterFormat = "\tpublic %s get%s()%n\t{%n\t\treturn %s;%n\t}%n%n";
+    private static final String GETTER_FORMAT = "\tpublic %s get%s()%n\t{%n\t\treturn %s;%n\t}%n%n";
 
-    private static final String setterFormat = "\tpublic void set%s(%s %s)%n\t{%n\t\tthis.%s = %s;%n\t}%n%n";
+    private static final String SETTER_FORMAT = "\tpublic void set%s(%s %s)%n\t{%n\t\tthis.%s = %s;%n\t}%n%n";
 
-    private static final String parameterAnnotationSimpleFormat = "@%s(\"%s\")";
+    private static final String PARAMETER_ANNOTATION_SIMPLE_FORMAT = "@%s(\"%s\")";
 
-    private static final String parameterAnnotationStructureFormat = "@%s(value = \"%s\", type = %s.%s)";
+    private static final String PARAMETER_ANNOTATION_STRUCTURE_FORMAT = "@%s(value = \"%s\", type = %s.%s)";
 
-    private static final String typeAnnotationFormat = "@%s";
+    private static final String TYPE_ANNOTATION_FORMAT = "@%s";
 
-    private static final String bapiAnnotationFormat = "@%s(\"%s\")";
+    private static final String BAPI_ANNOTATION_FORMAT = "@%s(\"%s\")";
 
-    private static final String bapiStructureAnnotationFormat = "@%s";
+    private static final String BAPI_STRUCTURE_ANNOTATION_FORMAT = "@%s";
 
     private void checkPackagePath( String packagePath )
     {
@@ -69,7 +69,7 @@ public class BapiClassFormatter
         params.addAll( mapping.getImportParameters() );
         params.addAll( mapping.getExportParameters() );
         params.addAll( mapping.getTableParameters() );
-        
+
         for ( ParameterMapping param : params )
         {
             if ( param.getParamType() != ParamType.FIELD )
@@ -100,20 +100,20 @@ public class BapiClassFormatter
                                                  "This exception should not occur, please report to Hibersap developers. Not supported: "
                                                      + param.getClass() );
         }
-        String structureAnnotation = String.format( bapiStructureAnnotationFormat, BapiStructure.class.getName() );
+        String structureAnnotation = String.format( BAPI_STRUCTURE_ANNOTATION_FORMAT, BapiStructure.class.getName() );
         String className = BapiFormatHelper.getCamelCaseBig( param.getSapName() );
         String fieldsAndMethods = formatFieldsAndMethods( structure );
-        return String.format( classFormat, packagePath, structureAnnotation, className, fieldsAndMethods );
+        return String.format( CLASS_FORMAT, packagePath, structureAnnotation, className, fieldsAndMethods );
     }
 
     private String formatBapiAnnotation( BapiMapping mapping )
     {
-        return String.format( bapiAnnotationFormat, Bapi.class.getName(), mapping.getBapiName() );
+        return String.format( BAPI_ANNOTATION_FORMAT, Bapi.class.getName(), mapping.getBapiName() );
     }
 
     private String formatBapiClass( BapiMapping mapping, String packagePath )
     {
-        return String.format( classFormat, packagePath, formatBapiAnnotation( mapping ), getBapiName( mapping ),
+        return String.format( CLASS_FORMAT, packagePath, formatBapiAnnotation( mapping ), getBapiName( mapping ),
                               formatFieldsAndMethods( mapping ) );
     }
 
@@ -123,13 +123,13 @@ public class BapiClassFormatter
         String parameter = formatParameterAnnotation( sapName, paramType );
         if ( typeAnnotation != null )
         {
-            String type = String.format( typeAnnotationFormat, typeAnnotation.getName() );
-            String field = String.format( bapiFieldFormat, type, parameter, javaType, javaName );
+            String type = String.format( TYPE_ANNOTATION_FORMAT, typeAnnotation.getName() );
+            String field = String.format( BAPI_FIELD_FORMAT, type, parameter, javaType, javaName );
             return field;
         }
         else
         {
-            String field = String.format( structureFieldFormat, parameter, javaType, javaName );            
+            String field = String.format( STRUCTURE_FIELD_FORMAT, parameter, javaType, javaName );
             return field;
         }
     }
@@ -175,8 +175,8 @@ public class BapiClassFormatter
 
     private String formatMethods( String sapName, String javaName, String javaType )
     {
-        String getter = String.format( getterFormat, javaType, BapiFormatHelper.getCamelCaseBig( sapName ), javaName );
-        String setter = String.format( setterFormat, BapiFormatHelper.getCamelCaseBig( sapName ), javaType, javaName,
+        String getter = String.format( GETTER_FORMAT, javaType, BapiFormatHelper.getCamelCaseBig( sapName ), javaName );
+        String setter = String.format( SETTER_FORMAT, BapiFormatHelper.getCamelCaseBig( sapName ), javaType, javaName,
                                        javaName, javaName );
 
         return getter + setter;
@@ -186,10 +186,10 @@ public class BapiClassFormatter
     {
         if ( paramType == ParamType.STRUCTURE )
         {
-            return String.format( parameterAnnotationStructureFormat, Parameter.class.getName(), sapName,
+            return String.format( PARAMETER_ANNOTATION_STRUCTURE_FORMAT, Parameter.class.getName(), sapName,
                                   ParameterType.class.getName(), ParameterType.STRUCTURE );
         }
-        return String.format( parameterAnnotationSimpleFormat, Parameter.class.getName(), sapName );
+        return String.format( PARAMETER_ANNOTATION_SIMPLE_FORMAT, Parameter.class.getName(), sapName );
     }
 
     private String getBapiName( BapiMapping mapping )
@@ -200,12 +200,16 @@ public class BapiClassFormatter
     private String getClassName( ParameterMapping param )
     {
         if ( param.getParamType() == ParamType.FIELD )
+        {
             return param.getAssociatedType().getName();
+        }
 
         String className = BapiFormatHelper.getCamelCaseBig( param.getSapName() );
 
         if ( param.getParamType() == ParamType.STRUCTURE )
+        {
             return className;
+        }
 
         return List.class.getName() + "<" + className + ">";
     }

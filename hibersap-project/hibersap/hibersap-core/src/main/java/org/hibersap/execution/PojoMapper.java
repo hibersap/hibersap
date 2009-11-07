@@ -1,7 +1,7 @@
 package org.hibersap.execution;
 
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -17,13 +17,6 @@ package org.hibersap.execution;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.ReflectionHelper;
@@ -31,9 +24,16 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.ObjectMapping;
 import org.hibersap.mapping.model.ParameterMapping;
+import org.hibersap.mapping.model.ParameterMapping.ParamType;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-import org.hibersap.mapping.model.ParameterMapping.ParamType;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Carsten Erker
@@ -106,7 +106,9 @@ public class PojoMapper
     private void mapToPojo( Object bean, Map<String, Object> map, Set<? extends ParameterMapping> mappings )
     {
         if ( map == null )
+        {
             return;
+        }
 
         for ( ParameterMapping paramMapping : mappings )
         {

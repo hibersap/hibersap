@@ -1,7 +1,7 @@
 package org.hibersap.conversion;
 
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
+ * Copyright (C) 2008-2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -20,11 +20,16 @@ package org.hibersap.conversion;
 import org.apache.commons.lang.StringUtils;
 
 /**
+ * Converts between SAP character fields of length 1 and Java char fields.
+ * 
  * @author Carsten Erker
  */
 public class CharConverter
     implements Converter
 {
+    /**
+     * {@inheritDoc}
+     */
     public Object convertToJava( Object sapValue )
         throws ConversionException
     {
@@ -36,6 +41,9 @@ public class CharConverter
         return valueStr.charAt( 0 );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object convertToSap( Object javaValue )
         throws ConversionException
     {

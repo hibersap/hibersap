@@ -17,12 +17,9 @@ package org.hibersap.configuration.xml;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.session.ExecutionInterceptor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -30,10 +27,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.session.ExecutionInterceptor;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @XmlType(namespace = HibersapConfig.NAMESPACE, propOrder = {
     "context",
@@ -260,61 +259,95 @@ public class SessionManagerConfig
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         SessionManagerConfig other = (SessionManagerConfig) obj;
         if ( annotatedClasses == null )
         {
             if ( other.annotatedClasses != null )
+            {
                 return false;
+            }
         }
-        else if ( !annotatedClasses.equals( other.annotatedClasses) )
+        else if ( !annotatedClasses.equals( other.annotatedClasses ) )
+        {
             return false;
+        }
         if ( context == null )
         {
             if ( other.context != null )
+            {
                 return false;
+            }
         }
         else if ( !context.equals( other.context ) )
+        {
             return false;
+        }
         if ( interceptorClasses == null )
         {
             if ( other.interceptorClasses != null )
+            {
                 return false;
+            }
         }
         else if ( !interceptorClasses.equals( other.interceptorClasses ) )
+        {
             return false;
+        }
         if ( jcaConnectionFactory == null )
         {
             if ( other.jcaConnectionFactory != null )
+            {
                 return false;
+            }
         }
         else if ( !jcaConnectionFactory.equals( other.jcaConnectionFactory ) )
+        {
             return false;
+        }
         if ( jcaConnectionSpecFactory == null )
         {
             if ( other.jcaConnectionSpecFactory != null )
+            {
                 return false;
+            }
         }
         else if ( !jcaConnectionSpecFactory.equals( other.jcaConnectionSpecFactory ) )
+        {
             return false;
+        }
         if ( name == null )
         {
             if ( other.name != null )
+            {
                 return false;
+            }
         }
         else if ( !name.equals( other.name ) )
+        {
             return false;
+        }
         if ( properties == null )
         {
             if ( other.properties != null )
+            {
                 return false;
+            }
         }
         else if ( !properties.equals( other.properties ) )
+        {
             return false;
+        }
         return true;
     }
 }

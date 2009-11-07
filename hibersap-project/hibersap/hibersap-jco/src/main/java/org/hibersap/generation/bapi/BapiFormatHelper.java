@@ -7,7 +7,9 @@ public class BapiFormatHelper
         StringBuffer result = new StringBuffer( "_" );
 
         if ( sapName == null )
+        {
             return result.toString();
+        }
 
         String[] parts = sapName.split( "_" );
         for ( int i = 0; i < parts.length; i++ )
@@ -30,7 +32,9 @@ public class BapiFormatHelper
         StringBuffer result = new StringBuffer( "" );
 
         if ( sapName == null )
+        {
             return result.toString();
+        }
 
         String[] parts = sapName.split( "_" );
         for ( int i = 0; i < parts.length; i++ )

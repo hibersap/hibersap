@@ -16,8 +16,6 @@ package org.hibersap.execution.jco;
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
-import java.util.Properties;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -27,6 +25,9 @@ import org.hibersap.configuration.xml.Property;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
+
+import java.util.Properties;
+import java.util.Set;
 
 /*
  * Uses the SAP Java Connector to connect to SAP.
@@ -103,19 +104,29 @@ public class JCoContext
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         JCoContext other = (JCoContext) obj;
         if ( destinationName == null )
         {
             if ( other.destinationName != null )
+            {
                 return false;
+            }
         }
         else if ( !destinationName.equals( other.destinationName ) )
+        {
             return false;
+        }
         return true;
     }
 }

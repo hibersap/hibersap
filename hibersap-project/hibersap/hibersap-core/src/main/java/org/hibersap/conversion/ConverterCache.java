@@ -17,11 +17,11 @@ package org.hibersap.conversion;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.mapping.ReflectionHelper;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.hibersap.mapping.ReflectionHelper;
 
 /**
  * Holds instances of implementations of org.hibersap.conversion.Converter. The instances are
@@ -81,19 +81,29 @@ public class ConverterCache
     public boolean equals( Object obj )
     {
         if ( this == obj )
+        {
             return true;
+        }
         if ( obj == null )
+        {
             return false;
+        }
         if ( getClass() != obj.getClass() )
+        {
             return false;
+        }
         ConverterCache other = (ConverterCache) obj;
         if ( converterForClass == null )
         {
             if ( other.converterForClass != null )
+            {
                 return false;
+            }
         }
         else if ( !converterForClass.keySet().equals( other.converterForClass.keySet() ) )
+        {
             return false;
+        }
         return true;
     }
 
