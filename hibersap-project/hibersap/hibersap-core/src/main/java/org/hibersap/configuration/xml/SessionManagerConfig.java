@@ -45,7 +45,7 @@ import java.util.Set;
 public final class SessionManagerConfig
     implements Serializable
 {
-    private transient static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
+    private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
 
     private String name;
 
