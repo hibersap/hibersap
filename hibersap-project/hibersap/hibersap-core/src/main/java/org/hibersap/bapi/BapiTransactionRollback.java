@@ -30,7 +30,7 @@ import java.io.Serializable;
  */
 @Bapi(BapiConstants.BAPI_TRANSACTION_ROLLBACK)
 @ThrowExceptionOnError
-public class BapiTransactionRollback
+public final class BapiTransactionRollback
     implements Serializable
 {
     private static final long serialVersionUID = 1L;

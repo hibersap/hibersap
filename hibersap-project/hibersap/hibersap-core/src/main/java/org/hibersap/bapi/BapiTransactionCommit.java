@@ -31,7 +31,7 @@ import java.io.Serializable;
  */
 @Bapi(BapiConstants.BAPI_TRANSACTION_COMMIT)
 @ThrowExceptionOnError(returnStructure = BapiConstants.EXPORT_RETURN)
-public class BapiTransactionCommit
+public final class BapiTransactionCommit
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
