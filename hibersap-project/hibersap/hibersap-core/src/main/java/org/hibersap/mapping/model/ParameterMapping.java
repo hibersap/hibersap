@@ -27,7 +27,7 @@ public abstract class ParameterMapping
 {
     public enum ParamType {
         FIELD, STRUCTURE, TABLE
-    };
+    }
 
     private final Class<?> associatedType;
 
@@ -57,5 +57,44 @@ public abstract class ParameterMapping
     public String getSapName()
     {
         return sapName;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        ParameterMapping that = (ParameterMapping) o;
+
+        if (associatedType != null ? !associatedType.equals(that.associatedType) : that.associatedType != null)
+        {
+            return false;
+        }
+        if (javaName != null ? !javaName.equals(that.javaName) : that.javaName != null)
+        {
+            return false;
+        }
+        if (sapName != null ? !sapName.equals(that.sapName) : that.sapName != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = associatedType != null ? associatedType.hashCode() : 0;
+        result = 31 * result + (sapName != null ? sapName.hashCode() : 0);
+        result = 31 * result + (javaName != null ? javaName.hashCode() : 0);
+        return result;
     }
 }

@@ -104,4 +104,58 @@ public class BapiMapping
     {
         return getClass().getSimpleName() + "[BAPI: " + bapiName + ", MappedClass: " + associatedClass + "]";
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        BapiMapping that = (BapiMapping) o;
+
+        if (associatedClass != null ? !associatedClass.equals(that.associatedClass) : that.associatedClass != null)
+        {
+            return false;
+        }
+        if (bapiName != null ? !bapiName.equals(that.bapiName) : that.bapiName != null)
+        {
+            return false;
+        }
+        if (errorHandling != null ? !errorHandling.equals(that.errorHandling) : that.errorHandling != null)
+        {
+            return false;
+        }
+        if (exportParams != null ? !exportParams.equals(that.exportParams) : that.exportParams != null)
+        {
+            return false;
+        }
+        if (importParams != null ? !importParams.equals(that.importParams) : that.importParams != null)
+        {
+            return false;
+        }
+        if (tableParams != null ? !tableParams.equals(that.tableParams) : that.tableParams != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = bapiName != null ? bapiName.hashCode() : 0;
+        result = 31 * result + (associatedClass != null ? associatedClass.hashCode() : 0);
+        result = 31 * result + (importParams != null ? importParams.hashCode() : 0);
+        result = 31 * result + (exportParams != null ? exportParams.hashCode() : 0);
+        result = 31 * result + (tableParams != null ? tableParams.hashCode() : 0);
+        result = 31 * result + (errorHandling != null ? errorHandling.hashCode() : 0);
+        return result;
+    }
 }

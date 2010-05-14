@@ -121,4 +121,48 @@ public class TableMapping
     {
         return ParamType.TABLE;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        if (!super.equals(o))
+        {
+            return false;
+        }
+
+        TableMapping that = (TableMapping) o;
+
+        if (collectionType != null ? !collectionType.equals(that.collectionType) : that.collectionType != null)
+        {
+            return false;
+        }
+        if (componentParameter != null ? !componentParameter.equals(that.componentParameter) : that.componentParameter != null)
+        {
+            return false;
+        }
+        if (fieldType != null ? !fieldType.equals(that.fieldType) : that.fieldType != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + (componentParameter != null ? componentParameter.hashCode() : 0);
+        result = 31 * result + (fieldType != null ? fieldType.hashCode() : 0);
+        result = 31 * result + (collectionType != null ? collectionType.hashCode() : 0);
+        return result;
+    }
 }
