@@ -30,11 +30,9 @@ import org.hibersap.session.SessionManager;
 /**
  * Configures Hibersap using annotated BAPI classes.
  * 
- * There are three possibilities to add annotated classes:
+ * There are two possibilities to add annotated classes:
  * <ol>
- * <li>using hibersap.properties:
- * hibersap.bapi_class.0=org.hibersap.examples.flightlist.FlightListBapi</li>
- * <li>similarily in hibersap.xml:
+ * <li>In hibersap.cfg.xml:
  * &lt;class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/class&gt;</li>
  * <li>programmatically via addAnnotatedClass().</li>
  * </ol>
