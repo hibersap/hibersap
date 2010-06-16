@@ -1,0 +1,67 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head>
+    <title>Hibersap Webapp Example</title>
+    <meta http-equiv="Content-Type" content="text/xhtml; charset=UTF-8">
+    <link wicket:id="stylesheet"/>
+</head>
+<body>
+<h2>Search Customers</h2>
+<form wicket:id="form">
+    <table>
+        <tr>
+            <td>
+                Customer name
+            </td>
+            <td>
+                <input type="text" maxlength="10" wicket:id="customerNamePattern"/><br/>
+            </td>
+            <td>
+                (use * and + as wildcards, search is context sensitive)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Max. rows
+            </td>
+            <td>
+                <input type="text" maxlength="4" wicket:id="maxRows"/><br/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input wicket:id="searchButton" type="submit" value="Search"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<p/>
+<span wicket:id="feedback" class="feedback">feedbackmessages will be put here</span>
+<p/>
+<table cellspacing="0" class="customerListTable">
+    <tbody>
+    <tr>
+        <th>Customer Number</th>
+        <th>Form of Address</th>
+        <th>Name</th>
+        <th>Street</th>
+        <th>Country</th>
+        <th>Postal Code</th>
+        <th>City</th>
+        <th>Phone Number</th>
+        <th>Fax Number</th>
+    </tr>
+    <tr wicket:id="customerList">
+        <td><span wicket:id="number">4567</span></td>
+        <td><span wicket:id="formOfAddress">Mrs</span></td>
+        <td><span wicket:id="name">Sigurveig Karlsdottir</span></td>
+        <td><span wicket:id="street">Sæmundargötu 1</span></td>
+        <td><span wicket:id="country">Iceland</span></td>
+        <td><span wicket:id="postalCode">101</span></td>
+        <td><span wicket:id="city">Rejkjavik</span></td>
+        <td><span wicket:id="telephoneNumber">+354-543-1234</span></td>
+        <td><span wicket:id="email">sigurveig@kd.is</span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
