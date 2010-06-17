@@ -7,5 +7,5 @@
   > mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.x -Dpackaging=jar -Dfile=/path/to/sapjco.jar
 * Enter the path to the folder containing the JCo native lib in: pom.xml - <properties> - <jco.native.lib.path>.
 * Open a command line, go to the project root folder (containing the pom.xml) and start the application with:
-  > mvn jetty:run
-* Open the URL http://localhost:8080/hibersap-
+  > mvn install jetty:run
+* Open the URL http://localhost:8080/flightcustomers

@@ -39,6 +39,13 @@
             <artifactId>hibersap-jco</artifactId>
             <version>1.0</version>
         </dependency>
+        <!-- JAXB needed for Java 5, since Java 6 already ships with JAXB implementation -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1.9</version>
+        </dependency>
+
         <dependency>
             <groupId>com.sap</groupId>
             <artifactId>sap-jco</artifactId>
@@ -148,4 +155,13 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>repository.hibersap</id>
+            <name>Hibersap Repository for Maven</name>
+            <url>
+                http://hibersap.svn.sourceforge.net/viewvc/hibersap/m2repo
+            </url>
+        </repository>
+    </repositories>
 </project>

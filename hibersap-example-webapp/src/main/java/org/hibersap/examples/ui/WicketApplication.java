@@ -4,6 +4,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.dao.CustomerDao;
 import org.hibersap.examples.dao.SapCustomerDao;
+import org.hibersap.examples.model.CustomerInfo;
 import org.hibersap.session.SessionManager;
 
 /**
@@ -23,7 +24,9 @@ public class WicketApplication extends WebApplication
         System.setProperty("java.library.path", System.getProperty("jco.native.lib.path"));
 
         // Build the Hibersap session manager and DAO
-        final SessionManager sessionManager = new AnnotationConfiguration("A12").buildSessionManager();
+        final AnnotationConfiguration config = new AnnotationConfiguration("A12");
+        config.getSessionManagerConfig().addAnnotatedClass(CustomerInfo.class);
+        final SessionManager sessionManager = config.buildSessionManager();
         customerDao = new SapCustomerDao(sessionManager);
     }
 

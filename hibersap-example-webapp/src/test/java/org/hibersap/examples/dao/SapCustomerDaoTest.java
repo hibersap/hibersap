@@ -2,6 +2,7 @@ package org.hibersap.examples.dao;
 
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.model.Customer;
+import org.hibersap.examples.model.CustomerInfo;
 import org.hibersap.examples.model.CustomerSearchFields;
 import org.hibersap.session.SessionManager;
 import org.junit.Before;
@@ -26,7 +27,9 @@ public class SapCustomerDaoTest
     {
         setLibPathSystemProperty();
         LOG.info("java.library.path=" + System.getProperty("java.library.path"));
-        dao = new SapCustomerDao(new AnnotationConfiguration("A12").buildSessionManager());
+        final AnnotationConfiguration config = new AnnotationConfiguration("A12");
+        config.getSessionManagerConfig().addAnnotatedClass(CustomerInfo.class);
+        dao = new SapCustomerDao(config.buildSessionManager());
     }
 
     @Test
@@ -40,21 +43,6 @@ public class SapCustomerDaoTest
         final List<Customer> list = dao.findCustomerInfo(searchFields).getCustomers();
 
         assertEquals("The flight application in SAP doesn't seem to be initialized. Run program SAPBC_DATA_GENERATOR in transaction SE38", 1, list.size());
-    }
-
-    @Test
-    public void testGetCustomerDataTime() throws Exception
-    {
-        final SessionManager sessionManager = new AnnotationConfiguration().buildSessionManager();
-        System.out.println("SMConfig: " + sessionManager.getConfig());
-
-        final CustomerSearchFields searchFields = new CustomerSearchFields("*", 5000);
-
-        final long start = System.currentTimeMillis();
-        final List<Customer> list = dao.findCustomerInfo(searchFields).getCustomers();
-        final long stop = System.currentTimeMillis();
-
-        System.out.println("msek = " + (stop - start));
     }
 
     /**
