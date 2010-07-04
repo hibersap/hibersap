@@ -447,21 +447,36 @@ The name of the property is: sap.jco.lib.path
             </plugin>
         </plugins>
     </reporting>
-
     <repositories>
         <repository>
-            <id>repository.jboss.com</id>
-            <name>Jboss Repository for Maven</name>
-            <url>http://repository.jboss.com/maven2/
-            </url>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
         </repository>
-    </repositories>
-    <pluginRepositories>
+      </repositories>
+      <pluginRepositories>
         <pluginRepository>
-            <id>repository.jboss.com</id>
-            <name>Jboss Repository for Maven</name>
-            <url>http://repository.jboss.com/maven2/
-            </url>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
         </pluginRepository>
-    </pluginRepositories>
+      </pluginRepositories>
 </project>
