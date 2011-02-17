@@ -17,11 +17,11 @@ package org.hibersap.execution.jca;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.HibersapException;
+import org.hibersap.session.AbstractTransaction;
+
 import javax.resource.ResourceException;
 import javax.resource.cci.LocalTransaction;
-
-import org.hibersap.HibersapException;
-import org.hibersap.session.Transaction;
 
 /**
  * Implementation for JCA, i.e. it uses a deployed resource adapter to connect to SAP.
@@ -29,7 +29,7 @@ import org.hibersap.session.Transaction;
  * @author dahm
  */
 public class JCATransaction
-    implements Transaction
+    extends AbstractTransaction
 {
     private final LocalTransaction transaction;
 
@@ -46,19 +46,22 @@ public class JCATransaction
         }
         catch ( final ResourceException e )
         {
-            throw new HibersapException( "begin transaction", e );
+            throw new HibersapException( "Error beginning a local transaction", e );
         }
     }
 
     public void commit()
     {
+        notifySynchronizationsBeforeCompletion();
         try
         {
             transaction.commit();
+            notifySynchronizationsAfterCompletion( true );
         }
         catch ( final ResourceException e )
         {
-            throw new HibersapException( "commit transaction", e );
+            notifySynchronizationsAfterCompletion( false );
+            throw new HibersapException( "Error committing a local transaction", e );
         }
     }
 
@@ -70,7 +73,11 @@ public class JCATransaction
         }
         catch ( final ResourceException e )
         {
-            throw new HibersapException( "rollback transaction", e );
+            throw new HibersapException( "Error rolling back a local transaction", e );
+        }
+        finally
+        {
+            notifySynchronizationsAfterCompletion( false );
         }
     }
 }

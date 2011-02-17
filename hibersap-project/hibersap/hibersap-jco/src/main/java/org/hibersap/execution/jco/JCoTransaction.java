@@ -22,14 +22,14 @@ import org.hibersap.bapi.BapiTransactionCommit;
 import org.hibersap.bapi.BapiTransactionRollback;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.session.AbstractTransaction;
 import org.hibersap.session.SessionImplementor;
-import org.hibersap.session.Transaction;
 
 /**
  * @author Carsten Erker
  */
 public class JCoTransaction
-    implements Transaction
+    extends AbstractTransaction
 {
     private final SessionImplementor session;
 
@@ -57,13 +57,30 @@ public class JCoTransaction
     public void commit()
     {
         errorIfNotInTransaction();
-        executeBapi( new BapiTransactionCommit(), bapiCommit );
+        notifySynchronizationsBeforeCompletion();
+        try
+        {
+            executeBapi( new BapiTransactionCommit(), bapiCommit );
+            notifySynchronizationsAfterCompletion( true );
+        }
+        catch ( RuntimeException e )
+        {
+            notifySynchronizationsAfterCompletion( false );
+            throw e;
+        }
     }
 
     public void rollback()
     {
         errorIfNotInTransaction();
-        executeBapi( new BapiTransactionRollback(), bapiRollback );
+        try
+        {
+            executeBapi( new BapiTransactionRollback(), bapiRollback );
+        }
+        finally
+        {
+            notifySynchronizationsAfterCompletion( false );
+        }
     }
 
     private void errorIfNotInTransaction()

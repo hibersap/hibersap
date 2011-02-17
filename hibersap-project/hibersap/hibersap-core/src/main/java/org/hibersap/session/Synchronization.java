@@ -1,7 +1,7 @@
 package org.hibersap.session;
 
-/*
- * Copyright (C) 2008-2009 akquinet tech@spree GmbH
+/**
+ * Copyright (C) 2009 akquinet tech@spree GmbH
  * 
  * This file is part of Hibersap.
  * 
@@ -18,19 +18,21 @@ package org.hibersap.session;
  */
 
 /**
- * Represents a transaction. Implementors must call beforeCompletion() on all registered
- * Synchronizations before committing a transaction and afterCompletion() after committing or
- * rolling back a transaction.
- * 
+ * Callback interface for transactions.
+ *
  * @author Carsten Erker
  */
-public interface Transaction
+public interface Synchronization
 {
-    void begin();
+    /**
+     * Callback method called before committing a transaction.
+     */
+    void beforeCompletion();
 
-    void commit();
-
-    void rollback();
-
-    void registerSynchronization( Synchronization synchronization );
+    /**
+     * Callback method called after a transaction was committed or rolled back.
+     * 
+     * @param committed Indicates if the transaction was successfully commited.
+     */
+    void afterCompletion( boolean committed );
 }

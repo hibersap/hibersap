@@ -25,10 +25,10 @@
 
     <distributionManagement>
         <site>
-              <id>site.spree.de</id>
-              <name>Hibersap Snapshot Site</name>
-              <url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
-          </site>
+            <id>site.spree.de</id>
+            <name>Hibersap Snapshot Site</name>
+            <url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
+        </site>
 
         <!--site>
             <id>hibersap.sf.net</id>
@@ -73,7 +73,7 @@
     </scm>
 
     <organization>
-        <name>Akquinet Tech@Spree GmbH</name>
+        <name>akquinet tech@spree GmbH</name>
         <url>http://www.akquinet.de</url>
     </organization>
 
@@ -194,7 +194,7 @@ The name of the property is: sap.jco.lib.path
             <plugin>
                 <groupId>de.akquinet.maven</groupId>
                 <artifactId>maven-latex-plugin</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -449,34 +449,41 @@ The name of the property is: sap.jco.lib.path
     </reporting>
     <repositories>
         <repository>
-          <id>jboss-public-repository-group</id>
-          <name>JBoss Public Maven Repository Group</name>
-          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </snapshots>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
         </repository>
-      </repositories>
-      <pluginRepositories>
+    </repositories>
+    <pluginRepositories>
         <pluginRepository>
-          <id>jboss-public-repository-group</id>
-          <name>JBoss Public Maven Repository Group</name>
-          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </snapshots>
+            <id>maven-latex-plugin-repo</id>
+            <url>http://akquinet.github.com/maven-latex-plugin/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </pluginRepository>
-      </pluginRepositories>
+        <pluginRepository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
