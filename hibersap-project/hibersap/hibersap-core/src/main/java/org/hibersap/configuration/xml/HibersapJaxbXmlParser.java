@@ -1,15 +1,14 @@
 package org.hibersap.configuration.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import org.hibersap.ConfigurationException;
+import org.hibersap.InternalHiberSapException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
-import org.hibersap.ConfigurationException;
-import org.hibersap.InternalHiberSapException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class HibersapJaxbXmlParser
 {
@@ -19,7 +18,7 @@ public class HibersapJaxbXmlParser
     {
         try
         {
-            jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
+            jaxbContext = JAXBContext.newInstance( HibersapConfig.class );
         }
         catch ( final JAXBException e )
         {
@@ -28,14 +27,14 @@ public class HibersapJaxbXmlParser
     }
 
     public HibersapConfig parseResource( final String resourceName )
-        throws HibersapParseException
+            throws HibersapParseException
     {
         final InputStream resourceStream = accessResource( resourceName );
         return parseResource( resourceStream, resourceName );
     }
 
     public HibersapConfig parseResource( final InputStream resourceStream, final String resourceName )
-        throws HibersapParseException
+            throws HibersapParseException
     {
         Unmarshaller unmarshaller;
         try
@@ -63,11 +62,10 @@ public class HibersapJaxbXmlParser
         if ( !( unmarshalledObject instanceof HibersapConfig ) )
         {
             throw new HibersapParseException( "Resource " + resourceName
-                + " does not consist of a hibersap specification. I found a "
-                + unmarshalledObject.getClass().getSimpleName() );
-
+                    + " does not consist of a hibersap specification. I found a "
+                    + unmarshalledObject.getClass().getSimpleName() );
         }
-        return (HibersapConfig) unmarshalledObject;
+        return ( HibersapConfig ) unmarshalledObject;
     }
 
     private InputStream accessResource( final String resourceName )
@@ -92,5 +90,4 @@ public class HibersapJaxbXmlParser
         }
         return resourceStream;
     }
-
 }

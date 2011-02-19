@@ -29,7 +29,7 @@ public class ConfigurationMarshallTest
     public void setup()
         throws JAXBException
     {
-        jaxbContext = JAXBContext.newInstance( HiberSapMetaData.class, SessionManagerMetaData.class, Property.class );
+        jaxbContext = JAXBContext.newInstance( HiberSapMetaData.class );
     }
 
     @Test

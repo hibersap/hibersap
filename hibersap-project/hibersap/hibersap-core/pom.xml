@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>hibersap-core</artifactId>
-	<version>1.1-SNAPSHOT</version>
-	<name>Hibersap Core</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>hibersap-core</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <name>Hibersap Core</name>
 
-	<licenses>
-		<license>
-			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+        </license>
+    </licenses>
 
-	<parent>
-		<artifactId>hibersap</artifactId>
-		<groupId>org.hibersap</groupId>
-		<version>1.1-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+    <parent>
+        <artifactId>hibersap</artifactId>
+        <groupId>org.hibersap</groupId>
+        <version>1.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>sun-jaxb</groupId>
-			<artifactId>jaxb-api</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>sun-jaxb</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>sun-jaxb</groupId>
-			<artifactId>jaxb-impl</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>sun-jaxb</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

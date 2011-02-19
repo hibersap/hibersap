@@ -30,7 +30,7 @@ public final class Environment
     /*
      * The Hibersap Version.
      */
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.1";
 
     /*
      * Where to find the hibersap.xml configuration file in the classpath.

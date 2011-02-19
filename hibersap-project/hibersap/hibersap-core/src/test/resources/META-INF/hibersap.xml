@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
+<hibersap  xmlns="http://hibersap.org/xml/ns/hibersap-config">
     <session-manager name="TEST">
         <context>org.hibersap.execution.jco.JCoContext</context>
 
@@ -15,13 +15,13 @@
             <property name="jco.destination.pool_capacity" value="1"/>
         </properties>
 
-        <annotatedClasses>
-            <class>org.hibersap.bapi.BapiTransactionCommit</class>
-        </annotatedClasses>
+        <annotated-classes>
+            <annotated-class>org.hibersap.bapi.BapiTransactionCommit</annotated-class>
+        </annotated-classes>
 
-        <interceptorClasses>
-            <class>org.hibersap.session.SapErrorInterceptor</class>
-        </interceptorClasses>
+        <interceptor-classes>
+            <interceptor-class>org.hibersap.session.SapErrorInterceptor</interceptor-class>
+        </interceptor-classes>
     </session-manager>
 </hibersap>
 

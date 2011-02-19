@@ -1,7 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- 
-<hibersap xmlns="urn:hibersap:hibersap-deployer:1.0">
- -->
 <hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
     <session-manager name="A12">
         <context>org.hibersap.execution.jco.JCoContext</context>
@@ -15,7 +12,7 @@
             <property name="jco.destination.pool_capacity" value="1"/>
         </properties>
 
-        <class>org.test.Class1</class>
-        <class>org.test.Class2</class>
+            <class>org.test.Class1</class>
+            <class>org.test.Class2</class>
     </session-manager>
 </hibersap>

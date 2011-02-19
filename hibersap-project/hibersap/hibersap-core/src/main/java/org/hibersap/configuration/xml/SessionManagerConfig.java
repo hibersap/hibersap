@@ -1,21 +1,21 @@
-package org.hibersap.configuration.xml;
-
-/**
- * Copyright (C) 2008-2009 akquinet tech@spree GmbH
- * 
+/*
+ * Copyright (c) 2009, 2011 akquinet tech@spree GmbH.
+ *
  * This file is part of Hibersap.
- * 
+ *
  * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
  * Lesser General Public License as published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- * 
+ *
  * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
+
+package org.hibersap.configuration.xml;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,11 +53,11 @@ public final class SessionManagerConfig
 
     private final Set<Property> properties = new HashSet<Property>();
 
-    private final Map<String, String> nameValues = new HashMap<String, String>();
+    private final HashMap<String, String> nameValues = new HashMap<String, String>();
 
-    private final Set<String> annotatedClasses = new HashSet<String>();
+    private final HashSet<String> annotatedClasses = new HashSet<String>();
 
-    private final Set<String> interceptorClasses = new HashSet<String>();
+    private final HashSet<String> interceptorClasses = new HashSet<String>();
 
     private String jcaConnectionFactory;
 
@@ -144,8 +144,8 @@ public final class SessionManagerConfig
 
     }
 
-    @XmlElement(name = "class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "annotatedClasses", namespace = HibersapConfig.NAMESPACE)
+    @XmlElement(name = "annotated-class", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "annotated-classes", namespace = HibersapConfig.NAMESPACE)
     public Set<String> getAnnotatedClasses()
     {
         return annotatedClasses;
@@ -222,8 +222,8 @@ public final class SessionManagerConfig
             + ", Classes: " + annotatedClasses;
     }
 
-    @XmlElement(name = "class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "interceptorClasses", namespace = HibersapConfig.NAMESPACE)
+    @XmlElement(name = "interceptor-class", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "interceptor-classes", namespace = HibersapConfig.NAMESPACE)
     public Set<String> getInterceptorClasses()
     {
         return interceptorClasses;

@@ -23,6 +23,10 @@ import java.util.Map;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
+ * Interceptors can be registered for a SessionManager to intercept function calls to SAP.
+ * This interceptor offers access to low-level information about the function parameters
+ * and the mapping.
+ *
  * @author Carsten Erker
  */
 public interface ExecutionInterceptor

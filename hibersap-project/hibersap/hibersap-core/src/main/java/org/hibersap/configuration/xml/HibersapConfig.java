@@ -33,7 +33,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public final class HibersapConfig
 {
-    public static final String NAMESPACE = "urn:hibersap:hibersap-configuration:1.0";
+    public static final String NAMESPACE = "http://hibersap.org/xml/ns/hibersap-config";
 
     @XmlTransient
     private static final Log LOG = LogFactory.getLog( HibersapConfig.class );

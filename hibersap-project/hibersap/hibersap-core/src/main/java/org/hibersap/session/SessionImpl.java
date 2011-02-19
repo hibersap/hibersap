@@ -118,19 +118,29 @@ public class SessionImpl
 
         Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapiObject, bapiMapping );
 
-        for ( ExecutionInterceptor interceptor : interceptors )
-        {
-            interceptor.beforeExecute( bapiMapping, functionMap );
-        }
+        notifyInterceptorsBeforeExecution( bapiMapping, functionMap );
 
         connection.execute( bapiName, functionMap );
 
+        notifyInterceptorsAfterExecution( bapiMapping, functionMap );
+
+        pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
+    }
+
+    private void notifyInterceptorsAfterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
+    {
         for ( ExecutionInterceptor interceptor : interceptors )
         {
             interceptor.afterExecute( bapiMapping, functionMap );
         }
+    }
 
-        pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
+    private void notifyInterceptorsBeforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
+    {
+        for ( ExecutionInterceptor interceptor : interceptors )
+        {
+            interceptor.beforeExecute( bapiMapping, functionMap );
+        }
     }
 
     public SessionManagerImplementor getSessionManager()

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
+<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config">
 	<session-manager name="A12">
 		<context>org.hibersap.execution.jco.JCoContext</context>
 		<jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
@@ -13,10 +13,10 @@
 			<property name="jco.client.sysnr" value="00" />
 			<property name="jco.destination.pool_capacity" value="1" />
 		</properties>
-		<annotatedClasses>
-			<class>org.test.Class1</class>
-			<class>org.test.Class2</class>
-		</annotatedClasses>
+		<annotated-classes>
+			<annotated-class>org.test.Class1</annotated-class>
+			<annotated-class>org.test.Class2</annotated-class>
+		</annotated-classes>
 	</session-manager>
 	<session-manager name="B34">
 		<context>org.hibersap.execution.jco.JCAContext</context>
@@ -30,13 +30,13 @@
 			<property name="jco.client.sysnr" value="00" />
 			<property name="jco.destination.pool_capacity" value="1" />
 		</properties>
-		<annotatedClasses>
-			<class>org.test.Class1</class>
-			<class>org.test.Class3</class>
-		</annotatedClasses>
-		<interceptorClasses>
-			<class>org.test.Class4</class>
-			<class>org.test.Class5</class>
-		</interceptorClasses>
+		<annotated-classes>
+			<annotated-class>org.test.Class1</annotated-class>
+			<annotated-class>org.test.Class3</annotated-class>
+		</annotated-classes>
+		<interceptor-classes>
+			<interceptor-class>org.test.Class4</interceptor-class>
+			<interceptor-class>org.test.Class5</interceptor-class>
+		</interceptor-classes>
 	</session-manager>
 </hibersap>

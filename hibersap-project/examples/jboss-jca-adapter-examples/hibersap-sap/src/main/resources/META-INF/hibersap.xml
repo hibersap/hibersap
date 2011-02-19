@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
+<hibersap  xmlns="http://hibersap.org/xml/ns/hibersap-config">
 	<session-manager name="A12">
 		<context>org.hibersap.execution.jca.JCAContext</context>
 
 		<jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
 		<jca-connectionspec-factory>org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory</jca-connectionspec-factory>
 		
-		<annotatedClasses>
-			<class>org.hibersap.examples.flightlist.FlightListBapi</class>
-			<class>org.hibersap.examples.flightdetail.FlightDetailBapi</class>
-		</annotatedClasses>
+		<annotated-classes>
+			<annotated-class>org.hibersap.examples.flightlist.FlightListBapi</annotated-class>
+			<annotated-class>org.hibersap.examples.flightdetail.FlightDetailBapi</annotated-class>
+		</annotated-classes>
 	</session-manager>
 </hibersap>
 

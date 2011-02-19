@@ -27,10 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.jboss.logging.Logger;
 import org.jboss.xb.annotations.JBossXmlSchema;
 
-// @JBossXmlSchema(namespace = "urn:hibersap:hibersap-deployer:1.0",
-// elementFormDefault = XmlNsForm.QUALIFIED, replacePropertyRefs = false)
-// @XmlRootElement(name = "hibersap", namespace =
-// "urn:hibersap:hibersap-deployer:1.0")
 @JBossXmlSchema(namespace = HiberSapMetaData.NAMESPACE, elementFormDefault = XmlNsForm.QUALIFIED, replacePropertyRefs = false)
 @XmlRootElement(name = "hibersap", namespace = HiberSapMetaData.NAMESPACE)
 @XmlAccessorType(XmlAccessType.PROPERTY)
