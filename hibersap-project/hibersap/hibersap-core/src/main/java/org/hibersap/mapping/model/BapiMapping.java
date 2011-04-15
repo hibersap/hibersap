@@ -20,6 +20,7 @@ package org.hibersap.mapping.model;
 import org.apache.commons.lang.StringUtils;
 import org.hibersap.MappingException;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ import java.util.Set;
  * 
  * @author Carsten Erker
  */
-public class BapiMapping
+public class BapiMapping implements Serializable
 {
     private final String bapiName;
 

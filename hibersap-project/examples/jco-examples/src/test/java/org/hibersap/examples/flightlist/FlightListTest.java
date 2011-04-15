@@ -19,6 +19,7 @@ package org.hibersap.examples.flightlist;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibersap.SapException;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.AbstractHibersapTest;
 import org.hibersap.session.Session;
@@ -29,18 +30,11 @@ import org.junit.Test;
  * @author Carsten Erker
  */
 public class FlightListTest
-    extends AbstractHibersapTest
+        extends AbstractHibersapTest
 {
     private static final Log LOG = LogFactory.getLog( FlightListTest.class );
 
-    // TODO make test pass
     @Test
-    public void testLetTestCasePass()
-    {
-
-    }
-
-    // @Test
     public void showFlightList()
     {
         final AnnotationConfiguration configuration = new AnnotationConfiguration();
@@ -51,18 +45,18 @@ public class FlightListTest
         {
             final FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", "DE", "Berlin", null, false, 10 );
             session.execute( flightList );
-            showResult( flightList );
+            LOG.info( flightList );
+        }
+        catch ( SapException e )
+        {
+            LOG.error( e.getErrors() );
+            LOG.info("Maybe the data in SAP is out of date (this BAPI only returns data for the future). " +
+                    "If so, run program SAPBC_DATA_GENERATOR in SAP, using transaction SE38.");
+            throw e;
         }
         finally
         {
             session.close();
         }
-    }
-
-
-
-    private void showResult( final FlightListBapi flightList )
-    {
-        LOG.info( flightList );
     }
 }

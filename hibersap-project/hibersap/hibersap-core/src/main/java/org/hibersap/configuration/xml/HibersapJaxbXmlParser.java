@@ -29,7 +29,7 @@ public class HibersapJaxbXmlParser
     public HibersapConfig parseResource( final String resourceName )
             throws HibersapParseException
     {
-        final InputStream resourceStream = accessResource( resourceName );
+        final InputStream resourceStream = findResource( resourceName );
         return parseResource( resourceStream, resourceName );
     }
 
@@ -68,7 +68,7 @@ public class HibersapJaxbXmlParser
         return ( HibersapConfig ) unmarshalledObject;
     }
 
-    private InputStream accessResource( final String resourceName )
+    private InputStream findResource( final String resourceName )
     {
         URL resource = Thread.currentThread().getContextClassLoader().getResource( resourceName );
         if ( resource == null )

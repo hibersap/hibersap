@@ -11,7 +11,6 @@ import java.io.Serializable;
 public final class Property
     implements Serializable
 {
-
     @XmlAttribute(name = "name")
     private String name;
 

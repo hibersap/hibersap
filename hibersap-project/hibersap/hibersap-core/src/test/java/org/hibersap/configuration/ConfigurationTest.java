@@ -17,104 +17,124 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
+import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
+import org.hibersap.interceptor.impl.BeanValidationInterceptor;
+import org.hibersap.interceptor.impl.SapErrorInterceptor;
+import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.session.SessionManagerImplementor;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.hibersap.configuration.xml.SessionManagerConfig;
-import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.session.ExecutionInterceptor;
-import org.hibersap.session.SapErrorInterceptor;
-import org.hibersap.session.SessionManagerImplementor;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItem;
 
 /**
  * @author Carsten Erker
  */
 public class ConfigurationTest
 {
-    private static final int NUMBER_OF_PROPERTIES_IN_TEST_CONFIGURATION = 7;
-
     private Configuration configuration;
+    private SessionManagerConfig sessionManagerConfig;
+    private SessionManagerImplementor sessionManager;
 
     @Before
-    @SuppressWarnings("serial")
     public void createConfiguration()
     {
-        configuration = new Configuration()
+        configuration = new Configuration( "TEST" )
         {
-            // nothing to overwrite
+            // create instance of abstract class
         };
-        configuration.getSessionManagerConfig().setContext( DummyContext.class.getName() );
+        sessionManagerConfig = configuration.getSessionManagerConfig();
+        sessionManagerConfig.setContext( DummyContext.class.getName() );
+        sessionManager = ( SessionManagerImplementor ) configuration.buildSessionManager();
     }
 
     @Test
-    public void testAddInterceptor()
+    public void executionInterceptorCanBeManuallyAdded()
     {
-        final ExecutionInterceptor dummyInterceptor = new ExecutionInterceptor()
-        {
-            public void afterExecute( BapiMapping bapiMapping, Map<String, Object> functionMap )
-            {
-                // dummy
-            }
+        final ExecutionInterceptor dummyInterceptor = new ExecutionInterceptorDummy();
+        configuration.addExecutionInterceptor( dummyInterceptor );
 
-            public void beforeExecute( BapiMapping bapiMapping, Map<String, Object> functionMap )
-            {
-                // dummy
-            }
-        };
-        configuration.addInterceptor( dummyInterceptor );
-        final SessionManagerImplementor sessionManager = (SessionManagerImplementor) configuration
-            .buildSessionManager();
-
-        assertTrue( sessionManager.getInterceptors().contains( dummyInterceptor ) );
+        assertThat( sessionManager.getExecutionInterceptors(), hasItem( dummyInterceptor ) );
     }
 
     @Test
-    public void testSetGetOverwriteProperties()
-        throws Exception
+    public void overwritesContextClass() throws Exception
     {
-        SessionManagerConfig sfConfig = configuration.getSessionManagerConfig();
-        // overwrites context class
-        assertEquals( DummyContext.class.getName(), sfConfig.getContext() );
-        sfConfig.setContext( "test" );
-        assertEquals( "test", sfConfig.getContext() );
+        sessionManagerConfig.setContext( "test" );
 
-        // overwrites property
-        assertEquals( "user", sfConfig.getProperty( "jco.client.user" ) );
-        sfConfig.setProperty( "jco.client.user", "test" );
-        assertEquals( "test", sfConfig.getProperty( "jco.client.user" ) );
+        assertThat( sessionManagerConfig.getContext(), is( "test" ) );
+    }
 
-        // overwrites whole configuration
-        assertEquals( NUMBER_OF_PROPERTIES_IN_TEST_CONFIGURATION, sfConfig.getProperties().size() );
+    @Test
+    public void overwritesProperties()
+            throws Exception
+    {
+        sessionManagerConfig.setProperty( "jco.client.user", "test" );
+
+        assertThat( sessionManagerConfig.getProperty( "jco.client.user" ), is( "test" ) );
+    }
+
+    @Test
+    public void overwritesCompleteSessionManagerConfiguration()
+            throws Exception
+    {
         final SessionManagerConfig config = new SessionManagerConfig().setProperty( "testkey", "testvalue" );
+
         configuration.setSessionManagerConfig( config );
-        sfConfig = configuration.getSessionManagerConfig();
-        assertEquals( 1, sfConfig.getProperties().size() );
-        assertEquals( "testvalue", sfConfig.getProperty( "testkey" ) );
+
+        final SessionManagerConfig sessionManagerConfig = configuration.getSessionManagerConfig();
+        assertThat( sessionManagerConfig.getProperties().size(), is( 1 ) );
+        assertThat( sessionManagerConfig.getProperty( "testkey" ), is( "testvalue" ) );
     }
 
     @Test
-    public void testSettingsInitialized()
+    public void createsBapiInterceptorsFromXmlConfig()
     {
-        final SessionManagerImplementor sessionManager = (SessionManagerImplementor) configuration
-            .buildSessionManager();
-        final Settings settings = sessionManager.getSettings();
-
-        // Context class
-        assertEquals( DummyContext.class, settings.getContext().getClass() );
+        final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
+        assertThat( interceptors.size(), is( 1 ) );
+        assertThat( interceptors.iterator().next(), is( CoreMatchers.instanceOf( BeanValidationInterceptor.class ) ) );
     }
 
     @Test
-    public void testStandardInterceptorsInitialized()
+    public void initializesStandardInterceptorsAutomatically()
     {
-        final SessionManagerImplementor sessionManager = (SessionManagerImplementor) configuration
-            .buildSessionManager();
-        final Set<ExecutionInterceptor> interceptors = sessionManager.getInterceptors();
-        assertEquals( 1, interceptors.size() );
-        assertEquals( SapErrorInterceptor.class, interceptors.iterator().next().getClass() );
+        final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
+
+        assertThat( interceptors, hasItem( instanceOf( SapErrorInterceptor.class ) ) );
+    }
+
+    @Test
+    public void createsExecutionInterceptorsFromXmlConfig()
+    {
+        final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
+        assertThat( interceptors.size(), is( 2 ) );
+        assertThat( interceptors, hasItem( instanceOf( ExecutionInterceptorDummy.class ) ) );
+    }
+
+    private static Matcher<ExecutionInterceptor> instanceOf( Class<? extends ExecutionInterceptor> clazz )
+    {
+        return CoreMatchers.instanceOf( clazz );
+    }
+
+    public static class ExecutionInterceptorDummy implements ExecutionInterceptor
+    {
+        public void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
+        {
+            // dummy
+        }
+
+        public void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
+        {
+            // dummy
+        }
     }
 }

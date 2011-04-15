@@ -2,6 +2,7 @@ package org.hibersap.mapping.model;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Arrays;
  * 
  * @author Carsten Erker
  */
-public class ErrorHandling
+public class ErrorHandling implements Serializable
 {
     private final boolean throwExceptionOnError;
 

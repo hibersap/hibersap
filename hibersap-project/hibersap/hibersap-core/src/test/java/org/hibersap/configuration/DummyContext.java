@@ -5,8 +5,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
-public class DummyContext
-    implements Context
+public class DummyContext implements Context
 {
     private static final long serialVersionUID = 1L;
 

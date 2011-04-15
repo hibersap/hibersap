@@ -1,4 +1,4 @@
-package org.hibersap.session;
+package org.hibersap.interceptor.impl;
 
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
@@ -23,6 +23,7 @@ import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.execution.UnsafeCastHelper;
+import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ErrorHandling;
 
@@ -44,7 +45,7 @@ public class SapErrorInterceptor
     implements ExecutionInterceptor
 {
     // TODO test with return table
-    public void afterExecute( final BapiMapping bapiMapping, final Map<String, Object> functionMap )
+    public void afterExecution( final BapiMapping bapiMapping, final Map<String, Object> functionMap )
         throws SapException
     {
         if ( bapiMapping.getErrorHandling().isThrowExceptionOnError() )
@@ -53,7 +54,7 @@ public class SapErrorInterceptor
         }
     }
 
-    public void beforeExecute( final BapiMapping bapiMapping, final Map<String, Object> functionMap )
+    public void beforeExecution( final BapiMapping bapiMapping, final Map<String, Object> functionMap )
     {
         // nothing to do
     }

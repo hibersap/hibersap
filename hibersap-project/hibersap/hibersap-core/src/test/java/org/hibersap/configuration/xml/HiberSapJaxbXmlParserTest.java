@@ -2,74 +2,126 @@ package org.hibersap.configuration.xml;
 
 /**
  * Copyright (C) 2008-2009 akquinet tech@spree GmbH
- * 
+ *
  * This file is part of Hibersap.
- * 
+ *
  * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
  * Lesser General Public License as published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- * 
+ *
  * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItem;
+import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class HiberSapJaxbXmlParserTest
 {
-    @Test
-    public void testOK()
-        throws Exception
+    private static HibersapConfig config;
+    private static SessionManagerConfig sessionManagerA12;
+    private static SessionManagerConfig sessionManagerB34;
+
+    @BeforeClass
+    public static void createHibersapConfig()
     {
         final HibersapJaxbXmlParser hiberSapJaxbXmlParser = new HibersapJaxbXmlParser();
-        HibersapConfig config = hiberSapJaxbXmlParser.parseResource( "/xml-configurations/hibersapOK.xml" );
+        config = hiberSapJaxbXmlParser.parseResource( "/xml-configurations/hibersapOK.xml" );
+        sessionManagerA12 = config.getSessionManager( "A12" );
+        sessionManagerB34 = config.getSessionManager( "B34" );
+    }
 
-        assertNotNull( config );
-
+    @Test
+    public void createsTwoSessionManagers()
+    {
         List<SessionManagerConfig> sessionManagers = config.getSessionManagers();
-        assertEquals( 2, sessionManagers.size() );
 
-        SessionManagerConfig sf1 = sessionManagers.get( 0 );
-        assertEquals( "A12", sf1.getName() );
-        assertEquals( "org.hibersap.execution.jco.JCoContext", sf1.getContext() );
-        assertEquals( "org.hibersap.execution.jca.cci.MyTestConnectionSpecFactory", sf1.getJcaConnectionSpecFactory() );
-        assertEquals( "java:/eis/sap/A12", sf1.getJcaConnectionFactory() );
+        assertThat( sessionManagers.size(), is( 2 ) );
+    }
 
-        Set<Property> properties = sf1.getProperties();
-        assertEquals( 7, properties.size() );
+    @Test
+    public void sessionManagersHaveCorrectNames()
+    {
+        final String a12Name = sessionManagerA12.getName();
+        final String b34Name = sessionManagerB34.getName();
 
-        Set<String> classes = sf1.getAnnotatedClasses();
-        assertEquals( 2, classes.size() );
+        assertThat( a12Name, is( "A12" ) );
+        assertThat( b34Name, is( "B34" ) );
+    }
 
-        assertEquals( 0, sf1.getInterceptorClasses().size() );
+    @Test
+    public void sessionManagersHaveCorrectHibersapContext()
+    {
 
-        SessionManagerConfig sf2 = sessionManagers.get( 1 );
-        assertEquals( "B34", sf2.getName() );
-        assertEquals( "org.hibersap.execution.jco.JCAContext", sf2.getContext() );
-        assertEquals( "java:/eis/sap/B34", sf2.getJcaConnectionFactory() );
-        assertEquals( "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory", sf2
-            .getJcaConnectionSpecFactory() );
+        final String a12Context = sessionManagerA12.getContext();
+        final String b34Context = sessionManagerB34.getContext();
 
-        properties = sf2.getProperties();
-        assertEquals( 7, properties.size() );
+        assertThat( a12Context, is( "org.hibersap.execution.jco.JCoContext" ) );
+        assertThat( b34Context, is( "org.hibersap.execution.jca.JCAContext" ) );
+    }
 
-        classes = sf2.getAnnotatedClasses();
-        assertEquals( 2, classes.size() );
+    @Test
+    public void sessionManagerHasCorrectJcaConnectionFactory()
+    {
+        final String connectionSpecFactory = sessionManagerB34.getJcaConnectionFactory();
 
-        Set<String> interceptors = sf2.getInterceptorClasses();
-        assertEquals( 2, interceptors.size() );
-        assertTrue( interceptors.contains( "org.test.Class4" ) );
-        assertTrue( interceptors.contains( "org.test.Class5" ) );
+        assertThat( connectionSpecFactory, is( "java:/eis/sap/B34" ) );
+    }
+
+    @Test
+    public void sessionManagerHasCorrectJcaConnectionSpecFactory()
+    {
+        final SessionManagerConfig manager = sessionManagerB34;
+
+        assertThat( manager.getJcaConnectionSpecFactory(), is( "org.hibersap.test.MyTestConnectionSpecFactory" ) );
+    }
+
+    @Test
+    public void sessionManagerHasCorrectProperties()
+    {
+        Set<Property> properties = sessionManagerB34.getProperties();
+
+        assertThat( properties.size(), is( 2 ) );
+        assertThat( properties, hasItem( new Property( "property1_name", "property1_value" ) ) );
+        assertThat( properties, hasItem( new Property( "property2_name", "property2_value" ) ) );
+    }
+
+    @Test
+    public void sessionManagerHasCorrectAnnotatedClasses()
+    {
+        final Set<String> classes = sessionManagerB34.getAnnotatedClasses();
+
+        assertThat( classes.size(), is( 2 ) );
+        assertThat( classes, hasItems( "org.test.Class1", "org.test.Class3" ) );
+    }
+
+    @Test
+    public void sessionManagerHasCorrectExecutionInterceptors()
+    {
+        final Set<String> classes = sessionManagerB34.getExecutionInterceptorClasses();
+
+        assertThat( classes.size(), is( 2 ) );
+        assertThat( classes, hasItems( "org.test.Class4", "org.test.Class5" ) );
+    }
+
+    @Test
+    public void sessionManagerHasCorrectBapiInterceptors()
+    {
+        final Set<String> classes = sessionManagerB34.getBapiInterceptorClasses();
+
+        assertThat( classes.size(), is( 2 ) );
+        assertThat( classes, hasItems( "org.test.Class6", "org.test.Class7" ) );
     }
 }

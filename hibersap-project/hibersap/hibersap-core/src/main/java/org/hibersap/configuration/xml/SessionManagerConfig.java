@@ -19,7 +19,8 @@ package org.hibersap.configuration.xml;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibersap.session.ExecutionInterceptor;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -40,7 +41,8 @@ import java.util.Set;
     "jcaConnectionSpecFactory",
     "properties",
     "annotatedClasses",
-    "interceptorClasses" })
+    "executionInterceptorClasses",
+    "bapiInterceptorClasses"})
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public final class SessionManagerConfig
     implements Serializable
@@ -57,7 +59,9 @@ public final class SessionManagerConfig
 
     private final HashSet<String> annotatedClasses = new HashSet<String>();
 
-    private final HashSet<String> interceptorClasses = new HashSet<String>();
+    private final HashSet<String> executionInterceptorClasses = new HashSet<String>();
+
+    private final HashSet<String> bapiInterceptorClasses = new HashSet<String>();
 
     private String jcaConnectionFactory;
 
@@ -222,22 +226,40 @@ public final class SessionManagerConfig
             + ", Classes: " + annotatedClasses;
     }
 
-    @XmlElement(name = "interceptor-class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "interceptor-classes", namespace = HibersapConfig.NAMESPACE)
-    public Set<String> getInterceptorClasses()
+    @XmlElement(name = "execution-interceptor-class", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "execution-interceptor-classes", namespace = HibersapConfig.NAMESPACE)
+    public Set<String> getExecutionInterceptorClasses()
     {
-        return interceptorClasses;
+        return executionInterceptorClasses;
     }
 
-    public void setInterceptorClasses( final Collection<String> interceptorClasses )
+    public void setExecutionInterceptorClasses( final Collection<String> executionInterceptorClasses )
     {
-        this.interceptorClasses.clear();
-        this.interceptorClasses.addAll( interceptorClasses );
+        this.executionInterceptorClasses.clear();
+        this.executionInterceptorClasses.addAll( executionInterceptorClasses );
     }
 
-    public void addInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
+    public void addExecutionInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
     {
-        interceptorClasses.add( interceptorClass.getName() );
+        executionInterceptorClasses.add( interceptorClass.getName() );
+    }
+
+    @XmlElement(name = "bapi-interceptor-class", namespace = HibersapConfig.NAMESPACE)
+    @XmlElementWrapper(name = "bapi-interceptor-classes", namespace = HibersapConfig.NAMESPACE)
+    public Set<String> getBapiInterceptorClasses()
+    {
+        return bapiInterceptorClasses;
+    }
+
+    public void setBapiInterceptorClasses( final Collection<String> bapiInterceptorClasses )
+    {
+        this.bapiInterceptorClasses.clear();
+        this.bapiInterceptorClasses.addAll( bapiInterceptorClasses );
+    }
+
+    public void addBapiInterceptorClass( Class<? extends BapiInterceptor> bapiInterceptorClass )
+    {
+        executionInterceptorClasses.add( bapiInterceptorClass.getName() );
     }
 
     @Override
@@ -247,7 +269,7 @@ public final class SessionManagerConfig
         int result = 1;
         result = prime * result + ( ( annotatedClasses == null ) ? 0 : annotatedClasses.hashCode() );
         result = prime * result + ( ( context == null ) ? 0 : context.hashCode() );
-        result = prime * result + ( ( interceptorClasses == null ) ? 0 : interceptorClasses.hashCode() );
+        result = prime * result + ( ( executionInterceptorClasses == null ) ? 0 : executionInterceptorClasses.hashCode() );
         result = prime * result + ( ( jcaConnectionFactory == null ) ? 0 : jcaConnectionFactory.hashCode() );
         result = prime * result + ( ( jcaConnectionSpecFactory == null ) ? 0 : jcaConnectionSpecFactory.hashCode() );
         result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
@@ -293,14 +315,14 @@ public final class SessionManagerConfig
         {
             return false;
         }
-        if ( interceptorClasses == null )
+        if ( executionInterceptorClasses == null )
         {
-            if ( other.interceptorClasses != null )
+            if ( other.executionInterceptorClasses != null )
             {
                 return false;
             }
         }
-        else if ( !interceptorClasses.equals( other.interceptorClasses ) )
+        else if ( !executionInterceptorClasses.equals( other.executionInterceptorClasses ) )
         {
             return false;
         }

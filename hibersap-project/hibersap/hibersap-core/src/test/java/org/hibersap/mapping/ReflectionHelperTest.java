@@ -1,7 +1,7 @@
 package org.hibersap.mapping;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.hibersap.HibersapException;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,23 +9,25 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.hibersap.HibersapException;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 public class ReflectionHelperTest
 {
 
     @Test
     public void testGetClassForName()
-        throws ClassNotFoundException
+            throws ClassNotFoundException
     {
         Class<?> clazz = ReflectionHelper.getClassForName( Object.class.getName() );
         assertEquals( Object.class, clazz );
     }
 
-    @Test(expected = ClassNotFoundException.class)
+    @Test( expected = ClassNotFoundException.class )
     public void testGetClassForNameNotFound()
-        throws ClassNotFoundException
+            throws ClassNotFoundException
     {
         ReflectionHelper.getClassForName( "NotExistent" );
     }
@@ -42,16 +44,16 @@ public class ReflectionHelperTest
 
     @Test
     public void testGetDeclaredField()
-        throws Exception
+            throws Exception
     {
         TestBean bean = new TestBean();
         Field field = ReflectionHelper.getDeclaredField( bean, "intValue" );
         assertEquals( "intValue", field.getName() );
     }
 
-    @Test(expected = HibersapException.class)
+    @Test( expected = HibersapException.class )
     public void testGetDeclaredFieldNotExistent()
-        throws Exception
+            throws Exception
     {
         ReflectionHelper.getDeclaredField( new TestBean(), "notExistent" );
     }
@@ -59,11 +61,11 @@ public class ReflectionHelperTest
     @Test
     public void testGetFieldValue()
     {
-        int value = (Integer) ReflectionHelper.getFieldValue( new TestBean(), "intValue" );
+        int value = ( Integer ) ReflectionHelper.getFieldValue( new TestBean(), "intValue" );
         assertEquals( 1, value );
     }
 
-    @Test(expected = HibersapException.class)
+    @Test( expected = HibersapException.class )
     public void testGetFieldValueNotExistent()
     {
         ReflectionHelper.getFieldValue( new TestBean(), "notExistent" );
@@ -71,7 +73,7 @@ public class ReflectionHelperTest
 
     @Test
     public void testGetGenericType()
-        throws Exception
+            throws Exception
     {
         Field field = TestBean.class.getDeclaredField( "set" );
         Class<?> clazz = ReflectionHelper.getGenericType( field );
@@ -80,7 +82,7 @@ public class ReflectionHelperTest
 
     @Test
     public void testGetGenericTypeNotGeneric()
-        throws Exception
+            throws Exception
     {
         Field field = TestBean.class.getDeclaredField( "intValue" );
         Class<?> clazz = ReflectionHelper.getGenericType( field );
@@ -94,7 +96,7 @@ public class ReflectionHelperTest
         assertEquals( ArrayList.class, collection.getClass() );
     }
 
-    @Test(expected = HibersapException.class)
+    @Test( expected = HibersapException.class )
     public void testNewCollectionInstanceCannotInstanciate()
     {
         ReflectionHelper.newCollectionInstance( List.class );
@@ -108,7 +110,7 @@ public class ReflectionHelperTest
     }
 
     @Test
-    @SuppressWarnings("synthetic-access")
+    @SuppressWarnings( "synthetic-access" )
     public void testSetFieldValue()
     {
         TestBean bean = new TestBean();
@@ -117,20 +119,28 @@ public class ReflectionHelperTest
         assertEquals( 2, bean.intValue );
     }
 
-    @Test(expected = HibersapException.class)
+    @Test( expected = HibersapException.class )
     public void testSetFieldValueNullObject()
     {
         ReflectionHelper.setFieldValue( null, "intValue", 0 );
     }
 
-    @Test(expected = HibersapException.class)
+    @Test( expected = HibersapException.class )
     public void testSetFieldValueNullValue()
     {
         TestBean bean = new TestBean();
         ReflectionHelper.setFieldValue( bean, "intValue", null );
     }
 
-    @SuppressWarnings("unused")
+    @Test
+    public void createsNewInstanceFromClassNameAndReturnsSupertype()
+    {
+        final CharSequence charSequence = ReflectionHelper.newInstance( "java.lang.String", CharSequence.class );
+
+        assertThat( ( String ) charSequence, equalTo( "" ) );
+    }
+
+    @SuppressWarnings( "unused" )
     class TestBean
     {
         private int intValue = 1;

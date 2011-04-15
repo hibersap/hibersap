@@ -265,7 +265,7 @@ The name of the property is: sap.jco.lib.path
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>RELEASE</version>
+                    <version>2.4</version>
                 </plugin>
             </plugins>
 
@@ -288,10 +288,31 @@ The name of the property is: sap.jco.lib.path
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
+            <artifactId>junit-dep</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-integration</artifactId>
+            <version>1.2.1</version>
             <scope>test</scope>
         </dependency>
+
+<!--
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+-->
 
         <dependency>
             <groupId>org.easymock</groupId>
@@ -342,13 +363,6 @@ The name of the property is: sap.jco.lib.path
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>4.0.2.GA</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.5</version>
                 <scope>test</scope>
             </dependency>
 

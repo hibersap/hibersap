@@ -23,7 +23,7 @@ package org.hibersap.configuration.xml;
  *  @author dahm
  */
 public class HibersapParseException
-    extends Exception
+    extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
 

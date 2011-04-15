@@ -5,11 +5,9 @@
 		<properties>
 			<property name="jco.client.client" value="800" />
 			<property name="jco.client.user" value="sapuser" />
-			<property name="jco.client.passwd"
-				value="password" />
+			<property name="jco.client.passwd" value="password" />
 			<property name="jco.client.lang" value="en" />
-			<property name="jco.client.ashost"
-				value="10.20.80.76" />
+			<property name="jco.client.ashost" value="sap.spree.de" />
 			<property name="jco.client.sysnr" value="00" />
 			<property name="jco.destination.pool_capacity" value="1" />
 		</properties>

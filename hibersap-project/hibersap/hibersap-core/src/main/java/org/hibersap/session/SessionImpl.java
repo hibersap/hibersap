@@ -17,22 +17,23 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.execution.PojoMapper;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.util.Announcer;
+
+import java.util.Map;
 
 /*
  * @author Carsten Erker
  */
 public class SessionImpl
-    implements Session, SessionImplementor
+        implements Session, SessionImplementor
 {
     private static final Log LOG = LogFactory.getLog( SessionImpl.class );
 
@@ -44,7 +45,9 @@ public class SessionImpl
 
     private Connection connection;
 
-    private final Set<ExecutionInterceptor> interceptors = new HashSet<ExecutionInterceptor>();
+    private final Announcer<ExecutionInterceptor> executionInterceptors = Announcer.to( ExecutionInterceptor.class );
+
+    private final Announcer<BapiInterceptor> bapiInterceptors = Announcer.to( BapiInterceptor.class );
 
     private final Credentials credentials;
 
@@ -65,7 +68,8 @@ public class SessionImpl
             LOG.debug( "Providing credentials" );
             connection.setCredentials( credentials );
         }
-        interceptors.addAll( sessionManager.getInterceptors() );
+        executionInterceptors.addAllListeners( sessionManager.getExecutionInterceptors() );
+        bapiInterceptors.addAllListeners( sessionManager.getBapiInterceptors() );
     }
 
     public Transaction beginTransaction()
@@ -101,7 +105,9 @@ public class SessionImpl
         Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
         if ( bapiMappings.containsKey( bapiClass ) )
         {
+            bapiInterceptors.announce().beforeExecution( bapiObject );
             execute( bapiObject, bapiMappings.get( bapiClass ) );
+            bapiInterceptors.announce().afterExecution( bapiObject );
         }
         else
         {
@@ -118,29 +124,13 @@ public class SessionImpl
 
         Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapiObject, bapiMapping );
 
-        notifyInterceptorsBeforeExecution( bapiMapping, functionMap );
+        executionInterceptors.announce().beforeExecution( bapiMapping, functionMap );
 
         connection.execute( bapiName, functionMap );
 
-        notifyInterceptorsAfterExecution( bapiMapping, functionMap );
+        executionInterceptors.announce().afterExecution( bapiMapping, functionMap );
 
         pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
-    }
-
-    private void notifyInterceptorsAfterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
-    {
-        for ( ExecutionInterceptor interceptor : interceptors )
-        {
-            interceptor.afterExecute( bapiMapping, functionMap );
-        }
-    }
-
-    private void notifyInterceptorsBeforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
-    {
-        for ( ExecutionInterceptor interceptor : interceptors )
-        {
-            interceptor.beforeExecute( bapiMapping, functionMap );
-        }
     }
 
     public SessionManagerImplementor getSessionManager()
@@ -164,8 +154,13 @@ public class SessionImpl
         closed = true;
     }
 
-    public void addInterceptor( ExecutionInterceptor interceptor )
+    public void addExecutionInterceptor( ExecutionInterceptor interceptor )
     {
-        interceptors.add( interceptor );
+        executionInterceptors.addListener( interceptor );
+    }
+
+    public void addBapiInterceptor( BapiInterceptor interceptor )
+    {
+        bapiInterceptors.addListener( interceptor );
     }
 }

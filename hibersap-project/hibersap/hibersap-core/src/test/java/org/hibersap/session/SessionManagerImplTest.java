@@ -14,6 +14,7 @@ import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.DummyContext;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.BooleanConverter;
+import org.hibersap.interceptor.ExecutionInterceptor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +41,7 @@ public class SessionManagerImplTest
         assertEquals( "name", manager.getConfig().getName() );
         assertNotNull( manager.getConverterCache() );
         assertNotNull( manager.getBapiMappings() );
-        assertNotNull( manager.getInterceptors() );
+        assertNotNull( manager.getExecutionInterceptors() );
     }
 
     @Test
@@ -65,10 +66,10 @@ public class SessionManagerImplTest
         assertEquals( manager.getSettings(), managerRead.getSettings() );
         assertEquals( manager.getConverterCache(), managerRead.getConverterCache() );
 
-        assertEquals( 1, manager.getInterceptors().size() );
-        assertEquals( 1, managerRead.getInterceptors().size() );
-        ExecutionInterceptor interceptor = manager.getInterceptors().iterator().next();
-        ExecutionInterceptor interceptorRead = managerRead.getInterceptors().iterator().next();
+        assertEquals( 1, manager.getExecutionInterceptors().size() );
+        assertEquals( 1, managerRead.getExecutionInterceptors().size() );
+        ExecutionInterceptor interceptor = manager.getExecutionInterceptors().iterator().next();
+        ExecutionInterceptor interceptorRead = managerRead.getExecutionInterceptors().iterator().next();
         assertEquals( interceptor.getClass(), interceptorRead.getClass() );
     }
 }

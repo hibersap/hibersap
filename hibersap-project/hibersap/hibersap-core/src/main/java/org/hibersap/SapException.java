@@ -23,10 +23,10 @@ import java.util.List;
 /**
  * A SapException holds error messages corresponding to the values of SAP return structures. These
  * are commonly used in SAP functions to inform the client about any errors, warnings or other
- * information. It is used by the org.hibersap.session.SapErrorInterceptor but can be utilized by
+ * information. It is used by the org.hibersap.interceptor.impl.SapErrorInterceptor but can be utilized by
  * the application to make its own evaluations of SAP return structures.
  * 
- * @see org.hibersap.session.SapErrorInterceptor
+ * @see org.hibersap.interceptor.impl.SapErrorInterceptor
  * 
  * @author Carsten Erker
  */

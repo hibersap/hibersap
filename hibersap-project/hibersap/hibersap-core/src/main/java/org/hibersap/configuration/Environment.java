@@ -37,41 +37,8 @@ public final class Environment
      */
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
 
-    private static final Log LOG = LogFactory.getLog( Environment.class );
-
-    private static final HibersapConfig CONFIG = readConfig();
-
     private Environment()
     {
         // should not be instantiated
-    }
-
-    private static HibersapConfig readConfig()
-    {
-        LOG.info( "Hibersap " + VERSION );
-        return readXMLProperties( HIBERSAP_XML_FILE );
-    }
-
-    static HibersapConfig readXMLProperties( final String hibersapXmlFile )
-    {
-        LOG.debug( "Trying to read properties from " + hibersapXmlFile );
-        HibersapConfig hibersapConfig;
-        try
-        {
-            final HibersapJaxbXmlParser hibersapXMLParser = new HibersapJaxbXmlParser();
-            hibersapConfig = hibersapXMLParser.parseResource( hibersapXmlFile );
-            LOG.debug( "Properties read from " + hibersapXmlFile + ": " + hibersapConfig );
-            return hibersapConfig;
-        }
-        catch ( final Exception e )
-        {
-            LOG.error( "Problems with reading/parsing " + hibersapXmlFile, e );
-            return null;
-        }
-    }
-
-    public static HibersapConfig getHibersapConfig()
-    {
-        return CONFIG;
     }
 }

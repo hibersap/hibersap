@@ -27,6 +27,8 @@ import org.hibersap.configuration.Configuration;
 import org.hibersap.configuration.Settings;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 
 /*
@@ -44,10 +46,10 @@ public final class SessionManagerImpl
 
     private final Map<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
 
-    // TODO exists for each SessionManager instance, should be global to remove redundancies
     private final ConverterCache converterCache;
 
-    private final Set<ExecutionInterceptor> interceptors;
+    private final Set<ExecutionInterceptor> executionInterceptors;
+    private Set<BapiInterceptor> bapiInterceptors;
 
     public SessionManagerImpl( Configuration configuration, Settings settings )
     {
@@ -55,7 +57,8 @@ public final class SessionManagerImpl
         this.converterCache = new ConverterCache();
         this.config = configuration.getSessionManagerConfig();
         bapiMappings.putAll( configuration.getBapiMappings() );
-        interceptors = configuration.getInterceptors();
+        executionInterceptors = configuration.getExecutionInterceptors();
+        bapiInterceptors = configuration.getBapiInterceptors();
     }
 
     /*
@@ -117,9 +120,17 @@ public final class SessionManagerImpl
     /*
      * {@inheritDoc}
      */
-    public Set<ExecutionInterceptor> getInterceptors()
+    public Set<ExecutionInterceptor> getExecutionInterceptors()
     {
-        return interceptors;
+        return executionInterceptors;
+    }
+
+    /*
+     * {@inheritDoc}
+     */
+    public Set<BapiInterceptor> getBapiInterceptors()
+    {
+        return bapiInterceptors;
     }
 
     @Override
@@ -127,6 +138,6 @@ public final class SessionManagerImpl
     {
         String format = "SessionManagerImpl[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
         return String.format( format, config.toString(), settings.getContext(), converterCache.toString(),
-                              interceptors, bapiMappings );
+                executionInterceptors, bapiMappings );
     }
 }

@@ -62,15 +62,13 @@ public class FlightDetailTest extends AbstractHibersapTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void testShowFlightDetail() {
 		final Session session = sessionManager.openSession();
 		try {
 			session.beginTransaction();
-			final Date date26Apr2002 = new GregorianCalendar(2002,
-					Calendar.APRIL, 26).getTime();
-			final FlightDetailBapi flightDetail = new FlightDetailBapi("AZ",
-					"0788", date26Apr2002);
+			final Date date26Apr2002 = new GregorianCalendar(2011, Calendar.OCTOBER, 11).getTime();
+			final FlightDetailBapi flightDetail = new FlightDetailBapi("AZ", "0788", date26Apr2002);
 			session.execute(flightDetail);
 			session.getTransaction().commit();
 			LOG.info(flightDetail);
@@ -79,14 +77,7 @@ public class FlightDetailTest extends AbstractHibersapTest {
 		}
 	}
 
-    // TODO make test pass
-    @Test
-    public void testLetTestCasePass()
-    {
-
-    }
-
-	// @Test
+	@Test
 	public void testShowFlightDetailWithSapErrorMessage() {
 		final Session session = sessionManager.openSession();
 

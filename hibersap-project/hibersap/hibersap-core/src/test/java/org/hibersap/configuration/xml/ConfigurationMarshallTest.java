@@ -33,6 +33,7 @@ public class ConfigurationMarshallTest
         jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
     }
 
+
     @Test
     public void testParseOkConfiguration()
         throws Exception
@@ -52,6 +53,7 @@ public class ConfigurationMarshallTest
         assertEquals( "B34", sessionManagers.get( 1 ).getName() );
     }
 
+    // TODO create complete xml and verify against xsd
     @Test
     public void testMarshalling()
         throws Exception
@@ -74,6 +76,6 @@ public class ConfigurationMarshallTest
 
         final StringWriter stringWriter = new StringWriter();
         marshaller.marshal( hiberSapMetaData, stringWriter );
-        LOG.debug( stringWriter.toString() );
+        System.out.println( stringWriter.toString() );
     }
 }

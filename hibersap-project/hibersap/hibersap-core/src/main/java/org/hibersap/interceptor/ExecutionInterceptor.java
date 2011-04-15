@@ -1,4 +1,4 @@
-package org.hibersap.session;
+package org.hibersap.interceptor;
 
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
@@ -32,7 +32,7 @@ import org.hibersap.mapping.model.BapiMapping;
 public interface ExecutionInterceptor
     extends Serializable
 {
-    void beforeExecute( BapiMapping bapiMapping, Map<String, Object> functionMap );
+    void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
 
-    void afterExecute( BapiMapping bapiMapping, Map<String, Object> functionMap );
+    void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
 }

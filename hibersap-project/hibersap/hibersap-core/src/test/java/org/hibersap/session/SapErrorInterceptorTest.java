@@ -18,6 +18,7 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.bapi.BapiRet2;
+import org.hibersap.interceptor.impl.SapErrorInterceptor;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class SapErrorInterceptorTest
 
         try
         {
-            interceptor.afterExecute( bapiMapping, functionMap );
+            interceptor.afterExecution( bapiMapping, functionMap );
             fail();
         }
         catch ( SapException e )
@@ -74,7 +75,7 @@ public class SapErrorInterceptorTest
 
         try
         {
-            interceptor.afterExecute( bapiMapping, functionMap );
+            interceptor.afterExecution( bapiMapping, functionMap );
             fail();
         }
         catch ( SapException e )
@@ -112,7 +113,7 @@ public class SapErrorInterceptorTest
 
         try
         {
-            interceptor.afterExecute( bapiMapping, functionMap );
+            interceptor.afterExecution( bapiMapping, functionMap );
             fail();
         }
         catch ( SapException e )
@@ -145,7 +146,7 @@ public class SapErrorInterceptorTest
         functionMap.put( "EXPORT", exportParamsMap );
 
         // no exception must be thrown
-        interceptor.afterExecute( bapiMapping, functionMap );
+        interceptor.afterExecution( bapiMapping, functionMap );
     }
 
     private HashMap<String, Object> buildReturnParamMap( String type, String msg, String id, String number )

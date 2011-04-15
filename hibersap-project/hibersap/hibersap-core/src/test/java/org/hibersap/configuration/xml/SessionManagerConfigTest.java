@@ -34,6 +34,7 @@ public class SessionManagerConfigTest
             .setJcaConnectionFactory( "jcaConnectionFactory" ).setJcaConnectionSpecFactory( "jcaConnectionSpecFactory" )
             .setName( "newName" ).setProperty( "key1", "value1" ).setProperty( "key2", "value2" )
             .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class );
+
         assertEquals( "context", cfg.getContext() );
         assertEquals( "jcaConnectionFactory", cfg.getJcaConnectionFactory() );
         assertEquals( "jcaConnectionSpecFactory", cfg.getJcaConnectionSpecFactory() );

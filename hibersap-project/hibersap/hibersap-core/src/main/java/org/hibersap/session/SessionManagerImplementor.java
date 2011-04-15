@@ -17,28 +17,30 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.configuration.Settings;
+import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.conversion.ConverterCache;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
+import org.hibersap.mapping.model.BapiMapping;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibersap.configuration.Settings;
-import org.hibersap.configuration.xml.SessionManagerConfig;
-import org.hibersap.conversion.ConverterCache;
-import org.hibersap.mapping.model.BapiMapping;
-
 /**
  * The client's interface to the SessionManager. A SessionManager is used to create Hibersap
  * sessions.
- * 
+ *
  * @author Carsten Erker
  */
 public interface SessionManagerImplementor
-    extends Serializable
+        extends Serializable
 {
 
     /**
      * Gets this SessionManager's BapiMappings.
-     * 
+     *
      * @return A BapiMappings for Classes map.
      */
     Map<Class<?>, BapiMapping> getBapiMappings();
@@ -53,10 +55,12 @@ public interface SessionManagerImplementor
 
     /**
      * Open a Session using a newly created connection to SAP.
-     * 
+     *
      * @return Session
      */
     Session openSession();
 
-    Set<ExecutionInterceptor> getInterceptors();
+    Set<ExecutionInterceptor> getExecutionInterceptors();
+
+    Set<BapiInterceptor> getBapiInterceptors();
 }
