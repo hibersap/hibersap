@@ -131,8 +131,7 @@
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin
-                </artifactId>
+                <artifactId>cobertura-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
@@ -281,8 +280,10 @@ The name of the property is: sap.jco.lib.path
     <modules>
         <module>hibersap</module>
         <module>examples</module>
+        <!--
         <module>jboss-deployer-project</module>
         <module>hibersap-jboss4-deployer</module>
+        -->
     </modules>
 
     <dependencies>
@@ -305,14 +306,14 @@ The name of the property is: sap.jco.lib.path
             <scope>test</scope>
         </dependency>
 
-<!--
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-        </dependency>
--->
+        <!--
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.8.2</version>
+                    <scope>test</scope>
+                </dependency>
+        -->
 
         <dependency>
             <groupId>org.easymock</groupId>
