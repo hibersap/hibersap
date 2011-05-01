@@ -29,7 +29,7 @@
         </dependency>
 
         <dependency>
-            <groupId>sun-jaxb</groupId>
+            <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
         </dependency>
 

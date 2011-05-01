@@ -485,7 +485,7 @@ The name of the property is: sap.jco.lib.path
             </dependency>
 
             <dependency>
-                <groupId>sun-jaxb</groupId>
+                <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
                 <version>2.1.9</version>
                 <scope>test</scope>
