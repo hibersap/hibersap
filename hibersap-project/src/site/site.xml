@@ -3,7 +3,7 @@
     <bannerLeft>
         <name>Hibersap</name>
         <src>http://hibersap.sourceforge.net/hibersap-${project.version}/images/HibersapLogoSmall.png</src>
-        <href>http://hibersap.sourceforge.net/</href>
+        <href>http://hibersap.sourceforge.net/hibersap-${project.version}/</href>
     </bannerLeft>
 
     <bannerRight>
