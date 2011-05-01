@@ -8,6 +8,18 @@
     <version>1.1-SNAPSHOT</version>
     <name>hibersap-project</name>
 
+    <properties>
+        <projectVersion>${project.version}</projectVersion>
+        <hibersap.version>${project.version}</hibersap.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <modules>
+        <module>hibersap</module>
+        <module>examples</module>
+    </modules>
+
     <description>
         Hibersap is a small framework that offers an abstraction
         layer
@@ -32,19 +44,19 @@
                 </site>
         -->
 
-        <!--
                 <site>
                     <id>hibersap.sf.net</id>
                     <name>Hibersap Release Site</name>
                     <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
                 </site>
-        -->
 
+<!--
         <site>
             <id>local</id>
             <name>Local file system</name>
             <url>file:///tmp/hibersap-site-${project.version}/</url>
         </site>
+-->
 
         <repository>
             <id>central</id>
@@ -432,21 +444,6 @@ The name of the property is: sap.jco.lib.path
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <hibersap.version>${project.version}</hibersap.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
-
-    <modules>
-        <module>hibersap</module>
-        <module>examples</module>
-        <!--
-        <module>jboss-deployer-project</module>
-        <module>hibersap-jboss4-deployer</module>
-        -->
-    </modules>
 
     <dependencies>
         <dependency>
