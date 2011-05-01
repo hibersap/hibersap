@@ -82,7 +82,6 @@ public class AnnotationConfiguration
         getBapiMappings().clear();
         for ( final String className : getSessionManagerConfig().getAnnotatedClasses() )
         {
-            LOG.info( "Mapping class " + className );
             try
             {
                 LOG.info( "Mapping BAPI class " + className );

@@ -63,6 +63,17 @@ public abstract class Configuration implements Serializable
     private final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
 
     /**
+     * Creates a Configuration for programmatic configuration of Hibersap. You have to create a
+     * org.hibersap.configuration.xml.SessionManagerConfig first.
+     *
+     * @param sessionManagerConfig The session manager configuration
+     */
+    public Configuration( SessionManagerConfig sessionManagerConfig )
+    {
+        this.sessionManagerConfig = sessionManagerConfig;
+    }
+
+    /**
      * Creates a Configuration for a concrete SessionManager. The SessionManager must be configured
      * in the hibersap.xml file.
      *
@@ -112,23 +123,14 @@ public abstract class Configuration implements Serializable
     }
 
     /**
-     * Creates a Configuration for programmatic configuration of Hibersap. You have to create a
-     * org.hibersap.configuration.xml.SessionManagerConfig first.
-     *
-     * @param sessionManagerConfig The session manager configuration
-     */
-    public Configuration( SessionManagerConfig sessionManagerConfig )
-    {
-        this.sessionManagerConfig = sessionManagerConfig;
-    }
-
-    /**
      * Builds the session manager for this Configuration.
      *
      * @return The session manager
      */
     public SessionManager buildSessionManager()
     {
+        LOG.info( "Hibersap Version " + Environment.VERSION );
+        LOG.info( "Building SessionManager '" + sessionManagerConfig.getName() + "'" );
         addExecutionInterceptors();
         addBapiInterceptors();
         return new SessionManagerImpl( this, buildSettings( sessionManagerConfig ) );

@@ -69,10 +69,9 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-ear-plugin</artifactId>
+                <version>2.5</version>
 				<configuration>
-
 					<version>5</version>
-
 					<modules>
 						<ejbModule>
 							<groupId>org.hibersap.examples</groupId>

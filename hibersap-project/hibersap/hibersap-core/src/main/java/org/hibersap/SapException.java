@@ -54,6 +54,12 @@ public class SapException
         return sapErrors;
     }
 
+    @Override
+    public String toString()
+    {
+        return super.toString() + " ( " + sapErrors.toString() + " )";
+    }
+
     /**
      * Hold information about (error, warning, info, etc.) values returned by a SAP function.
      * 

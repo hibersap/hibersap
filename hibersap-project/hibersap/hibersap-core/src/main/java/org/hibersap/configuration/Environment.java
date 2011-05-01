@@ -17,11 +17,6 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.configuration.xml.HibersapConfig;
-import org.hibersap.configuration.xml.HibersapJaxbXmlParser;
-
 /*
  * @author Carsten Erker
  */

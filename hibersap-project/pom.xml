@@ -21,20 +21,30 @@
         programming interface to developers.
     </description>
 
-    <url>http://hibersap.sourceforge.net</url>
+    <url>http://hibersap.sourceforge.net/hibersap-${project.version}</url>
 
     <distributionManagement>
-        <site>
-            <id>site.spree.de</id>
-            <name>Hibersap Snapshot Site</name>
-            <url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
-        </site>
+        <!--
+                <site>
+                    <id>site.spree.de</id>
+                    <name>Hibersap Snapshot Site</name>
+                    <url>scp://jbosscc.spree.de:54711/var/www/projects/hibersap-project/${project.version}</url>
+                </site>
+        -->
 
-        <!--site>
-            <id>hibersap.sf.net</id>
-            <name>Hibersap Release Site</name>
-            <url>scp://shell.sourceforge.net/home/groups/h/hi/hibersap/htdocs</url>
-        </site-->
+        <!--
+                <site>
+                    <id>hibersap.sf.net</id>
+                    <name>Hibersap Release Site</name>
+                    <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
+                </site>
+        -->
+
+        <site>
+            <id>local</id>
+            <name>Local file system</name>
+            <url>file:///tmp/hibersap-site-${project.version}/</url>
+        </site>
 
         <repository>
             <id>central</id>
@@ -64,6 +74,15 @@
         <url>https://sourceforge.net/tracker/?group_id=225273
         </url>
     </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>hibersap-announce</name>
+            <subscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</subscribe>
+            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=hibersap-announce</archive>
+        </mailingList>
+    </mailingLists>
 
     <scm>
         <connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap-project</connection>
@@ -123,19 +142,80 @@
 
     <ciManagement>
         <system>hudson</system>
-        <url>https://jbosscc.spree.de:8443/hudson/view/HiberSap
-        </url>
+        <url>https://jbosscc.spree.de:8443/hudson/view/HiberSap</url>
     </ciManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.0-beta-1</version>
+                </plugin>
+                <plugin>
+                    <groupId>bakersoftware</groupId>
+                    <artifactId>maven-replacer-plugin</artifactId>
+                    <version>0.0.9</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.0-beta-3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.3.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.8.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>2.8.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>de.akquinet.maven</groupId>
+                    <artifactId>maven-latex-plugin</artifactId>
+                    <version>1.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>attach-sources</id>
                         <goals>
-                            <goal>clean</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -143,9 +223,47 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.0-alpha-4</version>
+                <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <formats>
+                        <format>xml</format>
+                        <format>html</format>
+                    </formats>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.0</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>1.5</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>enforce-property</id>
                         <goals>
@@ -171,9 +289,72 @@ The name of the property is: sap.jco.lib.path
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <reportSets>
+                                <reportSet>
+                                    <reports>
+                                        <report>dependency-convergence</report>
+                                        <report>index</report>
+                                        <report>issue-tracking</report>
+                                        <report>license</report>
+                                        <report>mailing-list</report>
+                                        <report>project-team</report>
+                                        <report>scm</report>
+                                        <report>summary</report>
+                                    </reports>
+                                </reportSet>
+                            </reportSets>
+                        </plugin>
+                        
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+<!--
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-report-plugin</artifactId>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+-->
+<!--
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>cobertura-maven-plugin</artifactId>
+                            <configuration>
+                                <formats>
+                                    <format>xml</format>
+                                    <format>html</format>
+                                </formats>
+                            </configuration>
+                        </plugin>
+-->
+                    </reportPlugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-descriptor</id>
+                        <goals>
+                            <goal>attach-descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>bakersoftware</groupId>
                 <artifactId>maven-replacer-plugin</artifactId>
-                <version>0.0.9</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -193,10 +374,10 @@ The name of the property is: sap.jco.lib.path
             <plugin>
                 <groupId>de.akquinet.maven</groupId>
                 <artifactId>maven-latex-plugin</artifactId>
-                <version>1.1</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
+                        <id>PDF</id>
                         <configuration>
                             <settings>
                                 <outputDirectory>reference</outputDirectory>
@@ -250,25 +431,6 @@ The name of the property is: sap.jco.lib.path
                 </executions>
             </plugin>
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-            </plugins>
-
-        </pluginManagement>
     </build>
 
     <properties>
@@ -305,16 +467,6 @@ The name of the property is: sap.jco.lib.path
             <version>1.2.1</version>
             <scope>test</scope>
         </dependency>
-
-        <!--
-                <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.8.2</version>
-                    <scope>test</scope>
-                </dependency>
-        -->
-
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
@@ -442,40 +594,6 @@ The name of the property is: sap.jco.lib.path
         </dependencies>
     </dependencyManagement>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.4.3</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin
-                </artifactId>
-                <version>RELEASE</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.5</version>
-                <reportSets>
-                    <reportSet>
-                        <id>html</id>
-                        <configuration>
-                            <doctitle>Javadoc for Hibersap ${project.version}</doctitle>
-                            <windowtitle>Javadoc for Hibersap ${project.version}</windowtitle>
-                        </configuration>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
     <repositories>
         <repository>
             <id>jboss-public-repository-group</id>
@@ -492,7 +610,15 @@ The name of the property is: sap.jco.lib.path
             </snapshots>
         </repository>
     </repositories>
+
     <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
         <pluginRepository>
             <id>maven-latex-plugin-repo</id>
             <url>http://akquinet.github.com/maven-latex-plugin/maven2/</url>

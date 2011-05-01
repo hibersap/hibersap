@@ -11,7 +11,6 @@ import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
 
-import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class SessionImplTest
     private final SessionImpl session = new SessionImpl( new SessionManagerStub() );
 
     @Test
-    public void bapiInterceptorsThatAreConfiguredAreCalledWhenExecutingFunction()
+    public void bapiInterceptorsFromConfigurationAreCalledWhenExecutingFunction()
     {
         final Object bapiObject = new Object();
         bapiInterceptor.beforeExecution( bapiObject );
@@ -59,7 +58,8 @@ public class SessionImplTest
     }
 
     @Test
-    public void executionInterceptorsThatAreConfiguredAreCalledWhenExecutingFunction()
+    @SuppressWarnings( "unchecked" )
+    public void executionInterceptorsFromConfigurationAreCalledWhenExecutingFunction()
     {
         final Object bapiObject = new Object();
         executionInterceptor.beforeExecution( ( BapiMapping ) anyObject(), ( Map<String, Object> ) anyObject() );
@@ -72,6 +72,7 @@ public class SessionImplTest
     }
 
     @Test
+    @SuppressWarnings( "unchecked" )
     public void executionInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction()
     {
         ExecutionInterceptor myInterceptor = EasyMock.createMock( ExecutionInterceptor.class );
