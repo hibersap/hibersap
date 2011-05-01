@@ -5,6 +5,7 @@
         <src>http://hibersap.sourceforge.net/hibersap-${project.version}/images/HibersapLogoSmall.png</src>
         <href>http://hibersap.sourceforge.net/</href>
     </bannerLeft>
+
     <bannerRight>
         <name>akquinet</name>
         <src>http://hibersap.sourceforge.net/hibersap-${project.version}/images/akquinet-logo.jpg</src>
@@ -18,8 +19,9 @@
               img="http://maven.apache.org/images/logos/maven-feather.png"/>
     </poweredBy>
 
-    <publishDate format="yyyy-MM-dd" position="right"/>
-    <version position="right"/>
+    <publishDate format="yyyy-MM-dd" position="left"/>
+
+    <version position="left"/>
 
     <body>
         <links>
@@ -49,7 +51,6 @@
             <item name="Mailing Lists" href="./mail-lists.html"/>
         </menu>
 
-        <!--<menu ref="reports"/>-->
     </body>
 
     <skin>
