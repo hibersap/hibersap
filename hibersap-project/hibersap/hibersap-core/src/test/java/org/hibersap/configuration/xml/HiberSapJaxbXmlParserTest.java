@@ -124,4 +124,11 @@ public class HiberSapJaxbXmlParserTest
         assertThat( classes.size(), is( 2 ) );
         assertThat( classes, hasItems( "org.test.Class6", "org.test.Class7" ) );
     }
+
+    @Test
+    public void sessionManagerHasCorrectValidationMode()
+    {
+        final ValidationMode validationMode = sessionManagerB34.getValidationMode();
+        assertThat( validationMode, is( ValidationMode.CALLBACK ) );
+    }
 }

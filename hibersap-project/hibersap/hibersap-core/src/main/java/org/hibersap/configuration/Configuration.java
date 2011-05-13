@@ -30,6 +30,7 @@ import org.hibersap.mapping.ReflectionHelper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
+import org.hibersap.validation.BeanValidationActivator;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -147,6 +148,7 @@ public abstract class Configuration implements Serializable
     {
         final Set<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
         addBapiInterceptors( ReflectionHelper.createInstances( classNames, BapiInterceptor.class ) );
+        BeanValidationActivator.activateBeanValidation( bapiInterceptors, getSessionManagerConfig() );
     }
 
     private Settings buildSettings( SessionManagerConfig config )
@@ -192,5 +194,10 @@ public abstract class Configuration implements Serializable
     public void addBapiInterceptors( Collection<BapiInterceptor> interceptors )
     {
         bapiInterceptors.addAll( interceptors );
+    }
+
+    public void addBapiInterceptor( BapiInterceptor bapiInterceptor )
+    {
+        bapiInterceptors.add( bapiInterceptor );
     }
 }

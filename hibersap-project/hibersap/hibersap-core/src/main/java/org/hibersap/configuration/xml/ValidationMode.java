@@ -15,25 +15,9 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.hibersap.interceptor.impl;
+package org.hibersap.configuration.xml;
 
-
-import org.hibersap.interceptor.BapiInterceptor;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
-
-public class BeanValidationInterceptor implements BapiInterceptor
+public enum ValidationMode
 {
-    public void beforeExecution( Object bapiObject )
-    {
-        final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        validator.validate( bapiObject );
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void afterExecution( Object bapiObject )
-    {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+    AUTO, CALLBACK, NONE
 }

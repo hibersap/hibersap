@@ -15,25 +15,21 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.hibersap.interceptor;
+package org.hibersap.validation;
+
+import javax.validation.ValidatorFactory;
 
 /**
- * Implementations may be registered on the SessionManager and will then be called before and after
- * a function module in SAP is called. The Bapi object itself will be passed to the methods.
+ * Wrapper for building the Bean Validation's ValidatorFactory. Bean Validation API uses a static method call
+ * to Validator.buildDefaultValidatorFactory(), which makes it impossible to test.
  */
-public interface BapiInterceptor<T>
+interface ValidatorFactoryFactory
 {
     /**
-     * Will be called before the function module is called in SAP.
+     * Builds the Bean Validation's ValidatorFactory.
      *
-     * @param bapiObject The Bapi object as provided by the application code.
+     * @return The ValidatorFactory
+     * @throws ValidationException If the ValidatorFactory cannot be built.
      */
-    void beforeExecution(T bapiObject);
-
-    /**
-     * Will be called after the function module is called in SAP.
-     *
-     * @param bapiObject The Bapi object as provided by the application code.
-     */
-    void afterExecution(T bapiObject);
+    ValidatorFactory buildValidatorFactory();
 }

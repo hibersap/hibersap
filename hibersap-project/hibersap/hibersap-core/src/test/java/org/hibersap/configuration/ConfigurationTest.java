@@ -22,19 +22,19 @@ import org.hamcrest.Matcher;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
-import org.hibersap.interceptor.impl.BeanValidationInterceptor;
 import org.hibersap.interceptor.impl.SapErrorInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManagerImplementor;
+import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.hasItem;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Carsten Erker
@@ -97,19 +97,30 @@ public class ConfigurationTest
     }
 
     @Test
-    public void createsBapiInterceptorsFromXmlConfig()
+    public void bapiInterceptorCanBeManuallyAdded()
     {
-        final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
-        assertThat( interceptors.size(), is( 1 ) );
-        assertThat( interceptors.iterator().next(), is( CoreMatchers.instanceOf( BeanValidationInterceptor.class ) ) );
+        final BapiInterceptor dummyInterceptor = new BapiInterceptorDummy();
+        configuration.addBapiInterceptor( dummyInterceptor );
+
+        assertThat( sessionManager.getBapiInterceptors(), hasItem( dummyInterceptor ) );
     }
 
     @Test
-    public void initializesStandardInterceptorsAutomatically()
+    public void createsBapiInterceptorsFromXmlConfig()
+    {
+        final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
+
+        assertThat( interceptors.size(), is( 2 ) );
+        assertThat( interceptors, hasItemInstaceOf( BapiInterceptorDummy.class ) );
+        assertThat( interceptors, hasItemInstaceOf( BeanValidationInterceptor.class ) );
+    }
+
+    @Test
+    public void initializesStandardExecutionInterceptorsAutomatically()
     {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors, hasItem( instanceOf( SapErrorInterceptor.class ) ) );
+        assertThat( interceptors, hasItemInstaceOf( SapErrorInterceptor.class ) );
     }
 
     @Test
@@ -117,14 +128,14 @@ public class ConfigurationTest
     {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
         assertThat( interceptors.size(), is( 2 ) );
-        assertThat( interceptors, hasItem( instanceOf( ExecutionInterceptorDummy.class ) ) );
+        assertThat( interceptors, hasItemInstaceOf( ExecutionInterceptorDummy.class ) );
     }
 
-    private static Matcher<ExecutionInterceptor> instanceOf( Class<? extends ExecutionInterceptor> clazz )
+    private <T> Matcher<Iterable<? super T>> hasItemInstaceOf( Class<T> type )
     {
-        return CoreMatchers.instanceOf( clazz );
+        return CoreMatchers.<T>hasItem( CoreMatchers.<T>isA( type ) );
     }
-
+    
     public static class ExecutionInterceptorDummy implements ExecutionInterceptor
     {
         public void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
@@ -133,6 +144,19 @@ public class ConfigurationTest
         }
 
         public void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
+        {
+            // dummy
+        }
+    }
+
+    public static class BapiInterceptorDummy implements BapiInterceptor
+    {
+        public void beforeExecution( Object bapiObject )
+        {
+            // dummy
+        }
+
+        public void afterExecution( Object bapiObject )
         {
             // dummy
         }

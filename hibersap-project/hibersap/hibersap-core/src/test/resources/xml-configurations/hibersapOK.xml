@@ -36,5 +36,6 @@
 			<bapi-interceptor-class>org.test.Class6</bapi-interceptor-class>
 			<bapi-interceptor-class>org.test.Class7</bapi-interceptor-class>
 		</bapi-interceptor-classes>
+        <validation-mode>CALLBACK</validation-mode>
 	</session-manager>
 </hibersap>

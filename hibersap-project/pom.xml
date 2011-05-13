@@ -461,7 +461,8 @@ The name of the property is: sap.jco.lib.path
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-integration</artifactId>
-            <version>1.2.1</version>
+            <!--<version>1.2.1</version>-->
+            <version>1.3.RC2</version>
             <scope>test</scope>
         </dependency>
         <dependency>

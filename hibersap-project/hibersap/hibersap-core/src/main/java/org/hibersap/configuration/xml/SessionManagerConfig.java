@@ -42,7 +42,8 @@ import java.util.Set;
     "properties",
     "annotatedClasses",
     "executionInterceptorClasses",
-    "bapiInterceptorClasses"})
+    "bapiInterceptorClasses",
+    "validationMode"})
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public final class SessionManagerConfig
     implements Serializable
@@ -66,6 +67,8 @@ public final class SessionManagerConfig
     private String jcaConnectionFactory;
 
     private String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
+
+    private ValidationMode validationMode = ValidationMode.AUTO;
 
     public SessionManagerConfig()
     {
@@ -198,6 +201,18 @@ public final class SessionManagerConfig
     {
         annotatedClasses.add( annotatedClass.getName() );
         return this;
+    }
+
+    public SessionManagerConfig setValidationMode( ValidationMode validationMode )
+    {
+        this.validationMode = validationMode;
+        return this;
+    }
+
+    @XmlElement(name = "validation-mode", required = false, namespace = HibersapConfig.NAMESPACE)
+    public ValidationMode getValidationMode()
+    {
+        return validationMode;
     }
 
     private Map<String, String> getNameValues()

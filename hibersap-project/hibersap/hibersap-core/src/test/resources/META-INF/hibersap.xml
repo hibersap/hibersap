@@ -24,8 +24,10 @@
         </execution-interceptor-classes>
 
         <bapi-interceptor-classes>
-            <bapi-interceptor-class>org.hibersap.interceptor.impl.BeanValidationInterceptor</bapi-interceptor-class>
+            <bapi-interceptor-class>org.hibersap.configuration.ConfigurationTest$BapiInterceptorDummy</bapi-interceptor-class>
         </bapi-interceptor-classes>
+
+        <validation-mode>CALLBACK</validation-mode>
     </session-manager>
 </hibersap>
 
