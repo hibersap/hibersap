@@ -26,12 +26,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "hibersap", namespace = HibersapConfig.NAMESPACE)
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public final class HibersapConfig
+public final class HibersapConfig implements Serializable
 {
     public static final String NAMESPACE = "http://hibersap.org/xml/ns/hibersap-config";
 

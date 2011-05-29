@@ -17,15 +17,15 @@ package org.hibersap.configuration.xml;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.configuration.ConfigurationTest;
 import org.junit.Test;
 
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class SessionManagerConfigTest
 {
@@ -33,24 +33,31 @@ public class SessionManagerConfigTest
     public void testBuild()
             throws Exception
     {
-        SessionManagerConfig cfg = new SessionManagerConfig( "name" ).setContext( "context" )
+        SessionManagerConfig cfg = new SessionManagerConfig( "name" )
+                .setContext( "context" )
                 .setJcaConnectionFactory( "jcaConnectionFactory" )
                 .setJcaConnectionSpecFactory( "jcaConnectionSpecFactory" )
-                .setName( "newName" ).setProperty( "key1", "value1" ).setProperty( "key2", "value2" )
-                .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class ).setValidationMode(
-                        ValidationMode.CALLBACK );
+                .setName( "newName" )
+                .setProperty( "key1", "value1" )
+                .setProperty( "key2", "value2" )
+                .addAnnotatedClass( String.class )
+                .addAnnotatedClass( Integer.class )
+                .addExecutionInterceptorClass( ConfigurationTest.ExecutionInterceptorDummy.class )
+                .addBapiInterceptorClass( ConfigurationTest.BapiInterceptorDummy.class )
+                .setValidationMode( ValidationMode.CALLBACK );
 
-        assertEquals( "context", cfg.getContext() );
-        assertEquals( "jcaConnectionFactory", cfg.getJcaConnectionFactory() );
-        assertEquals( "jcaConnectionSpecFactory", cfg.getJcaConnectionSpecFactory() );
-        assertEquals( "newName", cfg.getName() );
-        assertEquals( 2, cfg.getProperties().size() );
-        assertEquals( "value1", cfg.getProperty( "key1" ) );
-        assertEquals( "value2", cfg.getProperty( "key2" ) );
+        assertThat( cfg.getContext(), equalTo( "context" ) );
+        assertThat( cfg.getJcaConnectionFactory(), equalTo( "jcaConnectionFactory" ) );
+        assertThat( cfg.getJcaConnectionSpecFactory(), equalTo( "jcaConnectionSpecFactory" ) );
+        assertThat( cfg.getName(), equalTo( "newName" ) );
+        assertThat( cfg.getProperties().size(), is( 2 ) );
+        assertThat( cfg.getProperty( "key1" ), equalTo( "value1" ) );
+        assertThat( cfg.getProperty( "key2" ), equalTo( "value2" ) );
+
         Set<String> annotatedClasses = cfg.getAnnotatedClasses();
-        assertEquals( 2, annotatedClasses.size() );
-        assertTrue( annotatedClasses.contains( Integer.class.getName() ) );
-        assertTrue( annotatedClasses.contains( String.class.getName() ) );
+        assertThat( annotatedClasses.size(), is( 2 ) );
+        assertThat( annotatedClasses, hasItems( Integer.class.getName(), String.class.getName() ) );
+
         assertThat( cfg.getValidationMode(), is( ValidationMode.CALLBACK ) );
     }
 
@@ -60,7 +67,8 @@ public class SessionManagerConfigTest
     {
         SessionManagerConfig cfg = new SessionManagerConfig( "name" );
         assertThat( cfg.getContext(), equalTo( "org.hibersap.execution.jco.JCoContext" ) );
-        assertThat( cfg.getJcaConnectionSpecFactory(), equalTo( "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory" ) );
-        assertThat( cfg.getValidationMode(), is(ValidationMode.AUTO) );
+        assertThat( cfg.getJcaConnectionSpecFactory(),
+                equalTo( "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory" ) );
+        assertThat( cfg.getValidationMode(), is( ValidationMode.AUTO ) );
     }
 }

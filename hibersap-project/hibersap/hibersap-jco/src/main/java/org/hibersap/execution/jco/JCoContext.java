@@ -34,11 +34,8 @@ import java.util.Set;
  * 
  * @author Carsten Erker
  */
-public class JCoContext
-    implements Context
+public class JCoContext implements Context
 {
-    private static final long serialVersionUID = 1L;
-
     private static final Log LOG = LogFactory.getLog( JCoContext.class );
 
     private static final String JCO_PROPERTIES_PREFIX = "jco.";
@@ -49,7 +46,7 @@ public class JCoContext
      * {@inheritDoc}
      */
     public void configure( final SessionManagerConfig config )
-        throws HibersapException
+            throws HibersapException
     {
         LOG.trace( "configure JCo context" );
 
@@ -77,7 +74,7 @@ public class JCoContext
     /*
      * {@inheritDoc}
      */
-    public void reset()
+    public void close()
     {
         JCoEnvironment.unregisterDestination( destinationName );
         destinationName = null;
@@ -115,7 +112,7 @@ public class JCoContext
         {
             return false;
         }
-        JCoContext other = (JCoContext) obj;
+        JCoContext other = ( JCoContext ) obj;
         if ( destinationName == null )
         {
             if ( other.destinationName != null )

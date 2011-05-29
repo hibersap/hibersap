@@ -23,9 +23,10 @@ import java.util.Set;
 /**
  * @author Carsten Erker
  */
-public class StructureMapping
-    extends ObjectMapping
+public class StructureMapping extends ObjectMapping
 {
+    private static final long serialVersionUID = 2930405767657861801L;
+
     private final Set<FieldMapping> parameters;
 
     public StructureMapping( Class<?> associatedClass, String sapName, String javaName )

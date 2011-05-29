@@ -7,17 +7,15 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Context;
 import org.junit.Test;
 
-public class SettingsFactoryTest
+public class ContextFactoryTest
 {
     @Test
     public void testInitializesContextClass()
         throws Exception
     {
         SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( DummyContext.class.getName() );
+        Context context = ContextFactory.create( config );
 
-        Settings settings = SettingsFactory.create( config );
-
-        Context context = settings.getContext();
         assertNotNull( context );
         assertEquals( DummyContext.class, context.getClass() );
     }

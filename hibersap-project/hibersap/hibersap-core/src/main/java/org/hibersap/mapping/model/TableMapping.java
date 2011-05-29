@@ -28,9 +28,10 @@ import java.util.Set;
 /**
  * @author Carsten Erker
  */
-public class TableMapping
-    extends ParameterMapping
+public class TableMapping extends ParameterMapping
 {
+    private static final long serialVersionUID = 6134694196341208013L;
+
     private final StructureMapping componentParameter;
 
     private final Class<?> fieldType;

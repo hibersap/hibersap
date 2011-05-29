@@ -12,6 +12,8 @@ import java.util.Arrays;
  */
 public class ErrorHandling implements Serializable
 {
+    private static final long serialVersionUID = 8008066068040245973L;
+
     private final boolean throwExceptionOnError;
 
     private final String pathToReturnStructure;

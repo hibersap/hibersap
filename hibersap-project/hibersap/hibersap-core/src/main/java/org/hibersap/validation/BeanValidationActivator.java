@@ -85,7 +85,7 @@ public class BeanValidationActivator
             {
                 LOGGER.info( "Bean Validation will not be used because " +
                         "class javax.validation.Validation was not found in classpath while ValidationMode is AUTO" );
-                return true;
+                return false;
             }
             else
             {

@@ -48,7 +48,7 @@ public class CustomCredentialsTest extends AbstractHibersapTest {
 	@After
 	public void reset() {
 		if (sessionManager != null) {
-			sessionManager.reset();
+			sessionManager.close();
 		}
 	}
 

@@ -28,13 +28,12 @@ import java.util.Properties;
 /**
  * The Hibersap implementation of the JCo DestinationDataProvider. JCo destinations can be added and
  * removed at runtime.
- * 
+ *
  * @author Carsten Erker
  */
-public class JCoDataProvider
-    implements DestinationDataProvider
+public class JCoDataProvider implements DestinationDataProvider
 {
-    private Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
+    private final Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
 
     private DestinationDataEventListener eventListener;
 
@@ -46,13 +45,13 @@ public class JCoDataProvider
         // "' was already registered" );
         // }
         propertiesForDestinationName.put( destinationName, properties );
-        eventListener.updated( destinationName );
+        fireDestinationUpdatedEvent( destinationName );
     }
 
     public void removeDestination( String destinationName )
     {
         propertiesForDestinationName.remove( destinationName );
-        eventListener.deleted( destinationName );
+        fireDestinationDeletedEvent( destinationName );
     }
 
     /**
@@ -75,6 +74,11 @@ public class JCoDataProvider
         return propertiesForDestinationName.containsKey( destinationName );
     }
 
+    public boolean hasDestinations()
+    {
+        return !propertiesForDestinationName.isEmpty();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -89,5 +93,21 @@ public class JCoDataProvider
     public boolean supportsEvents()
     {
         return true;
+    }
+
+    private void fireDestinationUpdatedEvent( String destinationName )
+    {
+        if ( eventListener != null )
+        {
+            eventListener.updated( destinationName );
+        }
+    }
+
+    private void fireDestinationDeletedEvent( String destinationName )
+    {
+        if ( eventListener != null )
+        {
+            eventListener.deleted( destinationName );
+        }
     }
 }

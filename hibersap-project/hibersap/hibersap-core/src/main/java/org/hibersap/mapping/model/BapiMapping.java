@@ -32,6 +32,8 @@ import java.util.Set;
  */
 public class BapiMapping implements Serializable
 {
+    private static final long serialVersionUID = 6716958693316907614L;
+
     private final String bapiName;
 
     private Class<?> associatedClass;

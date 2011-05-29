@@ -22,9 +22,10 @@ import org.hibersap.conversion.Converter;
 /**
  * @author Carsten Erker
  */
-public class FieldMapping
-    extends ObjectMapping
+public class FieldMapping extends ObjectMapping
 {
+    private static final long serialVersionUID = -7542970603293850477L;
+
     private final Class<? extends Converter> converter;
 
     public FieldMapping( Class<?> associatedClass, String sapName, String javaName, Class<? extends Converter> converter )

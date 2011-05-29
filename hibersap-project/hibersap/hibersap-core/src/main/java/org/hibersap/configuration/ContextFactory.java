@@ -17,8 +17,6 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,31 +26,27 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Context;
 
 /**
+ * TODO merge Reflection stuff with ReflectionHelper
+ *
  * @author Carsten Erker
  */
-public class SettingsFactory
-    implements Serializable
+public class ContextFactory
 {
-    private static final long serialVersionUID = 1L;
+    private static final Log LOG = LogFactory.getLog( ContextFactory.class );
 
-    private static final Log LOG = LogFactory.getLog( SettingsFactory.class );
-
-    private SettingsFactory()
+    private ContextFactory()
     {
         // should not be instantiated
     }
 
-    public static Settings create( final SessionManagerConfig config )
+    public static Context create( final SessionManagerConfig config )
     {
-        final Settings settings = new Settings();
-
         // init Context
         final Class<? extends Context> contextClass = getContextClass( config );
         final Context context = getNewInstance( contextClass );
         context.configure( config );
-        settings.setContext( context );
 
-        return settings;
+        return context;
     }
 
     private static Context getNewInstance( final Class<? extends Context> clazz )
@@ -64,12 +58,12 @@ public class SettingsFactory
         catch ( final IllegalAccessException e )
         {
             throw new ConfigurationException( "The class " + clazz
-                + " must be accessible.", e );
+                    + " must be accessible.", e );
         }
         catch ( final InstantiationException e )
         {
             throw new ConfigurationException( "The class " + clazz
-                + " must be accessible and must have a public default constructor.", e );
+                    + " must be accessible and must have a public default constructor.", e );
         }
         catch ( final ConfigurationException e )
         {
@@ -89,17 +83,17 @@ public class SettingsFactory
         return getContextClassForName( contextClassName );
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     private static Class<? extends Context> getContextClassForName( final String contextClassName )
     {
         try
         {
-            return (Class<? extends Context>) getClassForName( contextClassName );
+            return ( Class<? extends Context> ) getClassForName( contextClassName );
         }
         catch ( final ClassCastException e )
         {
             throw new ConfigurationException( "The class " + contextClassName + " must implement "
-                + Context.class.getName() + " to act as a context class", e );
+                    + Context.class.getName() + " to act as a context class", e );
         }
     }
 

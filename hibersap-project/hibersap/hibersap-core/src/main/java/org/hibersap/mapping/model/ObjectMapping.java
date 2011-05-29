@@ -22,9 +22,10 @@ package org.hibersap.mapping.model;
 /**
  * @author Carsten Erker
  */
-public abstract class ObjectMapping
-    extends ParameterMapping
+public abstract class ObjectMapping extends ParameterMapping
 {
+    private static final long serialVersionUID = -4287605862350201231L;
+
     public ObjectMapping( Class<?> associatedClass, String sapName, String javaName )
     {
         super( associatedClass, sapName, javaName );

@@ -1,79 +1,107 @@
-package org.hibersap.session;
-
 /*
- * Copyright (C) 2008 akquinet tech@spree GmbH
- * 
+ * Copyright (c) 2009, 2011 akquinet tech@spree GmbH.
+ *
  * This file is part of Hibersap.
- * 
+ *
  * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
  * Lesser General Public License as published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- * 
+ *
  * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+package org.hibersap.session;
 
-import org.hibersap.configuration.Configuration;
-import org.hibersap.configuration.Settings;
+import org.hibersap.HibersapException;
+import org.hibersap.configuration.ConfigurationData;
+import org.hibersap.configuration.ConfigurationHelper;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 
-/*
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+/**
  * Implementation of the SessionManager. A client uses the SessionManager to create Hibernate
  * Sessions.
- * 
+ *
  * @author Carsten Erker
  */
-public final class SessionManagerImpl
-    implements SessionManager, SessionManagerImplementor, Serializable
+public final class SessionManagerImpl implements SessionManager, SessionManagerImplementor
 {
+    private static final long serialVersionUID = -541810809624063050L;
+
+    private boolean closed;
+
     private final SessionManagerConfig config;
 
-    private final Settings settings;
+    private Map<Class<?>, BapiMapping> bapiMappings;
 
-    private final Map<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
+    private transient Context context;
 
-    private final ConverterCache converterCache;
+    private transient ConverterCache converterCache;
 
-    private final Set<ExecutionInterceptor> executionInterceptors;
-    private Set<BapiInterceptor> bapiInterceptors;
+    private transient Set<ExecutionInterceptor> executionInterceptors;
 
-    public SessionManagerImpl( Configuration configuration, Settings settings )
+    private transient Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
+
+    public SessionManagerImpl( ConfigurationData data, Context context )
     {
-        this.settings = settings;
-        this.converterCache = new ConverterCache();
-        this.config = configuration.getSessionManagerConfig();
-        bapiMappings.putAll( configuration.getBapiMappings() );
-        executionInterceptors = configuration.getExecutionInterceptors();
-        bapiInterceptors = configuration.getBapiInterceptors();
+        closed = false;
+        config = data.getSessionManagerConfig();
+        bapiMappings = new HashMap<Class<?>, BapiMapping>( data.getBapiMappingsForClass() );
+        initializeTransientFields( data, context );
+    }
+
+    private void initializeTransientFields( ConfigurationData data, Context context )
+    {
+        this.context = context;
+        converterCache = new ConverterCache();
+        executionInterceptors = new HashSet<ExecutionInterceptor>( data.getExecutionInterceptors() );
+        bapiInterceptors = new HashSet<BapiInterceptor>( data.getBapiInterceptors() );
     }
 
     /*
      * {@inheritDoc}
      */
-    public void reset()
+    public void close()
     {
-        settings.getContext().reset();
+        closed = true;
+
+        context.close();
+        bapiMappings.clear();
+        converterCache.clear();
+        executionInterceptors.clear();
+        bapiInterceptors.clear();
     }
 
     /*
-     * {@inheritDoc}
-     */
+    * {@inheritDoc}
+    */
+    public boolean isClosed()
+    {
+        return closed;
+    }
+
+    /*
+    * {@inheritDoc}
+    */
     public Map<Class<?>, BapiMapping> getBapiMappings()
     {
+        assertNotClosed();
         return Collections.unmodifiableMap( bapiMappings );
     }
 
@@ -82,6 +110,7 @@ public final class SessionManagerImpl
      */
     public ConverterCache getConverterCache()
     {
+        assertNotClosed();
         return this.converterCache;
     }
 
@@ -90,15 +119,17 @@ public final class SessionManagerImpl
      */
     public SessionManagerConfig getConfig()
     {
+        assertNotClosed();
         return config;
     }
 
     /*
      * {@inheritDoc}
      */
-    public Settings getSettings()
+    public Context getContext()
     {
-        return settings;
+        assertNotClosed();
+        return context;
     }
 
     /*
@@ -106,6 +137,7 @@ public final class SessionManagerImpl
      */
     public Session openSession()
     {
+        assertNotClosed();
         return new SessionImpl( this );
     }
 
@@ -114,6 +146,7 @@ public final class SessionManagerImpl
      */
     public Session openSession( Credentials credentials )
     {
+        assertNotClosed();
         return new SessionImpl( this, credentials );
     }
 
@@ -122,6 +155,7 @@ public final class SessionManagerImpl
      */
     public Set<ExecutionInterceptor> getExecutionInterceptors()
     {
+        assertNotClosed();
         return executionInterceptors;
     }
 
@@ -130,14 +164,33 @@ public final class SessionManagerImpl
      */
     public Set<BapiInterceptor> getBapiInterceptors()
     {
+        assertNotClosed();
         return bapiInterceptors;
+    }
+
+    private void assertNotClosed()
+    {
+        if ( closed )
+        {
+            throw new HibersapException( "The SessionManager has been closed, it must not be used anymore" );
+        }
     }
 
     @Override
     public String toString()
     {
         String format = "SessionManagerImpl[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
-        return String.format( format, config.toString(), settings.getContext(), converterCache.toString(),
+        return String.format( format, config.toString(), context.toString(), converterCache.toString(),
                 executionInterceptors, bapiMappings );
+    }
+
+    private void readObject( ObjectInputStream stream ) throws ClassNotFoundException, IOException
+    {
+        stream.defaultReadObject();
+
+        context = ConfigurationHelper.createContext( config );
+        converterCache = new ConverterCache();
+        bapiInterceptors = ConfigurationHelper.createBapiInterceptors( config );
+        executionInterceptors = ConfigurationHelper.createExecutionInterceptors( config );
     }
 }

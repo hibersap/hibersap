@@ -24,8 +24,7 @@ import java.io.Serializable;
 /**
  * @author Carsten Erker
  */
-public final class Settings
-    implements Serializable
+public final class Settings implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +38,11 @@ public final class Settings
     public void setContext( Context context )
     {
         this.context = context;
+    }
+
+    public void clear()
+    {
+        context = null;
     }
 
     @Override
@@ -65,7 +69,7 @@ public final class Settings
         {
             return false;
         }
-        Settings other = (Settings) obj;
+        Settings other = ( Settings ) obj;
         if ( context == null )
         {
             if ( other.context != null )

@@ -29,7 +29,7 @@ import java.util.Properties;
 
 /**
  * This class acts as a wrapper for the ugly static JCo classes.
- * 
+ *
  * @author Carsten Erker
  */
 public class JCoEnvironment
@@ -45,24 +45,31 @@ public class JCoEnvironment
      * JCo's Environment class doesn't offer any methods to check if a provider class is already
      * registered, but we need to dynamically register destinations
      */
-    private static final JCoDataProvider destinationDataProvider;
+    private static final JCoDataProvider destinationDataProvider = new JCoDataProvider();
 
-    static
-    {
-        destinationDataProvider = new JCoDataProvider();
-        Environment.registerDestinationDataProvider( destinationDataProvider );
-    }
 
     public static void registerDestination( String destinationName, Properties jcoProperties )
     {
         LOG.info( "Registering destination " + destinationName );
+
+        if ( !destinationDataProvider.hasDestinations() )
+        {
+            registerDestinationDataProvider();
+        }
+
         destinationDataProvider.addDestination( destinationName, jcoProperties );
     }
 
     public static void unregisterDestination( String destinationName )
     {
         LOG.info( "Unregistering destination " + destinationName );
+
         destinationDataProvider.removeDestination( destinationName );
+
+        if ( !destinationDataProvider.hasDestinations() )
+        {
+            unregisterDestinationDataProvider();
+        }
     }
 
     public static JCoDestination getDestination( String destinationName )
@@ -73,7 +80,21 @@ public class JCoEnvironment
         }
         catch ( JCoException e )
         {
-            throw new HibersapException( "Can not get the destination named '" + destinationName + "'", e );
+            throw new HibersapException( "Destination named '" + destinationName + "' is not registered with JCo", e );
         }
+    }
+
+    private static void registerDestinationDataProvider()
+    {
+        LOG.info( "Registering DestinationDataProvider with JCo" );
+
+        Environment.registerDestinationDataProvider( destinationDataProvider );
+    }
+
+    private static void unregisterDestinationDataProvider()
+    {
+        LOG.info( "Unregistering DestinationDataProvider from JCo" );
+
+        Environment.unregisterDestinationDataProvider( destinationDataProvider );
     }
 }

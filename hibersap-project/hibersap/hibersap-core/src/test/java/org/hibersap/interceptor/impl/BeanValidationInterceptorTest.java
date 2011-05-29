@@ -22,6 +22,8 @@ import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +36,8 @@ public class BeanValidationInterceptorTest
     @Test
     public void throwsConstraintViolationExceptionWhoseMessageContainsNameOfNonValidatingClass()
     {
-        final BeanValidationInterceptor<TestObject> interceptor = new BeanValidationInterceptor<TestObject>( null );
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        final BeanValidationInterceptor interceptor = new BeanValidationInterceptor( validatorFactory );
 
         ConstraintViolationException validationException = null;
         try

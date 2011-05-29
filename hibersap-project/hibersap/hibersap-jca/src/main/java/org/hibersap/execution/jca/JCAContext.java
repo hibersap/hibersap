@@ -2,24 +2,20 @@ package org.hibersap.execution.jca;
 
 /**
  * Copyright (C) 2008-2009 akquinet tech@spree GmbH
- * 
+ *
  * This file is part of Hibersap.
- * 
+ *
  * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
  * Lesser General Public License as published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- * 
+ *
  * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.resource.cci.ConnectionFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,20 +27,21 @@ import org.hibersap.execution.Connection;
 import org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory;
 import org.hibersap.session.Context;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.resource.cci.ConnectionFactory;
+
 /**
  * Implementation for JCA, which uses a deployed resource adapter to connect to SAP.
- * 
+ *
  * @author dahm
  */
-public class JCAContext
-    implements Context
+public class JCAContext implements Context
 {
-    private static final long serialVersionUID = 1L;
-
     private static final Log LOG = LogFactory.getLog( JCAContext.class );
 
     private static final String DEFAULT_CONNECTION_SPEC_FACTORY_CLASS = SapBapiJcaAdapterConnectionSpecFactory.class
-        .getName();
+            .getName();
 
     private ConnectionFactory connectionFactory;
 
@@ -54,7 +51,7 @@ public class JCAContext
      * {@inheritDoc}
      */
     public void configure( final SessionManagerConfig config )
-        throws HibersapException
+            throws HibersapException
     {
         final String jndiName = getJndiName( config );
         connectionFactory = getConnectionFactory( jndiName );
@@ -68,7 +65,7 @@ public class JCAContext
         if ( StringUtils.isEmpty( className ) )
         {
             LOG.info( "JCA ConnectionSpecFactory not defined in Hibersap configuration, using default: "
-                + DEFAULT_CONNECTION_SPEC_FACTORY_CLASS );
+                    + DEFAULT_CONNECTION_SPEC_FACTORY_CLASS );
             className = DEFAULT_CONNECTION_SPEC_FACTORY_CLASS;
         }
         return className;
@@ -99,7 +96,7 @@ public class JCAContext
                 throw new HibersapException( "Object bound under " + jndiName + " is no ConnectionFactory" );
             }
 
-            return (ConnectionFactory) object;
+            return ( ConnectionFactory ) object;
         }
         catch ( final NamingException e )
         {
@@ -121,7 +118,7 @@ public class JCAContext
     /**
      * {@inheritDoc}
      */
-    public void reset()
+    public void close()
     {
         connectionFactory = null;
     }

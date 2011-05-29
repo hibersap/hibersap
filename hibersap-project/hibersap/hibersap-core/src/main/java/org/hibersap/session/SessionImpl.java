@@ -62,7 +62,7 @@ public class SessionImpl
         this.credentials = credentials;
 
         pojoMapper = new PojoMapper( sessionManager.getConverterCache() );
-        connection = sessionManager.getSettings().getContext().getConnection();
+        connection = sessionManager.getContext().getConnection();
         if ( credentialsProvided() )
         {
             LOG.debug( "Providing credentials" );
@@ -74,13 +74,13 @@ public class SessionImpl
 
     public Transaction beginTransaction()
     {
-        errorIfClosed();
+        assertNotClosed();
         return connection.beginTransaction( this );
     }
 
     public void close()
     {
-        errorIfClosed();
+        assertNotClosed();
         connection.close();
         setClosed();
     }
@@ -90,7 +90,7 @@ public class SessionImpl
         return credentials != null;
     }
 
-    private void errorIfClosed()
+    private void assertNotClosed()
     {
         if ( isClosed() )
         {
@@ -100,7 +100,7 @@ public class SessionImpl
 
     public void execute( Object bapiObject )
     {
-        errorIfClosed();
+        assertNotClosed();
         Class<?> bapiClass = bapiObject.getClass();
         Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
         if ( bapiMappings.containsKey( bapiClass ) )
@@ -117,7 +117,7 @@ public class SessionImpl
 
     public void execute( Object bapiObject, BapiMapping bapiMapping )
     {
-        errorIfClosed();
+        assertNotClosed();
 
         String bapiName = bapiMapping.getBapiName();
         LOG.debug( "Executing " + bapiName );
@@ -140,7 +140,7 @@ public class SessionImpl
 
     public Transaction getTransaction()
     {
-        errorIfClosed();
+        assertNotClosed();
         return connection.getTransaction();
     }
 

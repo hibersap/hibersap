@@ -45,9 +45,10 @@ import java.util.Set;
     "bapiInterceptorClasses",
     "validationMode"})
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public final class SessionManagerConfig
-    implements Serializable
+public final class SessionManagerConfig implements Serializable
 {
+    private static final long serialVersionUID = 270142113574399232L;
+
     private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
 
     private String name;
@@ -254,9 +255,10 @@ public final class SessionManagerConfig
         this.executionInterceptorClasses.addAll( executionInterceptorClasses );
     }
 
-    public void addExecutionInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
+    public SessionManagerConfig addExecutionInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
     {
         executionInterceptorClasses.add( interceptorClass.getName() );
+        return this;
     }
 
     @XmlElement(name = "bapi-interceptor-class", namespace = HibersapConfig.NAMESPACE)
@@ -272,9 +274,10 @@ public final class SessionManagerConfig
         this.bapiInterceptorClasses.addAll( bapiInterceptorClasses );
     }
 
-    public void addBapiInterceptorClass( Class<? extends BapiInterceptor> bapiInterceptorClass )
+    public SessionManagerConfig addBapiInterceptorClass( Class<? extends BapiInterceptor> bapiInterceptorClass )
     {
         executionInterceptorClasses.add( bapiInterceptorClass.getName() );
+        return this;
     }
 
     @Override

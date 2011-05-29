@@ -1,8 +1,6 @@
 package org.hibersap.session;
 
-import org.easymock.EasyMock;
 import org.hibersap.HibersapException;
-import org.hibersap.configuration.Settings;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.execution.Connection;
@@ -17,10 +15,12 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+@SuppressWarnings( "unchecked" )
 public class SessionImplTest
 {
     private final BapiInterceptor bapiInterceptor = createStrictMock( BapiInterceptor.class );
@@ -44,7 +44,7 @@ public class SessionImplTest
     @Test
     public void bapiInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction()
     {
-        BapiInterceptor myInterceptor = EasyMock.createMock( BapiInterceptor.class );
+        BapiInterceptor myInterceptor = createMock( BapiInterceptor.class );
 
         final Object bapiObject = new Object();
         myInterceptor.beforeExecution( bapiObject );
@@ -58,7 +58,6 @@ public class SessionImplTest
     }
 
     @Test
-    @SuppressWarnings( "unchecked" )
     public void executionInterceptorsFromConfigurationAreCalledWhenExecutingFunction()
     {
         final Object bapiObject = new Object();
@@ -72,10 +71,9 @@ public class SessionImplTest
     }
 
     @Test
-    @SuppressWarnings( "unchecked" )
     public void executionInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction()
     {
-        ExecutionInterceptor myInterceptor = EasyMock.createMock( ExecutionInterceptor.class );
+        ExecutionInterceptor myInterceptor = createMock( ExecutionInterceptor.class );
 
         final Object bapiObject = new Object();
         myInterceptor.beforeExecution( ( BapiMapping ) anyObject(), ( Map<String, Object> ) anyObject() );
@@ -107,15 +105,9 @@ public class SessionImplTest
             return new SessionManagerConfig();
         }
 
-        public Settings getSettings()
+        public Context getContext()
         {
-            final Settings settings = new Settings();
-            settings.setContext( new ContextStub() );
-            return settings;
-        }
-
-        public void reset()
-        {
+            return new ContextStub();
         }
 
         public Session openSession()
@@ -141,7 +133,7 @@ public class SessionImplTest
         {
         }
 
-        public void reset()
+        public void close()
         {
         }
 

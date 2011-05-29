@@ -27,28 +27,27 @@ import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
 
+import java.util.HashMap;
+
 /**
  * Configures Hibersap using annotated BAPI classes.
- * 
+ * <p/>
  * There are two possibilities to add annotated classes:
  * <ol>
  * <li>In hibersap.cfg.xml:
  * &lt;class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/class&gt;</li>
  * <li>programmatically via addAnnotatedClass().</li>
  * </ol>
- * 
+ * <p/>
  * After calling buildSessionManager() this instance can be discarded. The SessionManager will be
  * used to interact with the back-end system. Properties may be overwritten using the methods in
  * this class' superclass, e.g. to specify different SAP systems in a test environment. For each SAP
  * system which will be accessed by the client application, one SessionManager has to be built.
- * 
+ *
  * @author Carsten Erker
  */
-public class AnnotationConfiguration
-    extends Configuration
+public class AnnotationConfiguration extends Configuration
 {
-    private static final long serialVersionUID = 1L;
-
     private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
 
     private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
@@ -56,7 +55,6 @@ public class AnnotationConfiguration
     public AnnotationConfiguration()
     {
         super();
-        addAnnotatedClassesFromConfiguration();
     }
 
     public AnnotationConfiguration( SessionManagerConfig config )
@@ -67,19 +65,18 @@ public class AnnotationConfiguration
     public AnnotationConfiguration( String name )
     {
         super( name );
-        addAnnotatedClassesFromConfiguration();
     }
 
     /**
-     * Builds a SessionManager object. Provide properties and add BAPI classes before calling this
-     * method.
-     * 
+     * Builds a SessionManager object.
+     *
      * @return The SessionManager
      */
     @Override
     public SessionManager buildSessionManager()
     {
-        getBapiMappings().clear();
+        final HashMap<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
+
         for ( final String className : getSessionManagerConfig().getAnnotatedClasses() )
         {
             try
@@ -87,7 +84,7 @@ public class AnnotationConfiguration
                 LOG.info( "Mapping BAPI class " + className );
                 Class<?> clazz = Class.forName( className );
                 final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
-                getBapiMappings().put( clazz, bapiMapping );
+                bapiMappings.put( clazz, bapiMapping );
             }
             catch ( ClassNotFoundException e )
             {
@@ -96,24 +93,7 @@ public class AnnotationConfiguration
                 throw new ConfigurationException( message, e );
             }
         }
+        setBapiMappings( bapiMappings );
         return super.buildSessionManager();
-    }
-
-    /**
-     * Adds an annotated BAPI class to the Configuration.
-     * 
-     * @param bapiClass The BAPI class.
-     */
-    private void addAnnotatedClass( final Class<?> bapiClass )
-    {
-        getSessionManagerConfig().addAnnotatedClass( bapiClass );
-    }
-
-    private void addAnnotatedClassesFromConfiguration()
-    {
-        for ( String className : getSessionManagerConfig().getAnnotatedClasses() )
-        {
-            addAnnotatedClass( SettingsFactory.getClassForName( className ) );
-        }
     }
 }

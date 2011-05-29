@@ -23,45 +23,26 @@ import org.hibersap.ConfigurationException;
 import org.hibersap.configuration.xml.HibersapConfig;
 import org.hibersap.configuration.xml.HibersapJaxbXmlParser;
 import org.hibersap.configuration.xml.SessionManagerConfig;
-import org.hibersap.interceptor.BapiInterceptor;
-import org.hibersap.interceptor.ExecutionInterceptor;
-import org.hibersap.interceptor.impl.SapErrorInterceptor;
-import org.hibersap.mapping.ReflectionHelper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
-import org.hibersap.validation.BeanValidationActivator;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * Abstract Superclass for different configuration strategies. Implements properties / settings
- * handling.
+ * Abstract Superclass for different configuration strategies.
+ * Implements properties / settings handling.
+ * The concrete class' responsibility is to provide the BapiMappings,
+ * e.g. by analyzing annotated classes or XML mappings.
  *
  * @author Carsten Erker
  */
-public abstract class Configuration implements Serializable
+public abstract class Configuration
 {
-    private static final long serialVersionUID = 1L;
-
     private static final Log LOG = LogFactory.getLog( Configuration.class );
 
-    private HibersapConfig hibersapConfig;
-
-    private SessionManagerConfig sessionManagerConfig;
-
-    private final Map<Class<?>, BapiMapping> bapiMappingForClass = new HashMap<Class<?>, BapiMapping>();
-
-    private final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
-
-    private final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
+    private final ConfigurationData data;
 
     /**
      * Creates a Configuration for programmatic configuration of Hibersap. You have to create a
@@ -71,7 +52,7 @@ public abstract class Configuration implements Serializable
      */
     public Configuration( SessionManagerConfig sessionManagerConfig )
     {
-        this.sessionManagerConfig = sessionManagerConfig;
+        this.data = new ConfigurationData( sessionManagerConfig );
     }
 
     /**
@@ -82,7 +63,8 @@ public abstract class Configuration implements Serializable
      */
     public Configuration( String sessionManagerName )
     {
-        this.sessionManagerConfig = getHibersapConfig().getSessionManager( sessionManagerName );
+        SessionManagerConfig sessionManagerConfig = readHibersapConfig().getSessionManager( sessionManagerName );
+        this.data = new ConfigurationData( sessionManagerConfig );
     }
 
     /**
@@ -92,20 +74,16 @@ public abstract class Configuration implements Serializable
      */
     public Configuration()
     {
-        List<SessionManagerConfig> sessionManagers = getHibersapConfig().getSessionManagers();
-        int smCount = sessionManagers.size();
-        if ( smCount > 0 )
-        {
-            this.sessionManagerConfig = sessionManagers.get( 0 );
+        List<SessionManagerConfig> sessionManagers = readHibersapConfig().getSessionManagers();
 
-            LOG
-                    .warn( "Only the first session manager ("
-                            + sessionManagerConfig.getName()
-                            +
-                            ") specified in hibersap.xml was configured. To configure the other specified session managers "
-                            +
-                            "you must explicitly call the constructor of the org.hibersap.configuration.Configuration implementation "
-                            + "with the sessionManagerName argument." );
+        if ( sessionManagers.size() > 0 )
+        {
+            this.data = new ConfigurationData( sessionManagers.get( 0 ) );
+
+            LOG.warn( "Only the first session manager (" + data.getSessionManagerConfig().getName()
+                    + ") specified in hibersap.xml was configured. To configure the other specified session managers "
+                    + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration "
+                    + "implementation with the sessionManagerName argument." );
         }
         else
         {
@@ -113,14 +91,12 @@ public abstract class Configuration implements Serializable
         }
     }
 
-    private HibersapConfig getHibersapConfig()
+    private HibersapConfig readHibersapConfig()
     {
-        if ( hibersapConfig == null )
-        {
-            final HibersapJaxbXmlParser parser = new HibersapJaxbXmlParser();
-            hibersapConfig = parser.parseResource( Environment.HIBERSAP_XML_FILE );
-        }
-        return hibersapConfig;
+        LOG.debug( "Reading HibersapConfig from configuration file" );
+
+        final HibersapJaxbXmlParser parser = new HibersapJaxbXmlParser();
+        return parser.parseResource( Environment.HIBERSAP_XML_FILE );
     }
 
     /**
@@ -130,74 +106,28 @@ public abstract class Configuration implements Serializable
      */
     public SessionManager buildSessionManager()
     {
+        final SessionManagerConfig config = data.getSessionManagerConfig();
+
         LOG.info( "Hibersap Version " + Environment.VERSION );
-        LOG.info( "Building SessionManager '" + sessionManagerConfig.getName() + "'" );
-        addExecutionInterceptors();
-        addBapiInterceptors();
-        return new SessionManagerImpl( this, buildSettings( sessionManagerConfig ) );
+        LOG.info( "Building SessionManager '" + config.getName() + "'" );
+
+        data.setExecutionInterceptors( ConfigurationHelper.createExecutionInterceptors( config ) );
+        data.setBapiInterceptors( ConfigurationHelper.createBapiInterceptors( config ) );
+        return new SessionManagerImpl( data, ConfigurationHelper.createContext( config ) );
     }
 
-    private void addExecutionInterceptors()
+    /**
+     * Concrete subclasses should use this method to provide the BAPI mapping information.
+     *
+     * @param bapiMappings A Map with the BAPI class as key and the BapiMappings as value.
+     */
+    protected void setBapiMappings( Map<Class<?>, BapiMapping> bapiMappings )
     {
-        final Set<String> classNames = sessionManagerConfig.getExecutionInterceptorClasses();
-        addExecutionInterceptors( ReflectionHelper.createInstances( classNames, ExecutionInterceptor.class ) );
-        addExecutionInterceptor( new SapErrorInterceptor() );
+        data.setBapiMappingsForClass( bapiMappings );
     }
 
-    private void addBapiInterceptors()
+    protected SessionManagerConfig getSessionManagerConfig()
     {
-        final Set<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
-        addBapiInterceptors( ReflectionHelper.createInstances( classNames, BapiInterceptor.class ) );
-        BeanValidationActivator.activateBeanValidation( bapiInterceptors, getSessionManagerConfig() );
-    }
-
-    private Settings buildSettings( SessionManagerConfig config )
-    {
-        return SettingsFactory.create( config );
-    }
-
-    public Map<Class<?>, BapiMapping> getBapiMappings()
-    {
-        return bapiMappingForClass;
-    }
-
-    public SessionManagerConfig getSessionManagerConfig()
-    {
-        return sessionManagerConfig;
-    }
-
-    public void setSessionManagerConfig( SessionManagerConfig config )
-    {
-        this.sessionManagerConfig = config;
-    }
-
-    public Set<ExecutionInterceptor> getExecutionInterceptors()
-    {
-        return Collections.unmodifiableSet( executionInterceptors );
-    }
-
-    public void addExecutionInterceptor( ExecutionInterceptor interceptor )
-    {
-        this.executionInterceptors.add( interceptor );
-    }
-
-    public void addExecutionInterceptors( Collection<ExecutionInterceptor> interceptors )
-    {
-        this.executionInterceptors.addAll( interceptors );
-    }
-
-    public Set<BapiInterceptor> getBapiInterceptors()
-    {
-        return Collections.unmodifiableSet( bapiInterceptors );
-    }
-
-    public void addBapiInterceptors( Collection<BapiInterceptor> interceptors )
-    {
-        bapiInterceptors.addAll( interceptors );
-    }
-
-    public void addBapiInterceptor( BapiInterceptor bapiInterceptor )
-    {
-        bapiInterceptors.add( bapiInterceptor );
+        return data.getSessionManagerConfig();
     }
 }

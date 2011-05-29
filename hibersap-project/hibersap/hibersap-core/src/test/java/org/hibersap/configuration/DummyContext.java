@@ -20,7 +20,7 @@ public class DummyContext implements Context
         return null;
     }
 
-    public void reset()
+    public void close()
     {
         // do nothing
     }

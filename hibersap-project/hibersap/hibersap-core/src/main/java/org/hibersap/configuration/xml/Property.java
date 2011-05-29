@@ -8,9 +8,10 @@ import java.io.Serializable;
 
 @XmlType(name = "property", namespace = HibersapConfig.NAMESPACE)
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class Property
-    implements Serializable
+public final class Property implements Serializable
 {
+    private static final long serialVersionUID = -5507648478886478774L;
+
     @XmlAttribute(name = "name")
     private String name;
 

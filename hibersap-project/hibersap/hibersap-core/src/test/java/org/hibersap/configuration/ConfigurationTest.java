@@ -17,8 +17,8 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
@@ -32,9 +32,8 @@ import org.junit.Test;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * @author Carsten Erker
@@ -58,15 +57,6 @@ public class ConfigurationTest
     }
 
     @Test
-    public void executionInterceptorCanBeManuallyAdded()
-    {
-        final ExecutionInterceptor dummyInterceptor = new ExecutionInterceptorDummy();
-        configuration.addExecutionInterceptor( dummyInterceptor );
-
-        assertThat( sessionManager.getExecutionInterceptors(), hasItem( dummyInterceptor ) );
-    }
-
-    @Test
     public void overwritesContextClass() throws Exception
     {
         sessionManagerConfig.setContext( "test" );
@@ -84,35 +74,13 @@ public class ConfigurationTest
     }
 
     @Test
-    public void overwritesCompleteSessionManagerConfiguration()
-            throws Exception
-    {
-        final SessionManagerConfig config = new SessionManagerConfig().setProperty( "testkey", "testvalue" );
-
-        configuration.setSessionManagerConfig( config );
-
-        final SessionManagerConfig sessionManagerConfig = configuration.getSessionManagerConfig();
-        assertThat( sessionManagerConfig.getProperties().size(), is( 1 ) );
-        assertThat( sessionManagerConfig.getProperty( "testkey" ), is( "testvalue" ) );
-    }
-
-    @Test
-    public void bapiInterceptorCanBeManuallyAdded()
-    {
-        final BapiInterceptor dummyInterceptor = new BapiInterceptorDummy();
-        configuration.addBapiInterceptor( dummyInterceptor );
-
-        assertThat( sessionManager.getBapiInterceptors(), hasItem( dummyInterceptor ) );
-    }
-
-    @Test
     public void createsBapiInterceptorsFromXmlConfig()
     {
         final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
 
         assertThat( interceptors.size(), is( 2 ) );
-        assertThat( interceptors, hasItemInstaceOf( BapiInterceptorDummy.class ) );
-        assertThat( interceptors, hasItemInstaceOf( BeanValidationInterceptor.class ) );
+        assertThat( interceptors, hasItemInstanceOf( BapiInterceptorDummy.class ) );
+        assertThat( interceptors, hasItemInstanceOf( BeanValidationInterceptor.class ) );
     }
 
     @Test
@@ -120,7 +88,7 @@ public class ConfigurationTest
     {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors, hasItemInstaceOf( SapErrorInterceptor.class ) );
+        assertThat( interceptors, hasItemInstanceOf( SapErrorInterceptor.class ) );
     }
 
     @Test
@@ -128,14 +96,16 @@ public class ConfigurationTest
     {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
         assertThat( interceptors.size(), is( 2 ) );
-        assertThat( interceptors, hasItemInstaceOf( ExecutionInterceptorDummy.class ) );
+        final Class<ExecutionInterceptorDummy> clazz = ExecutionInterceptorDummy.class;
+        assertThat( interceptors, hasItemInstanceOf( clazz ) );
     }
 
-    private <T> Matcher<Iterable<? super T>> hasItemInstaceOf( Class<T> type )
+    private static <T> Matcher<Iterable<? super T>> hasItemInstanceOf( Class<T> clazz )
     {
-        return CoreMatchers.<T>hasItem( CoreMatchers.<T>isA( type ) );
+        //noinspection RedundantTypeArguments
+        return Matchers.<T>hasItem( Matchers.<T>instanceOf( clazz ) );
     }
-    
+
     public static class ExecutionInterceptorDummy implements ExecutionInterceptor
     {
         public void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )

@@ -17,7 +17,6 @@ package org.hibersap.session;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hibersap.configuration.Settings;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.interceptor.BapiInterceptor;
@@ -34,33 +33,47 @@ import java.util.Set;
  *
  * @author Carsten Erker
  */
-public interface SessionManagerImplementor
-        extends Serializable
+public interface SessionManagerImplementor extends Serializable
 {
-
     /**
-     * Gets this SessionManager's BapiMappings.
+     * Returns this SessionManager's BapiMappings.
      *
-     * @return A BapiMappings for Classes map.
+     * @return A Map with the Class as key and the corresponding BapiMapping object as value.
      */
     Map<Class<?>, BapiMapping> getBapiMappings();
 
+    /**
+     * Returns this SessionManager's Converter cache.
+     *
+     * @return The ConverterCache instance.
+     */
     ConverterCache getConverterCache();
 
+    /**
+     * Returns this SessionManager's Configuration.
+     *
+     * @return The SessionManagerConfig instance.
+     */
     SessionManagerConfig getConfig();
 
-    Settings getSettings();
-
-    void reset();
+    /**
+     * Returns this SessionManager's Context class.
+     *
+     * @return The Context instance.
+     */
+    Context getContext();
 
     /**
-     * Open a Session using a newly created connection to SAP.
+     * Returns this SessionManager's Execution interceptors
      *
-     * @return Session
+     * @return A Set with the ExecutionInterceptor instances.
      */
-    Session openSession();
-
     Set<ExecutionInterceptor> getExecutionInterceptors();
 
+    /**
+     * Returns this SessionManager's Bapi interceptors
+     *
+     * @return A Set with the BapiInterceptor instances.
+     */
     Set<BapiInterceptor> getBapiInterceptors();
 }

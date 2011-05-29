@@ -22,9 +22,10 @@ import java.io.Serializable;
 /**
  * @author Carsten Erker
  */
-public abstract class ParameterMapping
-    implements Serializable
+public abstract class ParameterMapping implements Serializable
 {
+    private static final long serialVersionUID = -2858494641560482982L;
+
     public enum ParamType {
         FIELD, STRUCTURE, TABLE
     }

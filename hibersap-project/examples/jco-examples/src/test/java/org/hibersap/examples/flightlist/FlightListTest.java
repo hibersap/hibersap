@@ -57,6 +57,7 @@ public class FlightListTest
         finally
         {
             session.close();
+            sessionManager.close();
         }
     }
 }

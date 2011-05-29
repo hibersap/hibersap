@@ -27,7 +27,7 @@ import javax.validation.ValidatorFactory;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BeanValidationInterceptor<T> implements BapiInterceptor<T>
+public class BeanValidationInterceptor implements BapiInterceptor
 {
     private final ValidatorFactory validatorFactory;
 
@@ -36,11 +36,11 @@ public class BeanValidationInterceptor<T> implements BapiInterceptor<T>
         this.validatorFactory = validatorFactory;
     }
 
-    public void beforeExecution( T bapiObject ) throws ConstraintViolationException
+    public void beforeExecution( Object bapiObject ) throws ConstraintViolationException
     {
         final Validator validator = validatorFactory.getValidator();
 
-        final Set<ConstraintViolation<T>> constraintViolations = validator.validate( bapiObject );
+        final Set<ConstraintViolation<Object>> constraintViolations = validator.validate( bapiObject );
 
         if ( constraintViolations.size() > 0 )
         {
@@ -48,7 +48,7 @@ public class BeanValidationInterceptor<T> implements BapiInterceptor<T>
         }
     }
 
-    private void checkConstraints( Set<ConstraintViolation<T>> constraintViolations )
+    private void checkConstraints( Set<ConstraintViolation<Object>> constraintViolations )
     {
         Set<ConstraintViolation<?>> propagatedViolations = new HashSet<ConstraintViolation<?>>(
                 constraintViolations.size() );
@@ -64,7 +64,7 @@ public class BeanValidationInterceptor<T> implements BapiInterceptor<T>
         throw new ConstraintViolationException( msg, propagatedViolations );
     }
 
-    public void afterExecution( T bapiObject )
+    public void afterExecution( Object bapiObject )
     {
         // check only one way
     }
