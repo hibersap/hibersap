@@ -243,11 +243,13 @@ public final class ReflectionHelper
             throw new HibersapException( "Cannot set a value on a null object" );
         }
 
+/*
         if ( value == null )
         {
             throw new HibersapException( "Cannot set null value on field " + fieldName + " of bean "
                     + bean.getClass().getName() );
         }
+*/
 
         try
         {
@@ -257,7 +259,7 @@ public final class ReflectionHelper
         }
         catch ( SecurityException e )
         {
-            throw new HibersapException( "Can not assign an object of type " + value.getClass().getName()
+            throw new HibersapException( "Can not assign an object of type " + getClassNameNullSafe( value )
                     + " to the field " + bean.getClass().getName() + "." + fieldName, e );
         }
         catch ( NoSuchFieldException e )
@@ -267,14 +269,19 @@ public final class ReflectionHelper
         }
         catch ( IllegalArgumentException e )
         {
-            throw new HibersapException( "Can not assign an object of type " + value.getClass().getName()
+            throw new HibersapException( "Can not assign an object of type " + getClassNameNullSafe( value )
                     + " to the field " + bean.getClass().getName() + "." + fieldName, e );
         }
         catch ( IllegalAccessException e )
         {
-            throw new HibersapException( "Can not assign an object of type " + value.getClass().getName()
+            throw new HibersapException( "Can not assign an object of type " + getClassNameNullSafe( value )
                     + " to the field " + bean.getClass().getName() + "." + fieldName, e );
         }
+    }
+
+    private static String getClassNameNullSafe( Object object )
+    {
+        return object == null ? "null" : object.getClass().getName();
     }
 
     private ReflectionHelper()
