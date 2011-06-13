@@ -1,6 +1,7 @@
 package org.hibersap.examples;
 
-import java.io.File;
+import org.junit.Before;
+import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -8,9 +9,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-
-import org.junit.Before;
-import org.w3c.dom.Document;
+import java.io.File;
 
 /*
  * Copyright (C) 2008 akquinet tech@spree GmbH
@@ -32,42 +31,45 @@ import org.w3c.dom.Document;
 /**
  * @author Carsten Erker
  */
-public abstract class AbstractHibersapTest {
-	@Before
-	public void setUp() throws Exception {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+public abstract class AbstractHibersapTest
+{
+    @Before
+    public void setUp() throws Exception
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		factory.setNamespaceAware(true); // never forget this!
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		File file = new File(System.getProperty("user.home"),
-				".m2/settings.xml");
+        factory.setNamespaceAware( true ); // never forget this!
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        File file = new File( System.getProperty( "user.home" ),
+                ".m2/settings.xml" );
 
-		Document doc = builder.parse(file);
+        Document doc = builder.parse( file );
 
-		XPath path = XPathFactory.newInstance().newXPath();
+        XPath path = XPathFactory.newInstance().newXPath();
 
-		XPathExpression expression = path.compile("//sap.jco.lib.path/text()");
+        XPathExpression expression = path.compile( "//sap.jco.lib.path/text()" );
 
-		String result = ((String) expression
-				.evaluate(doc, XPathConstants.STRING)).trim();
+        String result = ( ( String ) expression
+                .evaluate( doc, XPathConstants.STRING ) ).trim();
 
-		String libraryPath = System.getProperty("java.library.path");
-		
-		if (libraryPath.indexOf(result) < 0) {
-			libraryPath += File.pathSeparator + result;
-			
-			System.setProperty("java.library.path",
-					libraryPath);
-		}
-		
-		System.out.println(System.getProperty("java.library.path"));
-		// // here, you may set the directory containing the JCo DLL's or Shared
-		// Libraries
-		// // alternatively, you can add them to this project's root folder
-		// File file = new File( "..." );
-		// String libPath = System.getProperty( "java.library.path" );
-		// libPath = libPath + ";" + file.getPath();
-		// System.setProperty( "java.library.path", libPath );
+        String libraryPath = System.getProperty( "java.library.path" );
 
-	}
+        if ( libraryPath.indexOf( result ) < 0 )
+        {
+            libraryPath += File.pathSeparator + result;
+
+            System.setProperty( "java.library.path",
+                    libraryPath );
+        }
+
+        System.out.println( System.getProperty( "java.library.path" ) );
+        // // here, you may set the directory containing the JCo DLL's or Shared
+        // Libraries
+        // // alternatively, you can add them to this project's root folder
+        // File file = new File( "..." );
+        // String libPath = System.getProperty( "java.library.path" );
+        // libPath = libPath + ";" + file.getPath();
+        // System.setProperty( "java.library.path", libPath );
+
+    }
 }

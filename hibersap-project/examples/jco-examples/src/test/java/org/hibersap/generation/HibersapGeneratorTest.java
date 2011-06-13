@@ -1,24 +1,17 @@
 package org.hibersap.generation;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.io.File;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 public class HibersapGeneratorTest
 {
 
     private static final String TMP_DIR = System.getProperty( "java.io.tmpdir" );
 
-    // TODO make test pass
     @Test
-    public void testLetTestCasePass()
-    {
-                                    
-    }
-
-    // @Test
     public void testGenerate()
     {
         final HibersapGenerator generator = new HibersapGenerator();

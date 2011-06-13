@@ -2,26 +2,23 @@ package org.hibersap.session;
 
 /**
  * Copyright (C) 2008-2009 akquinet tech@spree GmbH
- * 
+ *
  * This file is part of Hibersap.
- * 
+ *
  * Hibersap is free software: you can redistribute it and/or modify it under the terms of the GNU
  * Lesser General Public License as published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- * 
+ *
  * Hibersap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
+import com.sap.conn.jco.monitor.JCoConnectionData;
+import com.sap.conn.jco.monitor.JCoConnectionMonitor;
 import org.hibersap.SapException;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.examples.AbstractHibersapTest;
@@ -30,73 +27,80 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sap.conn.jco.monitor.JCoConnectionData;
-import com.sap.conn.jco.monitor.JCoConnectionMonitor;
+import java.util.List;
 
-public class CustomCredentialsTest extends AbstractHibersapTest {
-	private final AnnotationConfiguration configuration = new AnnotationConfiguration(
-			"A12");
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-	private SessionManagerImpl sessionManager;
+public class CustomCredentialsTest extends AbstractHibersapTest
+{
+    private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
 
-	@Before
-	public void setup() {
-		sessionManager = (SessionManagerImpl) configuration
-				.buildSessionManager();
-	}
+    private SessionManager sessionManager;
 
-	@After
-	public void reset() {
-		if (sessionManager != null) {
-			sessionManager.close();
-		}
-	}
-
-    // TODO make test pass
-    @Test
-    public void testLetTestCasePass()
+    @Before
+    public void setup()
     {
-
+        sessionManager = configuration.buildSessionManager();
     }
 
-	// @Test
-	public void testConnectToSapWithCustomCredentials() throws Exception {
+    @After
+    public void reset()
+    {
+        if ( sessionManager != null )
+        {
+            sessionManager.close();
+        }
+    }
 
-		final Credentials credentials = new Credentials().setUser("CERKER")
-				.setPassword("password").setLanguage("DE");
+    @Test
+    public void testConnectToSapWithCustomCredentials() throws Exception
+    {
 
-		final Session session = sessionManager.openSession(credentials);
+        final Credentials credentials = new Credentials().setUser( "sapuser2" )
+                .setPassword( "password" ).setLanguage( "DE" );
 
-		// make sure a connection to SAP was established
-		try {
-			session.execute(new FlightListBapi("BERLIN", "DE", "FRANKFURT",
-					"DE", "LH", false, 1));
-		} catch (final SapException e) {
-			// expected when there are no lines found
-		} finally {
-			session.close();
-		}
+        final Session session = sessionManager.openSession( credentials );
 
-		final JCoConnectionData connectionUsed = getConnectionDataUsed();
-		assertNotNull(connectionUsed);
+        // make sure a connection to SAP was established
+        try
+        {
+            session.execute( new FlightListBapi( "BERLIN", "DE", "FRANKFURT",
+                    "DE", "LH", false, 1 ) );
+        }
+        catch ( final SapException e )
+        {
+            // expected when there are no lines found
+        }
+        finally
+        {
+            session.close();
+        }
 
-		// these parameters should be used instead of the configured ones
-		assertEquals("CERKER", connectionUsed.getAbapUser());
-		assertEquals("DE", connectionUsed.getAbapLanguage());
+        final JCoConnectionData connectionUsed = getConnectionDataUsed();
+        assertNotNull( connectionUsed );
 
-		// this parameter should not be overwritten, the configuration should be
-		// used
-		assertEquals("800", connectionUsed.getAbapClient());
-	}
+        // these parameters should be used instead of the configured ones
+        assertEquals( "SAPUSER2", connectionUsed.getAbapUser() );
+        assertEquals( "DE", connectionUsed.getAbapLanguage() );
 
-	private JCoConnectionData getConnectionDataUsed() {
-		final List<? extends JCoConnectionData> list = JCoConnectionMonitor
-				.getConnectionsData();
-		for (final JCoConnectionData data : list) {
-			if ("BAPI_SFLIGHT_GETLIST".equals(data.getFunctionModuleName())) {
-				return data;
-			}
-		}
-		return null;
-	}
+        // this parameter should not be overwritten, the configuration should be
+        // used
+        final String sapClientFromConfig = sessionManager.getConfig().getProperty( "jco.client.client" );
+        assertEquals( sapClientFromConfig, connectionUsed.getAbapClient() );
+    }
+
+    private JCoConnectionData getConnectionDataUsed()
+    {
+        final List<? extends JCoConnectionData> list = JCoConnectionMonitor
+                .getConnectionsData();
+        for ( final JCoConnectionData data : list )
+        {
+            if ( "BAPI_SFLIGHT_GETLIST".equals( data.getFunctionModuleName() ) )
+            {
+                return data;
+            }
+        }
+        return null;
+    }
 }

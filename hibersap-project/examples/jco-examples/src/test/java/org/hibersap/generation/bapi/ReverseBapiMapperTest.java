@@ -1,12 +1,5 @@
 package org.hibersap.generation.bapi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Iterator;
-import java.util.Set;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.mapping.model.BapiMapping;
@@ -18,22 +11,22 @@ import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.session.SessionManager;
 import org.junit.Test;
 
+import java.util.Iterator;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 public class ReverseBapiMapperTest
 {
     private SessionManager sessionManager;
 
     private ReverseBapiMapper mapper = new ReverseBapiMapper();
 
-    // TODO make test pass
     @Test
-    public void testLetTestCasePass()
-    {
-
-    }
-
-    // @Test
     public void mapBapi()
-        throws Exception
+            throws Exception
     {
         AnnotationConfiguration configuration = new AnnotationConfiguration();
         sessionManager = configuration.buildSessionManager();
@@ -46,14 +39,14 @@ public class ReverseBapiMapperTest
 
         Set<ObjectMapping> imports = map.getImportParameters();
         checkContains( imports, "AFTERNOON", "AIRLINECARRIER", "FROMCITY", "FROMCOUNTRYKEY", "MAXREAD", "TOCITY",
-                       "TOCOUNTRYKEY" );
+                "TOCOUNTRYKEY" );
 
         Set<ObjectMapping> exports = map.getExportParameters();
         checkContains( exports, "RETURN" );
-        StructureMapping returnStruct = (StructureMapping) exports.iterator().next();
+        StructureMapping returnStruct = ( StructureMapping ) exports.iterator().next();
         Set<FieldMapping> returnElements = returnStruct.getParameters();
         checkContains( returnElements, "TYPE", "ID", "NUMBER", "MESSAGE", "LOG_NO", "LOG_MSG_NO", "MESSAGE_V1",
-                       "MESSAGE_V2", "MESSAGE_V3", "MESSAGE_V4", "PARAMETER", "ROW", "FIELD", "SYSTEM" );
+                "MESSAGE_V2", "MESSAGE_V3", "MESSAGE_V4", "PARAMETER", "ROW", "FIELD", "SYSTEM" );
 
         Set<TableMapping> tables = map.getTableParameters();
         checkContains( tables, "FLIGHTLIST" );
@@ -61,7 +54,7 @@ public class ReverseBapiMapperTest
         StructureMapping tableStructure = table.getComponentParameter();
         Set<FieldMapping> tableElements = tableStructure.getParameters();
         checkContains( tableElements, "CARRID", "CONNID", "FLDATE", "AIRPFROM", "AIRPTO", "DEPTIME", "SEATSMAX",
-                       "SEATSOCC" );
+                "SEATSOCC" );
     }
 
     private void checkContains( Set<? extends ParameterMapping> mappings, String... names )
