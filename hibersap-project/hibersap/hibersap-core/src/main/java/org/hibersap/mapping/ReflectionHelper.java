@@ -19,6 +19,7 @@ package org.hibersap.mapping;
 
 import org.hibersap.HibersapException;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -282,6 +283,34 @@ public final class ReflectionHelper
     private static String getClassNameNullSafe( Object object )
     {
         return object == null ? "null" : object.getClass().getName();
+    }
+
+
+    public static Set<Field> getDeclaredFieldsWithAnnotationRecursively( Class<?> clazz,
+                                                                         Class<? extends Annotation> annotationClass )
+    {
+        final HashSet<Field> fields = new HashSet<Field>();
+        addDeclaredFieldsWithAnnotationRecursively( fields, clazz, annotationClass );
+        return fields;
+    }
+
+    private static void addDeclaredFieldsWithAnnotationRecursively( HashSet<Field> fields, Class<?> clazz,
+                                                                    Class<? extends Annotation> annotationClass )
+    {
+        final Field[] declaredFields = clazz.getDeclaredFields();
+        for ( Field declaredField : declaredFields )
+        {
+            if ( declaredField.isAnnotationPresent( annotationClass ) )
+            {
+                fields.add( declaredField );
+            }
+        }
+
+        final Class<?> superclass = clazz.getSuperclass();
+        if ( superclass != null )
+        {
+            addDeclaredFieldsWithAnnotationRecursively( fields, superclass, annotationClass );
+        }
     }
 
     private ReflectionHelper()

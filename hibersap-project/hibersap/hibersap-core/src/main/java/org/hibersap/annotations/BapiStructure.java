@@ -17,11 +17,21 @@ package org.hibersap.annotations;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 /**
  * Maps the Java class to a structure in a remote function module's interface.
- * 
+ *
  * @author Carsten Erker
  */
+@Retention( RUNTIME )
+@Target( value = TYPE )
+@Inherited
 public @interface BapiStructure
 {
     // marker annotation

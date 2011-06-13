@@ -17,20 +17,20 @@ package org.hibersap.annotations;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Defines field to be an import parameter of the remote function module's interface. Field must
  * additionally be annotated using @Parameter.
- * 
+ *
  * @author Carsten Erker
  */
-@Retention(RUNTIME)
-@Target(value = FIELD)
+@Retention( RUNTIME )
+@Target( value = FIELD )
 public @interface Import
 {
     // marker annotation

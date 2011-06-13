@@ -19,6 +19,7 @@ package org.hibersap.mapping;
 
 import org.hibersap.MappingException;
 import org.hibersap.annotations.Bapi;
+import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ErrorHandling;
@@ -28,15 +29,19 @@ import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 
 import java.lang.reflect.Field;
+import java.util.Set;
+
+import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
 
 /**
  * Creates a BAPI Mapping for Annotated classes.
- * 
+ *
  * @author Carsten Erker
  */
 public class AnnotationBapiMapper
 {
     private static final Class<Bapi> BAPI = Bapi.class;
+    private static final Class<Parameter> PARAMETER = Parameter.class;
 
     private void addParameterToBapiMapping( BapiMapping bapiClass, BapiField field )
     {
@@ -84,17 +89,13 @@ public class AnnotationBapiMapper
         Class<?> structureType = structureField.getAssociatedType();
 
         StructureMapping structureMapping = new StructureMapping( structureType, structureField.getSapName(),
-                                                                  structureField.getName() );
+                structureField.getName() );
 
-        Field[] fields = structureType.getDeclaredFields();
+        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( structureType, PARAMETER );
         for ( Field field : fields )
         {
-            BapiField bapiField = new BapiField( field );
-            if ( bapiField.isParameter() )
-            {
-                FieldMapping fieldMapping = createFieldMapping( bapiField );
-                structureMapping.addParameter( fieldMapping );
-            }
+            FieldMapping fieldMapping = createFieldMapping( new BapiField( field ) );
+            structureMapping.addParameter( fieldMapping );
         }
         return structureMapping;
     }
@@ -107,7 +108,8 @@ public class AnnotationBapiMapper
         {
             throw new MappingException( "The type of field " + field + " can not be detected." );
         }
-        return new TableMapping( field.getType(), associatedType, field.getSapName(), field.getName(), structureMapping );
+        return new TableMapping( field.getType(), associatedType, field.getSapName(), field.getName(),
+                structureMapping );
     }
 
     private ErrorHandling getErrorHandling( Class<?> clazz )
@@ -126,7 +128,7 @@ public class AnnotationBapiMapper
     /**
      * Takes an annotated BAPI class and creates a BapiMapping. The BapiMapping is used when a BAPI
      * gets executed to map SAP parameters to fields of the BAPI class.
-     * 
+     *
      * @param clazz The annotated Bapi class.
      * @return The BapiMapping
      */
@@ -135,16 +137,13 @@ public class AnnotationBapiMapper
         checkBapiClass( clazz );
 
         Bapi bapiAnnotation = clazz.getAnnotation( BAPI );
-        BapiMapping bapi = new BapiMapping( clazz, bapiAnnotation.value(), getErrorHandling( clazz ) );
-        Field[] fields = clazz.getDeclaredFields();
+        BapiMapping bapiMapping = new BapiMapping( clazz, bapiAnnotation.value(), getErrorHandling( clazz ) );
+
+        Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( clazz, PARAMETER );
         for ( Field field : fields )
         {
-            BapiField bapiField = new BapiField( field );
-            if ( bapiField.isParameter() )
-            {
-                addParameterToBapiMapping( bapi, bapiField );
-            }
+            addParameterToBapiMapping( bapiMapping, new BapiField( field ) );
         }
-        return bapi;
+        return bapiMapping;
     }
 }

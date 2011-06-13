@@ -1,6 +1,10 @@
 package org.hibersap.mapping;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.hibersap.HibersapException;
+import org.hibersap.annotations.Export;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -12,6 +16,9 @@ import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.is;
+import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
+import static org.hibersap.mapping.ReflectionHelperTest.FieldMatcher.hasFieldNamed;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -139,7 +146,7 @@ public class ReflectionHelperTest
         bean.set = Collections.emptySet();
 
         ReflectionHelper.setFieldValue( bean, "set", null );
-        assertThat(bean.set, nullValue());
+        assertThat( bean.set, nullValue() );
     }
 
     @Test
@@ -150,11 +157,71 @@ public class ReflectionHelperTest
         assertThat( ( String ) charSequence, equalTo( "" ) );
     }
 
+    @Test
+    public void getsDeclaredFieldsRecursivelyWithInheritance()
+    {
+        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( TestSubClass.class, Export.class );
+
+        assertThat( fields.size(), is( 2 ) );
+        assertThat( fields, hasFieldNamed( "set" ) );
+        assertThat( fields, hasFieldNamed( "paramSubClass" ) );
+    }
+
+    @Test
+    public void getsDeclaredFieldsRecursivelyWithoutInheritance()
+    {
+        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( TestBean.class, Export.class );
+
+        assertThat( fields.size(), is( 1 ) );
+        assertThat( fields, hasFieldNamed( "set" ) );
+    }
+
     @SuppressWarnings( "unused" )
     class TestBean
     {
         private int intValue = 1;
 
+        @Export
         private Set<Object> set;
+    }
+
+    private class TestSubClass extends TestBean
+    {
+        @Export
+        @SuppressWarnings( "unused" )
+        private short paramSubClass;
+    }
+
+    static class FieldMatcher extends TypeSafeMatcher<Collection<Field>>
+    {
+        private final String fieldName;
+
+        public FieldMatcher( String fieldName )
+        {
+            this.fieldName = fieldName;
+        }
+
+        public static Matcher<Collection<Field>> hasFieldNamed( String fieldName )
+        {
+            return new FieldMatcher( fieldName );
+        }
+
+        @Override
+        protected boolean matchesSafely( Collection<Field> fields )
+        {
+            for ( Field field : fields )
+            {
+                if ( field.getName().equals( fieldName ) )
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void describeTo( Description description )
+        {
+            description.appendText( "has field named '" ).appendText( fieldName ).appendText( "'" );
+        }
     }
 }

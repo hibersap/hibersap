@@ -17,25 +17,32 @@ package org.hibersap.annotations;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Maps the Java field to a parameter of the remote function module's interface.
- * 
+ *
  * @author Carsten Erker
  */
-@Retention(RUNTIME)
+@Retention( RUNTIME )
+@Target( value = FIELD )
 public @interface Parameter
 {
     /**
      * The name of the function module's parameter.
+     *
+     * @return The parameter name.
      */
     String value();
 
     /**
      * The type of the parameter, either SIMPLE for scalar types or STRUCTURE for complex types.
+     *
+     * @return The parameter type.
      */
     ParameterType type() default ParameterType.SIMPLE;
 }

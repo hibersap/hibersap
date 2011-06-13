@@ -17,24 +17,28 @@ package org.hibersap.annotations;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 /**
  * Maps a Java class to a remote function module (or BAPI) in SAP.
- * 
+ *
  * @author Carsten Erker
  */
-@Retention(RUNTIME)
-@Target(value = TYPE)
+@Retention( RUNTIME )
+@Target( value = TYPE )
+@Inherited
 public @interface Bapi
 {
 
     /**
      * The name of a SAP remote function module, e.g. BAPI_FLIGHT_GETLIST.
+     *
+     * @return The function name.
      */
     String value();
 }
