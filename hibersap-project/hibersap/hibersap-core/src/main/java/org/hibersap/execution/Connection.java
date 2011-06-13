@@ -57,7 +57,6 @@ public interface Connection
     /**
      * Returns the current transaction.
      * 
-     * @param session The Session this Connection belongs to.
      * @return The Transaction
      */
     Transaction getTransaction();

@@ -52,7 +52,7 @@ public interface Session
     /**
      * is session already closed?
      * 
-     * @return
+     * @return true if closed, else false.
      */
     boolean isClosed();
 }
