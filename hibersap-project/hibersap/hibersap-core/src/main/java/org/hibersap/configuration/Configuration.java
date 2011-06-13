@@ -42,6 +42,11 @@ public abstract class Configuration
 {
     private static final Log LOG = LogFactory.getLog( Configuration.class );
 
+    static
+    {
+        LOG.info( "Hibersap Version " + Environment.VERSION );
+    }
+
     private final ConfigurationData data;
 
     /**
@@ -108,7 +113,6 @@ public abstract class Configuration
     {
         final SessionManagerConfig config = data.getSessionManagerConfig();
 
-        LOG.info( "Hibersap Version " + Environment.VERSION );
         LOG.info( "Building SessionManager '" + config.getName() + "'" );
 
         data.setExecutionInterceptors( ConfigurationHelper.createExecutionInterceptors( config ) );

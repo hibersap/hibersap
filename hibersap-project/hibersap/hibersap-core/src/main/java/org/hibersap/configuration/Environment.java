@@ -17,20 +17,41 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.sun.tools.javac.resources.version;
+import org.hibersap.HibersapException;
+
+import java.io.IOException;
+import java.util.Properties;
+
 /*
- * @author Carsten Erker
- */
+* @author Carsten Erker
+*/
 public final class Environment
 {
-    /*
-     * The Hibersap Version.
-     */
-    public static final String VERSION = "1.1";
-
-    /*
-     * Where to find the hibersap.xml configuration file in the classpath.
-     */
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
+
+    private static final String HIBERSAP_VERSION_FILE = "hibersap-version.properties";
+
+    private static final String HIBERSAP_VERSION_PROPERTY_KEY = "hibersap-version";
+
+    public static final String VERSION = readHibersapVersion();
+
+    private static String readHibersapVersion()
+    {
+        String version;
+        try
+        {
+            final Properties properties = new Properties();
+            properties.load( Environment.class.getResourceAsStream( "/" + HIBERSAP_VERSION_FILE ) );
+            version = properties.getProperty( HIBERSAP_VERSION_PROPERTY_KEY );
+        }
+        catch ( IOException e )
+        {
+            throw new HibersapException( "Can not load file " + HIBERSAP_VERSION_FILE
+                    + ". This file is part of the hibersap-core library and should always be there." );
+        }
+        return version;
+    }
 
     private Environment()
     {
