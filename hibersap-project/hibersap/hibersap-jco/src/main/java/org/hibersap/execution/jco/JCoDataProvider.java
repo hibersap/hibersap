@@ -19,6 +19,8 @@ package org.hibersap.execution.jco;
 
 import com.sap.conn.jco.ext.DestinationDataEventListener;
 import com.sap.conn.jco.ext.DestinationDataProvider;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 
 import java.util.HashMap;
@@ -33,12 +35,16 @@ import java.util.Properties;
  */
 public class JCoDataProvider implements DestinationDataProvider
 {
+    private static final Log LOG = LogFactory.getLog( JCoDataProvider.class );
+
     private final Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
 
     private DestinationDataEventListener eventListener;
 
     public void addDestination( String destinationName, Properties properties )
     {
+        LOG.debug( "Add destination " + destinationName + " to " + propertiesForDestinationName );
+
         // if ( wasAdded( destinationName ) )
         // {
         // throw new HibersapException( "A JCo destination named '" + destinationName +
@@ -50,6 +56,8 @@ public class JCoDataProvider implements DestinationDataProvider
 
     public void removeDestination( String destinationName )
     {
+        LOG.debug( "Remove destination " + destinationName + " from " + propertiesForDestinationName );
+
         propertiesForDestinationName.remove( destinationName );
         fireDestinationDeletedEvent( destinationName );
     }

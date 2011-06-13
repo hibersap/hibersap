@@ -79,13 +79,15 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
      */
     public void close()
     {
-        closed = true;
-
-        context.close();
-        bapiMappings.clear();
-        converterCache.clear();
-        executionInterceptors.clear();
-        bapiInterceptors.clear();
+        if ( !closed )
+        {
+            closed = true;
+            context.close();
+            bapiMappings.clear();
+            converterCache.clear();
+            executionInterceptors.clear();
+            bapiInterceptors.clear();
+        }
     }
 
     /*
