@@ -2,20 +2,20 @@
     <parent>
         <artifactId>hibersap</artifactId>
         <groupId>org.hibersap</groupId>
-        <version>1.1.0Beta01</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.hibersap</groupId>
     <artifactId>hibersap-jco</artifactId>
     <name>Hibersap-JCo</name>
-    <version>1.1.0Beta01</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>JCo-specific Hibersap code</description>
     <dependencies>
         <dependency>
             <groupId>org.hibersap</groupId>
             <artifactId>hibersap-core</artifactId>
-            <version>1.1.0Beta01</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
