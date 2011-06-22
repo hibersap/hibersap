@@ -49,7 +49,7 @@
                                     </xsd:sequence>
                                 </xsd:complexType>
                             </xsd:element>
-                            <xsd:element name="validation-mode" minOccurs="0" maxOccurs="0">
+                            <xsd:element name="validation-mode" minOccurs="0">
                                 <xsd:simpleType>
                                     <xsd:restriction base="xsd:token">
                                         <xsd:enumeration value="AUTO"/>
