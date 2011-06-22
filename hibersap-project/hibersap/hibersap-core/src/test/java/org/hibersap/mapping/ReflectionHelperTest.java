@@ -14,14 +14,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
 import static org.hibersap.mapping.ReflectionHelperTest.FieldMatcher.hasFieldNamed;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 public class ReflectionHelperTest
 {
@@ -150,6 +153,39 @@ public class ReflectionHelperTest
     }
 
     @Test
+    public void setFieldValueWhenFieldIsInheritedFromSuperclass()
+    {
+        TestSubClass bean = new TestSubClass();
+
+        ReflectionHelper.setFieldValue( bean, "set", Collections.emptySet() );
+        assertThat( bean.getSet(), notNullValue() );
+    }
+
+    @Test
+    public void setFieldValueOnDirectMember()
+    {
+        TestSubClass bean = new TestSubClass();
+
+        ReflectionHelper.setFieldValue( bean, "paramSubClass", 3L );
+        assertThat( bean.paramSubClass, is( 3L ) );
+    }
+
+    @Test
+    public void setFieldValueThrowsHibersapExceptionWithMessageContainingClassAndFieldNameWhenFieldDoesNotExist()
+    {
+        try
+        {
+            ReflectionHelper.setFieldValue( new Object(), "doesNotExist", "someValue" );
+            fail();
+        }
+        catch ( HibersapException e )
+        {
+           assertThat( e.getMessage(), containsString( "Object" ) );
+           assertThat( e.getMessage(), containsString( "doesNotExist" ) );
+        }
+    }
+
+    @Test
     public void createsNewInstanceFromClassNameAndReturnsSupertype()
     {
         final CharSequence charSequence = ReflectionHelper.newInstance( "java.lang.String", CharSequence.class );
@@ -183,13 +219,18 @@ public class ReflectionHelperTest
 
         @Export
         private Set<Object> set;
+
+        public Set<Object> getSet()
+        {
+            return set;
+        }
     }
 
     private class TestSubClass extends TestBean
     {
         @Export
         @SuppressWarnings( "unused" )
-        private short paramSubClass;
+        private long paramSubClass;
     }
 
     static class FieldMatcher extends TypeSafeMatcher<Collection<Field>>

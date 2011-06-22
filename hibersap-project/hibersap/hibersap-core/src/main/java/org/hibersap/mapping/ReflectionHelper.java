@@ -244,17 +244,9 @@ public final class ReflectionHelper
             throw new HibersapException( "Cannot set a value on a null object" );
         }
 
-/*
-        if ( value == null )
-        {
-            throw new HibersapException( "Cannot set null value on field " + fieldName + " of bean "
-                    + bean.getClass().getName() );
-        }
-*/
-
         try
         {
-            java.lang.reflect.Field declaredField = bean.getClass().getDeclaredField( fieldName );
+            Field declaredField = getDeclaredFieldWithInheritance( bean.getClass(), fieldName );
             declaredField.setAccessible( true );
             declaredField.set( bean, value );
         }
@@ -277,6 +269,28 @@ public final class ReflectionHelper
         {
             throw new HibersapException( "Can not assign an object of type " + getClassNameNullSafe( value )
                     + " to the field " + bean.getClass().getName() + "." + fieldName, e );
+        }
+    }
+
+    private static Field getDeclaredFieldWithInheritance( Class beanClass, String fieldName )
+            throws NoSuchFieldException
+    {
+        try
+        {
+            return beanClass.getDeclaredField( fieldName );
+        }
+        catch ( NoSuchFieldException e )
+        {
+            final Class<?> superclass = beanClass.getSuperclass();
+
+            if ( superclass != null )
+            {
+                return getDeclaredFieldWithInheritance( superclass, fieldName );
+            }
+            else
+            {
+                throw new NoSuchFieldException();
+            }
         }
     }
 
