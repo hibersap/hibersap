@@ -78,6 +78,13 @@ public class ReflectionHelperTest
         assertEquals( 1, value );
     }
 
+    @Test
+    public void getFieldValueReturnsCorrectValueForInheritedField()
+    {
+        int value = ( Integer ) ReflectionHelper.getFieldValue( new TestSubClass(), "intValue" );
+        assertEquals( 1, value );
+    }
+
     @Test( expected = HibersapException.class )
     public void testGetFieldValueThrowsExceptionWhenFieldDoesNotExist()
     {
@@ -130,12 +137,14 @@ public class ReflectionHelperTest
     }
 
     @Test( expected = HibersapException.class )
+    @SuppressWarnings( "NullableProblems" )
     public void setFieldValueThrowsExceptionWhenTryingToSetValueOnNullObject()
     {
         ReflectionHelper.setFieldValue( null, "intValue", 0 );
     }
 
     @Test( expected = HibersapException.class )
+    @SuppressWarnings( "NullableProblems" )
     public void setFieldValueThrowsExceptionWhenSettingNullValueOnPrimitiveType()
     {
         TestBean bean = new TestBean();
@@ -143,6 +152,7 @@ public class ReflectionHelperTest
     }
 
     @Test
+    @SuppressWarnings( "NullableProblems" )
     public void setFieldValueCanSetNullValue()
     {
         TestBean bean = new TestBean();

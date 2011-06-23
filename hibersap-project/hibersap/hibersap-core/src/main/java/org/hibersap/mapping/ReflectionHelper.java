@@ -125,7 +125,7 @@ public final class ReflectionHelper
     {
         try
         {
-            java.lang.reflect.Field javaField = getDeclaredField( bean, fieldName );
+            java.lang.reflect.Field javaField = getDeclaredFieldWithInheritance( bean.getClass(), fieldName );
             javaField.setAccessible( true );
             return javaField.get( bean );
         }
@@ -255,11 +255,6 @@ public final class ReflectionHelper
             throw new HibersapException( "Can not assign an object of type " + getClassNameNullSafe( value )
                     + " to the field " + bean.getClass().getName() + "." + fieldName, e );
         }
-        catch ( NoSuchFieldException e )
-        {
-            throw new HibersapException( "Class " + bean.getClass().getName() + " does not have a field named "
-                    + fieldName, e );
-        }
         catch ( IllegalArgumentException e )
         {
             throw new HibersapException( "Can not assign an object of type " + getClassNameNullSafe( value )
@@ -273,7 +268,6 @@ public final class ReflectionHelper
     }
 
     private static Field getDeclaredFieldWithInheritance( Class beanClass, String fieldName )
-            throws NoSuchFieldException
     {
         try
         {
@@ -289,7 +283,8 @@ public final class ReflectionHelper
             }
             else
             {
-                throw new NoSuchFieldException();
+                throw new HibersapException( "Class " + beanClass.getName() + " does not have a field named "
+                        + fieldName, e );
             }
         }
     }
