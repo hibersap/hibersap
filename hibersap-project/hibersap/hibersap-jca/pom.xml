@@ -1,27 +1,42 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>hibersap</artifactId>
-		<groupId>org.hibersap</groupId>
-		<version>1.1.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-parent</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath>../hibersap-parent</relativePath>
+    </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>hibersap-jca</artifactId>
-	<name>Hibersap-JCA</name>
-	<version>1.1.0-SNAPSHOT</version>
-	<description>JCA-specific Hibersap code</description>
+    <name>Hibersap JCA</name>
+    
+    <artifactId>hibersap-jca</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap-core</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.resource</groupId>
-			<artifactId>connector</artifactId>
-		</dependency>		
-	</dependencies>
+    <description>JCA-specific Hibersap code</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.resource</groupId>
+            <artifactId>connector</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+
+    </dependencies>
 </project>

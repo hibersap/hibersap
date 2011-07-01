@@ -1,75 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.hibersap.examples</groupId>
-	<artifactId>jco-examples</artifactId>
-	<name>Examples for Hibersap-JCo</name>
-	<version>1.1.0-SNAPSHOT</version>
-	<parent>
-		<artifactId>examples</artifactId>
-		<groupId>org.hibersap.examples</groupId>
-		<version>1.1.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>once</forkMode>
-					<!--
-						<argLine>-ea -d64</argLine>
-					-->
-					<argLine>-ea</argLine>
-					<environmentVariables>
-						<LD_LIBRARY_PATH>
-							${sap.jco.lib.path}
-						</LD_LIBRARY_PATH>
-						<DYLD_LIBRARY_PATH>
-							${sap.jco.lib.path}
-						</DYLD_LIBRARY_PATH>
-						<java.library.path>
-							${sap.jco.lib.path}
-						</java.library.path>
-					</environmentVariables>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <name>Examples for Hibersap-JCo</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.hibersap</groupId>
-			<artifactId>hibersap-jco</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>sun-jaxb</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sap</groupId>
-			<artifactId>sap-jco</artifactId>
-			<scope>provided</scope>
-		</dependency>
+    <groupId>org.hibersap.examples</groupId>
+    <artifactId>jco-examples</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
 
-	</dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <!--
+                             <argLine>-ea -d64</argLine>
+                         -->
+                    <argLine>-ea</argLine>
+                    <environmentVariables>
+                        <LD_LIBRARY_PATH>
+                            ${sap.jco.lib.path}
+                        </LD_LIBRARY_PATH>
+                        <DYLD_LIBRARY_PATH>
+                            ${sap.jco.lib.path}
+                        </DYLD_LIBRARY_PATH>
+                        <java.library.path>
+                            ${sap.jco.lib.path}
+                        </java.library.path>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Hibersap -->
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-jco</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- JAXB -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1.9</version>
+        </dependency>
+
+        <!-- SAP Java Connector (JCo) -->
+        <dependency>
+            <groupId>com.sap</groupId>
+            <artifactId>sap-jco</artifactId>
+            <version>[3.0,4.0)</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-integration</artifactId>
+            <version>1.3.RC2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
