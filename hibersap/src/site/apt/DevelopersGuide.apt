@@ -29,7 +29,8 @@ Hibersap Developer's Guide
   * The SapJCo JAR needs to be installed manually into your Maven repository
 
 +------------------------------------------------------------------------------------------------------------------+
-mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.0 -Dpackaging=jar -Dfile=./sapjco3.jar
+mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.0 -Dpackaging=jar
+                         -Dfile=./sapjco3.jar
 +------------------------------------------------------------------------------------------------------------------+
 
 * Building and running the examples

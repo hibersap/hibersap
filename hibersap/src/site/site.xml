@@ -13,8 +13,9 @@
     </bannerRight>
 
     <poweredBy>
-        <logo name="Sourceforge" href="http://sourceforge.net/"
-              img="http://hibersap.sourceforge.net/hibersap-${project.version}/images/sourceforge-logo.png"/>
+        <logo name="Get Hibersap at SourceForge.net. Fast, secure and Free Open Source software downloads"
+              href="http://sourceforge.net/projects/hibersap"
+              img="http://sflogo.sourceforge.net/sflogo.php?group_id=225273&amp;type=8"/>
         <logo name="Maven" href="http://maven.apache.org/"
               img="http://maven.apache.org/images/logos/maven-feather.png"/>
     </poweredBy>
