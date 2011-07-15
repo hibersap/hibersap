@@ -2,7 +2,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>hibersap-project</name>
     <groupId>org.hibersap</groupId>
     <artifactId>hibersap-jboss-deployers</artifactId>
     <packaging>pom</packaging>
