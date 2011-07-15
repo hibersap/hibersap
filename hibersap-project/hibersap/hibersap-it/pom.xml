@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-parent</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath>../hibersap-parent</relativePath>
+    </parent>
+
+    <artifactId>hibersap-it</artifactId>
+
+    <properties>
+        <sap-jco.version>3.0.7</sap-jco.version>
+    </properties>
+
+    <!--
+        Since SAP JCo is a proprietary library with a commercial license, we have to manually install or deploy it
+        to the local Maven repository or a (private!) remote repository (replace version like above,
+        classifier like in the following profile that fits to your architecture):
+        
+        mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file
+        mvn deploy:deploy-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+    -->
+    <profiles>
+        <profile>
+            <id>Mac 64 Bit Intel</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <jco.native-lib.filename>libsapjco3.jnilib</jco.native-lib.filename>
+                <jco.native-lib.classifier>darwinintel64</jco.native-lib.classifier>
+            </properties>
+        </profile>
+        <profile>
+            <id>Windows 32 Bit x86</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>x86</arch>
+                </os>
+            </activation>
+            <properties>
+                <jco.native-lib.filename>sapjco3.dll</jco.native-lib.filename>
+                <jco.native-lib.classifier>ntintel</jco.native-lib.classifier>
+            </properties>
+        </profile>
+        <profile>
+            <id>Windows 64 Bit x86</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <jco.native-lib.filename>sapjco3.dll</jco.native-lib.filename>
+                <jco.native-lib.classifier>ntamd64</jco.native-lib.classifier>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <argLine>-ea</argLine>
+                    <systemProperties>
+                        <property>
+                            <name>java.library.path</name>
+                            <value>${project.build.directory}/jni</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-sapjco-lib</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.sap</groupId>
+                                    <artifactId>sap-jco</artifactId>
+                                    <version>${sap-jco.version}</version>
+                                    <type>native</type>
+                                    <classifier>${jco.native-lib.classifier}</classifier>
+                                    <outputDirectory>${project.build.directory}/jni</outputDirectory>
+                                    <destFileName>${jco.native-lib.filename}</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Hibersap -->
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-jco</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- JAXB -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1.9</version>
+        </dependency>
+
+        <!-- SAP Java Connector (JCo) -->
+        <dependency>
+            <groupId>com.sap</groupId>
+            <artifactId>sap-jco</artifactId>
+            <version>[3.0,4.0)</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-integration</artifactId>
+            <version>1.3.RC2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

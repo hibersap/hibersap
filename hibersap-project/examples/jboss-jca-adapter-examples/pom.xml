@@ -7,13 +7,6 @@
 	<name>Examples for the jboss-jca-adapter</name>
 	<packaging>pom</packaging>
 
-	<parent>
-		<artifactId>examples</artifactId>
-		<groupId>org.hibersap.examples</groupId>
-		<version>1.1.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
-
 	<properties>
 		<version.jboss>4.2.3.GA</version.jboss>
 		<target.dir>target</target.dir>
@@ -45,6 +38,19 @@
 				<version>1.1.0-SNAPSHOT</version>
 				<type>ejb</type>
 			</dependency>
+
+            <dependency>
+                <groupId>net.sf.sapbapijca</groupId>
+                <artifactId>sap-bapi-jca</artifactId>
+                <version>1.0.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+            </dependency>
 
 			<dependency>
 				<groupId>javax.persistence</groupId>
@@ -150,6 +156,12 @@
 				<version>3.3.2.GA</version>
 				<scope>provided</scope>
 			</dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

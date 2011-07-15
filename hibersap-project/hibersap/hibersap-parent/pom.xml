@@ -11,11 +11,26 @@
     <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>../hibersap-core</module>
-        <module>../hibersap-jco</module>
-        <module>../hibersap-jca</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>../hibersap-core</module>
+                <module>../hibersap-jco</module>
+                <module>../hibersap-jca</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>it</id>
+            <modules>
+                <module>../hibersap-it</module>
+            </modules>
+        </profile>
+    </profiles>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

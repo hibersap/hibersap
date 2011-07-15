@@ -1,4 +1,4 @@
-package org.hibersap.session;
+package org.hibersap.it.session;
 
 /**
  * Copyright (C) 2008-2009 akquinet tech@spree GmbH
@@ -21,8 +21,10 @@ import com.sap.conn.jco.monitor.JCoConnectionData;
 import com.sap.conn.jco.monitor.JCoConnectionMonitor;
 import org.hibersap.SapException;
 import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.examples.AbstractHibersapTest;
-import org.hibersap.examples.flightlist.FlightListBapi;
+import org.hibersap.it.bapi.RfcPing;
+import org.hibersap.session.Credentials;
+import org.hibersap.session.Session;
+import org.hibersap.session.SessionManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +34,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CustomCredentialsTest extends AbstractHibersapTest
+public class CustomCredentialsTest
 {
     private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
 
@@ -54,19 +56,29 @@ public class CustomCredentialsTest extends AbstractHibersapTest
     }
 
     @Test
-    public void testConnectToSapWithCustomCredentials() throws Exception
+    public void connectToSapUsingCustomCredentials() throws Exception
     {
 
         final Credentials credentials = new Credentials().setUser( "sapuser2" )
                 .setPassword( "password" ).setLanguage( "DE" );
+        callBapiWith( credentials );
 
+        final JCoConnectionData connectionUsed = getConnectionDataUsed();
+
+        // these parameters should be used instead of the configured ones
+        assertNotNull( connectionUsed );
+        assertEquals( "SAPUSER2", connectionUsed.getAbapUser() );
+        assertEquals( "DE", connectionUsed.getAbapLanguage() );
+    }
+
+    private void callBapiWith( Credentials credentials )
+    {
         final Session session = sessionManager.openSession( credentials );
 
         // make sure a connection to SAP was established
         try
         {
-            session.execute( new FlightListBapi( "BERLIN", "DE", "FRANKFURT",
-                    "DE", "LH", false, 1 ) );
+            session.execute( new RfcPing() );
         }
         catch ( final SapException e )
         {
@@ -76,18 +88,6 @@ public class CustomCredentialsTest extends AbstractHibersapTest
         {
             session.close();
         }
-
-        final JCoConnectionData connectionUsed = getConnectionDataUsed();
-        assertNotNull( connectionUsed );
-
-        // these parameters should be used instead of the configured ones
-        assertEquals( "SAPUSER2", connectionUsed.getAbapUser() );
-        assertEquals( "DE", connectionUsed.getAbapLanguage() );
-
-        // this parameter should not be overwritten, the configuration should be
-        // used
-        final String sapClientFromConfig = sessionManager.getConfig().getProperty( "jco.client.client" );
-        assertEquals( sapClientFromConfig, connectionUsed.getAbapClient() );
     }
 
     private JCoConnectionData getConnectionDataUsed()
@@ -96,7 +96,7 @@ public class CustomCredentialsTest extends AbstractHibersapTest
                 .getConnectionsData();
         for ( final JCoConnectionData data : list )
         {
-            if ( "BAPI_SFLIGHT_GETLIST".equals( data.getFunctionModuleName() ) )
+            if ( "RFC_PING".equals( data.getFunctionModuleName() ) )
             {
                 return data;
             }

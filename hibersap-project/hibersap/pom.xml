@@ -13,12 +13,4 @@
     <modules>
         <module>hibersap-parent</module>
     </modules>
-
-    <licenses>
-        <license>
-            <name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
-            <url>http://www.gnu.org/licenses/lgpl.txt</url>
-        </license>
-    </licenses>
-
 </project>

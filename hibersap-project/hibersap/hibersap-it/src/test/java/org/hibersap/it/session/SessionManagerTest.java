@@ -15,11 +15,11 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.hibersap.session;
+package org.hibersap.it.session;
 
 import com.sap.conn.jco.ext.Environment;
 import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.examples.AbstractHibersapTest;
+import org.hibersap.session.SessionManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SessionManagerTest extends AbstractHibersapTest
+public class SessionManagerTest
 {
     private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
 
