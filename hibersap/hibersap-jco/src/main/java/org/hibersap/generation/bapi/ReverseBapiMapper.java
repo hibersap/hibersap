@@ -1,18 +1,5 @@
 package org.hibersap.generation.bapi;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.hibersap.HibersapException;
-import org.hibersap.InternalHiberSapException;
-import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.mapping.model.FieldMapping;
-import org.hibersap.mapping.model.ParameterMapping;
-import org.hibersap.mapping.model.StructureMapping;
-import org.hibersap.mapping.model.TableMapping;
-import org.hibersap.session.SessionManager;
-
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
@@ -23,6 +10,18 @@ import com.sap.conn.jco.JCoFunctionTemplate;
 import com.sap.conn.jco.JCoParameterFieldIterator;
 import com.sap.conn.jco.JCoParameterList;
 import com.sap.conn.jco.JCoRecord;
+import org.hibersap.HibersapException;
+import org.hibersap.InternalHiberSapException;
+import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.mapping.model.FieldMapping;
+import org.hibersap.mapping.model.ParameterMapping;
+import org.hibersap.mapping.model.StructureMapping;
+import org.hibersap.mapping.model.TableMapping;
+import org.hibersap.session.SessionManager;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ReverseBapiMapper
 {
@@ -51,9 +50,14 @@ public class ReverseBapiMapper
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings( "unchecked" )
     private void mapFields( Set<? extends ParameterMapping> set, JCoParameterList jcoParams )
     {
+        if ( jcoParams == null )
+        {
+            return;
+        }
+
         JCoParameterFieldIterator iter = jcoParams.getParameterFieldIterator();
         while ( iter.hasNextField() )
         {
@@ -62,15 +66,15 @@ public class ReverseBapiMapper
 
             if ( ParameterMapping.ParamType.FIELD == param.getParamType() )
             {
-                ( (Set<FieldMapping>) set ).add( (FieldMapping) param );
+                ( ( Set<FieldMapping> ) set ).add( ( FieldMapping ) param );
             }
             else if ( ParameterMapping.ParamType.STRUCTURE == param.getParamType() )
             {
-                ( (Set<StructureMapping>) set ).add( (StructureMapping) param );
+                ( ( Set<StructureMapping> ) set ).add( ( StructureMapping ) param );
             }
             else if ( ParameterMapping.ParamType.TABLE == param.getParamType() )
             {
-                ( (Set<TableMapping>) set ).add( (TableMapping) param );
+                ( ( Set<TableMapping> ) set ).add( ( TableMapping ) param );
             }
         }
     }
@@ -81,12 +85,13 @@ public class ReverseBapiMapper
 
         if ( field.isStructure() )
         {
-            return new StructureMapping( null, field.getName(), javaFieldName, getFieldMappings( field.getStructure() ) );
+            return new StructureMapping( null, field.getName(), javaFieldName,
+                    getFieldMappings( field.getStructure() ) );
         }
         if ( field.isTable() )
         {
             StructureMapping structureMapping = new StructureMapping( null, field.getName(), javaFieldName,
-                                                                      getFieldMappings( field.getTable() ) );
+                    getFieldMappings( field.getTable() ) );
             return new TableMapping( List.class, null, field.getName(), javaFieldName, structureMapping );
         }
         try
@@ -108,7 +113,7 @@ public class ReverseBapiMapper
 
         while ( iter.hasNextField() )
         {
-            FieldMapping fieldParam = (FieldMapping) getParameterMapping( iter.nextField() );
+            FieldMapping fieldParam = ( FieldMapping ) getParameterMapping( iter.nextField() );
             result.add( fieldParam );
         }
 
