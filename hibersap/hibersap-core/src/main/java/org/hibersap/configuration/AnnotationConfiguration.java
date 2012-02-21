@@ -34,8 +34,8 @@ import java.util.HashMap;
  * <p/>
  * There are two possibilities to add annotated classes:
  * <ol>
- * <li>In hibersap.cfg.xml:
- * &lt;class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/class&gt;</li>
+ * <li>In hibersap.xml:
+ * &lt;annotated-class&gt;org.hibersap.examples.flightlist.FlightListBapi&lt;/anotated-class&gt;</li>
  * <li>programmatically via addAnnotatedClass().</li>
  * </ol>
  * <p/>
