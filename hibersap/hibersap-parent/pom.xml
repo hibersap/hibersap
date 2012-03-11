@@ -6,13 +6,13 @@
 
     <groupId>org.hibersap</groupId>
     <artifactId>hibersap-parent</artifactId>
-    <version>1.1.0Beta02</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap</artifactId>
-        <version>1.1.0Beta02</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <profiles>
         <profile>
@@ -136,19 +136,19 @@
             <dependency>
                 <groupId>org.hibersap</groupId>
                 <artifactId>hibersap-core</artifactId>
-                <version>1.1.0Beta02</version>
+                <version>1.1.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.hibersap</groupId>
                 <artifactId>hibersap-jco</artifactId>
-                <version>1.1.0Beta02</version>
+                <version>1.1.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>
                 <groupId>org.hibersap</groupId>
                 <artifactId>hibersap-jca</artifactId>
-                <version>1.1.0Beta02</version>
+                <version>1.1.0-SNAPSHOT</version>
             </dependency>
 
             <!-- SAP Java Connector (JCo) -->
