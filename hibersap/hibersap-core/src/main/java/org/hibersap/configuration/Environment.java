@@ -17,7 +17,6 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import com.sun.tools.javac.resources.version;
 import org.hibersap.HibersapException;
 
 import java.io.IOException;
