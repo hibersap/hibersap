@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.xml.HibersapConfig;
 import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.session.SessionManager;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HibersapService
-    implements HibersapServiceMBean
+        implements HibersapServiceMBean
 {
 
     private static final Logger LOGGER = Logger.getLogger( HibersapService.class );
@@ -65,7 +66,7 @@ public class HibersapService
                 ic.createSubcontext( "java:hibersap" );
             }
 
-            Context context = (Context) ic.lookup( "java:hibersap" );
+            Context context = ( Context ) ic.lookup( "java:hibersap" );
 
             ClassLoader old = Thread.currentThread().getContextClassLoader();
             Thread.currentThread().setContextClassLoader( cl );
@@ -74,9 +75,8 @@ public class HibersapService
 
                 for ( AnnotationConfiguration annotationConfig : annotationConfigurations )
                 {
-
-                    context.bind( annotationConfig.getSessionManagerConfig().getName(), annotationConfig
-                        .buildSessionManager() );
+                    SessionManager sessionManager = annotationConfig.buildSessionManager();
+                    context.bind( sessionManager.getConfig().getName(), sessionManager );
                 }
             }
             finally
@@ -115,7 +115,7 @@ public class HibersapService
                 for ( AnnotationConfiguration annotationConfiguration : annotationConfigurations )
                 {
 
-                    ic.unbind( "java:hibersap/" + annotationConfiguration.getSessionManagerConfig().getName() );
+                    ic.unbind( "java:hibersap/" + annotationConfiguration.getSessionManagerName() );
                 }
             }
             finally

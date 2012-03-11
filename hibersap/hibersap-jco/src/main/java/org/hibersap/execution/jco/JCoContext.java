@@ -26,8 +26,8 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
 
+import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 /*
  * Uses the SAP Java Connector to connect to SAP.
@@ -51,7 +51,7 @@ public class JCoContext implements Context
         LOG.trace( "configure JCo context" );
 
         final Properties jcoProperties = new Properties();
-        Set<Property> properties = config.getProperties();
+        List<Property> properties = config.getProperties();
 
         for ( Property property : properties )
         {

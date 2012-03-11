@@ -61,15 +61,5 @@ public abstract class AbstractHibersapTest
             System.setProperty( "java.library.path",
                     libraryPath );
         }
-
-        System.out.println( System.getProperty( "java.library.path" ) );
-        // // here, you may set the directory containing the JCo DLL's or Shared
-        // Libraries
-        // // alternatively, you can add them to this project's root folder
-        // File file = new File( "..." );
-        // String libPath = System.getProperty( "java.library.path" );
-        // libPath = libPath + ";" + file.getPath();
-        // System.setProperty( "java.library.path", libPath );
-
     }
 }

@@ -24,6 +24,7 @@ import org.hibersap.interceptor.impl.SapErrorInterceptor;
 import org.hibersap.session.Context;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.hibersap.mapping.ReflectionHelper.createInstances;
@@ -43,7 +44,7 @@ public class ConfigurationHelper
 
     public static Set<ExecutionInterceptor> createExecutionInterceptors( SessionManagerConfig sessionManagerConfig )
     {
-        final Set<String> classNames = sessionManagerConfig.getExecutionInterceptorClasses();
+        final List<String> classNames = sessionManagerConfig.getExecutionInterceptorClasses();
 
         final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
         executionInterceptors.addAll( createInstances( classNames, ExecutionInterceptor.class ) );
@@ -54,7 +55,7 @@ public class ConfigurationHelper
 
     public static Set<BapiInterceptor> createBapiInterceptors( SessionManagerConfig sessionManagerConfig )
     {
-        final Set<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
+        final List<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
 
         final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
         bapiInterceptors.addAll( createInstances( classNames, BapiInterceptor.class ) );

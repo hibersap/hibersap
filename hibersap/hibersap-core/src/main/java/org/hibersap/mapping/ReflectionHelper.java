@@ -27,8 +27,10 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -226,9 +228,9 @@ public final class ReflectionHelper
         }
     }
 
-    public static <T> Set<T> createInstances( Set<String> fullyQualifiedClassNames, Class<T> superType )
+    public static <T> List<T> createInstances( List<String> fullyQualifiedClassNames, Class<T> superType )
     {
-        final HashSet<T> instances = new HashSet<T>();
+        final ArrayList<T> instances = new ArrayList<T>();
         for ( String className : fullyQualifiedClassNames )
         {
             final T instance = newInstance( className, superType );

@@ -20,7 +20,7 @@ package org.hibersap.configuration.xml;
 import org.hibersap.configuration.ConfigurationTest;
 import org.junit.Test;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -54,7 +54,7 @@ public class SessionManagerConfigTest
         assertThat( cfg.getProperty( "key1" ), equalTo( "value1" ) );
         assertThat( cfg.getProperty( "key2" ), equalTo( "value2" ) );
 
-        Set<String> annotatedClasses = cfg.getAnnotatedClasses();
+        List<String> annotatedClasses = cfg.getAnnotatedClasses();
         assertThat( annotatedClasses.size(), is( 2 ) );
         assertThat( annotatedClasses, hasItems( Integer.class.getName(), String.class.getName() ) );
 

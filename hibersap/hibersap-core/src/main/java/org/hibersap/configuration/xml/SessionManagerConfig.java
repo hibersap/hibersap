@@ -26,75 +26,68 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
-@XmlType(namespace = HibersapConfig.NAMESPACE, propOrder = {
-    "context",
-    "jcaConnectionFactory",
-    "jcaConnectionSpecFactory",
-    "properties",
-    "annotatedClasses",
-    "executionInterceptorClasses",
-    "bapiInterceptorClasses",
-    "validationMode"})
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType( XmlAccessType.FIELD )
+@XmlType( name = "", propOrder = {
+        "context",
+        "jcaConnectionFactory",
+        "jcaConnectionSpecFactory",
+        "properties",
+        "annotatedClasses",
+        "executionInterceptorClasses",
+        "bapiInterceptorClasses",
+        "validationMode"
+} )
 public final class SessionManagerConfig implements Serializable
 {
+    @XmlTransient
     private static final long serialVersionUID = 270142113574399232L;
 
+    @XmlTransient
     private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
 
-    private String name;
 
-    private String context = "org.hibersap.execution.jco.JCoContext";
+    @XmlAttribute( required = true )
+    protected String name;
 
-    private final Set<Property> properties = new HashSet<Property>();
+    @XmlElement( name = "context" )
+    protected String context = "org.hibersap.execution.jco.JCoContext";
 
-    private final HashMap<String, String> nameValues = new HashMap<String, String>();
+    @XmlElement( name = "properties" )
+    protected Properties properties = new Properties();
 
-    private final HashSet<String> annotatedClasses = new HashSet<String>();
+    @XmlElement( name = "annotated-classes" )
+    protected AnnotatedClasses annotatedClasses = new AnnotatedClasses();
 
-    private final HashSet<String> executionInterceptorClasses = new HashSet<String>();
+    @XmlElement( name = "execution-interceptor-classes" )
+    protected ExecutionInterceptorClasses executionInterceptorClasses = new ExecutionInterceptorClasses();
 
-    private final HashSet<String> bapiInterceptorClasses = new HashSet<String>();
+    @XmlElement( name = "bapi-interceptor-classes" )
+    protected BapiInterceptorClasses bapiInterceptorClasses = new BapiInterceptorClasses();
 
-    private String jcaConnectionFactory;
+    @XmlElement( name = "jca-connection-factory" )
+    protected String jcaConnectionFactory;
 
-    private String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
+    @XmlElement( name = "jca-connectionspec-factory" )
+    protected String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
 
-    private ValidationMode validationMode = ValidationMode.AUTO;
+    @XmlElement( name = "validation-mode" )
+//    @XmlJavaTypeAdapter( CollapsedStringAdapter.class )
+    protected ValidationMode validationMode = ValidationMode.AUTO;
 
     public SessionManagerConfig()
     {
-        LOG.debug( "PUB-CONSTRUCTOR" );
-        LOG.debug( "properties = " + properties );
     }
 
     public SessionManagerConfig( final String name )
     {
         this.name = name;
-        LOG.debug( "CONSTRUCTOR #1" );
-        LOG.debug( "properties = " + properties + " name=" + name );
     }
 
-    SessionManagerConfig( final String name, final String context, final Set<Property> properties )
-    {
-        super();
-        LOG.debug( "CONSTRUCTOR #2" );
-        LOG.debug( "properties = " + properties + " name=" + name );
-        this.name = name;
-        this.context = context;
-        setProperties( properties );
-    }
-
-    @XmlAttribute(required = true)
     public String getName()
     {
         return name;
@@ -106,13 +99,11 @@ public final class SessionManagerConfig implements Serializable
         return this;
     }
 
-    @XmlElement(name = "context", required = false, namespace = HibersapConfig.NAMESPACE)
     public String getContext()
     {
         return context;
     }
 
-    @XmlElement(name = "jca-connection-factory", required = false, namespace = HibersapConfig.NAMESPACE)
     public String getJcaConnectionFactory()
     {
         return jcaConnectionFactory;
@@ -124,7 +115,6 @@ public final class SessionManagerConfig implements Serializable
         return this;
     }
 
-    @XmlElement(name = "jca-connectionspec-factory", required = false, namespace = HibersapConfig.NAMESPACE)
     public String getJcaConnectionSpecFactory()
     {
         return jcaConnectionSpecFactory;
@@ -136,38 +126,32 @@ public final class SessionManagerConfig implements Serializable
         return this;
     }
 
-    @XmlElement(name = "property", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "properties", namespace = HibersapConfig.NAMESPACE)
-    public Set<Property> getProperties()
+    public List<Property> getProperties()
     {
-        return properties;
+        return properties.getProperties();
     }
 
-    public void setProperties( final Set<Property> properties )
+    public SessionManagerConfig setProperties( final List<Property> properties )
     {
         LOG.debug( "SETPROPS" );
-        this.properties.clear();
-        this.properties.addAll( properties );
-        nameValues.clear();
-
+        this.properties.setProperties( properties );
+        return this;
     }
 
-    @XmlElement(name = "annotated-class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "annotated-classes", namespace = HibersapConfig.NAMESPACE)
-    public Set<String> getAnnotatedClasses()
+    public List<String> getAnnotatedClasses()
     {
-        return annotatedClasses;
+        return annotatedClasses.getAnnotatedClasses();
     }
 
-    public void setAnnotatedClasses( final Set<String> annotatedClasses )
+    public void setAnnotatedClasses( final List<String> annotatedClasses )
     {
-        this.annotatedClasses.clear();
-        this.annotatedClasses.addAll( annotatedClasses );
+        this.annotatedClasses.getAnnotatedClasses().clear();
+        this.annotatedClasses.getAnnotatedClasses().addAll( annotatedClasses );
     }
 
     public String getProperty( final String propertyName )
     {
-        return getNameValues().get( propertyName );
+        return properties.getPropertyValue( propertyName );
     }
 
     public SessionManagerConfig setContext( final String context )
@@ -178,23 +162,7 @@ public final class SessionManagerConfig implements Serializable
 
     public SessionManagerConfig setProperty( final String name, final String value )
     {
-        final String currentValue = getNameValues().get( name );
-        if ( currentValue != null )
-        {
-            final Property oldProperty = new Property( name, currentValue );
-            assert properties.contains( oldProperty );
-            final boolean oldValueExisted = properties.remove( oldProperty );
-            assert oldValueExisted;
-        }
-
-        // do not use the getter, because the two collections are temporarily
-        // out of sync
-        // TODO: think about errors
-        nameValues.put( name, value );
-        final Property newProperty = new Property( name, value );
-        properties.add( newProperty );
-        assert nameValues.size() == properties.size() : nameValues.size() + " != " + properties.size();
-
+        properties.setProperty( name, value );
         return this;
     }
 
@@ -210,49 +178,14 @@ public final class SessionManagerConfig implements Serializable
         return this;
     }
 
-    @XmlElement(name = "validation-mode", required = false, namespace = HibersapConfig.NAMESPACE)
     public ValidationMode getValidationMode()
     {
         return validationMode;
     }
 
-    private Map<String, String> getNameValues()
+    public List<String> getExecutionInterceptorClasses()
     {
-        // This is pretty complicated and could be simplified, if the
-        // JAXB implementation is actually
-        // @XmlAccessorType(XmlAccessType.PROPERTY)
-        // Unfortunately the value of properties is still set to the field,
-        // thus, we have to build the map lazily...
-        if ( nameValues.isEmpty() )
-        {
-            for ( final Property property : properties )
-            {
-                nameValues.put( property.getName(), property.getValue() );
-            }
-        }
-        assert nameValues.size() == properties.size() : "Map " + nameValues.size() + "!= Set " + properties.size();
-
-        return nameValues;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Session Configuration: " + name + ", Context: " + context + ", Properties: " + properties
-            + ", Classes: " + annotatedClasses;
-    }
-
-    @XmlElement(name = "execution-interceptor-class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "execution-interceptor-classes", namespace = HibersapConfig.NAMESPACE)
-    public Set<String> getExecutionInterceptorClasses()
-    {
-        return executionInterceptorClasses;
-    }
-
-    public void setExecutionInterceptorClasses( final Collection<String> executionInterceptorClasses )
-    {
-        this.executionInterceptorClasses.clear();
-        this.executionInterceptorClasses.addAll( executionInterceptorClasses );
+        return executionInterceptorClasses.getExecutionInterceptorClasses();
     }
 
     public SessionManagerConfig addExecutionInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
@@ -261,17 +194,9 @@ public final class SessionManagerConfig implements Serializable
         return this;
     }
 
-    @XmlElement(name = "bapi-interceptor-class", namespace = HibersapConfig.NAMESPACE)
-    @XmlElementWrapper(name = "bapi-interceptor-classes", namespace = HibersapConfig.NAMESPACE)
-    public Set<String> getBapiInterceptorClasses()
+    public List<String> getBapiInterceptorClasses()
     {
-        return bapiInterceptorClasses;
-    }
-
-    public void setBapiInterceptorClasses( final Collection<String> bapiInterceptorClasses )
-    {
-        this.bapiInterceptorClasses.clear();
-        this.bapiInterceptorClasses.addAll( bapiInterceptorClasses );
+        return bapiInterceptorClasses.getBapiInterceptorClasses();
     }
 
     public SessionManagerConfig addBapiInterceptorClass( Class<? extends BapiInterceptor> bapiInterceptorClass )
@@ -281,113 +206,77 @@ public final class SessionManagerConfig implements Serializable
     }
 
     @Override
-    public int hashCode()
+    public boolean equals( Object o )
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ( ( annotatedClasses == null ) ? 0 : annotatedClasses.hashCode() );
-        result = prime * result + ( ( context == null ) ? 0 : context.hashCode() );
-        result = prime * result + ( ( executionInterceptorClasses == null ) ? 0 : executionInterceptorClasses.hashCode() );
-        result = prime * result + ( ( jcaConnectionFactory == null ) ? 0 : jcaConnectionFactory.hashCode() );
-        result = prime * result + ( ( jcaConnectionSpecFactory == null ) ? 0 : jcaConnectionSpecFactory.hashCode() );
-        result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
-        result = prime * result + ( ( properties == null ) ? 0 : properties.hashCode() );
-        return result;
-    }
-
-    @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
+        if ( this == o )
         {
             return true;
         }
-        if ( obj == null )
+        if ( o == null || getClass() != o.getClass() )
         {
             return false;
         }
-        if ( getClass() != obj.getClass() )
+
+        SessionManagerConfig that = ( SessionManagerConfig ) o;
+
+        if ( annotatedClasses != null ? !annotatedClasses.equals( that.annotatedClasses ) :
+             that.annotatedClasses != null )
         {
             return false;
         }
-        SessionManagerConfig other = (SessionManagerConfig) obj;
-        if ( annotatedClasses == null )
-        {
-            if ( other.annotatedClasses != null )
-            {
-                return false;
-            }
-        }
-        else if ( !annotatedClasses.equals( other.annotatedClasses ) )
+        if ( bapiInterceptorClasses != null ? !bapiInterceptorClasses.equals( that.bapiInterceptorClasses ) :
+             that.bapiInterceptorClasses != null )
         {
             return false;
         }
-        if ( context == null )
-        {
-            if ( other.context != null )
-            {
-                return false;
-            }
-        }
-        else if ( !context.equals( other.context ) )
+        if ( context != null ? !context.equals( that.context ) : that.context != null )
         {
             return false;
         }
-        if ( executionInterceptorClasses == null )
-        {
-            if ( other.executionInterceptorClasses != null )
-            {
-                return false;
-            }
-        }
-        else if ( !executionInterceptorClasses.equals( other.executionInterceptorClasses ) )
+        if ( executionInterceptorClasses != null ?
+             !executionInterceptorClasses.equals( that.executionInterceptorClasses ) :
+             that.executionInterceptorClasses != null )
         {
             return false;
         }
-        if ( jcaConnectionFactory == null )
-        {
-            if ( other.jcaConnectionFactory != null )
-            {
-                return false;
-            }
-        }
-        else if ( !jcaConnectionFactory.equals( other.jcaConnectionFactory ) )
+        if ( jcaConnectionFactory != null ? !jcaConnectionFactory.equals( that.jcaConnectionFactory ) :
+             that.jcaConnectionFactory != null )
         {
             return false;
         }
-        if ( jcaConnectionSpecFactory == null )
-        {
-            if ( other.jcaConnectionSpecFactory != null )
-            {
-                return false;
-            }
-        }
-        else if ( !jcaConnectionSpecFactory.equals( other.jcaConnectionSpecFactory ) )
+        if ( jcaConnectionSpecFactory != null ? !jcaConnectionSpecFactory.equals( that.jcaConnectionSpecFactory ) :
+             that.jcaConnectionSpecFactory != null )
         {
             return false;
         }
-        if ( name == null )
-        {
-            if ( other.name != null )
-            {
-                return false;
-            }
-        }
-        else if ( !name.equals( other.name ) )
+        if ( name != null ? !name.equals( that.name ) : that.name != null )
         {
             return false;
         }
-        if ( properties == null )
-        {
-            if ( other.properties != null )
-            {
-                return false;
-            }
-        }
-        else if ( !properties.equals( other.properties ) )
+        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null )
         {
             return false;
         }
+        if ( validationMode != that.validationMode )
+        {
+            return false;
+        }
+
         return true;
+    }
+
+    public String toString()
+    {
+        return "SessionManagerConfig{" +
+                "annotatedClasses=" + annotatedClasses +
+                ", name='" + name + '\'' +
+                ", context='" + context + '\'' +
+                ", properties=" + properties +
+                ", executionInterceptorClasses=" + executionInterceptorClasses +
+                ", bapiInterceptorClasses=" + bapiInterceptorClasses +
+                ", jcaConnectionFactory='" + jcaConnectionFactory + '\'' +
+                ", jcaConnectionSpecFactory='" + jcaConnectionSpecFactory + '\'' +
+                ", validationMode=" + validationMode +
+                '}';
     }
 }

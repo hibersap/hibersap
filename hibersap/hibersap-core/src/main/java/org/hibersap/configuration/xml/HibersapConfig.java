@@ -26,14 +26,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "hibersap", namespace = HibersapConfig.NAMESPACE)
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType( XmlAccessType.FIELD )
+@XmlType( name = "", propOrder = {"sessionManagers"} )
+@XmlRootElement( name = "hibersap" )
 public final class HibersapConfig implements Serializable
 {
+    @XmlTransient
     public static final String NAMESPACE = "http://hibersap.org/xml/ns/hibersap-config";
 
     @XmlTransient
@@ -42,7 +45,8 @@ public final class HibersapConfig implements Serializable
     @XmlTransient
     private static final long serialVersionUID = 1;
 
-    private final List<SessionManagerConfig> sessionManagers = new ArrayList<SessionManagerConfig>();
+    @XmlElement( name = "session-manager", required = true )
+    protected List<SessionManagerConfig> sessionManagers = new ArrayList<SessionManagerConfig>();
 
     public HibersapConfig()
     {
@@ -60,7 +64,6 @@ public final class HibersapConfig implements Serializable
         this.sessionManagers.addAll( sessionManagers );
     }
 
-    @XmlElement(name = "session-manager", required = true, namespace = HibersapConfig.NAMESPACE)
     public List<SessionManagerConfig> getSessionManagers()
     {
         return sessionManagers;
@@ -83,5 +86,33 @@ public final class HibersapConfig implements Serializable
         SessionManagerConfig config = new SessionManagerConfig( name );
         sessionManagers.add( config );
         return config;
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o )
+        {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
+
+        HibersapConfig that = ( HibersapConfig ) o;
+
+        if ( sessionManagers != null ? !sessionManagers.equals( that.sessionManagers ) : that.sessionManagers != null )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return sessionManagers != null ? sessionManagers.hashCode() : 0;
     }
 }

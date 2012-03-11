@@ -6,93 +6,107 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
-@XmlType(name = "property", namespace = HibersapConfig.NAMESPACE)
-@XmlAccessorType(XmlAccessType.FIELD)
-public final class Property implements Serializable
+@XmlAccessorType( XmlAccessType.FIELD )
+@XmlType( name = "" )
+public class Property implements Serializable
 {
-    private static final long serialVersionUID = -5507648478886478774L;
+    @XmlAttribute( required = true )
+    protected String name;
+    @XmlAttribute( required = true )
+    protected String value;
 
-    @XmlAttribute(name = "name")
-    private String name;
-
-    @XmlAttribute(name = "value")
-    private String value;
-
+    @SuppressWarnings( {"UnusedDeclaration"} )
     public Property()
     {
-        // JAXB needs a default constructor
     }
 
-    public Property( final String name, final String value )
+    public Property( String name, String value )
     {
         this.name = name;
         this.value = value;
     }
 
+    /**
+     * Gets the value of the name properties.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Sets the value of the name properties.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setName( String value )
+    {
+        this.name = value;
+    }
+
+    /**
+     * Gets the value of the value properties.
+     *
+     * @return possible object is
+     *         {@link String }
+     */
     public String getValue()
     {
         return value;
     }
 
-    @Override
-    public int hashCode()
+    /**
+     * Sets the value of the value properties.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setValue( String value )
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
-        result = prime * result + ( ( value == null ) ? 0 : value.hashCode() );
-        return result;
-    }
-
-    @Override
-    public boolean equals( final Object obj )
-    {
-        if ( this == obj )
-        {
-            return true;
-        }
-        if ( obj == null )
-        {
-            return false;
-        }
-        if ( getClass() != obj.getClass() )
-        {
-            return false;
-        }
-        final Property other = (Property) obj;
-        if ( name == null )
-        {
-            if ( other.name != null )
-            {
-                return false;
-            }
-        }
-        else if ( !name.equals( other.name ) )
-        {
-            return false;
-        }
-        if ( value == null )
-        {
-            if ( other.value != null )
-            {
-                return false;
-            }
-        }
-        else if ( !value.equals( other.value ) )
-        {
-            return false;
-        }
-        return true;
+        this.value = value;
     }
 
     @Override
     public String toString()
     {
         return "(" + name + " => " + value + ")";
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o )
+        {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
+
+        Property property = ( Property ) o;
+
+        if ( name != null ? !name.equals( property.name ) : property.name != null )
+        {
+            return false;
+        }
+        if ( value != null ? !value.equals( property.value ) : property.value != null )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + ( value != null ? value.hashCode() : 0 );
+        return result;
     }
 }

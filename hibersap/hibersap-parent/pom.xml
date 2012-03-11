@@ -107,19 +107,6 @@
                                 </executions>
                 -->
             </plugin>
-            <!--           <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>cobertura-maven-plugin</artifactId>
-                            <configuration>
-                                <check>true</check>
-                                <aggregate>true</aggregate>
-                                <formats>
-                                    <format>xml</format>
-                                    <format>html</format>
-                                </formats>
-                            </configuration>
-                        </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -127,7 +114,6 @@
                     <execution>
                         <id>enforce-versions</id>
                         <goals>
-                            <!--suppress MavenModelInspection -->
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
@@ -139,28 +125,6 @@
                                     <version>1.5</version>
                                 </requireJavaVersion>
                             </rules>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>enforce-property</id>
-                        <goals>
-                            <!--suppress MavenModelInspection -->
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireProperty>
-                                    <property>sap.jco.lib.path</property>
-                                    <message><![CDATA[
-The path to the native dynamic JCo library must be specified to
-execute the tests. You could define it in your settings.xml.
-A possible value is: /Users/hibersap/sapjco3-darwinx64-300/
-The name of the property is: sap.jco.lib.path
-]]>
-                                    </message>
-                                </requireProperty>
-                            </rules>
-                            <fail>true</fail>
                         </configuration>
                     </execution>
                 </executions>
@@ -220,13 +184,13 @@ The name of the property is: sap.jco.lib.path
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
-                <version>2.1</version>
+                <version>2.2.3</version>
             </dependency>
 
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
-                <version>2.1.9</version>
+                <version>2.2.4</version>
             </dependency>
 
             <!-- Bean Validation -->
@@ -312,22 +276,4 @@ The name of the property is: sap.jco.lib.path
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <url>http://repo1.maven.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
-        <pluginRepository>
-            <id>maven-latex-plugin-repo</id>
-            <url>http://akquinet.github.com/maven-latex-plugin/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>

@@ -2,10 +2,15 @@ package org.hibersap.configuration.xml;
 
 import org.hibersap.ConfigurationException;
 import org.hibersap.InternalHiberSapException;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.sax.SAXSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -36,25 +41,17 @@ public class HibersapJaxbXmlParser
     public HibersapConfig parseResource( final InputStream resourceStream, final String resourceName )
             throws HibersapParseException
     {
-        Unmarshaller unmarshaller;
-        try
-        {
-            unmarshaller = jaxbContext.createUnmarshaller();
-        }
-        catch ( final JAXBException e )
-        {
-            throw new InternalHiberSapException( "Cannot create an unmarshaller. ", e );
-        }
-
         Object unmarshalledObject;
         try
         {
-            unmarshalledObject = unmarshaller.unmarshal( resourceStream );
+            SAXSource saxSource = createSaxSource( resourceStream );
+            unmarshalledObject = createUnmarshaller().unmarshal( saxSource );
         }
         catch ( final JAXBException e )
         {
             throw new HibersapParseException( "Cannot parse the resource " + resourceName, e );
         }
+
         if ( unmarshalledObject == null )
         {
             throw new HibersapParseException( "Resource " + resourceName + " is empty." );
@@ -66,6 +63,41 @@ public class HibersapJaxbXmlParser
                     + unmarshalledObject.getClass().getSimpleName() );
         }
         return ( HibersapConfig ) unmarshalledObject;
+    }
+
+    private SAXSource createSaxSource( InputStream resourceStream )
+    {
+        SAXSource source;
+        try
+        {
+            XMLReader reader = XMLReaderFactory.createXMLReader();
+
+            // NamespaceFilter to remove namespaces for each element
+            NamespaceFilter inFilter = new NamespaceFilter( "", false );
+            inFilter.setParent( reader );
+
+            InputSource is = new InputSource( resourceStream );
+            source = new SAXSource( inFilter, is );
+        }
+        catch ( SAXException e )
+        {
+            throw new InternalHiberSapException( "Cannot create NamespaceFilter. ", e );
+        }
+        return source;
+    }
+
+    private Unmarshaller createUnmarshaller()
+    {
+        Unmarshaller unmarshaller;
+        try
+        {
+            unmarshaller = jaxbContext.createUnmarshaller();
+        }
+        catch ( final JAXBException e )
+        {
+            throw new InternalHiberSapException( "Cannot create an unmarshaller. ", e );
+        }
+        return unmarshaller;
     }
 
     private InputStream findResource( final String resourceName )

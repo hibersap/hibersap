@@ -21,9 +21,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.hasItem;
 import static org.junit.matchers.JUnitMatchers.hasItems;
@@ -91,7 +92,7 @@ public class HiberSapJaxbXmlParserTest
     @Test
     public void sessionManagerHasCorrectProperties()
     {
-        Set<Property> properties = sessionManagerB34.getProperties();
+        List<Property> properties = sessionManagerB34.getProperties();
 
         assertThat( properties.size(), is( 2 ) );
         assertThat( properties, hasItem( new Property( "property1_name", "property1_value" ) ) );
@@ -101,7 +102,7 @@ public class HiberSapJaxbXmlParserTest
     @Test
     public void sessionManagerHasCorrectAnnotatedClasses()
     {
-        final Set<String> classes = sessionManagerB34.getAnnotatedClasses();
+        final List<String> classes = sessionManagerB34.getAnnotatedClasses();
 
         assertThat( classes.size(), is( 2 ) );
         assertThat( classes, hasItems( "org.test.Class1", "org.test.Class3" ) );
@@ -110,7 +111,7 @@ public class HiberSapJaxbXmlParserTest
     @Test
     public void sessionManagerHasCorrectExecutionInterceptors()
     {
-        final Set<String> classes = sessionManagerB34.getExecutionInterceptorClasses();
+        final List<String> classes = sessionManagerB34.getExecutionInterceptorClasses();
 
         assertThat( classes.size(), is( 2 ) );
         assertThat( classes, hasItems( "org.test.Class4", "org.test.Class5" ) );
@@ -119,7 +120,7 @@ public class HiberSapJaxbXmlParserTest
     @Test
     public void sessionManagerHasCorrectBapiInterceptors()
     {
-        final Set<String> classes = sessionManagerB34.getBapiInterceptorClasses();
+        final List<String> classes = sessionManagerB34.getBapiInterceptorClasses();
 
         assertThat( classes.size(), is( 2 ) );
         assertThat( classes, hasItems( "org.test.Class6", "org.test.Class7" ) );
@@ -130,5 +131,16 @@ public class HiberSapJaxbXmlParserTest
     {
         final ValidationMode validationMode = sessionManagerB34.getValidationMode();
         assertThat( validationMode, is( ValidationMode.CALLBACK ) );
+    }
+
+    @Test
+    public void simpleHibersapXmlWithANamespaceCanBeBuilt()
+    {
+        final HibersapJaxbXmlParser hiberSapJaxbXmlParser = new HibersapJaxbXmlParser();
+        HibersapConfig config = hiberSapJaxbXmlParser.parseResource( "/xml-configurations/hibersapSample.xml" );
+        SessionManagerConfig sessionManagerNSP = config.getSessionManager( "NSP" );
+
+        assertThat( sessionManagerNSP, is( notNullValue() ) );
+        assertThat( sessionManagerNSP.getJcaConnectionFactory(), equalTo( "java:jboss/eis/sap/NSP" ) );
     }
 }

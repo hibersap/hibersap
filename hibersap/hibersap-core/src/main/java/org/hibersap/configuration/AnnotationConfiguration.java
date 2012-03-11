@@ -96,4 +96,9 @@ public class AnnotationConfiguration extends Configuration
         setBapiMappings( bapiMappings );
         return super.buildSessionManager();
     }
+
+    public String getSessionManagerName()
+    {
+        return getSessionManagerConfig().getName();
+    }
 }

@@ -1,34 +1,27 @@
 package org.hibersap.configuration.xml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ConfigurationMarshallTest
 {
-
-    private static final Log LOG = LogFactory.getLog( ConfigurationMarshallTest.class );
-
     private JAXBContext jaxbContext;
 
     @Before
     public void setup()
-        throws JAXBException
+            throws JAXBException
     {
         jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
     }
@@ -36,14 +29,15 @@ public class ConfigurationMarshallTest
 
     @Test
     public void testParseOkConfiguration()
-        throws Exception
+            throws Exception
     {
-        final InputStream configurationAsStream = getClass().getResourceAsStream( "/xml-configurations/hibersapOK.xml" );
+        final InputStream configurationAsStream = getClass()
+                .getResourceAsStream( "/xml-configurations/hibersapOK.xml" );
         assertNotNull( configurationAsStream );
 
         final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         final Object unmarshalledObject = unmarshaller.unmarshal( configurationAsStream );
-        final HibersapConfig hiberSapMetaData = (HibersapConfig) unmarshalledObject;
+        final HibersapConfig hiberSapMetaData = ( HibersapConfig ) unmarshalledObject;
 
         final List<SessionManagerConfig> sessionManagers = hiberSapMetaData.getSessionManagers();
         assertNotNull( sessionManagers );
@@ -56,15 +50,15 @@ public class ConfigurationMarshallTest
     // TODO create complete xml and verify against xsd
     @Test
     public void testMarshalling()
-        throws Exception
+            throws Exception
     {
-        final Set<Property> properties = new HashSet<Property>();
+        final List<Property> properties = new ArrayList<Property>();
         final Property jcoProperty = new Property( "name", "value" );
         properties.add( jcoProperty );
-        final SessionManagerConfig sessionManagerMetaData = new SessionManagerConfig( "session-name", "ContextClass",
-                                                                                      properties );
+        final SessionManagerConfig sessionManagerMetaData = new SessionManagerConfig( "session-name" )
+                .setContext( "ContextClass" ).setProperties( properties );
 
-        final Set<String> classes = new HashSet<String>();
+        final List<String> classes = new ArrayList<String>();
         classes.add( "package.Class1" );
         classes.add( "package.Class2" );
         sessionManagerMetaData.setAnnotatedClasses( classes );
