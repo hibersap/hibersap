@@ -124,4 +124,76 @@ public class Credentials
         return this;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Credentials{" +
+                "aliasUser='" + aliasUser + '\'' +
+                ", user='" + user + '\'' +
+                ", client='" + client + '\'' +
+                ", language='" + language + '\'' +
+                ", password='***\'" +
+                ", ssoTicket='" + ssoTicket + '\'' +
+                ", x509Certificate='" + x509Certificate + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o )
+        {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
+
+        Credentials that = ( Credentials ) o;
+
+        if ( aliasUser != null ? !aliasUser.equals( that.aliasUser ) : that.aliasUser != null )
+        {
+            return false;
+        }
+        if ( client != null ? !client.equals( that.client ) : that.client != null )
+        {
+            return false;
+        }
+        if ( language != null ? !language.equals( that.language ) : that.language != null )
+        {
+            return false;
+        }
+        if ( password != null ? !password.equals( that.password ) : that.password != null )
+        {
+            return false;
+        }
+        if ( ssoTicket != null ? !ssoTicket.equals( that.ssoTicket ) : that.ssoTicket != null )
+        {
+            return false;
+        }
+        if ( user != null ? !user.equals( that.user ) : that.user != null )
+        {
+            return false;
+        }
+        if ( x509Certificate != null ? !x509Certificate.equals( that.x509Certificate ) : that.x509Certificate != null )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = user != null ? user.hashCode() : 0;
+        result = 31 * result + ( aliasUser != null ? aliasUser.hashCode() : 0 );
+        result = 31 * result + ( client != null ? client.hashCode() : 0 );
+        result = 31 * result + ( language != null ? language.hashCode() : 0 );
+        result = 31 * result + ( password != null ? password.hashCode() : 0 );
+        result = 31 * result + ( ssoTicket != null ? ssoTicket.hashCode() : 0 );
+        result = 31 * result + ( x509Certificate != null ? x509Certificate.hashCode() : 0 );
+        return result;
+    }
 }
