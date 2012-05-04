@@ -46,7 +46,7 @@
                 <executions>
                     <execution>
                         <id>copy-native-libs</id>
-                        <phase>compile</phase>
+                        <phase>process-test-resources</phase>
                         <goals>
                             <goal>copy</goal>
                         </goals>
@@ -55,11 +55,11 @@
                                 <artifactItem>
                                     <groupId>com.sap</groupId>
                                     <artifactId>sap-jco</artifactId>
-                                    <version>3.0.5</version>
-                                    <classifier>darwin64</classifier>
-                                    <type>jnilib</type>
+                                    <version>${jco.native-lib.version}</version>
+                                    <classifier>${jco.native-lib.classifier}</classifier>
+                                    <type>${jco.native-lib.packaging}</type>
                                     <overWrite>true</overWrite>
-                                    <destFileName>libsapjco3.jnilib</destFileName>
+                                    <destFileName>${jco.native-lib.filename}</destFileName>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}/native-lib</outputDirectory>

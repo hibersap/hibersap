@@ -14,7 +14,7 @@
     <artifactId>hibersap-it</artifactId>
 
     <properties>
-        <sap-jco.version>3.0.7</sap-jco.version>
+        <sap-jco.version>3.0.8</sap-jco.version>
     </properties>
 
     <!--
@@ -25,48 +25,7 @@
         mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file
         mvn deploy:deploy-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
     -->
-    <profiles>
-        <profile>
-            <id>Mac 64 Bit Intel</id>
-            <activation>
-                <os>
-                    <family>mac</family>
-                    <arch>x86_64</arch>
-                </os>
-            </activation>
-            <properties>
-                <jco.native-lib.filename>libsapjco3.jnilib</jco.native-lib.filename>
-                <jco.native-lib.classifier>darwinintel64</jco.native-lib.classifier>
-            </properties>
-        </profile>
-        <profile>
-            <id>Windows 32 Bit x86</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                    <arch>x86</arch>
-                </os>
-            </activation>
-            <properties>
-                <jco.native-lib.filename>sapjco3.dll</jco.native-lib.filename>
-                <jco.native-lib.classifier>ntintel</jco.native-lib.classifier>
-            </properties>
-        </profile>
-        <profile>
-            <id>Windows 64 Bit x86</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                    <arch>x86_64</arch>
-                </os>
-            </activation>
-            <properties>
-                <jco.native-lib.filename>sapjco3.dll</jco.native-lib.filename>
-                <jco.native-lib.classifier>ntamd64</jco.native-lib.classifier>
-            </properties>
-        </profile>
-    </profiles>
-
+    
     <build>
         <plugins>
             <plugin>
@@ -97,8 +56,8 @@
                                 <artifactItem>
                                     <groupId>com.sap</groupId>
                                     <artifactId>sap-jco</artifactId>
-                                    <version>${sap-jco.version}</version>
-                                    <type>native</type>
+                                    <version>${jco.native-lib.version}</version>
+                                    <type>${jco.native-lib.packaging}</type>
                                     <classifier>${jco.native-lib.classifier}</classifier>
                                     <outputDirectory>${project.build.directory}/jni</outputDirectory>
                                     <destFileName>${jco.native-lib.filename}</destFileName>

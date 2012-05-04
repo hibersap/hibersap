@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <name>Hibersap Parent</name>
@@ -14,6 +15,7 @@
         <artifactId>hibersap</artifactId>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
+    
     <profiles>
         <profile>
             <id>default</id>
@@ -32,11 +34,54 @@
                 <module>../hibersap-it</module>
             </modules>
         </profile>
+        <profile>
+            <id>Mac 64 Bit Intel</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <jco.native-lib.filename>libsapjco3.jnilib</jco.native-lib.filename>
+                <jco.native-lib.classifier>darwinintel64</jco.native-lib.classifier>
+                <jco.native-lib.packaging>jnilib</jco.native-lib.packaging>
+            </properties>
+        </profile>
+        <profile>
+            <id>Windows 32 Bit x86</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>x86</arch>
+                </os>
+            </activation>
+            <properties>
+                <jco.native-lib.filename>sapjco3.dll</jco.native-lib.filename>
+                <jco.native-lib.classifier>ntintel</jco.native-lib.classifier>
+                <jco.native-lib.packaging>dll</jco.native-lib.packaging>
+            </properties>
+        </profile>
+        <profile>
+            <id>Windows 64 Bit x86</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <jco.native-lib.filename>sapjco3.dll</jco.native-lib.filename>
+                <jco.native-lib.classifier>ntamd64</jco.native-lib.classifier>
+                <jco.native-lib.packaging>dll</jco.native-lib.packaging>
+            </properties>
+        </profile>
     </profiles>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jco.native-lib.version>3.0.8</jco.native-lib.version>
     </properties>
 
     <build>
@@ -210,29 +255,6 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>1.5.6</version>
             </dependency>
-
-            <!--
-                        <dependency>
-                            <groupId>com.sun.xml.bind</groupId>
-                            <artifactId>jaxb-impl</artifactId>
-                            <version>2.1.9</version>
-                        </dependency>
-
-                        <dependency>
-                            <groupId>stax</groupId>
-                            <artifactId>stax-api</artifactId>
-                            <version>1.0.1</version>
-                            <scope>provided</scope>
-                        </dependency>
-
-                        <dependency>
-                            <groupId>javax.activation</groupId>
-                            <artifactId>activation</artifactId>
-                            <version>1.1</version>
-                            <scope>test</scope>
-                        </dependency>
-            -->
-
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit-dep</artifactId>
