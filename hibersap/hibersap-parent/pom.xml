@@ -80,36 +80,14 @@
             <id>Linux64BitX86</id>
             <activation>
                 <os>
-                    <family>linux</family>
-                    <arch>x86_64</arch>
+                    <family>unix</family>
+                    <arch>amd64</arch>
                 </os>
             </activation>
             <properties>
                 <jco.native-lib.filename>sapjco3.so</jco.native-lib.filename>
                 <jco.native-lib.classifier>linux-x86-64</jco.native-lib.classifier>
                 <jco.native-lib.packaging>so</jco.native-lib.packaging>
-            </properties>
-        </profile>
-        <profile>
-            <id>Linux32BitX86</id>
-            <activation>
-                <os>
-                    <family>linux</family>
-                    <arch>x86</arch>
-                </os>
-            </activation>
-            <properties>
-                <jco.native-lib.filename>sapjco3.so</jco.native-lib.filename>
-                <jco.native-lib.classifier>linux-x86-32</jco.native-lib.classifier>
-                <jco.native-lib.packaging>so</jco.native-lib.packaging>
-            </properties>
-        </profile>
-        <profile>
-            <id>TestArch</id>
-            <properties>
-                <jco.native-lib.filename>sapjco3.so</jco.native-lib.filename>
-                <jco.native-lib.classifier>${os.arch}</jco.native-lib.classifier>
-                <jco.native-lib.packaging>${os.name}</jco.native-lib.packaging>
             </properties>
         </profile>
     </profiles>
