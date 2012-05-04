@@ -33,13 +33,15 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>once</forkMode>
-                    <argLine>-ea</argLine>
+                    <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
+<!--
                     <systemProperties>
                         <property>
                             <name>java.library.path</name>
                             <value>${project.build.directory}/jni</value>
                         </property>
                     </systemProperties>
+-->
                 </configuration>
             </plugin>
             <plugin>
@@ -59,7 +61,7 @@
                                     <version>${jco.native-lib.version}</version>
                                     <type>${jco.native-lib.packaging}</type>
                                     <classifier>${jco.native-lib.classifier}</classifier>
-                                    <outputDirectory>${project.build.directory}/jni</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/native-lib</outputDirectory>
                                     <destFileName>${jco.native-lib.filename}</destFileName>
                                 </artifactItem>
                             </artifactItems>

@@ -71,12 +71,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
+<!--
                     <systemProperties>
                         <property>
                             <name>java.library.path</name>
                             <value>${project.build.directory}/native-lib/</value>
                         </property>
                     </systemProperties>
+-->
                 </configuration>
             </plugin>
         </plugins>
