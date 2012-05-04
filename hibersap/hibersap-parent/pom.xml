@@ -35,7 +35,7 @@
             </modules>
         </profile>
         <profile>
-            <id>Mac 64 Bit Intel</id>
+            <id>Mac64BitIntel</id>
             <activation>
                 <os>
                     <family>mac</family>
@@ -49,7 +49,7 @@
             </properties>
         </profile>
         <profile>
-            <id>Windows 32 Bit x86</id>
+            <id>Windows32BitX86</id>
             <activation>
                 <os>
                     <family>windows</family>
@@ -63,7 +63,7 @@
             </properties>
         </profile>
         <profile>
-            <id>Windows 64 Bit x86</id>
+            <id>Windows64BitX86</id>
             <activation>
                 <os>
                     <family>windows</family>

@@ -13,10 +13,6 @@
 
     <artifactId>hibersap-it</artifactId>
 
-    <properties>
-        <sap-jco.version>3.0.8</sap-jco.version>
-    </properties>
-
     <!--
         Since SAP JCo is a proprietary library with a commercial license, we have to manually install or deploy it
         to the local Maven repository or a (private!) remote repository (replace version like above,
