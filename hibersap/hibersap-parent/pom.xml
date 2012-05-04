@@ -104,6 +104,14 @@
                 <jco.native-lib.packaging>so</jco.native-lib.packaging>
             </properties>
         </profile>
+        <profile>
+            <id>TestArch</id>
+            <properties>
+                <jco.native-lib.filename>sapjco3.so</jco.native-lib.filename>
+                <jco.native-lib.classifier>${os.arch}</jco.native-lib.classifier>
+                <jco.native-lib.packaging>${os.name}</jco.native-lib.packaging>
+            </properties>
+        </profile>
     </profiles>
 
     <properties>
