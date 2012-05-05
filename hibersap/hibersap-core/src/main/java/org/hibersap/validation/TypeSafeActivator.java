@@ -45,7 +45,8 @@ class TypeSafeActivator
         }
         catch ( ValidationException e )
         {
-            if ( sessionManagerConfig.getValidationMode() == ValidationMode.AUTO )
+            ValidationMode validationMode = sessionManagerConfig.getValidationMode();
+            if ( validationMode == ValidationMode.AUTO )
             {
                 LOGGER.warn( "Bean Validation will not be used: Bean Validation API is in the classpath, " +
                         "but default ValidatorFactory can not be built. " +
@@ -53,7 +54,8 @@ class TypeSafeActivator
             }
             else
             {
-                throw new HibersapException( "Unable to build the default ValidatorFactory", e );
+                throw new HibersapException( "Unable to build the default ValidatorFactory, ValidationMode is " +
+                        validationMode, e );
             }
         }
     }
