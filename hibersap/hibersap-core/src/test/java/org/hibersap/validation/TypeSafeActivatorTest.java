@@ -43,6 +43,12 @@ public class TypeSafeActivatorTest
     }
 
     @Test
+    public void hibernateValidationIsInClasspath() throws ClassNotFoundException
+    {
+        Class.forName( "org.hibernate.validator.HibernateValidator" );
+    }
+
+    @Test
     public void doesNotAddInterceptorWhenValidatorFactoryCannotBeBuildAndCalledWithValidationModeAuto() throws Exception
     {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
@@ -85,7 +91,7 @@ public class TypeSafeActivatorTest
         declaredField.set( null, factory );
     }
 
-    private static class ExceptionThrowingValidatorFactoryFactory implements ValidatorFactoryFactory
+    public static class ExceptionThrowingValidatorFactoryFactory implements ValidatorFactoryFactory
     {
         public ValidatorFactory buildValidatorFactory()
         {
