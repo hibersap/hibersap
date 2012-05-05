@@ -103,7 +103,6 @@ public class BeanValidationActivator
 
             Method activateBeanValidation = activator.getDeclaredMethod( TYPE_SAFE_ACTIVATOR_METHOD_NAME,
                     Set.class, SessionManagerConfig.class );
-            activateBeanValidation.setAccessible( true );
             activateBeanValidation.invoke( null, bapiInterceptors, sessionManagerConfig );
         }
         catch ( ClassNotFoundException e )
