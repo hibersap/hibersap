@@ -68,7 +68,7 @@ public class TypeSafeActivatorTest
     }
 
     @Test( expected = HibersapException.class )
-    public void throwsExceptionWhenValidatorFactoryCannotBeBuildAndCalledWithValidationModeCallback() throws Exception
+    public void throwsExceptionWhenValidatorFactoryCannotBeBuiltAndIsCalledWithValidationModeCallback() throws Exception
     {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
         final SessionManagerConfig config = new SessionManagerConfig().setValidationMode( ValidationMode.CALLBACK );
