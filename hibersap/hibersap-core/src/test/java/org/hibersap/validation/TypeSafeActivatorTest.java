@@ -44,21 +44,6 @@ public class TypeSafeActivatorTest
         Class.forName( "org.hibernate.validator.HibernateValidator" );
     }
 
-/*
-    @Test
-    public void doesNotAddInterceptorWhenValidatorFactoryCannotBeBuildAndCalledWithValidationModeAuto() throws Exception
-    {
-        Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
-        final SessionManagerConfig config = new SessionManagerConfig();
-
-        useValidationFactoryFactory( new ExceptionThrowingValidatorFactoryFactory() );
-
-        TypeSafeActivator.activateBeanValidation( interceptors, config );
-
-        assertThat( interceptors, hasSize( 0 ) );
-    }
-*/
-
     @Test
     public void addsBeanValidationInterceptorWithDefaultValidationMode()
     {
@@ -71,32 +56,10 @@ public class TypeSafeActivatorTest
         assertThat( interceptors.iterator().next(), instanceOf( BeanValidationInterceptor.class ) );
     }
 
-    /*
-        @Test( expected = HibersapException.class )
-        public void throwsExceptionWhenValidatorFactoryCannotBeBuiltAndIsCalledWithValidationModeCallback() throws Exception
-        {
-            Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
-            final SessionManagerConfig config = new SessionManagerConfig().setValidationMode( ValidationMode.CALLBACK );
-
-            useValidationFactoryFactory( new ExceptionThrowingValidatorFactoryFactory() );
-
-            TypeSafeActivator.activateBeanValidation( interceptors, config );
-        }
-        */
-
     private void useValidationFactoryFactory( ValidatorFactoryFactory factory ) throws Exception
     {
         Field declaredField = TypeSafeActivator.class.getDeclaredField( "validatorFactoryFactory" );
         declaredField.setAccessible( true );
         declaredField.set( null, factory );
     }
-    /*
-    public static class ExceptionThrowingValidatorFactoryFactory implements ValidatorFactoryFactory
-    {
-        public ValidatorFactory buildValidatorFactory()
-        {
-            throw new ValidationException( "test" );
-        }
-    }
-*/
 }
