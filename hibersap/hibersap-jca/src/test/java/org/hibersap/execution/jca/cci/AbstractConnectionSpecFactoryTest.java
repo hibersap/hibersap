@@ -17,22 +17,21 @@ package org.hibersap.execution.jca.cci;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-
-import javax.resource.cci.ConnectionSpec;
-
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
 import org.junit.Test;
 
+import javax.resource.cci.ConnectionSpec;
+
+import static org.fest.assertions.Assertions.assertThat;
+
 public class AbstractConnectionSpecFactoryTest
 {
-    private static class TestConnectionSpecImpl
-        implements ConnectionSpec
+    @SuppressWarnings( "unused" ) // constructors called by reflection
+    private static class TestConnectionSpecImpl implements ConnectionSpec
     {
-        int property1 = -1;
-
-        String property2 = "someText";
+        int property1;
+        String property2;
 
         public TestConnectionSpecImpl()
         {
@@ -54,7 +53,7 @@ public class AbstractConnectionSpecFactoryTest
     private AbstractConnectionSpecFactory factory = new AbstractConnectionSpecFactory()
     {
         public ConnectionSpec createConnectionSpec( Credentials credentials )
-            throws InternalHiberSapException
+                throws InternalHiberSapException
         {
             // implementation not tested here
             return null;
@@ -62,44 +61,57 @@ public class AbstractConnectionSpecFactoryTest
     };
 
     @Test
-    public void getConnectionSpecClass()
-        throws Exception
+    public void getConnectionSpecClassReturnsCorrectClass() throws Exception
     {
-        Class<? extends ConnectionSpec> specClass = factory.getConnectionSpecClass( TestConnectionSpecImpl.class
-            .getName() );
-        assertEquals( TestConnectionSpecImpl.class, specClass );
+        Class<?> specClass = factory
+                .getConnectionSpecClass( TestConnectionSpecImpl.class.getName() );
+
+        assertThat( specClass ).isEqualTo( TestConnectionSpecImpl.class );
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getConnectionSpecClassIllegalArgument()
-        throws Exception
+    @Test( expected = IllegalArgumentException.class )
+    public void getConnectionSpecClassThrowsIllegalArgumentWhenGivenClassIsNotAConnectionSpec() throws Exception
     {
         factory.getConnectionSpecClass( String.class.getName() );
     }
 
-    @Test(expected = ClassNotFoundException.class)
-    public void getConnectionSpecClassNotFound()
-        throws Exception
+    @Test( expected = ClassNotFoundException.class )
+    public void getConnectionSpecThrowsClassNotFoundWhenCalledWithNonExistingClassName() throws Exception
     {
         factory.getConnectionSpecClass( "NonExistingClass" );
     }
 
     @Test
-    public void newConnectionSpecInstance()
-        throws Exception
+    public void newConnectionSpecInstanceCalledWithOneArgumentConstructor() throws Exception
     {
-        TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory
-            .newConnectionSpecInstance( TestConnectionSpecImpl.class, new Class<?>[] { int.class },
-                                        new Object[] { 4711 } );
-        assertEquals( spec.property1, 4711 );
+        TestConnectionSpecImpl spec = ( TestConnectionSpecImpl ) factory
+                .newConnectionSpecInstance( TestConnectionSpecImpl.class, new Class<?>[]{int.class},
+                        new Object[]{4711} );
 
-        spec = (TestConnectionSpecImpl) factory.newConnectionSpecInstance( TestConnectionSpecImpl.class, null, null );
-        assertEquals( spec.property1, -1 );
+        assertThat( spec.property1 ).isEqualTo( 4711 );
+        assertThat( spec.property2 ).isEqualTo( null );
+    }
 
-        spec = (TestConnectionSpecImpl) factory.newConnectionSpecInstance( TestConnectionSpecImpl.class,
-                                                                           new Class<?>[] { int.class, String.class },
-                                                                           new Object[] { 4711, null } );
-        assertEquals( spec.property1, 4711 );
-        assertEquals( spec.property2, null );
+    @Test
+    public void newConnectionSpecInstanceCalledWithDefaultConstructor() throws Exception
+    {
+        TestConnectionSpecImpl spec = ( TestConnectionSpecImpl ) factory.newConnectionSpecInstance(
+                TestConnectionSpecImpl.class, null, null );
+
+        assertThat( spec.property1 ).isEqualTo( 0 );
+        assertThat( spec.property2 ).isEqualTo( null );
+    }
+
+    @Test
+    public void newConnectionSpecInstanceCalledWithTwoArgumentConstructor() throws Exception
+    {
+        TestConnectionSpecImpl spec = ( TestConnectionSpecImpl )
+                factory.newConnectionSpecInstance(
+                        TestConnectionSpecImpl.class,
+                        new Class<?>[]{int.class, String.class},
+                        new Object[]{4711, "property2"} );
+
+        assertThat( spec.property1 ).isEqualTo( 4711 );
+        assertThat( spec.property2 ).isEqualTo( "property2" );
     }
 }

@@ -17,13 +17,12 @@ package org.hibersap.execution.jca.cci;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.resource.cci.ConnectionSpec;
-
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.mapping.ReflectionHelper;
+
+import javax.resource.cci.ConnectionSpec;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Offers methods to help accessing and instantiating the ConnectionSpec implementation. May be used
@@ -46,20 +45,19 @@ public abstract class AbstractConnectionSpecFactory
      * @throws IllegalArgumentException - if the class does not implement
      *                                  javax.resource.cci.ConnectionSpec.
      */
-    protected Class<? extends ConnectionSpec> getConnectionSpecClass(String connectionSpecClass)
+    protected Class<? extends ConnectionSpec> getConnectionSpecClass( String connectionSpecClass )
             throws ClassNotFoundException, IllegalArgumentException
     {
-        Class<?> connSpecClass = ReflectionHelper.getClassForName(connectionSpecClass);
+        Class<?> connSpecClass = ReflectionHelper.getClassForName( connectionSpecClass );
 
-        if (!ConnectionSpec.class.isAssignableFrom(connSpecClass))
+        if ( !ConnectionSpec.class.isAssignableFrom( connSpecClass ) )
         {
-            throw new IllegalArgumentException(connSpecClass.getName() + " does not implement " + ConnectionSpec.class);
+            throw new IllegalArgumentException(
+                    connSpecClass.getName() + " does not implement " + ConnectionSpec.class );
         }
 
-        @SuppressWarnings("unchecked")
-        Class<? extends ConnectionSpec> connSpecImpl = (Class<? extends ConnectionSpec>) connSpecClass;
-
-        return connSpecImpl;
+        //noinspection unchecked
+        return ( Class<? extends ConnectionSpec> ) connSpecClass;
     }
 
     /**
@@ -72,93 +70,95 @@ public abstract class AbstractConnectionSpecFactory
      * @param constructorArguments      The constructor's arguments used when creating a new instance of
      *                                  the class. Must match the constructorParameterTypes.
      * @return The instance of the ConnectionSpec implementation
-     * @throws InternalHiberSapException - if there the class could not be accessed or instantiated,
+     * @throws InternalHiberSapException - if the class could not be accessed or instantiated,
      *                                   see cause for the actual reason.
      */
-    protected ConnectionSpec newConnectionSpecInstance(Class<?> connectionSpecClass,
-                                                       Class<?>[] constructorParameterTypes,
-                                                       Object[] constructorArguments)
+    protected ConnectionSpec newConnectionSpecInstance( Class<?> connectionSpecClass,
+                                                        Class<?>[] constructorParameterTypes,
+                                                        Object[] constructorArguments )
             throws InternalHiberSapException
     {
         Object connSpecImpl = null;
         try
         {
-            Constructor<?> constructor = connectionSpecClass.getConstructor(constructorParameterTypes);
-            connSpecImpl = constructor.newInstance(constructorArguments);
+            Constructor<?> constructor = connectionSpecClass.getConstructor( constructorParameterTypes );
+            connSpecImpl = constructor.newInstance( constructorArguments );
         }
-        catch (SecurityException e)
+        catch ( SecurityException e )
         {
             final String msg = "Can not access declared constructor: ";
-            throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
+            throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
         }
-        catch (NoSuchMethodException e)
+        catch ( NoSuchMethodException e )
         {
             final String msg = "No such constructor: ";
-            return throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
+            return throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
         }
-        catch (IllegalArgumentException e)
+        catch ( IllegalArgumentException e )
         {
-            throw new InternalHiberSapException("No such constructor: "
-                    + getSignature(connectionSpecClass, constructorArguments), e);
+            throw new InternalHiberSapException( "No such constructor: "
+                    + getSignature( connectionSpecClass, constructorArguments ), e );
         }
-        catch (InstantiationException e)
-        {
-            final String msg = "Cannot create new instance of: ";
-            throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
-        }
-        catch (IllegalAccessException e)
+        catch ( InstantiationException e )
         {
             final String msg = "Cannot create new instance of: ";
-            throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
+            throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
         }
-        catch (InvocationTargetException e)
+        catch ( IllegalAccessException e )
+        {
+            final String msg = "Cannot create new instance of: ";
+            throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
+        }
+        catch ( InvocationTargetException e )
         {
             final String msg = "Constructor threw an Exception: ";
-            throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
+            throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
         }
 
-        if (!ConnectionSpec.class.isAssignableFrom(connSpecImpl.getClass()))
+        if ( !ConnectionSpec.class.isAssignableFrom( connSpecImpl.getClass() ) )
         {
-            throw new InternalHiberSapException(connectionSpecClass + " does not implement " + ConnectionSpec.class);
+            throw new InternalHiberSapException( connectionSpecClass + " does not implement " + ConnectionSpec.class );
         }
-        return (ConnectionSpec) connSpecImpl;
+        return ( ConnectionSpec ) connSpecImpl;
     }
 
-    private ConnectionSpec throwInternalHibersapException(Class<?> connectionSpecClass, Class<?>[] constructorParameterTypes, Exception e, String msg)
+    private ConnectionSpec throwInternalHibersapException( Class<?> connectionSpecClass,
+                                                           Class<?>[] constructorParameterTypes, Exception e,
+                                                           String msg )
     {
-        throw new InternalHiberSapException(msg
-                + getSignature(connectionSpecClass, constructorParameterTypes), e);
+        throw new InternalHiberSapException( msg
+                + getSignature( connectionSpecClass, constructorParameterTypes ), e );
     }
 
-    private String getSignature(Class<?> clazz, Object[] arguments)
+    private String getSignature( Class<?> clazz, Object[] arguments )
     {
         Class<?>[] classes = new Class<?>[arguments.length];
 
-        for (int i = 0; i < arguments.length; i++)
+        for ( int i = 0; i < arguments.length; i++ )
         {
             Class<?> argClass = arguments[i] == null ? null : arguments[i].getClass();
             classes[i] = argClass;
         }
 
-        return getSignature(clazz, classes);
+        return getSignature( clazz, classes );
     }
 
-    private String getSignature(Class<?> clazz, Class<?>[] argClasses)
+    private String getSignature( Class<?> clazz, Class<?>[] argClasses )
     {
-        StringBuilder sb = new StringBuilder(clazz.getName());
-        sb.append('(');
+        StringBuilder sb = new StringBuilder( clazz.getName() );
+        sb.append( '(' );
 
-        for (int i = 0; i < argClasses.length; i++)
+        for ( int i = 0; i < argClasses.length; i++ )
         {
-            if (i > 0)
+            if ( i > 0 )
             {
-                sb.append(",");
+                sb.append( "," );
             }
             Class<?> argClass = argClasses[i];
-            sb.append(argClass == null ? "null" : argClass.getName());
+            sb.append( argClass == null ? "null" : argClass.getName() );
         }
 
-        sb.append(')');
+        sb.append( ')' );
         return sb.toString();
     }
 }
