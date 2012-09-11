@@ -22,7 +22,6 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class TableMappingTest
 {
-
     private StructureMapping structureMapping;
     private TableMapping tableMapping;
 
@@ -109,7 +108,7 @@ public class TableMappingTest
     }
 
     @Test
-    public void getNonConvertedValueReturnsListOfStructureBeansWithCorrectValues() throws Exception
+    public void getUnconvertedValueReturnsListOfStructureBeansWithCorrectValues() throws Exception
     {
         tableMapping = new TableMapping( List.class, Integer.class, "sapName", "javaName", structureMapping, null );
         List<Map<String, ?>> tableMap = new ArrayList<Map<String, ?>>();
@@ -128,7 +127,7 @@ public class TableMappingTest
     }
 
     @Test
-    public void getNonConvertedValueReturnsArrayOfStructureBeansWhenDestinationTypeIsArray() throws Exception
+    public void getUnconvertedValueReturnsArrayOfStructureBeansWhenDestinationTypeIsArray() throws Exception
     {
         tableMapping = new TableMapping( TestStructureBean[].class, TestStructureBean.class, "sapName", "javaName",
                 structureMapping, null );
