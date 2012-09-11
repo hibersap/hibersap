@@ -18,66 +18,39 @@ package org.hibersap.mapping.model;
  */
 
 import org.hibersap.conversion.Converter;
+import org.hibersap.conversion.ConverterCache;
 
 /**
  * @author Carsten Erker
  */
-public class FieldMapping extends ObjectMapping
+public class FieldMapping extends ParameterMapping
 {
     private static final long serialVersionUID = -7542970603293850477L;
 
-    private final Class<? extends Converter> converter;
-
-    public FieldMapping( Class<?> associatedClass, String sapName, String javaName, Class<? extends Converter> converter )
+    public FieldMapping( Class<?> associatedClass, String sapName, String javaName,
+                         Class<? extends Converter> converter )
     {
-        super( associatedClass, sapName, javaName );
-        this.converter = converter;
-    }
-
-    public Class<? extends Converter> getConverter()
-    {
-        return this.converter;
+        super( associatedClass, sapName, javaName, converter );
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public ParamType getParamType()
     {
         return ParamType.FIELD;
     }
 
     @Override
-    public boolean equals( Object o )
+    protected Object getUnconvertedValueToJava( Object value, ConverterCache converterCache )
     {
-        if ( this == o )
-        {
-            return true;
-        }
-        if ( o == null || getClass() != o.getClass() )
-        {
-            return false;
-        }
-        if ( !super.equals( o ) )
-        {
-            return false;
-        }
-
-        FieldMapping that = (FieldMapping) o;
-
-        if ( converter != null ? !converter.equals( that.converter ) : that.converter != null )
-        {
-            return false;
-        }
-
-        return true;
+        return value;
     }
 
     @Override
-    public int hashCode()
+    protected Object getUnconvertedValueToSap( Object value, ConverterCache converterCache )
     {
-        int result = super.hashCode();
-        result = 31 * result + ( converter != null ? converter.hashCode() : 0 );
-        return result;
+        return value;
     }
 }

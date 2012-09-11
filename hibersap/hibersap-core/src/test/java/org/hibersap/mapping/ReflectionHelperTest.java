@@ -14,9 +14,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
@@ -190,8 +193,8 @@ public class ReflectionHelperTest
         }
         catch ( HibersapException e )
         {
-           assertThat( e.getMessage(), containsString( "Object" ) );
-           assertThat( e.getMessage(), containsString( "doesNotExist" ) );
+            assertThat( e.getMessage(), containsString( "Object" ) );
+            assertThat( e.getMessage(), containsString( "doesNotExist" ) );
         }
     }
 
@@ -220,6 +223,33 @@ public class ReflectionHelperTest
 
         assertThat( fields.size(), is( 1 ) );
         assertThat( fields, hasFieldNamed( "set" ) );
+    }
+
+    @Test
+    public void newArrayFromCollectionReturnsNullWhenCollectionIsNull() throws Exception
+    {
+        Object[] objects = ReflectionHelper.newArrayFromCollection( null, Integer.class );
+
+        assertThat( objects, is( nullValue() ) );
+    }
+
+    @Test
+    public void newArrayFromCollectionReturnsArrayOfSizeZeroWhenCollectionIsEmpty() throws Exception
+    {
+        Object[] objects = ReflectionHelper.newArrayFromCollection( emptySet(), Integer.class );
+
+        assertThat( objects.length, is( 0 ) );
+    }
+
+    @Test
+    public void newArrayFromCollectionReturnsArrayOfSizeTwoWhenCollectionHasTwoElements() throws Exception
+    {
+        List<Integer> list = asList( 1, 2 );
+        Integer[] objects = ReflectionHelper.newArrayFromCollection( list, Integer.class );
+
+        assertThat( objects.length, is( 2 ) );
+        assertThat( objects, hasItemInArray( 1 ) );
+        assertThat( objects, hasItemInArray( 2 ) );
     }
 
     @SuppressWarnings( "unused" )

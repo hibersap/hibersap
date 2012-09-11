@@ -17,18 +17,27 @@ package org.hibersap.mapping.model;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.InternalHiberSapException;
 import org.hibersap.MappingException;
+import org.hibersap.conversion.Converter;
+import org.hibersap.conversion.ConverterCache;
+import org.hibersap.mapping.ReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;
+import static org.hibersap.mapping.ReflectionHelper.newCollectionInstance;
 
 /**
  * @author Carsten Erker
  */
-public class TableMapping extends ParameterMapping
+public final class TableMapping extends ParameterMapping
 {
     private static final long serialVersionUID = 6134694196341208013L;
 
@@ -36,75 +45,89 @@ public class TableMapping extends ParameterMapping
 
     private final Class<?> fieldType;
 
-    @SuppressWarnings("unchecked")
-    private final Class<? extends Collection> collectionType;
+    private final Class<?> destinationType;
 
     /**
-     * @param fieldType The type of the field in the bean; may be a Collection interface like List,
-     *            Set, Collection, a concrete class that implements Collection or an array.
-     * @param associatedType The type of the elements, i.e. a Pojo class.
-     * @param sapName The table's name in SAP.
-     * @param javaName The Java field name of the Collection or array.
+     * @param fieldType          The type of the field in the bean; may be a Collection interface like List,
+     *                           Set, Collection, a concrete class that implements Collection or an array.
+     *                           If there is a Converter specified on the field, it may be a Pojo class.
+     * @param associatedType     The type of the elements, i.e. a Pojo class.
+     * @param sapName            The table's name in SAP.
+     * @param javaName           The Java field name of the Collection or array.
      * @param componentParameter A StructureMapping containing the table's fields.
+     * @param converterClass     The Class of the table field's converter, if defined.
      */
     public TableMapping( Class<?> fieldType, Class<?> associatedType, String sapName, String javaName,
-                         StructureMapping componentParameter )
+                         StructureMapping componentParameter, Class<? extends Converter> converterClass )
     {
-        super( associatedType, sapName, javaName );
+        super( associatedType, sapName, javaName, converterClass );
         this.componentParameter = componentParameter;
         this.fieldType = fieldType;
-        this.collectionType = determineCollectionType( fieldType );
+        this.destinationType = determineDestinationType();
     }
 
-    @SuppressWarnings("unchecked")
-    private Class<? extends Collection> determineCollectionType( Class<?> type )
+    @SuppressWarnings( "unchecked" )
+    private Class<?> determineDestinationType()
     {
-        Class<? extends Collection> resultingType;
+        Class<?> resultingType;
 
-        if ( Collection.class.isAssignableFrom( type ) )
+        if ( isDestinationTypeCollection() )
         {
-            if ( type.isInterface() )
+            if ( fieldType.isInterface() )
             {
-                if ( List.class.equals( type ) )
+                if ( List.class.equals( fieldType ) )
                 {
                     resultingType = ArrayList.class;
                 }
-                else if ( Set.class.equals( type ) )
+                else if ( Set.class.equals( fieldType ) )
                 {
                     resultingType = HashSet.class;
                 }
-                else if ( Collection.class.equals( type ) )
+                else if ( Collection.class.equals( fieldType ) )
                 {
                     resultingType = ArrayList.class;
                 }
                 else
                 {
-                    throw new MappingException( "Collection of type " + type.getName() + " not supported. See Field "
-                        + getJavaName() );
+                    throw new MappingException(
+                            "Collection of type " + fieldType.getName() + " not supported. See Field "
+                                    + getJavaName() );
                 }
             }
             else
             {
-                resultingType = (Class<? extends Collection>) type;
+                resultingType = fieldType;
             }
         }
-        else if ( type.isArray() )
+        else if ( fieldType.isArray() )
         {
             resultingType = ArrayList.class;
         }
         else
         {
-            throw new MappingException( "The field " + getJavaName() + " must be an array or an implementation of "
-                + Collection.class.getName() + ", but is: " + fieldType.getName() );
+            if ( hasConverter() )
+            {
+                resultingType = fieldType;
+            }
+            else
+            {
+                throw new MappingException( "The field " + getJavaName() + " must be an array or a "
+                        + "Collection or have a Converter, but is: " + fieldType.getName() );
+            }
         }
 
         return resultingType;
     }
 
-    @SuppressWarnings("unchecked")
-    public Class<? extends Collection> getCollectionType()
+    private boolean isDestinationTypeCollection()
     {
-        return this.collectionType;
+        return Collection.class.isAssignableFrom( fieldType );
+    }
+
+    @SuppressWarnings( "unchecked" )
+    public Class<?> getDestinationType()
+    {
+        return this.destinationType;
     }
 
     public StructureMapping getComponentParameter()
@@ -124,32 +147,103 @@ public class TableMapping extends ParameterMapping
     }
 
     @Override
-    public boolean equals(Object o)
+    public Object getUnconvertedValueToJava( Object fieldMapCollection, ConverterCache converterCache )
     {
-        if (this == o)
+        if ( !hasConverter() )
+        {
+            @SuppressWarnings( {"unchecked"} ) // must be Collection, since there is no Converter
+                    Class<? extends Collection> destinationType = ( Class<? extends Collection> ) getDestinationType();
+
+            Collection<Object> collection = newCollectionInstance( destinationType );
+
+            Collection<Map<String, Object>> rows = castToCollectionOfMaps( fieldMapCollection );
+
+            if ( rows != null )
+            {
+                for ( Map<String, Object> tableMap : rows )
+                {
+                    Object elementBean = getComponentParameter().mapToJava( tableMap, converterCache );
+                    collection.add( elementBean );
+                }
+            }
+
+            if ( getFieldType().isArray() )
+            {
+                return ReflectionHelper.newArrayFromCollection( collection, getAssociatedType() );
+            }
+            else
+            {
+                return collection;
+            }
+        }
+        else
+        {
+            throw new InternalHiberSapException(
+                    "This method should only be called by the framework " +
+                            "when the corresponding table field has a converter attached" );
+        }
+    }
+
+    @Override
+    protected Object getUnconvertedValueToSap( Object value, ConverterCache converterCache )
+    {
+        Collection bapiStructures;
+
+        if ( getFieldType().isArray() )
+        {
+            bapiStructures = asList( value );
+        }
+        else
+        {
+            bapiStructures = ( Collection ) value;
+        }
+
+        List<Map<String, Object>> tableRows = new ArrayList<Map<String, Object>>();
+
+        if ( bapiStructures != null )
+        {
+            for ( Object bapiStructure : bapiStructures )
+            {
+
+                @SuppressWarnings( {"unchecked"} )
+                Map<String, Object> paramMap = ( Map<String, Object> ) getComponentParameter()
+                        .mapToSap( bapiStructure, converterCache );
+                tableRows.add( paramMap );
+            }
+        }
+
+        return tableRows;
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o )
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if ( o == null || getClass() != o.getClass() )
         {
             return false;
         }
-        if (!super.equals(o))
+        if ( !super.equals( o ) )
         {
             return false;
         }
 
-        TableMapping that = (TableMapping) o;
+        TableMapping that = ( TableMapping ) o;
 
-        if (collectionType != null ? !collectionType.equals(that.collectionType) : that.collectionType != null)
+        if ( destinationType != null ? !destinationType.equals( that.destinationType ) : that.destinationType != null )
         {
             return false;
         }
-        if (componentParameter != null ? !componentParameter.equals(that.componentParameter) : that.componentParameter != null)
+        if ( componentParameter != null ? !componentParameter.equals( that.componentParameter ) :
+             that.componentParameter != null )
         {
             return false;
         }
-        if (fieldType != null ? !fieldType.equals(that.fieldType) : that.fieldType != null)
+        //noinspection RedundantIfStatement
+        if ( fieldType != null ? !fieldType.equals( that.fieldType ) : that.fieldType != null )
         {
             return false;
         }
@@ -161,9 +255,9 @@ public class TableMapping extends ParameterMapping
     public int hashCode()
     {
         int result = super.hashCode();
-        result = 31 * result + (componentParameter != null ? componentParameter.hashCode() : 0);
-        result = 31 * result + (fieldType != null ? fieldType.hashCode() : 0);
-        result = 31 * result + (collectionType != null ? collectionType.hashCode() : 0);
+        result = 31 * result + ( componentParameter != null ? componentParameter.hashCode() : 0 );
+        result = 31 * result + ( fieldType != null ? fieldType.hashCode() : 0 );
+        result = 31 * result + ( destinationType != null ? destinationType.hashCode() : 0 );
         return result;
     }
 }

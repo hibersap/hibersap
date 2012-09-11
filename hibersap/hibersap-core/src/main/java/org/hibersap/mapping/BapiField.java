@@ -19,8 +19,6 @@ package org.hibersap.mapping;
  * along with Hibersap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.lang.reflect.Field;
-
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
@@ -28,7 +26,9 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.conversion.Converter;
-import org.hibersap.conversion.DefaultConverter;
+
+import java.lang.reflect.Field;
+import java.util.Collection;
 
 
 /**
@@ -59,22 +59,20 @@ class BapiField
         return ReflectionHelper.getArrayType( associatedType );
     }
 
+    /**
+     * @return The type.
+     */
     public Class<?> getAssociatedType()
     {
-        Class<?> type;
-        if ( isTable() )
+        if ( field.getType().isArray() )
         {
-            type = getArrayType();
-            if ( type == null )
-            {
-                type = getGenericType();
-            }
+            return getArrayType();
         }
-        else
+        if ( Collection.class.isAssignableFrom( field.getType() ) )
         {
-            type = getType();
+            return getGenericType();
         }
-        return type;
+        return getType();
     }
 
     public Class<? extends Converter> getConverter()
@@ -84,10 +82,7 @@ class BapiField
             Convert convert = field.getAnnotation( CONVERT );
             return convert.converter();
         }
-        else
-        {
-            return DefaultConverter.class;
-        }
+        return null;
     }
 
     public Class<?> getGenericType()

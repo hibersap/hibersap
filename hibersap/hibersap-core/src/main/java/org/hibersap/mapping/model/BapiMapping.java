@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * This class is the framework internal representation of mappings between SAP function modules
  * (BAPIs) and Java classes.
- * 
+ *
  * @author Carsten Erker
  */
 public class BapiMapping implements Serializable
@@ -38,9 +38,9 @@ public class BapiMapping implements Serializable
 
     private Class<?> associatedClass;
 
-    private final Set<ObjectMapping> importParams = new HashSet<ObjectMapping>();
+    private final Set<ParameterMapping> importParams = new HashSet<ParameterMapping>();
 
-    private final Set<ObjectMapping> exportParams = new HashSet<ObjectMapping>();
+    private final Set<ParameterMapping> exportParams = new HashSet<ParameterMapping>();
 
     private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
 
@@ -57,12 +57,12 @@ public class BapiMapping implements Serializable
         this.errorHandling = errorHandling;
     }
 
-    public void addExportParameter( ObjectMapping parameter )
+    public void addExportParameter( ParameterMapping parameter )
     {
         exportParams.add( parameter );
     }
 
-    public void addImportParameter( ObjectMapping parameter )
+    public void addImportParameter( ParameterMapping parameter )
     {
         importParams.add( parameter );
     }
@@ -87,12 +87,12 @@ public class BapiMapping implements Serializable
         return this.errorHandling;
     }
 
-    public Set<ObjectMapping> getExportParameters()
+    public Set<ParameterMapping> getExportParameters()
     {
         return exportParams;
     }
 
-    public Set<ObjectMapping> getImportParameters()
+    public Set<ParameterMapping> getImportParameters()
     {
         return importParams;
     }
@@ -102,6 +102,15 @@ public class BapiMapping implements Serializable
         return tableParams;
     }
 
+    public Set<ParameterMapping> getAllParameters()
+    {
+        HashSet<ParameterMapping> parameters = new HashSet<ParameterMapping>();
+        parameters.addAll( importParams );
+        parameters.addAll( exportParams );
+        parameters.addAll( tableParams );
+        return parameters;
+    }
+
     @Override
     public String toString()
     {
@@ -109,40 +118,41 @@ public class BapiMapping implements Serializable
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals( Object o )
     {
-        if (this == o)
+        if ( this == o )
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if ( o == null || getClass() != o.getClass() )
         {
             return false;
         }
 
-        BapiMapping that = (BapiMapping) o;
+        BapiMapping that = ( BapiMapping ) o;
 
-        if (associatedClass != null ? !associatedClass.equals(that.associatedClass) : that.associatedClass != null)
+        if ( associatedClass != null ? !associatedClass.equals( that.associatedClass ) : that.associatedClass != null )
         {
             return false;
         }
-        if (bapiName != null ? !bapiName.equals(that.bapiName) : that.bapiName != null)
+        if ( bapiName != null ? !bapiName.equals( that.bapiName ) : that.bapiName != null )
         {
             return false;
         }
-        if (errorHandling != null ? !errorHandling.equals(that.errorHandling) : that.errorHandling != null)
+        if ( errorHandling != null ? !errorHandling.equals( that.errorHandling ) : that.errorHandling != null )
         {
             return false;
         }
-        if (exportParams != null ? !exportParams.equals(that.exportParams) : that.exportParams != null)
+        if ( exportParams != null ? !exportParams.equals( that.exportParams ) : that.exportParams != null )
         {
             return false;
         }
-        if (importParams != null ? !importParams.equals(that.importParams) : that.importParams != null)
+        if ( importParams != null ? !importParams.equals( that.importParams ) : that.importParams != null )
         {
             return false;
         }
-        if (tableParams != null ? !tableParams.equals(that.tableParams) : that.tableParams != null)
+        //noinspection RedundantIfStatement
+        if ( tableParams != null ? !tableParams.equals( that.tableParams ) : that.tableParams != null )
         {
             return false;
         }
@@ -154,11 +164,11 @@ public class BapiMapping implements Serializable
     public int hashCode()
     {
         int result = bapiName != null ? bapiName.hashCode() : 0;
-        result = 31 * result + (associatedClass != null ? associatedClass.hashCode() : 0);
-        result = 31 * result + (importParams != null ? importParams.hashCode() : 0);
-        result = 31 * result + (exportParams != null ? exportParams.hashCode() : 0);
-        result = 31 * result + (tableParams != null ? tableParams.hashCode() : 0);
-        result = 31 * result + (errorHandling != null ? errorHandling.hashCode() : 0);
+        result = 31 * result + ( associatedClass != null ? associatedClass.hashCode() : 0 );
+        result = 31 * result + ( importParams != null ? importParams.hashCode() : 0 );
+        result = 31 * result + ( exportParams != null ? exportParams.hashCode() : 0 );
+        result = 31 * result + ( tableParams != null ? tableParams.hashCode() : 0 );
+        result = 31 * result + ( errorHandling != null ? errorHandling.hashCode() : 0 );
         return result;
     }
 }

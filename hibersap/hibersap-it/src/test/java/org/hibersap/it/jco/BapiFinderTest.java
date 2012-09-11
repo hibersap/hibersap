@@ -17,35 +17,20 @@
 
 package org.hibersap.it.jco;
 
-import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.session.Session;
-import org.hibersap.session.SessionManager;
+import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 
-public class BapiFinderTest
+public class BapiFinderTest extends AbstractBapiTest
 {
     @Test
     public void findsFlightBapis()
     {
-        SessionManager sessionManager = new AnnotationConfiguration( "A12" ).buildSessionManager();
-        Session session = sessionManager.openSession();
-
-        BapiFinder bapiFinder;
-        try
-        {
-            bapiFinder = new BapiFinder( "BC-DWB" );
-            session.execute( bapiFinder );
-        }
-        finally
-        {
-            session.close();
-        }
-
-        System.out.println(bapiFinder.getBapiDescriptions());
+        BapiFinder bapiFinder = new BapiFinder( "BC-DWB" );
+        session.execute( bapiFinder );
 
         assertThat( bapiFinder.getBapiDescriptions().size(), greaterThan( 0 ) );
         assertThat( bapiFinder.getBapiDescriptions(), hasItem(

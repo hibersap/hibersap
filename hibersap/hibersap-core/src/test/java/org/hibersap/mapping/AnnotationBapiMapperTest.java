@@ -26,7 +26,6 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.Table;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.FieldMapping;
-import org.hibersap.mapping.model.ObjectMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.junit.Test;
 
@@ -43,23 +42,13 @@ public class AnnotationBapiMapperTest
     private final AnnotationBapiMapper mapper = new AnnotationBapiMapper();
 
     @Test
-    public void mapsBapiClassWithInheritedField()
-    {
-        final BapiMapping mapping = mapper.mapBapi( TestBapiSubClass.class );
-
-        final Set<ObjectMapping> importParams = mapping.getImportParameters();
-        assertThat( importParams.size(), is( 1 ) );
-        assertThat( importParams.iterator().next().getJavaName(), equalTo( "paramSuperClass" ) );
-    }
-
-    @Test
     public void mapsBapiStructureWithInheritedField()
     {
-        final BapiMapping mapping = mapper.mapBapi( TestBapiSubClass.class );
+        final BapiMapping mapping = mapper.mapBapi( TestBapiClass.class );
 
         final TableMapping tableMapping = mapping.getTableParameters().iterator().next();
         final Set<FieldMapping> parameters = tableMapping.getComponentParameter().getParameters();
-        
+
         assertThat( parameters.size(), is( 2 ) );
         assertThat( parameters, hasFieldNamed( "structureParamSubClass" ) );
         assertThat( parameters, hasFieldNamed( "structureParamSuperClass" ) );
@@ -68,7 +57,7 @@ public class AnnotationBapiMapperTest
     @Test
     public void mapsTable()
     {
-        final BapiMapping mapping = mapper.mapBapi( TestBapiSubClass.class );
+        final BapiMapping mapping = mapper.mapBapi( TestBapiClass.class );
 
         final Set<TableMapping> tableParams = mapping.getTableParameters();
         assertThat( tableParams.size(), is( 1 ) );
@@ -77,21 +66,18 @@ public class AnnotationBapiMapperTest
         assertThat( tableMapping.getAssociatedType().getName(), equalTo( TestBapiStructureSubClass.class.getName() ) );
     }
 
-    private class TestBapiSubClass extends TestBapiSuperClass
-    {
-        @Table
-        @Parameter( "ABAP_TABLE" )
-        @SuppressWarnings( "unused" )
-        private Set<TestBapiStructureSubClass> table;
-    }
-
     @Bapi( "test" )
-    private class TestBapiSuperClass
+    private class TestBapiClass
     {
         @Import
         @Parameter( "ABAP_FIELD" )
         @SuppressWarnings( "unused" )
-        private int paramSuperClass;
+        private int intParam;
+
+        @Table
+        @Parameter( "ABAP_TABLE" )
+        @SuppressWarnings( "unused" )
+        private Set<TestBapiStructureSubClass> tableParam;
     }
 
     private class TestBapiStructureSubClass extends TestBapiStructureSuperClass

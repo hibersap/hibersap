@@ -20,13 +20,10 @@ package org.hibersap.it.session;
 import com.sap.conn.jco.monitor.JCoConnectionData;
 import com.sap.conn.jco.monitor.JCoConnectionMonitor;
 import org.hibersap.SapException;
-import org.hibersap.configuration.AnnotationConfiguration;
+import org.hibersap.it.AbstractBapiTest;
 import org.hibersap.it.bapi.RfcPing;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.Session;
-import org.hibersap.session.SessionManager;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -34,27 +31,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CustomCredentialsTest
+public class CustomCredentialsTest extends AbstractBapiTest
 {
-    private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
-
-    private SessionManager sessionManager;
-
-    @Before
-    public void setup()
-    {
-        sessionManager = configuration.buildSessionManager();
-    }
-
-    @After
-    public void reset()
-    {
-        if ( sessionManager != null )
-        {
-            sessionManager.close();
-        }
-    }
-
     @Test
     public void connectToSapUsingCustomCredentials() throws Exception
     {

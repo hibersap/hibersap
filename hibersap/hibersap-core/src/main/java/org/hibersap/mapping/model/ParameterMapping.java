@@ -1,5 +1,8 @@
 package org.hibersap.mapping.model;
 
+import org.hibersap.conversion.Converter;
+import org.hibersap.conversion.ConverterCache;
+
 import java.io.Serializable;
 
 /*
@@ -26,7 +29,8 @@ public abstract class ParameterMapping implements Serializable
 {
     private static final long serialVersionUID = -2858494641560482982L;
 
-    public enum ParamType {
+    public enum ParamType
+    {
         FIELD, STRUCTURE, TABLE
     }
 
@@ -36,11 +40,15 @@ public abstract class ParameterMapping implements Serializable
 
     private final String javaName;
 
-    public ParameterMapping( Class<?> associatedType, String sapName, String javaName )
+    private final Class<? extends Converter> converterClass;
+
+    public ParameterMapping( Class<?> associatedType, String sapName, String javaName,
+                             Class<? extends Converter> converterClass )
     {
         this.associatedType = associatedType;
         this.sapName = sapName;
         this.javaName = javaName;
+        this.converterClass = converterClass;
     }
 
     public Class<?> getAssociatedType()
@@ -55,34 +63,95 @@ public abstract class ParameterMapping implements Serializable
 
     public abstract ParamType getParamType();
 
+    public Class<? extends Converter> getConverterClass()
+    {
+        return this.converterClass;
+    }
+
+    public boolean hasConverter()
+    {
+        return this.converterClass != null;
+    }
+
+    protected final Object getConvertedValueToJava( Object value, ConverterCache converterCache )
+    {
+        Converter converter = converterCache.getConverter( getConverterClass() );
+        //noinspection unchecked
+        return converter.convertToJava( value );
+    }
+
+    protected final Object getConvertedValueToSap( Object value, ConverterCache converterCache )
+    {
+        Converter converter = converterCache.getConverter( getConverterClass() );
+        //noinspection unchecked
+        return converter.convertToSap( value );
+    }
+
+    protected abstract Object getUnconvertedValueToJava( Object value, ConverterCache converterCache );
+
+    protected abstract Object getUnconvertedValueToSap( Object value, ConverterCache converterCache );
+
+    public final Object mapToJava( Object fieldMap, ConverterCache converterCache )
+    {
+        if ( hasConverter() )
+        {
+            return getConvertedValueToJava( fieldMap, converterCache );
+        }
+        else
+        {
+            return getUnconvertedValueToJava( fieldMap, converterCache );
+        }
+    }
+
+    /**
+     * @param value          A plain value if the parameter is a simple one,
+     *                       a bapi structure instance if the parameter is a structure,
+     *                       a list of bapi structure instances if the parameter is a table.
+     * @param converterCache Needed for conversion of parameters
+     * @return A plain value if the parameter is a simple one,
+     *         a Map (SAP structure parameter name to plain values) if the parameter is a structure,
+     *         a List of Maps (SAP structure parameter name to plain values) if the parameter is a table.
+     */
+    public Object mapToSap( Object value, ConverterCache converterCache )
+    {
+        return hasConverter() ?
+               getConvertedValueToSap( value, converterCache ) :
+               getUnconvertedValueToSap( value, converterCache );
+    }
+
     public String getSapName()
     {
         return sapName;
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals( Object o )
     {
-        if (this == o)
+        if ( this == o )
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if ( o == null || getClass() != o.getClass() )
         {
             return false;
         }
 
-        ParameterMapping that = (ParameterMapping) o;
+        ParameterMapping that = ( ParameterMapping ) o;
 
-        if (associatedType != null ? !associatedType.equals(that.associatedType) : that.associatedType != null)
+        if ( associatedType != null ? !associatedType.equals( that.associatedType ) : that.associatedType != null )
         {
             return false;
         }
-        if (javaName != null ? !javaName.equals(that.javaName) : that.javaName != null)
+        if ( converterClass != null ? !converterClass.equals( that.converterClass ) : that.converterClass != null )
         {
             return false;
         }
-        if (sapName != null ? !sapName.equals(that.sapName) : that.sapName != null)
+        if ( javaName != null ? !javaName.equals( that.javaName ) : that.javaName != null )
+        {
+            return false;
+        }
+        //noinspection RedundantIfStatement
+        if ( sapName != null ? !sapName.equals( that.sapName ) : that.sapName != null )
         {
             return false;
         }
@@ -94,8 +163,9 @@ public abstract class ParameterMapping implements Serializable
     public int hashCode()
     {
         int result = associatedType != null ? associatedType.hashCode() : 0;
-        result = 31 * result + (sapName != null ? sapName.hashCode() : 0);
-        result = 31 * result + (javaName != null ? javaName.hashCode() : 0);
+        result = 31 * result + ( sapName != null ? sapName.hashCode() : 0 );
+        result = 31 * result + ( javaName != null ? javaName.hashCode() : 0 );
+        result = 31 * result + ( converterClass != null ? converterClass.hashCode() : 0 );
         return result;
     }
 }

@@ -40,6 +40,11 @@ public final class ReflectionHelper
 {
     private static final String MSG_CAN_NOT_CREATE_INSTANCE = "Can not create an instance of type ";
 
+    private ReflectionHelper()
+    {
+        // should not be instantiated
+    }
+
     public static Class<?> getClassForName( String className )
             throws ClassNotFoundException
     {
@@ -196,8 +201,7 @@ public final class ReflectionHelper
             defaultConstructor.setAccessible( true );
             return defaultConstructor.newInstance();
         }
-        // TODO add more meaningful message to exceptions
-        catch ( InstantiationException e )
+        catch ( InstantiationException  e )
         {
             throw new HibersapException( MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e );
         }
@@ -324,8 +328,21 @@ public final class ReflectionHelper
         }
     }
 
-    private ReflectionHelper()
+    public static <T> T[] newArrayFromCollection( Collection<?> collection, final Class<T> elementType )
     {
-        // should not be instantiated
+        if ( collection == null )
+        {
+            return null;
+        }
+
+        @SuppressWarnings( {"unchecked"} ) // Array.newInstance() is not generified
+        T[] array = ( T[] ) Array.newInstance( elementType, collection.size() );
+
+        int i = 0;
+        for ( Object element : collection )
+        {
+            Array.set( array, i++, element );
+        }
+        return array;
     }
 }

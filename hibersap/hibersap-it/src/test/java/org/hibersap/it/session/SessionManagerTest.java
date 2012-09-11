@@ -18,36 +18,14 @@
 package org.hibersap.it.session;
 
 import com.sap.conn.jco.ext.Environment;
-import org.hibersap.configuration.AnnotationConfiguration;
-import org.hibersap.session.SessionManager;
-import org.junit.After;
-import org.junit.Before;
+import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SessionManagerTest
+public class SessionManagerTest extends AbstractBapiTest
 {
-    private final AnnotationConfiguration configuration = new AnnotationConfiguration( "A12" );
-
-    private SessionManager sessionManager;
-
-    @Before
-    public void buildSessionManager()
-    {
-        sessionManager = configuration.buildSessionManager();
-    }
-
-    @After
-    public void closeSessionManager()
-    {
-        if ( sessionManager != null )
-        {
-            sessionManager.close();
-        }
-    }
-
     @Test
     public void sessionManagerUnregistersJCoDestinationWhenClosing() throws Exception
     {

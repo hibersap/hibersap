@@ -24,7 +24,7 @@ import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ErrorHandling;
 import org.hibersap.mapping.model.FieldMapping;
-import org.hibersap.mapping.model.ObjectMapping;
+import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 
@@ -51,7 +51,7 @@ public class AnnotationBapiMapper
         }
         else
         {
-            ObjectMapping mapping;
+            ParameterMapping mapping;
             if ( field.isStructure() )
             {
                 mapping = createStructureMapping( field );
@@ -71,7 +71,7 @@ public class AnnotationBapiMapper
         }
     }
 
-    private void checkBapiClass( Class<?> clazz )
+    private void assertIsBapiClass( Class<?> clazz )
     {
         if ( !clazz.isAnnotationPresent( BAPI ) )
         {
@@ -89,7 +89,7 @@ public class AnnotationBapiMapper
         Class<?> structureType = structureField.getAssociatedType();
 
         StructureMapping structureMapping = new StructureMapping( structureType, structureField.getSapName(),
-                structureField.getName() );
+                structureField.getName(), structureField.getConverter() );
 
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( structureType, PARAMETER );
         for ( Field field : fields )
@@ -109,7 +109,7 @@ public class AnnotationBapiMapper
             throw new MappingException( "The type of field " + field + " can not be detected." );
         }
         return new TableMapping( field.getType(), associatedType, field.getSapName(), field.getName(),
-                structureMapping );
+                structureMapping, field.getConverter() );
     }
 
     private ErrorHandling getErrorHandling( Class<?> clazz )
@@ -134,7 +134,7 @@ public class AnnotationBapiMapper
      */
     public BapiMapping mapBapi( Class<?> clazz )
     {
-        checkBapiClass( clazz );
+        assertIsBapiClass( clazz );
 
         Bapi bapiAnnotation = clazz.getAnnotation( BAPI );
         BapiMapping bapiMapping = new BapiMapping( clazz, bapiAnnotation.value(), getErrorHandling( clazz ) );

@@ -17,28 +17,30 @@ package org.hibersap.mapping.model;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.hibersap.conversion.Converter;
+import org.hibersap.conversion.ConverterCache;
+import org.hibersap.execution.UnsafeCastHelper;
+import org.hibersap.mapping.ReflectionHelper;
+
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Carsten Erker
  */
-public class StructureMapping extends ObjectMapping
+public final class StructureMapping extends ParameterMapping
 {
     private static final long serialVersionUID = 2930405767657861801L;
 
     private final Set<FieldMapping> parameters;
 
-    public StructureMapping( Class<?> associatedClass, String sapName, String javaName )
+    public StructureMapping( Class<?> associatedClass, String sapName, String javaName,
+                             Class<? extends Converter> converterClass )
     {
-        super( associatedClass, sapName, javaName );
+        super( associatedClass, sapName, javaName, converterClass );
         parameters = new HashSet<FieldMapping>();
-    }
-
-    public StructureMapping( Class<?> associatedClass, String sapName, String javaName, Set<FieldMapping> parameters )
-    {
-        super( associatedClass, sapName, javaName );
-        this.parameters = parameters;
     }
 
     public void addParameter( FieldMapping fieldParam )
@@ -57,31 +59,65 @@ public class StructureMapping extends ObjectMapping
         return ParamType.STRUCTURE;
     }
 
-    public void setParameters( Set<FieldMapping> parameters )
+    @Override
+    protected Object getUnconvertedValueToJava( Object fieldMap, ConverterCache converterCache )
     {
-        this.parameters.clear();
-        this.parameters.addAll( parameters );
+        Map<String, Object> subMap = UnsafeCastHelper.castToMap( fieldMap );
+        Object subBean = ReflectionHelper.newInstance( getAssociatedType() );
+
+        for ( FieldMapping parameter : parameters )
+        {
+            Object fieldValue = subMap.get( parameter.getSapName() );
+
+            if ( fieldValue != null )
+            {
+                Object value = parameter.mapToJava( fieldValue, converterCache );
+                ReflectionHelper.setFieldValue( subBean, parameter.getJavaName(), value );
+            }
+        }
+
+        return subBean;
     }
 
     @Override
-    public boolean equals(Object o)
+    protected Object getUnconvertedValueToSap( Object bapiStructure, ConverterCache converterCache )
     {
-        if (this == o)
+        HashMap<String, Object> functionMap = new HashMap<String, Object>();
+
+        for ( FieldMapping parameter : parameters )
+        {
+            Object fieldValue = ReflectionHelper.getFieldValue( bapiStructure, parameter.getJavaName() );
+
+            if ( fieldValue != null )
+            {
+                Object value = parameter.mapToSap( fieldValue, converterCache );
+                functionMap.put( parameter.getSapName(), value );
+            }
+        }
+
+        return functionMap;
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o )
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if ( o == null || getClass() != o.getClass() )
         {
             return false;
         }
-        if (!super.equals(o))
+        if ( !super.equals( o ) )
         {
             return false;
         }
 
-        StructureMapping that = (StructureMapping) o;
+        StructureMapping that = ( StructureMapping ) o;
 
-        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null)
+        //noinspection RedundantIfStatement
+        if ( parameters != null ? !parameters.equals( that.parameters ) : that.parameters != null )
         {
             return false;
         }
@@ -93,7 +129,7 @@ public class StructureMapping extends ObjectMapping
     public int hashCode()
     {
         int result = super.hashCode();
-        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        result = 31 * result + ( parameters != null ? parameters.hashCode() : 0 );
         return result;
     }
 }

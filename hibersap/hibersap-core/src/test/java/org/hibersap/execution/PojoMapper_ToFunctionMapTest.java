@@ -1,29 +1,137 @@
 package org.hibersap.execution;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.execution.MyTestBapi.TestStructure;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Collections.singletonMap;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;
+import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 
 public class PojoMapper_ToFunctionMapTest
 {
-    private ConverterCache cache = new ConverterCache();
-
-    private PojoMapper pojoMapper = new PojoMapper( cache );
-
+    private final PojoMapper pojoMapper = new PojoMapper( new ConverterCache() );
     private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
+    private Map<String, Object> functionMap;
+
+    @Before
+    public void setUp() throws Exception
+    {
+        MyTestBapi bapi = createTestBapi();
+        BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
+
+        functionMap = pojoMapper.mapPojoToFunctionMap( bapi, bapiMapping );
+    }
+
     @Test
-    public void testMapPojoToFunctionMap()
+    public void mapsAllImportParameters()
+    {
+        Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
+
+        assertThat( importParams ).hasSize( 2 );
+    }
+
+    @Test
+    public void mapsAllExportParameters()
+    {
+        Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
+
+        assertThat( exportParams ).hasSize( 2 );
+    }
+
+    @Test
+    public void mapsAllTableParameters()
+    {
+        Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
+
+        assertThat( tableParams ).hasSize( 2 );
+    }
+
+    @Test
+    public void mapsSimpleParameterWithoutConverter()
+    {
+        Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
+
+        assertThat( importParams.get( "intParam" ) ).isEqualTo( 4711 );
+    }
+
+    @Test
+    public void mapsSimpleParameterWithConverter()
+    {
+        Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
+        Object parameter = exportParams.get( "intParamWithConverter" );
+
+        assertThat( parameter ).isInstanceOf( Integer.class );
+        assertThat( parameter ).isEqualTo( 4712 );
+    }
+
+    @Test
+    public void mapsStructureParameterWithConverter()
+    {
+        Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
+        Map<String, Object> structure = castToMap( importParams.get( "structureParamWithConverter" ) );
+        Object parameter = structure.get( "charParam" );
+
+        assertThat( parameter ).isInstanceOf( Character.class );
+        assertThat( parameter ).isEqualTo( 'c' );
+    }
+
+    @Test
+    public void mapsStructureParameterWithoutConverter()
+    {
+        Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
+        Object parameter = exportParams.get( "structureParam" );
+        Map<String, Object> structureMap = castToMap( parameter );
+
+        assertThat( structureMap ).hasSize( 1 );
+        assertThat( structureMap.get( "charParam" ) ).isEqualTo( 'c' );
+    }
+
+    @Test
+    public void mapsTableParameterWithoutConverter()
+    {
+        Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
+        Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( tableParams.get( "tableParam" ) );
+
+        assertThat( tableParam ).containsOnly( singletonMap( "charParam", '1' ), singletonMap( "charParam", '2' ) );
+    }
+
+    @Test
+    public void mapsTableParameterWithConverter()
+    {
+        Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
+        Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( tableParams.get( "tableParamWithConverter" ) );
+
+        assertThat( tableParam ).containsOnly( singletonMap( "charParam", '3' ), singletonMap( "charParam", '4' ) );
+    }
+
+    @Test
+    public void doesNotMapParametersWithNullValues()
+    {
+        MyTestBapi bapi = new MyTestBapi( null, null, null, null, null, null );
+        BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
+
+        Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapi, bapiMapping );
+
+        Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
+        Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
+        Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
+        assertThat( importParams ).hasSize( 0 );
+        assertThat( exportParams ).hasSize( 0 );
+        assertThat( tableParams ).hasSize( 0 );
+    }
+
+    private MyTestBapi createTestBapi()
     {
         TestStructure structure = new TestStructure( 'c' );
         TestStructure tableStructure1 = new TestStructure( '1' );
@@ -31,58 +139,6 @@ public class PojoMapper_ToFunctionMapTest
         List<TestStructure> table = new ArrayList<TestStructure>();
         table.add( tableStructure1 );
         table.add( tableStructure2 );
-        MyTestBapi bapi = new MyTestBapi( -1, structure, table );
-
-        BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
-
-        Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapi, bapiMapping );
-
-        // check import parameter
-        Map<String, Object> importParams = UnsafeCastHelper.castToMap( functionMap.get( "IMPORT" ) );
-        assertEquals( 1, importParams.size() );
-        assertEquals( -1, importParams.get( "intParam" ) );
-
-        // check export parameter
-        Map<String, Object> exportParams = UnsafeCastHelper.castToMap( functionMap.get( "EXPORT" ) );
-        assertEquals( 1, exportParams.size() );
-        Map<String, Object> structureParam = UnsafeCastHelper.castToMap( exportParams.get( "structureParam" ) );
-        assertEquals( 1, structureParam.size() );
-        assertEquals( 'c', structureParam.get( "charParam" ) );
-
-        // check table parameter; the order of the table rows shall be kept.
-        Map<String, Object> tableParams = UnsafeCastHelper.castToMap( functionMap.get( "TABLE" ) );
-        assertEquals( 1, tableParams.size() );
-        Collection<Map<String, Object>> tableParam = UnsafeCastHelper.castToCollectionOfMaps( tableParams
-            .get( "tableParam" ) );
-        assertEquals( 2, tableParam.size() );
-        Iterator<Map<String, Object>> iterator = tableParam.iterator();
-        Map<String, Object> tableRow = iterator.next();
-        assertEquals( 1, tableRow.size() );
-        assertEquals( '1', tableRow.get( "charParam" ) );
-        tableRow = iterator.next();
-        assertEquals( 1, tableRow.size() );
-        assertEquals( '2', tableRow.get( "charParam" ) );
-    }
-
-    @Test
-    public void testMapWithNullValues()
-    {
-        MyTestBapi bapi = new MyTestBapi( null, null, null );
-
-        BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
-
-        Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapi, bapiMapping );
-
-        // check import parameter
-        Map<String, Object> importParams = UnsafeCastHelper.castToMap( functionMap.get( "IMPORT" ) );
-        assertEquals( 0, importParams.size() );
-
-        // check export parameter
-        Map<String, Object> exportParams = UnsafeCastHelper.castToMap( functionMap.get( "EXPORT" ) );
-        assertEquals( 0, exportParams.size() );
-
-        // check table parameter
-        Map<String, Object> tableParams = UnsafeCastHelper.castToMap( functionMap.get( "TABLE" ) );
-        assertEquals( 0, tableParams.size() );
+        return new MyTestBapi( 4711, "4712", structure, "c", table, "34" );
     }
 }

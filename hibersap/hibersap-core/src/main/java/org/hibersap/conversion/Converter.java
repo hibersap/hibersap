@@ -25,34 +25,31 @@ import java.io.Serializable;
  * character type which represents a boolean (since ABAP does not have a boolean data type) can be
  * converted to a Java boolean. To utilize a Converter, annotate the BAPI class field using the @Convert
  * annotation.
- * 
+ *
  * @author Carsten Erker
  */
-public interface Converter
-    extends Serializable
+public interface Converter<J, S> extends Serializable
 {
     /**
      * Convert the SAP value, as it is returned by the underlying interfacing technology (e.g. the
      * SAP Java Connector, JCo) to the Java data type of the corresponding BAPI class field.
      * Hibersap will call this method after calling the SAP function and before setting the field in
      * the Java class.
-     * 
+     *
      * @param sapValue The object which is returned by the SAP interface
      * @return The converted value
      * @throws ConversionException if the value can not be converted
      */
-    Object convertToJava( Object sapValue )
-        throws ConversionException;
+    J convertToJava( S sapValue ) throws ConversionException;
 
     /**
      * Convert the Java value of the corresponding BAPI class field to the data type as it is
      * expected by the underlying interfacing technology (e.g. the SAP Java Connector, JCo).
      * Hibersap will call this method before calling the SAP function.
-     * 
+     *
      * @param javaValue The value of the BAPI class field
      * @return The converted value
      * @throws ConversionException if the value can not be converted
      */
-    Object convertToSap( Object javaValue )
-        throws ConversionException;
+    S convertToSap( J javaValue ) throws ConversionException;
 }

@@ -19,7 +19,6 @@ import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.session.SessionManager;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -85,38 +84,58 @@ public class ReverseBapiMapper
 
         if ( field.isStructure() )
         {
-            return new StructureMapping( null, field.getName(), javaFieldName,
-                    getFieldMappings( field.getStructure() ) );
+            StructureMapping structureMapping = new StructureMapping( null, field.getName(), javaFieldName, null );
+            addFieldMappings( structureMapping, field.getStructure() );
+            return structureMapping;
         }
         if ( field.isTable() )
         {
-            StructureMapping structureMapping = new StructureMapping( null, field.getName(), javaFieldName,
-                    getFieldMappings( field.getTable() ) );
-            return new TableMapping( List.class, null, field.getName(), javaFieldName, structureMapping );
+            StructureMapping structureMapping = new StructureMapping( null, field.getName(), javaFieldName, null );
+            addFieldMappings( structureMapping, field.getTable() );
+            return new TableMapping( List.class, null, field.getName(), javaFieldName, structureMapping, null );
         }
+
+        return new FieldMapping( getAssociatedClass( field ), field.getName(), javaFieldName, null );
+    }
+
+    /**
+     * Determins the Java type of the JCoField's value, i.e. of the value that is created by JCo when mapping
+     * a parameter of a certain ABAP data type to the corresponding Java type.
+     * The JCoField interface returns the canonical class name of the Java type, which is in the given context
+     * mostly the same as the type returned by Class.getName(), however, the ABAP types X (raw byte field) and
+     * XSTRING (variable length byte field) are mapped to byte[], where the canonical name ("byte[]") differs
+     * from the class name ("[B").
+     *
+     * @param field The JCoField.
+     * @return The class representing the field type.
+     */
+    private Class<?> getAssociatedClass( JCoField field )
+    {
+        String canonicalClassName = field.getClassNameOfValue();
+
+        if ( byte[].class.getCanonicalName().equals( canonicalClassName ) )
+        {
+            return byte[].class;
+        }
+
         try
         {
-            Class<?> associatedClass = Class.forName( field.getClassNameOfValue() );
-            return new FieldMapping( associatedClass, field.getName(), javaFieldName, null );
+            return Class.forName( canonicalClassName );
         }
         catch ( ClassNotFoundException e )
         {
-            throw new InternalHiberSapException( "Can not get class for " + field.getClassNameOfValue(), e );
+            throw new InternalHiberSapException( "Can not get class for class name " + canonicalClassName, e );
         }
     }
 
-    private Set<FieldMapping> getFieldMappings( JCoRecord record )
+    private void addFieldMappings( StructureMapping structureMapping, JCoRecord record )
     {
-        Set<FieldMapping> result = new HashSet<FieldMapping>();
-
         JCoFieldIterator iter = record.getFieldIterator();
 
         while ( iter.hasNextField() )
         {
             FieldMapping fieldParam = ( FieldMapping ) getParameterMapping( iter.nextField() );
-            result.add( fieldParam );
+            structureMapping.addParameter( fieldParam );
         }
-
-        return result;
     }
 }

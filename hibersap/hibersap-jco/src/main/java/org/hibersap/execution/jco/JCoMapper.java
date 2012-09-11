@@ -17,28 +17,31 @@ package org.hibersap.execution.jco;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.hibersap.HibersapException;
-import org.hibersap.bapi.BapiConstants;
-import org.hibersap.execution.UnsafeCastHelper;
-
 import com.sap.conn.jco.JCoField;
 import com.sap.conn.jco.JCoFieldIterator;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoRecord;
 import com.sap.conn.jco.JCoStructure;
 import com.sap.conn.jco.JCoTable;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.HibersapException;
+import org.hibersap.bapi.BapiConstants;
+import org.hibersap.execution.UnsafeCastHelper;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Carsten Erker
  */
 public class JCoMapper
 {
+    private static final Log LOG = LogFactory.getLog( JCoMapper.class );
+
     void putFunctionMapValuesToFunction( final JCoFunction function, final Map<String, Object> functionMap )
     {
         final Map<String, Object> importMap = UnsafeCastHelper.castToMap( functionMap.get( BapiConstants.IMPORT ) );
@@ -63,13 +66,26 @@ public class JCoMapper
             if ( value != null && !Class.forName( classNameOfBapiField ).isAssignableFrom( value.getClass() ) )
             {
                 throw new HibersapException( "JCo field " + fieldName + " has type " + classNameOfBapiField
-                    + " while value to set has type " + value.getClass().getName() );
+                        + " while value to set has type " + value.getClass().getName() );
             }
         }
         catch ( final ClassNotFoundException e )
         {
-            throw new HibersapException( "Class check of JCo field failed, class " + classNameOfBapiField
-                + " not found", e );
+            // TODO classNameOfBapiField: JCoRecord.getClassNameOfValue() returns the canonical name
+            // which differs from the class name we can call with Class.forName() in some data types,
+            // e.g. byte[]. Since there is no standard way of converting it, we suppress the Exception
+            // when the class is not found to be able to work with byte arrays. byte[] currently (as
+            // of JCo versionb 3.0.8) seems to be the only type JCo returns which would not work.
+            // Questions: Does it make sense at all to do this check? If yes, how can this be done in
+            // a nice way?
+
+//            throw new HibersapException( "Class check of JCo field failed, class " + classNameOfBapiField
+//                    + " not found", e );
+
+            if ( !classNameOfBapiField.equals( byte[].class.getCanonicalName() ) )
+            {
+                LOG.warn( "Class check of JCo field failed, class " + classNameOfBapiField + " not found" );
+            }
         }
     }
 
