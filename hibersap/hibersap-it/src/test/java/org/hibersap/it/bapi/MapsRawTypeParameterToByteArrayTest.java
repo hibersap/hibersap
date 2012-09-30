@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class BapiWithRawTypeParameterTest extends AbstractBapiTest
+public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest
 {
     @Test
     public void handlesParameterOfRawType() throws Exception

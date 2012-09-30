@@ -18,11 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerImplTest
 {
@@ -41,11 +37,11 @@ public class SessionManagerImplTest
     @Test
     public void hasConfiguredAndStandardValuesWhenCreated() throws Exception
     {
-        assertThat( sessionManager.getContext(), instanceOf( DummyContext.class ) );
-        assertThat( sessionManager.getConfig().getName(), equalTo( "name" ) );
-        assertThat( sessionManager.getConverterCache(), notNullValue() );
-        assertThat( sessionManager.getBapiMappings(), notNullValue() );
-        assertThat( sessionManager.getExecutionInterceptors(), notNullValue() );
+        assertThat( sessionManager.getContext() ).isInstanceOf( DummyContext.class );
+        assertThat( sessionManager.getConfig().getName() ).isEqualTo( "name" );
+        assertThat( sessionManager.getConverterCache() ).isNotNull();
+        assertThat( sessionManager.getBapiMappings() ).isNotNull();
+        assertThat( sessionManager.getExecutionInterceptors() ).isNotNull();
     }
 
     @Test
@@ -53,7 +49,7 @@ public class SessionManagerImplTest
     {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.getConfig(), equalTo( sessionManager.getConfig() ) );
+        assertThat( managerRead.getConfig() ).isEqualTo( sessionManager.getConfig() );
     }
 
     @Test
@@ -61,7 +57,7 @@ public class SessionManagerImplTest
     {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.getConverterCache(), notNullValue() );
+        assertThat( managerRead.getConverterCache() ).isNotNull();
     }
 
     @Test
@@ -69,8 +65,8 @@ public class SessionManagerImplTest
     {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.getContext(), notNullValue() );
-        assertThat( managerRead.getContext(), equalTo( sessionManager.getContext() ) );
+        assertThat( managerRead.getContext() ).isNotNull();
+        assertThat( managerRead.getContext() ).isEqualTo( sessionManager.getContext() );
     }
 
     @Test
@@ -79,9 +75,9 @@ public class SessionManagerImplTest
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         final Set<BapiInterceptor> bapiInterceptors = managerRead.getBapiInterceptors();
-        assertThat( bapiInterceptors, notNullValue() );
-        assertThat( bapiInterceptors.size(), is( 1 ) );
-        assertThat( bapiInterceptors.iterator().next(), instanceOf( BeanValidationInterceptor.class ) );
+        assertThat( bapiInterceptors ).isNotNull();
+        assertThat( bapiInterceptors ).hasSize( 1 );
+        assertThat( bapiInterceptors.iterator().next() ).isInstanceOf( BeanValidationInterceptor.class );
     }
 
     @Test
@@ -90,9 +86,9 @@ public class SessionManagerImplTest
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         final Set<ExecutionInterceptor> executionInterceptors = managerRead.getExecutionInterceptors();
-        assertThat( executionInterceptors, notNullValue() );
-        assertThat( executionInterceptors.size(), is( 1 ) );
-        assertThat( executionInterceptors.iterator().next(), instanceOf( SapErrorInterceptor.class ) );
+        assertThat( executionInterceptors ).isNotNull();
+        assertThat( executionInterceptors ).hasSize( 1 );
+        assertThat( executionInterceptors.iterator().next() ).isInstanceOf( SapErrorInterceptor.class );
     }
 
     @Test
@@ -101,7 +97,7 @@ public class SessionManagerImplTest
         sessionManager.close();
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.isClosed(), is( true ) );
+        assertThat( managerRead.isClosed()).isTrue();
     }
 
     private SessionManagerImpl serializeAndDeserializeSessionManager() throws IOException, ClassNotFoundException

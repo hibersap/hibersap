@@ -22,12 +22,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.hasItem;
-import static org.junit.matchers.JUnitMatchers.hasItems;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class HiberSapJaxbXmlParserTest
 {
@@ -49,7 +44,7 @@ public class HiberSapJaxbXmlParserTest
     {
         List<SessionManagerConfig> sessionManagers = config.getSessionManagers();
 
-        assertThat( sessionManagers.size(), is( 2 ) );
+        assertThat( sessionManagers ).hasSize( 2 );
     }
 
     @Test
@@ -58,8 +53,8 @@ public class HiberSapJaxbXmlParserTest
         final String a12Name = sessionManagerA12.getName();
         final String b34Name = sessionManagerB34.getName();
 
-        assertThat( a12Name, is( "A12" ) );
-        assertThat( b34Name, is( "B34" ) );
+        assertThat( a12Name ).isEqualTo( "A12" );
+        assertThat( b34Name ).isEqualTo( "B34" );
     }
 
     @Test
@@ -69,8 +64,8 @@ public class HiberSapJaxbXmlParserTest
         final String a12Context = sessionManagerA12.getContext();
         final String b34Context = sessionManagerB34.getContext();
 
-        assertThat( a12Context, is( "org.hibersap.execution.jco.JCoContext" ) );
-        assertThat( b34Context, is( "org.hibersap.execution.jca.JCAContext" ) );
+        assertThat( a12Context ).isEqualTo( "org.hibersap.execution.jco.JCoContext" );
+        assertThat( b34Context ).isEqualTo( "org.hibersap.execution.jca.JCAContext" );
     }
 
     @Test
@@ -78,7 +73,7 @@ public class HiberSapJaxbXmlParserTest
     {
         final String connectionSpecFactory = sessionManagerB34.getJcaConnectionFactory();
 
-        assertThat( connectionSpecFactory, is( "java:/eis/sap/B34" ) );
+        assertThat( connectionSpecFactory ).isEqualTo( "java:/eis/sap/B34" );
     }
 
     @Test
@@ -86,7 +81,8 @@ public class HiberSapJaxbXmlParserTest
     {
         final SessionManagerConfig manager = sessionManagerB34;
 
-        assertThat( manager.getJcaConnectionSpecFactory(), is( "org.hibersap.test.MyTestConnectionSpecFactory" ) );
+        assertThat( manager.getJcaConnectionSpecFactory() )
+                .isEqualTo( "org.hibersap.test.MyTestConnectionSpecFactory" );
     }
 
     @Test
@@ -94,9 +90,10 @@ public class HiberSapJaxbXmlParserTest
     {
         List<Property> properties = sessionManagerB34.getProperties();
 
-        assertThat( properties.size(), is( 2 ) );
-        assertThat( properties, hasItem( new Property( "property1_name", "property1_value" ) ) );
-        assertThat( properties, hasItem( new Property( "property2_name", "property2_value" ) ) );
+        assertThat( properties ).hasSize( 2 );
+        assertThat( properties ).contains(
+                new Property( "property1_name", "property1_value" ),
+                new Property( "property2_name", "property2_value" ) );
     }
 
     @Test
@@ -104,8 +101,8 @@ public class HiberSapJaxbXmlParserTest
     {
         final List<String> classes = sessionManagerB34.getAnnotatedClasses();
 
-        assertThat( classes.size(), is( 2 ) );
-        assertThat( classes, hasItems( "org.test.Class1", "org.test.Class3" ) );
+        assertThat( classes ).hasSize( 2 );
+        assertThat( classes ).contains( "org.test.Class1", "org.test.Class3" );
     }
 
     @Test
@@ -113,8 +110,8 @@ public class HiberSapJaxbXmlParserTest
     {
         final List<String> classes = sessionManagerB34.getExecutionInterceptorClasses();
 
-        assertThat( classes.size(), is( 2 ) );
-        assertThat( classes, hasItems( "org.test.Class4", "org.test.Class5" ) );
+        assertThat( classes ).hasSize( 2 );
+        assertThat( classes ).contains( "org.test.Class4", "org.test.Class5" );
     }
 
     @Test
@@ -122,15 +119,15 @@ public class HiberSapJaxbXmlParserTest
     {
         final List<String> classes = sessionManagerB34.getBapiInterceptorClasses();
 
-        assertThat( classes.size(), is( 2 ) );
-        assertThat( classes, hasItems( "org.test.Class6", "org.test.Class7" ) );
+        assertThat( classes ).hasSize( 2 );
+        assertThat( classes ).contains( "org.test.Class6", "org.test.Class7" );
     }
 
     @Test
     public void sessionManagerHasCorrectValidationMode()
     {
         final ValidationMode validationMode = sessionManagerB34.getValidationMode();
-        assertThat( validationMode, is( ValidationMode.CALLBACK ) );
+        assertThat( validationMode ).isSameAs( ValidationMode.CALLBACK );
     }
 
     @Test
@@ -140,7 +137,7 @@ public class HiberSapJaxbXmlParserTest
         HibersapConfig config = hiberSapJaxbXmlParser.parseResource( "/xml-configurations/hibersapSample.xml" );
         SessionManagerConfig sessionManagerNSP = config.getSessionManager( "NSP" );
 
-        assertThat( sessionManagerNSP, is( notNullValue() ) );
-        assertThat( sessionManagerNSP.getJcaConnectionFactory(), equalTo( "java:jboss/eis/sap/NSP" ) );
+        assertThat( sessionManagerNSP ).isNotNull();
+        assertThat( sessionManagerNSP.getJcaConnectionFactory() ).isEqualTo( "java:jboss/eis/sap/NSP" );
     }
 }

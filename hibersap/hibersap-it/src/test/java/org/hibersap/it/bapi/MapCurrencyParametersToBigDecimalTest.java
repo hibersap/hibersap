@@ -15,7 +15,7 @@ import java.util.Date;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class ExchangeRatesTest extends AbstractBapiTest
+public class MapCurrencyParametersToBigDecimalTest extends AbstractBapiTest
 {
     @Test
     public void mapsCurrencyParametersToBigDecimal() throws Exception

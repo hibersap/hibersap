@@ -20,19 +20,13 @@ package org.hibersap.execution.jco;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.Environment;
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.fest.assertions.Condition;
 import org.junit.After;
 import org.junit.Test;
 
 import java.util.Properties;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hibersap.execution.jco.JCoEnvironmentTest.IsJCoDestinationRegistered.isRegisteredWithJCo;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class JCoEnvironmentTest
 {
@@ -46,7 +40,7 @@ public class JCoEnvironmentTest
     {
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
         JCoEnvironment.unregisterDestination( DESTINATION_2 );
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( false ) );
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
     }
 
     @Test
@@ -54,7 +48,7 @@ public class JCoEnvironmentTest
     {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
 
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( true ) );
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isTrue();
     }
 
     @Test
@@ -62,18 +56,18 @@ public class JCoEnvironmentTest
     {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
 
-        assertThat( DESTINATION_1, isRegisteredWithJCo() );
+        assertThat( DESTINATION_1 ).is( registeredWithJCo );
     }
 
     @Test
     public void destinationProviderIsUnregisteredFromJCoWhenLastDestinationGetsUnregistered()
     {
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( false ) );
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
 
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
 
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( false ) );
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
     }
 
     @Test
@@ -82,7 +76,7 @@ public class JCoEnvironmentTest
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
 
-        assertThat( DESTINATION_1, not( isRegisteredWithJCo() ) );
+        assertThat( DESTINATION_1 ).isNot( registeredWithJCo );
     }
 
     @Test
@@ -91,8 +85,8 @@ public class JCoEnvironmentTest
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.registerDestination( DESTINATION_2, JCO_PROPERTIES_DUMMY );
 
-        assertThat( DESTINATION_1, isRegisteredWithJCo() );
-        assertThat( DESTINATION_2, isRegisteredWithJCo() );
+        assertThat( DESTINATION_1 ).is( registeredWithJCo );
+        assertThat( DESTINATION_2 ).is( registeredWithJCo );
     }
 
     @Test
@@ -103,12 +97,13 @@ public class JCoEnvironmentTest
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
         JCoEnvironment.unregisterDestination( DESTINATION_2 );
 
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( false ) );
+        assertThat( Environment.isDestinationDataProviderRegistered()).isFalse();
     }
 
-    static class IsJCoDestinationRegistered extends TypeSafeMatcher<String>
+    private final Condition<String> registeredWithJCo = new Condition<String>( "registeredWithJCo" )
     {
-        public boolean matchesSafely( String name )
+        @Override
+        public boolean matches( String name )
         {
             try
             {
@@ -120,16 +115,5 @@ public class JCoEnvironmentTest
                 return false;
             }
         }
-
-        public void describeTo( Description description )
-        {
-            description.appendText( "registered" );
-        }
-
-        @Factory
-        public static Matcher<String> isRegisteredWithJCo()
-        {
-            return new IsJCoDestinationRegistered();
-        }
-    }
+    };
 }

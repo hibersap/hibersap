@@ -1,8 +1,5 @@
 package org.hibersap.mapping;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.hibersap.HibersapException;
 import org.hibersap.annotations.Export;
 import org.junit.Test;
@@ -16,18 +13,9 @@ import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.hasItemInArray;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Fail.fail;
 import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
-import static org.hibersap.mapping.ReflectionHelperTest.FieldMatcher.hasFieldNamed;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 public class ReflectionHelperTest
 {
@@ -37,7 +25,7 @@ public class ReflectionHelperTest
     {
         Class<?> clazz = ReflectionHelper.getClassForName( Object.class.getName() );
 
-        assertEquals( Object.class, clazz );
+        assertThat( clazz ).isSameAs( Object.class );
     }
 
     @Test( expected = ClassNotFoundException.class )
@@ -50,14 +38,14 @@ public class ReflectionHelperTest
     public void getArrayTypeReturnsCorrectTypeForObjectArray()
     {
         Class<?> clazz = ReflectionHelper.getArrayType( Object[].class );
-        assertEquals( Object.class, clazz );
+        assertThat( clazz ).isSameAs( Object.class );
     }
 
     @Test
     public void getArrayTypeReturnsNullWhenParameterTypeIsNotAnArray()
     {
         Class<?> clazz = ReflectionHelper.getArrayType( Object.class );
-        assertNull( clazz );
+        assertThat( clazz ).isNull();
     }
 
     @Test
@@ -65,7 +53,7 @@ public class ReflectionHelperTest
     {
         TestBean bean = new TestBean();
         Field field = ReflectionHelper.getDeclaredField( bean, "intValue" );
-        assertEquals( "intValue", field.getName() );
+        assertThat( field.getName() ).isEqualTo( "intValue" );
     }
 
     @Test( expected = HibersapException.class )
@@ -78,14 +66,14 @@ public class ReflectionHelperTest
     public void getFieldValueReturnsCorrectValue()
     {
         int value = ( Integer ) ReflectionHelper.getFieldValue( new TestBean(), "intValue" );
-        assertEquals( 1, value );
+        assertThat( value ).isEqualTo( 1 );
     }
 
     @Test
     public void getFieldValueReturnsCorrectValueForInheritedField()
     {
         int value = ( Integer ) ReflectionHelper.getFieldValue( new TestSubClass(), "intValue" );
-        assertEquals( 1, value );
+        assertThat( value ).isEqualTo( 1 );
     }
 
     @Test( expected = HibersapException.class )
@@ -99,7 +87,7 @@ public class ReflectionHelperTest
     {
         Field field = TestBean.class.getDeclaredField( "set" );
         Class<?> clazz = ReflectionHelper.getGenericType( field );
-        assertEquals( Object.class, clazz );
+        assertThat( clazz ).isEqualTo( Object.class );
     }
 
     @Test
@@ -107,14 +95,14 @@ public class ReflectionHelperTest
     {
         Field field = TestBean.class.getDeclaredField( "intValue" );
         Class<?> clazz = ReflectionHelper.getGenericType( field );
-        assertNull( clazz );
+        assertThat( clazz ).isNull();
     }
 
     @Test
     public void newCollectionInstanceCanCreateArrayList()
     {
         Collection<Object> collection = ReflectionHelper.newCollectionInstance( ArrayList.class );
-        assertEquals( ArrayList.class, collection.getClass() );
+        assertThat( collection.getClass() ).isSameAs( ArrayList.class );
     }
 
     @Test( expected = HibersapException.class )
@@ -127,7 +115,7 @@ public class ReflectionHelperTest
     public void newInstanceCanCreateStringInstance()
     {
         Object instance = ReflectionHelper.newInstance( String.class );
-        assertEquals( String.class, instance.getClass() );
+        assertThat( instance.getClass() ).isSameAs( String.class );
     }
 
     @Test
@@ -136,7 +124,7 @@ public class ReflectionHelperTest
     {
         TestBean bean = new TestBean();
         ReflectionHelper.setFieldValue( bean, "intValue", 2 );
-        assertEquals( 2, bean.intValue );
+        assertThat( bean.intValue ).isEqualTo( 2 );
     }
 
     @Test( expected = HibersapException.class )
@@ -162,7 +150,7 @@ public class ReflectionHelperTest
         bean.set = Collections.emptySet();
 
         ReflectionHelper.setFieldValue( bean, "set", null );
-        assertThat( bean.set, nullValue() );
+        assertThat( bean.set ).isNull();
     }
 
     @Test
@@ -171,7 +159,7 @@ public class ReflectionHelperTest
         TestSubClass bean = new TestSubClass();
 
         ReflectionHelper.setFieldValue( bean, "set", Collections.emptySet() );
-        assertThat( bean.getSet(), notNullValue() );
+        assertThat( bean.getSet() ).isNotNull();
     }
 
     @Test
@@ -180,7 +168,7 @@ public class ReflectionHelperTest
         TestSubClass bean = new TestSubClass();
 
         ReflectionHelper.setFieldValue( bean, "paramSubClass", 3L );
-        assertThat( bean.paramSubClass, is( 3L ) );
+        assertThat( bean.paramSubClass ).isEqualTo( 3L );
     }
 
     @Test
@@ -193,8 +181,8 @@ public class ReflectionHelperTest
         }
         catch ( HibersapException e )
         {
-            assertThat( e.getMessage(), containsString( "Object" ) );
-            assertThat( e.getMessage(), containsString( "doesNotExist" ) );
+            assertThat( e.getMessage() ).contains( "Object" );
+            assertThat( e.getMessage() ).contains( "doesNotExist" );
         }
     }
 
@@ -203,7 +191,7 @@ public class ReflectionHelperTest
     {
         final CharSequence charSequence = ReflectionHelper.newInstance( "java.lang.String", CharSequence.class );
 
-        assertThat( ( String ) charSequence, equalTo( "" ) );
+        assertThat( charSequence ).isEqualTo( "" );
     }
 
     @Test
@@ -211,9 +199,8 @@ public class ReflectionHelperTest
     {
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( TestSubClass.class, Export.class );
 
-        assertThat( fields.size(), is( 2 ) );
-        assertThat( fields, hasFieldNamed( "set" ) );
-        assertThat( fields, hasFieldNamed( "paramSubClass" ) );
+        assertThat( fields ).hasSize( 2 );
+        assertThat( fields ).onProperty( "name" ).contains( "set", "paramSubClass" );
     }
 
     @Test
@@ -221,8 +208,8 @@ public class ReflectionHelperTest
     {
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( TestBean.class, Export.class );
 
-        assertThat( fields.size(), is( 1 ) );
-        assertThat( fields, hasFieldNamed( "set" ) );
+        assertThat( fields ).hasSize( 1 );
+        assertThat( fields ).onProperty( "name" ).contains( "set" );
     }
 
     @Test
@@ -230,7 +217,7 @@ public class ReflectionHelperTest
     {
         Object[] objects = ReflectionHelper.newArrayFromCollection( null, Integer.class );
 
-        assertThat( objects, is( nullValue() ) );
+        assertThat( objects ).isNull();
     }
 
     @Test
@@ -238,7 +225,7 @@ public class ReflectionHelperTest
     {
         Object[] objects = ReflectionHelper.newArrayFromCollection( emptySet(), Integer.class );
 
-        assertThat( objects.length, is( 0 ) );
+        assertThat( objects ).hasSize( 0 );
     }
 
     @Test
@@ -247,9 +234,7 @@ public class ReflectionHelperTest
         List<Integer> list = asList( 1, 2 );
         Integer[] objects = ReflectionHelper.newArrayFromCollection( list, Integer.class );
 
-        assertThat( objects.length, is( 2 ) );
-        assertThat( objects, hasItemInArray( 1 ) );
-        assertThat( objects, hasItemInArray( 2 ) );
+        assertThat( objects ).containsOnly( 1, 2 );
     }
 
     @SuppressWarnings( "unused" )
@@ -271,38 +256,5 @@ public class ReflectionHelperTest
         @Export
         @SuppressWarnings( "unused" )
         private long paramSubClass;
-    }
-
-    static class FieldMatcher extends TypeSafeMatcher<Collection<Field>>
-    {
-        private final String fieldName;
-
-        public FieldMatcher( String fieldName )
-        {
-            this.fieldName = fieldName;
-        }
-
-        public static Matcher<Collection<Field>> hasFieldNamed( String fieldName )
-        {
-            return new FieldMatcher( fieldName );
-        }
-
-        @Override
-        protected boolean matchesSafely( Collection<Field> fields )
-        {
-            for ( Field field : fields )
-            {
-                if ( field.getName().equals( fieldName ) )
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void describeTo( Description description )
-        {
-            description.appendText( "has field named '" ).appendText( fieldName ).appendText( "'" );
-        }
     }
 }

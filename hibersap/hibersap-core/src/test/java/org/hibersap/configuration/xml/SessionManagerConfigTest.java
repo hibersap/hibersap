@@ -22,10 +22,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerConfigTest
 {
@@ -46,19 +43,19 @@ public class SessionManagerConfigTest
                 .addBapiInterceptorClass( ConfigurationTest.BapiInterceptorDummy.class )
                 .setValidationMode( ValidationMode.CALLBACK );
 
-        assertThat( cfg.getContext(), equalTo( "context" ) );
-        assertThat( cfg.getJcaConnectionFactory(), equalTo( "jcaConnectionFactory" ) );
-        assertThat( cfg.getJcaConnectionSpecFactory(), equalTo( "jcaConnectionSpecFactory" ) );
-        assertThat( cfg.getName(), equalTo( "newName" ) );
-        assertThat( cfg.getProperties().size(), is( 2 ) );
-        assertThat( cfg.getProperty( "key1" ), equalTo( "value1" ) );
-        assertThat( cfg.getProperty( "key2" ), equalTo( "value2" ) );
+        assertThat( cfg.getContext() ).isEqualTo( "context" );
+        assertThat( cfg.getJcaConnectionFactory() ).isEqualTo( "jcaConnectionFactory" );
+        assertThat( cfg.getJcaConnectionSpecFactory() ).isEqualTo( "jcaConnectionSpecFactory" );
+        assertThat( cfg.getName() ).isEqualTo( "newName" );
+        assertThat( cfg.getProperties() ).hasSize( 2 );
+        assertThat( cfg.getProperty( "key1" ) ).isEqualTo( "value1" );
+        assertThat( cfg.getProperty( "key2" ) ).isEqualTo( "value2" );
 
         List<String> annotatedClasses = cfg.getAnnotatedClasses();
-        assertThat( annotatedClasses.size(), is( 2 ) );
-        assertThat( annotatedClasses, hasItems( Integer.class.getName(), String.class.getName() ) );
+        assertThat( annotatedClasses ).hasSize( 2 );
+        assertThat( annotatedClasses ).contains( Integer.class.getName(), String.class.getName() );
 
-        assertThat( cfg.getValidationMode(), is( ValidationMode.CALLBACK ) );
+        assertThat( cfg.getValidationMode() ).isSameAs( ValidationMode.CALLBACK );
     }
 
     @Test
@@ -66,9 +63,9 @@ public class SessionManagerConfigTest
             throws Exception
     {
         SessionManagerConfig cfg = new SessionManagerConfig( "name" );
-        assertThat( cfg.getContext(), equalTo( "org.hibersap.execution.jco.JCoContext" ) );
-        assertThat( cfg.getJcaConnectionSpecFactory(),
-                equalTo( "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory" ) );
-        assertThat( cfg.getValidationMode(), is( ValidationMode.AUTO ) );
+        assertThat( cfg.getContext() ).isEqualTo( "org.hibersap.execution.jco.JCoContext" );
+        assertThat( cfg.getJcaConnectionSpecFactory() ).isEqualTo(
+                "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory" );
+        assertThat( cfg.getValidationMode() ).isSameAs( ValidationMode.AUTO );
     }
 }

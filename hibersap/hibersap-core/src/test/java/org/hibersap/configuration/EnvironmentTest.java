@@ -19,10 +19,7 @@ package org.hibersap.configuration;
 
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class EnvironmentTest
 {
@@ -31,19 +28,6 @@ public class EnvironmentTest
     {
         final String regex = "^(\\d+\\.\\d+\\.\\d+)((-SNAPSHOT)|([A-Za-z][0-9A-Za-z-]*))?$";
 
-/*
-        assertTrue( "12.10.9".matches( regex ) );
-        assertFalse( "1.1".matches( regex ) );
-        assertFalse( "1.1.0.2".matches( regex ) );
-
-        assertTrue( "12.10.9-SNAPSHOT".matches( regex ) );
-        assertFalse( "12.10.9-SNAPSHOT2".matches( regex ) );
-
-        assertTrue( "1.1.0Beta2".matches( regex ) );
-        assertFalse( "1.1.0.Beta2".matches( regex ) );
-        assertFalse( "1.1.0-Beta2".matches( regex ) );
-*/
-
-        assertTrue( Environment.VERSION.matches( regex ) );
+        assertThat( Environment.VERSION ).matches( regex );
     }
 }

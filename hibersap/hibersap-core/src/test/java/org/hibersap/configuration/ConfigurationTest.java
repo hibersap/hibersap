@@ -17,8 +17,6 @@ package org.hibersap.configuration;
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
@@ -32,22 +30,20 @@ import org.junit.Test;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * @author Carsten Erker
  */
 public class ConfigurationTest
 {
-    private Configuration configuration;
     private SessionManagerConfig sessionManagerConfig;
     private SessionManagerImplementor sessionManager;
 
     @Before
     public void createConfiguration()
     {
-        configuration = new Configuration( "TEST" )
+        Configuration configuration = new Configuration( "TEST" )
         {
             // create instance of abstract class
         };
@@ -61,7 +57,7 @@ public class ConfigurationTest
     {
         sessionManagerConfig.setContext( "test" );
 
-        assertThat( sessionManagerConfig.getContext(), is( "test" ) );
+        assertThat( sessionManagerConfig.getContext() ).isEqualTo( "test" );
     }
 
     @Test
@@ -70,7 +66,7 @@ public class ConfigurationTest
     {
         sessionManagerConfig.setProperty( "jco.client.user", "test" );
 
-        assertThat( sessionManagerConfig.getProperty( "jco.client.user" ), is( "test" ) );
+        assertThat( sessionManagerConfig.getProperty( "jco.client.user" ) ).isEqualTo( "test" );
     }
 
     @Test
@@ -78,9 +74,9 @@ public class ConfigurationTest
     {
         final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
 
-        assertThat( interceptors.size(), is( 2 ) );
-        assertThat( interceptors, hasItemInstanceOf( BapiInterceptorDummy.class ) );
-        assertThat( interceptors, hasItemInstanceOf( BeanValidationInterceptor.class ) );
+        assertThat( interceptors.toArray() ).hasSize( 2 )
+                .hasAtLeastOneElementOfType( BapiInterceptorDummy.class )
+                .hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
     }
 
     @Test
@@ -88,22 +84,15 @@ public class ConfigurationTest
     {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors, hasItemInstanceOf( SapErrorInterceptor.class ) );
+        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( SapErrorInterceptor.class );
     }
 
     @Test
     public void createsExecutionInterceptorsFromXmlConfig()
     {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
-        assertThat( interceptors.size(), is( 2 ) );
-        final Class<ExecutionInterceptorDummy> clazz = ExecutionInterceptorDummy.class;
-        assertThat( interceptors, hasItemInstanceOf( clazz ) );
-    }
-
-    private static <T> Matcher<Iterable<? super T>> hasItemInstanceOf( Class<T> clazz )
-    {
-        //noinspection RedundantTypeArguments
-        return Matchers.<T>hasItem( Matchers.<T>instanceOf( clazz ) );
+        assertThat( interceptors ).hasSize( 2 );
+        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( ExecutionInterceptorDummy.class );
     }
 
     public static class ExecutionInterceptorDummy implements ExecutionInterceptor

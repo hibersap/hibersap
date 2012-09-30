@@ -25,9 +25,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class BeanValidationActivatorTest
 {
@@ -39,7 +37,7 @@ public class BeanValidationActivatorTest
 
         BeanValidationActivator.activateBeanValidation( interceptors, config );
 
-        assertThat( interceptors, hasSize( 0 ) );
+        assertThat( interceptors ).hasSize( 0 );
     }
 
     @Test
@@ -50,7 +48,7 @@ public class BeanValidationActivatorTest
 
         BeanValidationActivator.activateBeanValidation( interceptors, config );
 
-        assertThat( interceptors, hasSize( 1 ) );
-        assertThat( interceptors.iterator().next(), instanceOf( BeanValidationInterceptor.class ) );
+        assertThat( interceptors ).hasSize( 1 );
+        assertThat( interceptors.iterator().next() ).isInstanceOf( BeanValidationInterceptor.class );
     }
 }

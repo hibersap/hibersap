@@ -16,9 +16,9 @@
 		<annotated-classes>
 			<annotated-class>org.hibersap.it.jco.BapiFinder</annotated-class>
 			<annotated-class>org.hibersap.it.bapi.RfcPing</annotated-class>
-			<annotated-class>org.hibersap.it.bapi.BapiWithRawTypeParameterTest$StfcDeepStructure</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.ExchangeRatesTest$BapiExchangeRateGetDetail</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.BapiCustomerGetListTest$BapiCustomerGetList</annotated-class>
+			<annotated-class>org.hibersap.it.bapi.MapsRawTypeParameterToByteArrayTest$StfcDeepStructure</annotated-class>
+            <annotated-class>org.hibersap.it.bapi.MapCurrencyParametersToBigDecimalTest$BapiExchangeRateGetDetail</annotated-class>
+            <annotated-class>org.hibersap.it.bapi.MapTableParameterToArrayTest$BapiCustomerGetList</annotated-class>
 		</annotated-classes>
 	</session-manager>
 </hibersap>

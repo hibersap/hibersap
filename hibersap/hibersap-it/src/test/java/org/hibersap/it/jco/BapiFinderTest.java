@@ -20,9 +20,7 @@ package org.hibersap.it.jco;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasItem;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class BapiFinderTest extends AbstractBapiTest
 {
@@ -32,9 +30,9 @@ public class BapiFinderTest extends AbstractBapiTest
         BapiFinder bapiFinder = new BapiFinder( "BC-DWB" );
         session.execute( bapiFinder );
 
-        assertThat( bapiFinder.getBapiDescriptions().size(), greaterThan( 0 ) );
-        assertThat( bapiFinder.getBapiDescriptions(), hasItem(
+        assertThat( bapiFinder.getBapiDescriptions().size() ).isGreaterThan( 0 );
+        assertThat( bapiFinder.getBapiDescriptions() ).contains(
                 new BapiDescription( "Flight", "Flight with connection data (SAP training)", "GetList",
-                        "Find list of flights", "BAPI_FLIGHT_GETLIST" ) ) );
+                        "Find list of flights", "BAPI_FLIGHT_GETLIST" ) );
     }
 }

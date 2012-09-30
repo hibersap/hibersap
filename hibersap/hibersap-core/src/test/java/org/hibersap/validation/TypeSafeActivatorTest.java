@@ -26,9 +26,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class TypeSafeActivatorTest
 {
@@ -52,8 +50,8 @@ public class TypeSafeActivatorTest
 
         TypeSafeActivator.activateBeanValidation( interceptors, config );
 
-        assertThat( interceptors, hasSize( 1 ) );
-        assertThat( interceptors.iterator().next(), instanceOf( BeanValidationInterceptor.class ) );
+        assertThat( interceptors ).hasSize( 1 );
+        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
     }
 
     private void useValidationFactoryFactory( ValidatorFactoryFactory factory ) throws Exception

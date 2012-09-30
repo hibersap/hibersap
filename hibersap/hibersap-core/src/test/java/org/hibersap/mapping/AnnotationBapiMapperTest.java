@@ -17,9 +17,6 @@
 
 package org.hibersap.mapping;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -29,13 +26,9 @@ import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hibersap.mapping.AnnotationBapiMapperTest.FieldMappingMatcher.hasFieldNamed;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationBapiMapperTest
 {
@@ -49,9 +42,8 @@ public class AnnotationBapiMapperTest
         final TableMapping tableMapping = mapping.getTableParameters().iterator().next();
         final Set<FieldMapping> parameters = tableMapping.getComponentParameter().getParameters();
 
-        assertThat( parameters.size(), is( 2 ) );
-        assertThat( parameters, hasFieldNamed( "structureParamSubClass" ) );
-        assertThat( parameters, hasFieldNamed( "structureParamSuperClass" ) );
+        assertThat( parameters ).hasSize( 2 )
+                .onProperty( "javaName" ).contains( "structureParamSubClass", "structureParamSuperClass" );
     }
 
     @Test
@@ -60,10 +52,10 @@ public class AnnotationBapiMapperTest
         final BapiMapping mapping = mapper.mapBapi( TestBapiClass.class );
 
         final Set<TableMapping> tableParams = mapping.getTableParameters();
-        assertThat( tableParams.size(), is( 1 ) );
+        assertThat( tableParams ).hasSize( 1 );
 
         final TableMapping tableMapping = tableParams.iterator().next();
-        assertThat( tableMapping.getAssociatedType().getName(), equalTo( TestBapiStructureSubClass.class.getName() ) );
+        assertThat( tableMapping.getAssociatedType().getName() ).isEqualTo( TestBapiStructureSubClass.class.getName() );
     }
 
     @Bapi( "test" )
@@ -92,38 +84,5 @@ public class AnnotationBapiMapperTest
         @Parameter( "ABAP_FIELD" )
         @SuppressWarnings( "unused" )
         private String structureParamSuperClass;
-    }
-
-    static class FieldMappingMatcher extends TypeSafeMatcher<Collection<FieldMapping>>
-    {
-        private final String fieldName;
-
-        public FieldMappingMatcher( String fieldName )
-        {
-            this.fieldName = fieldName;
-        }
-
-        public static Matcher<Collection<FieldMapping>> hasFieldNamed( String fieldName )
-        {
-            return new FieldMappingMatcher( fieldName );
-        }
-
-        @Override
-        protected boolean matchesSafely( Collection<FieldMapping> fields )
-        {
-            for ( FieldMapping field : fields )
-            {
-                if ( field.getJavaName().equals( fieldName ) )
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void describeTo( Description description )
-        {
-            description.appendText( "has field with java name '" ).appendText( fieldName ).appendText( "'" );
-        }
     }
 }

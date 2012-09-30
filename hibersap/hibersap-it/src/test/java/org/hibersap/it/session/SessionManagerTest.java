@@ -21,18 +21,17 @@ import com.sap.conn.jco.ext.Environment;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerTest extends AbstractBapiTest
 {
     @Test
     public void sessionManagerUnregistersJCoDestinationWhenClosing() throws Exception
     {
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( true ) );
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isTrue();
 
         sessionManager.close();
 
-        assertThat( Environment.isDestinationDataProviderRegistered(), is( false ) );
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
     }
 }

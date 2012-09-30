@@ -26,10 +26,8 @@ import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Fail.fail;
 
 public class BeanValidationInterceptorTest
 {
@@ -50,9 +48,9 @@ public class BeanValidationInterceptorTest
             validationException = e;
         }
 
-        assertThat( validationException, notNullValue() );
-        assertThat( validationException.getMessage(),
-                containsString( "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject" ) );
+        assertThat( validationException ).isNotNull();
+        assertThat( validationException.getMessage() ).contains(
+                "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject" );
     }
 
     @SuppressWarnings( "unused" )

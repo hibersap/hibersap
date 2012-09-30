@@ -1,7 +1,5 @@
 package org.hibersap.configuration;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
 import org.hibersap.ConfigurationException;
 import org.hibersap.MappingException;
 import org.hibersap.bapi.BapiTransactionCommit;
@@ -15,10 +13,7 @@ import org.junit.Test;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationConfigurationTest
 {
@@ -33,13 +28,7 @@ public class AnnotationConfigurationTest
 
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors, hasInterceptorOfType( SapErrorInterceptor.class ) );
-    }
-
-    private Matcher<Iterable<? super ExecutionInterceptor>> hasInterceptorOfType(
-            Class<? extends ExecutionInterceptor> interceptorClass )
-    {
-        return hasItem( CoreMatchers.<ExecutionInterceptor>instanceOf( interceptorClass ) );
+        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( SapErrorInterceptor.class );
     }
 
     @Test
@@ -49,8 +38,8 @@ public class AnnotationConfigurationTest
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
         Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
-        assertThat( bapiMappings.size(), equalTo( 1 ) );
-        assertThat( bapiMappings.get( BAPI_CLASS ), notNullValue() );
+        assertThat( bapiMappings ).hasSize( 1 );
+        assertThat( bapiMappings.get( BAPI_CLASS ) ).isNotNull();
     }
 
     @Test( expected = MappingException.class )
@@ -63,7 +52,7 @@ public class AnnotationConfigurationTest
     @Test( expected = ConfigurationException.class )
     public void throwsConfigurationExceptionWhenBapiClassWasAddedThatIsNotAnnotated()
     {
-        configuration.getSessionManagerConfig().getAnnotatedClasses( ).add( "does.not.Exist" );
+        configuration.getSessionManagerConfig().getAnnotatedClasses().add( "does.not.Exist" );
         configureAndBuildSessionManager();
     }
 

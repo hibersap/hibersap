@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class BapiCustomerGetListTest extends AbstractBapiTest
+public class MapTableParameterToArrayTest extends AbstractBapiTest
 {
     @Test
     public void mapsTableParameterToArray() throws Exception

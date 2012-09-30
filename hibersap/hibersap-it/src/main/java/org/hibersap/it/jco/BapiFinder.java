@@ -32,7 +32,7 @@ public class BapiFinder
 {
     @Table
     @Parameter( "COMPONENTS2SELECT" )
-    private Set<SapComponent> componentsToSelect = new HashSet();
+    private Set<SapComponent> componentsToSelect = new HashSet<SapComponent>();
 
     @Table
     @Parameter( "BAPILIST" )
@@ -54,9 +54,9 @@ public class BapiFinder
         @Parameter( "COMPONENT" )
         private String component;
 
-        public SapComponent( )
+        @SuppressWarnings( {"UnusedDeclaration"} ) // called by Hibersap
+        public SapComponent()
         {
-            // used by Hibersap
         }
 
         private SapComponent( String component )
