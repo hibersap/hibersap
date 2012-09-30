@@ -1,7 +1,5 @@
-package org.hibersap.session;
-
-/**
- * Copyright (C) 2008-2009 akquinet tech@spree GmbH
+/*
+ * Copyright (c) 2008-2012 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -16,6 +14,8 @@ package org.hibersap.session;
  * You should have received a copy of the GNU Lesser General Public License along with Hibersap. If
  * not, see <http://www.gnu.org/licenses/>.
  */
+
+package org.hibersap.session;
 
 import org.hibersap.HibersapException;
 import org.hibersap.configuration.xml.SessionManagerConfig;

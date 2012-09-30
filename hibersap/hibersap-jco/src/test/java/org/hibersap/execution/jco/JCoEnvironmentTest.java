@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, 2011 akquinet tech@spree GmbH.
+ * Copyright (c) 2008-2012 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
