@@ -168,6 +168,10 @@ To use a converter, you simply annotate the field in the BAPI or Structure class
 private	final boolean showDetails;
 \end{lstlisting}
 
+You can use converters not only with simple parameters, but also with structure and table parameters. In case of a structure parameter, the object passed to Converter.convertToJava() will be a Map with the structure parameter names as keys and the parameter values as map values. Converter.convertToSap() must return a Map like this.
+
+When using a converter with a table parameter, the object passed to Converter.convertToJava() be a List of Maps where each Map has the structure parameter name and values as keys/values. Converter.convertToSap() must return a List of Maps of the same structure.
+
 \section{Calling Function Modules}
 
 \subsection{Configure Hibersap and build a SessionManager}
