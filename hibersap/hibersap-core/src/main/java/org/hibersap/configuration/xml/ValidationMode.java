@@ -19,5 +19,19 @@ package org.hibersap.configuration.xml;
 
 public enum ValidationMode
 {
-    AUTO, CALLBACK, NONE
+    /**
+     * Use Bean Validation if a provider is found on the classpath (Default).
+     */
+    AUTO,
+
+    /**
+     * Force the use of Bean Validation.
+     * Hibersap will throw an Exception if no provider is found on the classpath.
+     */
+    CALLBACK,
+
+    /**
+     * Do not use Bean Validation, even if a provider is present.
+     */
+    NONE
 }
