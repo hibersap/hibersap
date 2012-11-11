@@ -46,6 +46,8 @@
 %    urlcolor=cyan           % color of external links
 }
 
+\urlstyle{same}
+
 \definecolor{light-gray}{gray}{0.85}
 
 \lstset{
@@ -72,13 +74,24 @@ breakatwhitespace=false
 }
 \fi
 
-\urldef{\urlHibersapSite}\url{http://hibersap.sourceforge.net} 
-\urldef{\urlHibersapDependencies}\url{http://hibersap.sourceforge.net/dependency-convergence.html} 
+\urldef{\urlHibersapSite}\url{http://hibersap.org} 
+\urldef{\urlCuckooSite}\url{http://sourceforge.net/p/cuckoo-ra} 
 
 \begin{document} 
 
 \newcommand\HRule{\noindent\rule{\linewidth}{1.5pt}} 
 \newcommand\HibersapVersion{\input{version}}
+
+\newenvironment{descriptionBlock}[1]
+{
+  \noindent \textbf{#1} 
+  \hrule
+  \begin{description}
+}
+{
+  \hrule
+  \end{description}
+}
 
 \include{TitlePage}  
 \pagenumbering{roman} 
@@ -90,7 +103,6 @@ breakatwhitespace=false
 \include{Installation} 
 \include{Configuration} 
 \include{Usage} 
-%\include{Testing} 
 \appendix 
 
 \end{document}
