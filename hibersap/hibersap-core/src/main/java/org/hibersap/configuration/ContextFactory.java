@@ -83,18 +83,17 @@ public class ContextFactory
         return getContextClassForName( contextClassName );
     }
 
-    @SuppressWarnings( "unchecked" )
     private static Class<? extends Context> getContextClassForName( final String contextClassName )
     {
-        try
+        Class<?> contextClass = getClassForName( contextClassName );
+        if ( Context.class.isAssignableFrom( contextClass ) )
         {
-            return ( Class<? extends Context> ) getClassForName( contextClassName );
+            //noinspection unchecked
+            return ( Class<? extends Context> ) contextClass;
         }
-        catch ( final ClassCastException e )
-        {
-            throw new ConfigurationException( "The class " + contextClassName + " must implement "
-                    + Context.class.getName() + " to act as a context class", e );
-        }
+        throw new ConfigurationException(
+                "The configured context class (" + contextClass.getName() + ") does not implement " +
+                        Context.class.getName() );
     }
 
     public static Class<?> getClassForName( final String contextClassName )
