@@ -34,27 +34,27 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class HibersapSessionInterceptor_Test
 {
-    private final HibersapSessionInterceptor _interceptor = new HibersapSessionInterceptor();
+    private final HibersapSessionInterceptor interceptor = new HibersapSessionInterceptor();
 
-    private final InvocationContext _ctx = createNiceMock( InvocationContext.class );
-    private final Context _initialCtx = createNiceMock( Context.class );
-    private final SessionManager _sessionManager = createNiceMock( SessionManager.class );
-    private final Session _session = createNiceMock( Session.class );
+    private final InvocationContext invocationContext = createNiceMock( InvocationContext.class );
+    private final Context initialCtx = createNiceMock( Context.class );
+    private final SessionManager sessionManager = createNiceMock( SessionManager.class );
+    private final Session session = createNiceMock( Session.class );
 
-    private final HashMap<String, Object> _contextData = new HashMap<String, Object>();
-    private final TestEjb _targetBean = new TestEjb();
+    private final HashMap<String, Object> contextData = new HashMap<String, Object>();
+    private final TestEjb targetBean = new TestEjb();
 
     @Before
     public void setUp() throws Exception
     {
         System.setProperty( "java.naming.factory.initial", MockInitialContextFactory.NAME );
-        MockInitialContextFactory.setMockContext( _initialCtx );
+        MockInitialContextFactory.setMockContext( initialCtx );
 
-        expect( _ctx.getTarget() ).andReturn( _targetBean ).anyTimes();
-        expect( _ctx.getContextData() ).andReturn( _contextData ).anyTimes();
-        expect( _sessionManager.openSession() ).andReturn( _session );
-        expect( _session.isClosed() ).andReturn( true );
-        replay( _ctx, _sessionManager, _session );
+        expect( invocationContext.getTarget() ).andReturn( targetBean ).anyTimes();
+        expect( invocationContext.getContextData() ).andReturn( contextData ).anyTimes();
+        expect( sessionManager.openSession() ).andReturn( session );
+        expect( session.isClosed() ).andReturn( true );
+        replay( invocationContext, sessionManager, session );
     }
 
     @Test
@@ -62,28 +62,28 @@ public class HibersapSessionInterceptor_Test
                                                                                                               Exception
     {
         Session session2 = createNiceMock( Session.class );
-        _contextData.put( "hibersap.session.jndiName2", session2 );
+        contextData.put( "hibersap.session.jndiName2", session2 );
 
-        expect( _initialCtx.lookup( "jndiName1" ) ).andReturn( _sessionManager );
-        replay( _initialCtx );
+        expect( initialCtx.lookup( "jndiName1" ) ).andReturn( sessionManager );
+        replay( initialCtx );
 
-        _interceptor.injectSessionsIntoEjb( _ctx );
+        interceptor.injectSessionsIntoEjb( invocationContext );
 
-        assertThat( _targetBean.session1 ).isSameAs( _session );
-        assertThat( _targetBean.session2 ).isSameAs( session2 );
+        assertThat( targetBean.session1 ).isSameAs( session );
+        assertThat( targetBean.session2 ).isSameAs( session2 );
     }
 
     @Test
     public void removesTheCreatedSessionFromInvocationContextAndKeepsTheOtherOne() throws Exception
     {
-        _contextData.put( "hibersap.session.jndiName1", createNiceMock( Session.class ) );
+        contextData.put( "hibersap.session.jndiName1", createNiceMock( Session.class ) );
 
-        expect( _initialCtx.lookup( "jndiName2" ) ).andReturn( _sessionManager );
-        replay( _initialCtx );
+        expect( initialCtx.lookup( "jndiName2" ) ).andReturn( sessionManager );
+        replay( initialCtx );
 
-        _interceptor.injectSessionsIntoEjb( _ctx );
+        interceptor.injectSessionsIntoEjb( invocationContext );
 
-        assertThat( _contextData ).hasSize( 1 );
+        assertThat( contextData ).hasSize( 1 );
     }
 
     private static class TestEjb

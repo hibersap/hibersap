@@ -29,7 +29,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class ReflectionUtil_Test
+public class ReflectionUtilTest
 {
     @Test
     public void getSessionFieldReturnsEmptySetWhenObjectDoesNotContainAnyFieldWithHibersapSessionAnnotation() throws
@@ -70,7 +70,7 @@ public class ReflectionUtil_Test
         catch ( InternalHiberSapException e )
         {
             assertThat( e.getMessage() ).isEqualTo( "The field "
-                    + "org.hibersap.ejb.util.ReflectionUtil_Test$TestBean.notASession "
+                    + "org.hibersap.ejb.util.ReflectionUtilTest$TestBean.notASession "
                     + "is not annotated with @HibersapSession" );
         }
     }
