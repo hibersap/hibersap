@@ -48,10 +48,9 @@ public final class ReflectionHelper
     public static Class<?> getClassForName( String className )
             throws ClassNotFoundException
     {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         try
         {
-            return Class.forName( className, true, classLoader );
+            return Class.forName( className, true, Thread.currentThread().getContextClassLoader() );
         }
         catch ( ClassNotFoundException e )
         {
@@ -201,7 +200,7 @@ public final class ReflectionHelper
             defaultConstructor.setAccessible( true );
             return defaultConstructor.newInstance();
         }
-        catch ( InstantiationException  e )
+        catch ( InstantiationException e )
         {
             throw new HibersapException( MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e );
         }
@@ -223,7 +222,8 @@ public final class ReflectionHelper
     {
         try
         {
-            final Class<? extends T> theClass = getClassForName( fullyQualifiedClassName ).asSubclass( superType );
+            final Class<? extends T> theClass = getClassForName( fullyQualifiedClassName.trim() )
+                    .asSubclass( superType );
             return newInstance( theClass );
         }
         catch ( ClassNotFoundException e )
@@ -336,7 +336,7 @@ public final class ReflectionHelper
         }
 
         @SuppressWarnings( {"unchecked"} ) // Array.newInstance() is not generified
-        T[] array = ( T[] ) Array.newInstance( elementType, collection.size() );
+                T[] array = ( T[] ) Array.newInstance( elementType, collection.size() );
 
         int i = 0;
         for ( Object element : collection )

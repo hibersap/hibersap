@@ -24,7 +24,6 @@ import javax.resource.cci.ConnectionSpec;
 import java.util.Arrays;
 
 public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpecFactory
-
 {
     private static final String CONNECTION_SPEC_IMPL_CLASS_NAME = "org.cuckoo.ra.cci.ApplicationPropertiesImpl";
 
@@ -44,7 +43,7 @@ public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpe
                     credentials.getSsoTicket(),
                     credentials.getX509Certificate()};
 
-            Class<?>[] parameterTypes = new Class<?>[7];
+            Class<?>[] parameterTypes = new Class<?>[arguments.length];
             Arrays.fill( parameterTypes, String.class );
 
             Object connSpecImpl = newConnectionSpecInstance( connSpecClass, parameterTypes, arguments );
