@@ -21,37 +21,28 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Converts between SAP character fields of length 1 and Java char fields.
- * 
+ *
  * @author Carsten Erker
  */
-public class CharConverter
-    implements Converter
-{
+public class CharConverter implements Converter<Character, String> {
+
     /**
      * {@inheritDoc}
      */
-    public Object convertToJava( Object sapValue )
-        throws ConversionException
-    {
-        String valueStr = (String) sapValue;
-        if ( StringUtils.isEmpty( valueStr ) )
-        {
+    public Character convertToJava( String sapValue ) throws ConversionException {
+        if ( StringUtils.isEmpty( sapValue ) ) {
             return ' ';
         }
-        return valueStr.charAt( 0 );
+        return sapValue.charAt( 0 );
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object convertToSap( Object javaValue )
-        throws ConversionException
-    {
-        if ( javaValue == null )
-        {
+    public String convertToSap( Character javaValue ) throws ConversionException {
+        if ( javaValue == null ) {
             return "";
         }
-        Character valueChar = (Character) javaValue;
-        return "" + valueChar;
+        return "" + javaValue;
     }
 }

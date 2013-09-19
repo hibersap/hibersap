@@ -28,8 +28,8 @@ import java.util.Map;
  *
  * @author Carsten Erker
  */
-public class ConverterCache
-{
+public class ConverterCache {
+
     private final Map<Class<? extends Converter>, Converter> converterForClass = new HashMap<Class<? extends Converter>, Converter>();
 
     /**
@@ -39,15 +39,12 @@ public class ConverterCache
      * @param clazz The Coverter implementation class
      * @return The Converter instance
      */
-    public Converter getConverter( Class<? extends Converter> clazz )
-    {
-        if ( clazz == null )
-        {
+    public Converter getConverter( Class<? extends Converter> clazz ) {
+        if ( clazz == null ) {
             throw new IllegalArgumentException( "null" );
         }
         Converter converter = converterForClass.get( clazz );
-        if ( converter == null )
-        {
+        if ( converter == null ) {
             converter = ReflectionHelper.newInstance( clazz );
             converterForClass.put( clazz, converter );
         }
@@ -59,58 +56,43 @@ public class ConverterCache
      *
      * @return The number of Converter instances
      */
-    int getSize()
-    {
+    int getSize() {
         return converterForClass.size();
     }
 
-    public void clear()
-    {
+    public void clear() {
         converterForClass.clear();
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( ( converterForClass == null ) ? 0 : converterForClass.hashCode() );
+        result = prime * result + ( converterForClass.hashCode() );
         return result;
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
             return true;
         }
-        if ( obj == null )
-        {
+        if ( obj == null ) {
             return false;
         }
-        if ( getClass() != obj.getClass() )
-        {
+        if ( getClass() != obj.getClass() ) {
             return false;
         }
-        ConverterCache other = ( ConverterCache ) obj;
-        if ( converterForClass == null )
-        {
-            if ( other.converterForClass != null )
-            {
-                return false;
-            }
-        }
-        else if ( !converterForClass.keySet().equals( other.converterForClass.keySet() ) )
-        {
+        ConverterCache other = (ConverterCache) obj;
+        //noinspection RedundantIfStatement
+        if ( !converterForClass.keySet().equals( other.converterForClass.keySet() ) ) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getClass().getSimpleName() + ": " + converterForClass;
     }
 }

@@ -17,66 +17,48 @@
 
 package org.hibersap.conversion;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 /**
  * Converts between Java boolean and SAP CHAR type. A Java value of true will be converted to "X", A
  * Java value of false will be converted to an empty String and vice versa.
- * 
+ *
  * @author Carsten Erker
  */
-public class BooleanConverter
-    implements Converter
-{
+@SuppressWarnings( "ConstantConditions" )
+public class BooleanConverter implements Converter<Boolean, String> {
+
     /**
      * {@inheritDoc}
      */
-    public Object convertToJava( Object sapValue )
-        throws ConversionException
-    {
-        if ( sapValue == null )
-        {
-            throwConversionException("SAP returned null");
+    public Boolean convertToJava( String sapValue )
+            throws ConversionException {
+        if ( sapValue == null ) {
+            throw new ConversionException( "SAP returned null" );
         }
-        if ( !String.class.isInstance( sapValue ) )
-        {
-            throwConversionException("Expected: " + String.class.getName() + " but was: "
-                + sapValue.getClass().getName());
+        String value = sapValue.trim();
+        if ( "X".equalsIgnoreCase( value ) ) {
+            return TRUE;
+        } else if ( value.length() == 0 ) {
+            return FALSE;
+        } else {
+            throw new ConversionException( "Expected 'X' or '', but SAP returned '" + value + "'" );
         }
-        String value = ( (String) sapValue ).trim();
-        if ( "X".equalsIgnoreCase( value ) )
-        {
-            return Boolean.TRUE;
-        }
-        else if ( value.length() == 0 )
-        {
-            return Boolean.FALSE;
-        }
-        else
-        {
-            throwConversionException("Expected 'X' or '', but SAP returned '" + value + "'");
-        }
-        return null; // cannot be reached
     }
 
     /**
      * {@inheritDoc}
      */
-    public Object convertToSap( Object javaValue )
-        throws ConversionException
-    {
-        if ( javaValue == null )
-        {
-            throwConversionException("Java value is null");
+    public String convertToSap( Boolean javaValue )
+            throws ConversionException {
+        if ( javaValue == null ) {
+            throw new ConversionException( "Java value is null" );
         }
-        if ( !Boolean.class.isInstance( javaValue ) )
-        {
-            throwConversionException("Expected: " + Boolean.class.getName() + " but was: "
-                + javaValue.getClass().getName());
+        if ( !Boolean.class.isInstance( javaValue ) ) {
+            throw new ConversionException( "Expected: " + Boolean.class.getName() + " but was: "
+                                                   + javaValue.getClass().getName() );
         }
-        return javaValue == Boolean.TRUE ? "X" : "";
-    }
-
-    private void throwConversionException(String msg)
-    {
-        throw new ConversionException( msg );
+        return TRUE.equals( javaValue ) ? "X" : "";
     }
 }
