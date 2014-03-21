@@ -17,26 +17,24 @@
 
 package org.hibersap.conversion;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-public class CharConverterTest
-{
+import static org.junit.Assert.assertEquals;
+
+public class CharConverterTest {
+
     private CharConverter converter = new CharConverter();
 
     @Test
-    public void testConvertToJava()
-    {
-        assertEquals( ' ', converter.convertToJava( null ) );
-        assertEquals( ' ', converter.convertToJava( " " ) );
-        assertEquals( 'A', converter.convertToJava( "A" ) );
-        assertEquals( 'A', converter.convertToJava( "AB" ) );
+    public void testConvertToJava() {
+        assertEquals( (Object) ' ', converter.convertToJava( null ) );
+        assertEquals( (Object) ' ', converter.convertToJava( " " ) );
+        assertEquals( (Object) 'A', converter.convertToJava( "A" ) );
+        assertEquals( (Object) 'A', converter.convertToJava( "AB" ) );
     }
 
     @Test
-    public void testConvertToSap()
-    {
+    public void testConvertToSap() {
         assertEquals( "", converter.convertToSap( null ) );
         assertEquals( " ", converter.convertToSap( ' ' ) );
         assertEquals( "A", converter.convertToSap( 'A' ) );
