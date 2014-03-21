@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <name>Hibersap Parent</name>
 
-    <groupId>org.hibersap</groupId>
     <artifactId>hibersap-parent</artifactId>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -15,19 +15,15 @@
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
+
+    <modules>
+        <module>../hibersap-core</module>
+        <module>../hibersap-jco</module>
+        <module>../hibersap-jca</module>
+        <module>../hibersap-ejb</module>
+    </modules>
+
     <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>../hibersap-core</module>
-                <module>../hibersap-jco</module>
-                <module>../hibersap-jca</module>
-                <module>../hibersap-ejb</module>
-            </modules>
-        </profile>
         <profile>
             <id>it</id>
             <modules>
@@ -95,7 +91,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jco.native-lib.version>3.0.8</jco.native-lib.version>
+        <jco.native-lib.version>3.0.9</jco.native-lib.version>
     </properties>
 
     <build>
