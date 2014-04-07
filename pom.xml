@@ -34,28 +34,6 @@
             <name>Hibersap Release Site</name>
             <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
         </site>
-
-        <!--
-                <site>
-                    <id>local</id>
-                    <name>Local file system</name>
-                    <url>file:///tmp/hibersap-site-${project.version}/</url>
-                </site>
-        -->
-
-        <repository>
-            <id>central</id>
-            <name>ATS Maven Repository</name>
-            <url>https://www.spree.de/maven-repository/libs-releases-local</url>
-            <uniqueVersion>false</uniqueVersion>
-        </repository>
-
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>ATS Snapshot Repository</name>
-            <url>dav:https://www.spree.de/maven-repository/libs-snapshots-local</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
     </distributionManagement>
 
     <licenses>
@@ -67,8 +45,7 @@
 
     <issueManagement>
         <system>Sourceforge Tracker</system>
-        <url>https://sourceforge.net/tracker/?group_id=225273
-        </url>
+        <url>https://sourceforge.net/tracker/?group_id=225273</url>
     </issueManagement>
 
     <mailingLists>
@@ -81,10 +58,9 @@
     </mailingLists>
 
     <scm>
-        <connection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap</connection>
-        <developerConnection>scm:svn:https://hibersap.svn.sourceforge.net/svnroot/hibersap/trunk/hibersap
-        </developerConnection>
-        <url>http://hibersap.svn.sourceforge.net/viewvc/hibersap/trunk/hibersap</url>
+        <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
+        <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
+        <url>https://github.com/hibersap/hibersap</url>
     </scm>
 
     <organization>
