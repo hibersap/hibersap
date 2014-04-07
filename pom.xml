@@ -8,11 +8,23 @@
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Hibersap</name>
+    <name>Hibersap Reactor</name>
 
     <modules>
-        <module>hibersap-parent</module>
+        <module>hibersap-core</module>
+        <module>hibersap-jco</module>
+        <module>hibersap-jca</module>
+        <module>hibersap-ejb</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>it</id>
+            <modules>
+                <module>hibersap-it</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -293,4 +305,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
