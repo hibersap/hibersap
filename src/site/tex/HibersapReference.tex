@@ -1,0 +1,98 @@
+\documentclass[12pt,a4paper,titlepage]{book} 
+
+\setlength{\topmargin}{-1cm} 
+\setlength{\headsep}{1cm} 
+\setlength{\textheight}{24.5cm} 
+\setlength{\textwidth}{17.3cm} 
+\setlength{\evensidemargin}{-0.7cm} 
+\setlength{\oddsidemargin}{-0.7cm}
+\setlength{\parskip}{0.1cm}
+
+\usepackage{courier}
+
+\usepackage{datetime}
+\usepackage{fancyvrb}
+\usepackage{ccaption}
+\usepackage{color}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{url}
+\urlstyle{tt}
+\usepackage{tabularx}
+\usepackage{listings}
+
+\usepackage[colorlinks=true]{hyperref} % should be the last package listed
+
+\hypersetup{
+    linkcolor=black,          % color of internal links
+%    bookmarks=true,         % show bookmarks bar?
+%    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+%    pdftoolbar=true,        % show Acrobat’s toolbar?
+%    pdfmenubar=true,        % show Acrobat’s menu?
+%    pdffitwindow=false,     % window fit to page when opened
+%    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Hibersap Reference Manual},    % title
+    pdfauthor={Carsten Erker},     % author
+    pdfsubject={Hibersap},   % subject of the document
+%    pdfcreator={Creator},   % creator of the document
+%    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={Java} {JCO} {SAP} {Java Connector}, % list of keywords
+%    pdfnewwindow=true,      % links in new window
+%    colorlinks=false,       % false: boxed links; true: colored links
+%    citecolor=green,        % color of links to bibliography
+%    filecolor=magenta,      % color of file links
+%    urlcolor=cyan           % color of external links
+}
+
+\urlstyle{same}
+
+\definecolor{light-gray}{gray}{0.85}
+
+\lstset{
+language=Java,
+basicstyle=\sffamily\small,
+numbers=none,                   
+backgroundcolor=\color{light-gray},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=none,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false
+}
+
+\urldef{\urlHibersapSite}\url{http://hibersap.org} 
+\urldef{\urlCuckooSite}\url{http://sourceforge.net/p/cuckoo-ra} 
+
+\begin{document} 
+
+\newcommand\HRule{\noindent\rule{\linewidth}{1.5pt}} 
+\newcommand\HibersapVersion{\input{version}}
+
+\newenvironment{descriptionBlock}[1]
+{
+  \noindent \textbf{#1} 
+  \hrule
+  \begin{description}
+}
+{
+  \hrule
+  \end{description}
+}
+
+\include{TitlePage}  
+\pagenumbering{roman} 
+\tableofcontents 
+\newpage 
+\pagenumbering{arabic} 
+\include{Introduction} 
+\include{QuickStart} 
+\include{Installation} 
+\include{Configuration} 
+\include{Usage} 
+\appendix 
+
+\end{document}

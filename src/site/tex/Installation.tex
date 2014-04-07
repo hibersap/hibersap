@@ -1,0 +1,128 @@
+%!TEX root = HibersapReference.tex
+\chapter{Installation}
+\label{cha:Installation}
+
+\section{The Hibersap libraries}
+
+The Hibersap framework is divided into the following libraries:
+\begin{itemize}
+  \item hibersap-core-\HibersapVersion
+  \item hibersap-jco-\HibersapVersion
+  \item hibersap-jca-\HibersapVersion
+  \item hibersap-ejb-\HibersapVersion
+\end{itemize}
+
+When using Hibersap in conjunction with a JCA compatible resource adapter, both the hibersap-core and the hibersap-jca jars must be on the application's classpath. When using Hibersap with the SAP Java Connector (JCo), the hibersap-core and the hibersap-jco libraries are needed. 
+
+When using Hibersap with EJBs, you may consider using the EJB tools provided by the hibersap-ejb module. 
+The EJB tools provide an EJB3 interceptor which takes care of opening and closing sessions as well as injecting them into your EJBs at a special injection point denoted by a @HibersapSession annotation. See section \ref{sec:HibersapEjbTools} for more information.
+
+\section{Third party libraries}
+Hibersap has a few dependencies on third-party libraries, such as apache-commons or JAXB, which you need to add to your application's classpath. The easiest way to achieve this is to build your projects with Maven, see section \ref{sec:Maven}.  
+
+Depending on which interfacing technology is actually used, you also need the SAP Java Connector (JCo) 
+or a JCA compatible resource adapter.
+
+\subsection{Hibersap dependencies}
+If not using Maven, please see the page "Dependency Convergence" on the Hibersap project site (\urlHibersapSite) to get a current list of libraries used by Hibersap and add these to your application's classpath. When using Maven, it will download the dependencies automatically.
+
+\subsection{The SAP Java Connector (JCo)}
+The SAP JCo library is provided by SAP to their customers and comes with its own license. Thus it can not be provided by public Maven repositories or download sites. Please check the following URL for more information and downloads: \url{http://service.sap.com/connectors}. You need to have a user and password for this URL, which is free for SAP customers. Valuable help regarding SAP technologies can also be found on the SAP Community Network (SCN): \url{http://scn.sap.com}. 
+
+After downloading SAP Java Connector 3.0, extract the sapjco3.jar and the sapjco3 native library. The native library must be on your application's library path. You may copy it to a global library path, to a special directory such as C:/WINDOWS/SYSTEM32 on Windows systems or to the execution directory of the application (e.g. the bin folder of your application server or the folder from which you run your application). Additionally, the JCo jar file must be on the application's classpath. 
+
+You may set the Java library path programmatically within your application by calling 
+\begin{lstlisting}
+System.setProperty("java.library.path", "/the/actual/path"); 
+\end{lstlisting}
+or by passing it to the Java runtime when executing your Java application using 
+\begin{lstlisting}
+-Djava.library.path="/the/actual/path" 
+\end{lstlisting}
+
+\subsection{The Cuckoo Resource Adapter for SAP}
+If you are using Hibersap with a resource adapter in a managed environment, the preferred choice is the Cuckoo Resource Adapter for SAP. The project's web site can be found under \urlCuckooSite.
+
+For your application, you need to deploy the resource adapter to your application server. Since it uses the SAP Java Connector internally, the previous section also applies to this scenario, i.e. the SAP JCo has to be installed for use within the application server.
+
+\subsection{Using other JCA compatible Resource Adapters}
+Being the only open source resource adapters for SAP, Hibersap was tested with Cuckoo as well as the SAP BAPI JCA Adapter (see \url{http://sourceforge.net/projects/sapbapijcaadapt/}). Nevertheless, you are welcome to use Hibersap with other resource adapters and we would be glad to get your feedback. Note that a resource adapter must implement the JCA Common Client Interface (CCI) to be supported by Hibersap.
+
+Integrating another Resource Adapter in combination with application-managed authentication includes writing a Resource Adapter specific implementation of the interface org.hibersap. execution.jca.cci.ConnectionSpecFactory. This is due to a limitation in the JCA specification which specifies the javax.resource.cci.ConnectionSpec as an empty interface, letting it up to the vendor-specific implementation to define which properties it contains. Hibersap's aim to support different resource adapters means that there must be a layer on top of the ConnectionSpec interface which makes it possible to adapt to different JCA implementations without having explicit dependencies to each of them. Hibersap implements ConnectionSpecFactories for Cuckoo as well as the SAP BAPI JCA Adapter that use reflection for setting and getting the ConnectionSpec's parameters in order to reduce (compile-time) dependencies to the actual resource adapter.
+
+However, an implementation of the ConnectionSpecFactory is not needed if the application uses container-managed authentication, because in this case there is no need to use a ConnectionSpec.
+
+\section{Building Hibersap applications with Maven}
+\label{sec:Maven}
+
+If you are building your application with Maven, you need to specify the Hibersap repository for your module.
+Adding the following part to the repositories section of your pom.xml gives your project access to 
+the libraries you need when using Hibersap.
+
+\begin{lstlisting}[language=,caption=Maven repository for Hibersap]
+<repositories>
+    <repository>
+        <id>repository.hibersap</id>
+        <name>Hibersap Repository for Maven</name>
+        <url>
+            http://hibersap.svn.sourceforge.net/viewvc/hibersap/m2repo
+        </url>
+    </repository>
+    ... 
+</repositories>
+\end{lstlisting}
+
+This is how you can specify the dependencies to the Hibersap libraries in your pom.xml.
+Depending on which interfacing technology you use, you generally need to depend from either
+hibersap-core and hibersap-jco or from hibersap-core and hibersap-jca.
+
+\begin{lstlisting}[language=,caption=hibersap-core,escapechar=|]
+<dependency>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-core</artifactId>
+    <version>|\HibersapVersion|</version>
+    <type>jar</type>
+</dependency>
+\end{lstlisting}
+
+\begin{lstlisting}[language=,caption=hibersap-jco,escapechar=|]
+<dependency>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-jco</artifactId>
+    <version>|\HibersapVersion|</version>
+    <type>jar</type>
+</dependency>
+\end{lstlisting}
+
+\begin{lstlisting}[language=,caption=hibersap-jca,escapechar=|]
+<dependency>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-jca</artifactId>
+    <version>|\HibersapVersion|</version>
+    <type>jar</type>
+</dependency>
+\end{lstlisting}
+
+Due to Maven's dependency management capabilities, all transient dependencies are automatically resolved so that there is no need to specify any of the above mentioned third-party libraries. However, since the SAP JCo and the SAP BAPI JCA Adapter can not be found in a (public) Maven repository due to its commercial license model, you have to manually add these libraries to your local or enterprise repository.
+
+The latest version of the SAP Java Connector can be downloaded from the SAP Service Marketplace at 
+\url{http://service.sap.com/connectors}. There you will find different distribution packages for the supported platforms.
+To install the JCo jar to your local Maven repository, unpack the downloaded zip file (e.g. version 3.0.8) and 
+issue the following command from your console.
+
+\begin{lstlisting}[language=,caption=Installation of sap-jco.jar to local Maven repository]
+mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.8 -Dpackaging=jar -Dfile=sapjco.jar
+\end{lstlisting}
+
+After installing the JCo library to your local repository or alternatively deploying it to your project's or company's repository, you can include the JCo lib in your project by declaring the following dependency.
+
+\begin{lstlisting}[language=,caption=Installation of sap-jco.jar to local Maven repository]
+<dependency>
+    <groupId>com.sap</groupId>
+    <artifactId>sap-jco</artifactId>
+    <version>3.0.8</version>
+</dependency>
+\end{lstlisting}
+
+
+The other important file from the JCo distribution is the JCo native library which you must put into your application's library path.

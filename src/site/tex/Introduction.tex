@@ -1,0 +1,36 @@
+%!TEX root = HibersapReference.tex
+\chapter{Introduction to Hibersap}
+
+  Hibersap helps developers of Java applications to call business logic in SAP backends. 
+  It defines a set of Java annotations to map SAP function modules to Java classes as well as a small, clean API
+  to execute these function modules and handle transaction and security aspects. 
+  Hibersap's programming model is quite similar to those of modern O/R mappers, significantly speeding up the 
+  development of SAP interfaces and making it much more fun to write the integration code.
+  \\ \\
+  Under the hood, Hibersap either uses the SAP Java Connector (JCo) or a JCA compatible resource adapter 
+  to communicate with the SAP backend. While retaining the benefits of JCo and JCA like transactions, 
+  security, connection pooling, etc., developers can focus on writing business logic because the need for boilerplate
+  code is largely reduced.
+  \\ \\
+  Hibersap can either be configured programmatically or by providing an XML file. Switching between JCo and JCA
+  is a sole matter of configuration, the program code remains the same. This makes it possible to execute
+  integration tests via JCo while using a resource adapter in the production environment.
+  \\ \\
+  Regarding data type conversion from ABAP to Java types, Hibersap per default uses the conversion as is done by 
+  JCo resp. JCA. Custom converters may be used to implement special conversion logic. Hibersap will then call the
+  conversion code on-the-fly, before and after calling the function module in SAP. 
+  \\ \\
+  Hibersap may be configured to use Bean Validation (JSR 303) to validate field values according to the standard
+  Bean Validation annotations.
+  \\ \\
+  If the function module defines a standard Return structure or table, Hibersap is able to automatically detect 
+  an error state and throw a SapException which includes the information returned by SAP.
+  \\ \\
+  For Java EE applications it is recommended to use a resource adapter since it integrated seamlessly with  
+  Java EE containers. Using the Hibersap EJB tools makes it very easy to call SAP from EJB methods including
+  such nice features like Container Managed Transactions and Container Managed Security. In a managed environment
+  calls to SAP functions may even be part of distrubited transactions.  
+  \\ \\
+  For advanced use cases, there are two types of interceptors that work on different levels of the call stack.
+  \\ \\ \\
+  In chapter \ref{cha:QuickStart} you'll find out how easy it is to use Hibersap.

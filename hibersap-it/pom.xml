@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-parent</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath>../hibersap-parent</relativePath>
+    </parent>
+
+    <artifactId>hibersap-it</artifactId>
+
+    <!--
+        Since SAP JCo is a proprietary library with a commercial license, we have to manually install or deploy it
+        to the local Maven repository or a (private!) remote repository (replace version like above,
+        classifier like in the following profile that fits to your architecture):
+        
+        mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file
+        mvn deploy:deploy-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+    -->
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
+<!--
+                    <systemProperties>
+                        <property>
+                            <name>java.library.path</name>
+                            <value>${project.build.directory}/jni</value>
+                        </property>
+                    </systemProperties>
+-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-sapjco-lib</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.sap</groupId>
+                                    <artifactId>sap-jco</artifactId>
+                                    <version>${jco.native-lib.version}</version>
+                                    <type>${jco.native-lib.packaging}</type>
+                                    <classifier>${jco.native-lib.classifier}</classifier>
+                                    <outputDirectory>${project.build.directory}/native-lib</outputDirectory>
+                                    <destFileName>${jco.native-lib.filename}</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Hibersap -->
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-jco</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- JAXB -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1.9</version>
+        </dependency>
+
+        <!-- SAP Java Connector (JCo) -->
+        <dependency>
+            <groupId>com.sap</groupId>
+            <artifactId>sap-jco</artifactId>
+            <version>[3.0,4.0)</version>
+        </dependency>
+
+    </dependencies>
+</project>

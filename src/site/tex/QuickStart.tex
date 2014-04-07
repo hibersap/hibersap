@@ -1,0 +1,577 @@
+%!TEX root = HibersapReference.tex
+\chapter{Quick Start}
+\label{cha:QuickStart}
+
+\section{Installation}
+
+\begin{itemize}
+
+  \item Make sure Maven is installed on your computer.
+  
+  \item Download SAP Java Connector 3 (\url{http://service.sap.com/connectors}) and extract the sapjco3.jar and the sapjco3 native library. In the example, we assume you use version 3.0.8, if not you should use the correct version number.
+  
+  \item Install sapjco3 jar to your local Maven repository from the commandline:\\
+  ``mvn install:install -file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.8\\
+  -Dpackaging=jar -Dfile= sapjco3.jar''.
+  
+  \item Create a Maven project with the repositories and dependencies elements like in listing \ref{lst:pom.xml}. 
+  
+  \item Put the JCo native library into your library path or into the folder your application will be started
+    from (e. g. the root folder of your IDE project that contains your main class).
+    
+  \item Put the Java classes that are described in this chapter into the folder \$project\_home/src/ main/java.
+
+\end{itemize} 
+
+\begin{lstlisting}[language=,caption=The Maven pom.xml,escapechar=|,label=lst:pom.xml]
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>|\textit{com.mycomp}|</groupId>
+    <artifactId>|\textit{hibersap-example}|</artifactId>
+    <version>1.0</version>
+    <repositories>
+        <repository>
+            <id>repository.hibersap</id>
+            <name>Hibersap Repository for Maven</name>
+            <url>
+              http://hibersap.svn.sourceforge.net/viewvc/hibersap/m2repo
+            </url>
+        </repository>
+    </repositories>                 
+    <dependencies>
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-core</artifactId>
+            <version>|\HibersapVersion|</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-jco</artifactId>
+            <version>|\HibersapVersion|</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sap</groupId>
+            <artifactId>sap-jco</artifactId>
+            <version>3.0.8</version>
+        </dependency>
+    </dependencies>
+</project>
+\end{lstlisting}
+
+If you don't want to use Maven to build the application, you can look up the dependencies of hibersap-core and hibersap-jco on Hibersap's project site, under "Dependency Convergence": \urlHibersapSite
+
+\section{The first Hibersap application}
+
+We are going to write a small example application that will call the SAP function \linebreak BAPI\_SFLIGHT\_GETLIST.
+This function is part of a demo application in SAP that implements a simplified flight-booking system.
+
+\subsection{The function module}
+
+This is the function module's interface in SAP:
+
+\begin{lstlisting}[language={[R/3 6.10]ABAP},caption=The ABAP Function]
+FUNCTION BAPI_SFLIGHT_GETLIST.
+  IMPORTING
+     VALUE(FROMCOUNTRYKEY) LIKE  BAPISFDETA-COUNTRYFR
+     VALUE(FROMCITY)       LIKE  BAPISFDETA-CITYFROM
+     VALUE(TOCOUNTRYKEY)   LIKE  BAPISFDETA-COUNTRYTO
+     VALUE(TOCITY)         LIKE  BAPISFDETA-CITYTO
+     VALUE(AIRLINECARRIER) LIKE  BAPISFDETA-CARRID DEFAULT SPACE
+     VALUE(AFTERNOON)      LIKE  BAPI_AUX-AFTERNOON DEFAULT SPACE
+     VALUE(MAXREAD)        LIKE  BAPI_AUX-MAXREAD DEFAULT 0
+  EXPORTING
+     VALUE(RETURN)         LIKE  BAPIRET2 STRUCTURE  BAPIRET2
+  TABLES
+     FLIGHTLIST            STRUCTURE  BAPISFLIST
+\end{lstlisting}
+
+This function module takes some parameters that represent search criteria to look up flights in SAP's database.
+The matching flights are returned in the FLIGHTLIST table, which contains information such as
+the airline carrier id, a flight connection code and departure/destination data.
+The RETURN structure may be filled by SAP with extra messages like errors, warnings, etc.
+
+In this function, the import parameters are simple types, whereas the export and table parameter are complex data types (ABAP structures).
+The RETURN parameter is of type BAPIRET2, which is a standard structure that can be found in many function modules'
+interfaces and that is not specific to this BAPI. See table \ref{tab:Bapiret2}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lll} \toprule 
+    \textbf{Component name} & \textbf{Type}     & \textbf{Description} \\ \midrule
+    TYPE                  & Character               & Message type: S Success, E Error, W Warning, \\ 
+                             &                             & I Info, A Abort \\ 
+    ID                      & Character                & Messages, message class \\  
+    NUMBER              & Numeric character   & Messages, message number \\ 
+    MESSAGE             & Character               & Message text \\ 
+    LOG\_NO            & Character                & Application log: log number \\ 
+    LOG\_MSG\_NO   & Numeric character    & Application log: Internal message serial number \\ 
+    MESSAGE\_V1      & Character               & Messages, message variables \\ 
+    MESSAGE\_V2      & Character               & Messages, message variables \\ 
+    MESSAGE\_V3      & Character               & Messages, message variables \\ 
+    MESSAGE\_V4      & Character               & Messages, message variables \\ 
+    PARAMETER          & Character              & Parameter name \\ 
+    ROW                    & 4-byte integer        & Lines in parameter \\ 
+    FIELD                   & Character              & Field in parameter \\ 
+    SYSTEM                & Character              & Logical system from which message originates \\ \bottomrule
+  \end{tabular}
+  \caption{Structure BAPIRET2}
+  \label{tab:Bapiret2}
+\end{table}
+
+The FLIGHTLIST table's lines are of type BAPISFLIST which contains the following fields, as shown in table
+\ref{tab:Bapisflist}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lll} \toprule
+    \textbf{Component name} & \textbf{Type}        & \textbf{Description} \\ \midrule
+    CARRID                  & Character            & Airline carrier ID \\ 
+    CONNID                  & Numerical character  & Flight connection code \\ 
+    FLDATE                  & Date                 & Flight date \\ 
+    AIRPFROM                & Character            & Airport of departure \\ 
+    AIRPTO                  & Character            & Destination airport \\ 
+    DEPTIME                 & Time                 & Departure time \\ 
+    SEATSMAX                & 4-byte integer       & Maximum capacity \\ 
+    SEATSOCC                & 4-byte integer       & Occupied seats \\ \bottomrule
+  \end{tabular}
+  \caption{Structure BAPISFLIST}
+  \label{tab:Bapisflist}
+\end{table}
+
+
+\subsection{The BAPI class}
+
+To call a function module from a Java application using Hibersap, we will write a \textit{BAPI class} that acts as
+an adapter to JCo. The BAPI class is a simple Java class with a number of fields representing the BAPI's import,
+export and table parameters. In case the BAPI parameter being a scalar parameter, the Java field itself is of a
+primitive Java type. In the case of a structure parameter, the Java field's type has to be a complex type, too.
+A table parameter maps to an Array or a Collection of a complex type.
+
+All setup related to the function module's interface is done via Java annotations.
+A BAPI class is defined using the Hibersap class annotation @Bapi,
+which has a name argument specifying the name of the SAP function module we want to call.
+(All Hibersap annotations can be found in the package org.hibersap.annotations.)
+
+\begin{lstlisting}[caption=The BAPI class]
+package org.hibersap.examples.flightlist;
+
+import java.util.List;
+import org.hibersap.*;
+
+@Bapi("BAPI_SFLIGHT_GETLIST")
+public class FlightListBapi
+{
+  ...
+}
+\end{lstlisting}
+
+The Java fields that will be mapped to the function module's parameters are annotated with the
+@Import, @Export or @Table annotations to tell Hibersap which kind of parameter it should handle.
+Additionally, we have to specify the function module's field name
+to which it relates, using the @Parameter annotation.
+The @Parameter's second argument, type, tells Hibersap if the parameter has a simple or a complex structure type.
+The enumeration ParameterType defines possible values, the default type for element type being SIMPLE.
+In most cases we have to specify a parameter's name only. Since table parameters always represent
+a table of complex types, any parameter type argument will be ignored by Hibersap.
+
+
+\begin{lstlisting}[caption=The BAPI fields]
+@Import
+@Parameter("FROMCOUNTRYKEY")
+private final String fromCountryKey;
+
+@Import
+@Parameter("FROMCITY")
+private final String fromCity;
+
+@Import
+@Parameter("TOCOUNTRYKEY")
+private final String toCountryKey;
+
+@Import
+@Parameter("TOCITY")
+private final String toCity;
+
+@Import
+@Parameter("AIRLINECARRIER")
+private final String airlineCarrier;
+
+@Import
+@Parameter("AFTERNOON")
+@Convert(converter = BooleanConverter.class)
+private final boolean afternoon;
+
+@Import
+@Parameter("MAXREAD")
+private final int maxRead;
+
+@Export
+@Parameter(value="RETURN", type = ParameterType.STRUCTURE)
+private BapiRet2 returnData;
+
+@Table
+@Parameter("FLIGHTLIST")
+private List<Flight> flightList;
+\end{lstlisting}
+
+The Java type of each simple field is related to the SAP field's data type.
+Hibersap relies on the Java Connector's conversion scheme as shown in table \ref{tab:JCoConversion}.
+
+The @Convert annotation on the field afternoon in the listing above tells Hibersap
+to use a Converter of type BooleanConverter to convert the parameter AFTERNOON which is a character field of length 1 to a
+Java boolean value. See section \ref{cha:Mapping} on how to implement custom Converters.
+
+To conclude the example, we write a constructor which takes all the import parameters as arguments,
+initializing the corresponding fields.
+
+\begin{lstlisting}[caption=The constructor]
+public FlightListBapi( String fromCountryKey,
+                       String fromCity,
+                       String toCountryKey,
+                       String toCity,
+                       String airlineCarrier,
+                       boolean afternoon,
+                       int maxRead )
+{
+    this.fromCountryKey = fromCountryKey;
+    this.fromCity = fromCity;
+    this.toCountryKey = toCountryKey;
+    this.toCity = toCity;
+    this.airlineCarrier = airlineCarrier;
+    this.afternoon = afternoon;
+    this.maxRead = maxRead;
+}
+\end{lstlisting}
+
+Finally, we should add a getter method for each field.
+Hibersap itself does not need setter methods, because all fields are set using reflection.
+We could of course add additional fields and methods if needed.
+
+\begin{lstlisting}[caption=The getter methods]
+public boolean getAfternoon()
+{
+    return this.afternoon;
+}
+...
+\end{lstlisting}
+
+\HRule
+
+\textbf{Note} --- There is one constraint in the current version of Hibersap you should take into account: The mapping
+between SAP parameters and Java classes works as expected only if the SAP function module complies to the BAPI standard,
+this means:
+\begin{itemize}
+  \item Deep tables (i. e. tables in tables) are not supported.
+  \item Tables in import and export parameters are not supported.
+  \item Changing parameters can not be mapped.
+  \item ABAP exceptions get converted to HibersapException.
+\end{itemize}
+
+\HRule
+
+
+\subsection{Structure classes}
+
+There are two more classes we have to write:
+One for the complex export parameter RETURN, which is named BapiRet2, after the SAP data type.
+It is another annotated simple Java class with fields related to some of the function module's parameter.
+To keep the example simple, we do not map all the fields of the RETURN parameter.
+
+\begin{lstlisting}[caption=The BapiRet2 class]
+package org.hibersap.bapi;
+
+import org.hibersap.annotations.*;
+
+@BapiStructure
+public class BapiRet2
+{
+    @Parameter("TYPE")
+    @Convert(converter = CharConverter.class)
+    private char type;
+
+    @Parameter("ID")
+    private String id;
+
+    @Parameter("NUMBER")
+    private String number;
+
+    @Parameter("MESSAGE")
+    private String message;
+
+    public char getType()
+    {
+        return this.type;
+    }
+
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public String getNumber()
+    {
+        return this.number;
+    }
+
+    public String getMessage()
+    {
+        return this.message;
+    }
+}
+\end{lstlisting}
+
+The class is annotated with @BapiStructure to tell Hibersap that it maps to
+a complex parameter on the SAP side. Each particular field is annotated with the
+already known @Parameter annotation that defines the name of the corresponding structure field.
+The BapiRet2 class is already part of Hibersap, since this structure is used by a lot of
+SAP function modules. This means, you don't have to implement it.
+
+The second class we need to implement is a Java class that Hibersap will map to each row in the 
+table parameter FLIGHTLIST, which in our example is simply called Flight.
+The table FLIGHTLIST will be filled by SAP with the flight information matching our request.
+
+\begin{lstlisting}[caption=The Flight class]
+package org.hibersap.examples.flightlist;
+
+import java.util.Date;
+import org.hibersap.*;
+
+@BapiStructure
+public class Flight
+{
+    @Parameter("CARRID")
+    private String carrierId;
+
+    @Parameter("CONNID")
+    private String connectionId;
+
+    @Parameter("AIRPFROM")
+    private String airportFrom;
+
+    @Parameter("AIRPTO")
+    private String airportTo;
+
+    @Parameter("FLDATE")
+    private Date flightDate;
+
+    @Parameter("DEPTIME")
+    private Date departureTime;
+
+    @Parameter("SEATSMAX")
+    private int seatsMax;
+
+    @Parameter("SEATSOCC")
+    private int seatsOccupied;
+
+    public String getAirportFrom()
+    {
+        return this.airportFrom;
+    }
+
+    public String getAirportTo()
+    {
+        return this.airportTo;
+    }
+
+    public String getCarrierId()
+    {
+        return this.carrierId;
+    }
+
+    public String getConnectionId()
+    {
+        return this.connectionId;
+    }
+
+    public Date getDepartureTime()
+    {
+        return DateUtil.joinDateAndTime( flightDate, departureTime );
+    }
+
+    public Date getFlightDate()
+    {
+        return flightDate;
+    }
+
+    public int getSeatsMax()
+    {
+        return this.seatsMax;
+    }
+
+    public int getSeatsOccupied()
+    {
+        return this.seatsOccupied;
+    }
+}
+\end{lstlisting}
+
+Please note that the method getDepartureTime() does not simply return the field departureTime
+but calls a utility method DateUtil.joinDateAndTime(). This is done here because ABAP -- unlike Java -- does not have a
+data type that contains date and time. In ABAP such a timestamp is separated into two fields, one
+of type Date, the other of type Time. Therefore the Java Connector returns a java.util.Date for the SAP
+date field containing the date fraction (date at 00:00:00,000) and another java.util.Date for the time
+field containing the time fraction (i.e. Jan. 1st, 1970 plus time). The utility method joins those two dates
+into one.
+
+
+\subsection{Configuration}
+
+To configure Hibersap, we need to specify some information for the Hibersap framework, plus properties for the Java Connector. To accomplish this, we create an XML file named hibersap.xml in \$project\_home/src/main/resources/META-INF. Hibersap will look for this file in the classpath under ``/META-INF/hibersap.xml''.
+
+In the example we use a minimal set of JCo properties to be able to connect to the back-end SAP system.
+All valid JCo properties are specified in the JCo library interface com.sap.conn. jco.ext.DestinationDataProvider (see
+javadoc provided with JCo).
+
+\begin{lstlisting}[language=XML,caption=hibersap.xml]
+<?xml version="1.0" encoding="UTF-8"?>
+<hibersap xmlns="urn:hibersap:hibersap-configuration:1.0">
+  <session-manager name="A12">
+    <context>org.hibersap.execution.jco.JCoContext</context>
+
+    <properties>
+      <property name="jco.client.client" value="800" />
+      <property name="jco.client.user" value="sapuser" />
+      <property name="jco.client.passwd" value="password" />
+      <property name="jco.client.lang" value="en" />
+      <property name="jco.client.ashost" value="10.20.80.76" />
+      <property name="jco.client.sysnr" value="00" />
+      <property name="jco.destination.pool_capacity" value="1" />
+    </properties>
+
+    <annotatedClasses>
+      <class>org.hibersap.examples.flightlist.FlightListBapi</class>
+    </annotatedClasses>
+  </session-manager>
+</hibersap>
+\end{lstlisting}
+
+\subsection{Calling a function module}
+
+Hibersap's API is quite similar to Hibernate.
+There is the notion of a SessionManager which should be created only once in an application,
+because it is rather expensive to create.
+One SessionManager is needed for each SAP system which is used by the application.
+
+The SessionManager is responsible for creating Sessions.
+A Session represents a connection to the SAP system. The first time we call a function module
+on a Session, Hibersap gets a connection from the underlying connection pool.
+When closing a session, the connection is returned to the pool. Therefore you have to take care
+always to close the session, preferably in a finally block, else the connection pool may
+get exhausted sooner or later.
+
+The following function configures a Hibersap SessionManager. First, an instance of type AnnotationConfiguration has to be created for the named SessionManager, as specified in hibersap.xml. Finally, we build the SessionManager. In a real application this should be done once, reusing the SessionManager throughout the application's lifetime.
+
+\begin{lstlisting}[caption=Creating the SessionManager]
+public SessionManager createSessionManager()
+{
+    AnnotationConfiguration configuration 
+        = new AnnotationConfiguration("A12");
+    return configuration.buildSessionManager();
+}
+\end{lstlisting}
+
+Now it is time to call the function module in SAP.
+After creating the SessionManager and opening a new Session, we create an instance of our
+BAPI Class, passing all parameters needed to execute the function as constructor arguments.
+Then we simply call the execute() method on the Session, passing the BAPI class,
+which actually performs the call to SAP. Now the flightListBapi object is enriched with all the
+values returned by the function module and which we have mapped to Java fields in our BAPI Class.
+
+\begin{lstlisting}[caption=Executing the function]
+public void showFlightList()
+{
+    SessionManager sessionManager = createSessionManager();
+
+    Session session = sessionManager.openSession();
+    try
+    {
+        FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", 
+                                                        "DE", "Berlin", 
+                                                        null, false, 10 );
+        session.execute( flightList );
+        showResult( flightList );
+    }
+    finally
+    {
+        session.close();
+    }
+}
+\end{lstlisting}
+
+To see the result of the function call, we simply print the BAPI class' fields to the console in the
+showResult() method:
+
+\begin{lstlisting}[caption=Printing the results]
+private void showResult( FlightListBapi flightList )
+{
+    System.out.println( "AirlineId: " + flightList.getFromCountryKey() );
+    System.out.println( "FromCity: " + flightList.getFromCity() );
+    System.out.println( "ToCountryKey: " + flightList.getToCountryKey() );
+    System.out.println( "ToCity: " + flightList.getToCity() );
+    System.out.println( "AirlineCarrier: " + flightList
+                                             .getAirlineCarrier() );
+    System.out.println( "Afternoon: " + flightList.getAfternoon() );
+    System.out.println( "MaxRead: " + flightList.getMaxRead() );
+
+    System.out.println( "\nFlightData" );
+    List<Flight> flights = flightList.getFlightList();
+    for ( Flight flight : flights )
+    {
+        System.out.print( "\t" + flight.getAirportFrom() );
+        System.out.print( "\t" + flight.getAirportTo() );
+        System.out.print( "\t" + flight.getCarrierId() );
+        System.out.print( "\t" + flight.getConnectionId() );
+        System.out.print( "\t" + flight.getSeatsMax() );
+        System.out.print( "\t" + flight.getSeatsOccupied() );
+        System.out.println( "\t" + flight.getDepartureTime() );
+    }
+
+    System.out.println( "\nReturn" );
+    BapiRet2 returnStruct = flightList.getReturnData();
+    System.out.println( "\tMessage: " + returnStruct.getMessage() );
+    System.out.println( "\tNumber: " + returnStruct.getNumber() );
+    System.out.println( "\tType: " + returnStruct.getType() );
+    System.out.println( "\tId: " + returnStruct.getId() );
+}
+\end{lstlisting}
+
+Finally, create a main method that calls the showFlightList() method. Build the project with maven on the command-line using ``mvn compile'' and run the main class, or run it directly from your IDE.
+
+In the example, we are looking for all flights from Frankfurt to Berlin.
+The result should look like follows, in this example, there were two flights found.
+
+\begin{lstlisting}[language=,label=A successful result]
+AirlineId: DE
+FromCity: Frankfurt
+ToCountryKey: DE
+ToCity: Berlin
+AirlineCarrier:
+Afternoon: false
+MaxRead: 10
+
+FlightData
+	FRA  SXF  LH  2402  220  191  Thu Dec 30 10:30:00 CET 2010
+	FRA  SXF  LH  2402  220  207  Fri Dec 31 10:30:00 CET 2010
+
+Return
+	Message:
+	Number: 000
+	Type: S
+	Id:
+\end{lstlisting}
+
+If there were no flights found, the return field will contain the following data returned by SAP:
+
+\begin{lstlisting}[language=,label=The result when no data was found]
+Return
+	Message: No corresponding flights found
+	Number: 150
+	Type: E
+	Id: BC_BOR
+\end{lstlisting}
+
+To see further examples, you may check out the complete hibersap project from the subversion source code repository. See the information provided at the Hibersap project site \urlHibersapSite. There you will also find examples of using Hibersap in a Java EE application server with a JCA resource adapter. 
+

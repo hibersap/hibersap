@@ -1,0 +1,56 @@
+                                    ------
+                                    About Hibersap
+                                    ------
+                                    ------
+
+
+About Hibersap
+
+  Hibersap is a small framework that offers an abstraction layer on top of the SAP Java Connector (JCo).
+  It maps Java classes to SAP function modules using Java Annotations and reduces the technical code
+  to call a function in a SAP back-end system to a minimum. 
+  Hibersap's API is very similar to Hibernate, thus offering a familiar programming interface to developers.  
+
+* Current Features
+
+  * Calling remote function modules in SAP systems
+
+  * Mapping of ABAP function modules and their parameters to Java classes and their fields using Java Annotations.
+
+  * Hibernate-like API completely hiding the JCo/JCA API.
+
+  * Custom data type conversion using @Convert annotation and Converter classes.
+
+  * Intercept execution of function modules using custom Interceptors.
+
+  * Automatic error propagation using the @ThrowExceptionOnError annotation.
+
+  * Configuration using XML file or programmatic configuration
+
+  * Using the SAP Java Connector (JCo), version 3, internally.
+
+  * Alteratively, using a JCA compliant Resource Adapter in managed environments.
+
+  * Switching between the use of JCo and JCA by means of configuration.
+
+  * Manual transaction handling using JCo.
+
+  * Local Transactions using JCA.
+
+  * Container Managed Transactions (CMT) using JCA.
+
+  * Distributed Transactions with Application Servers that support Last Resource Commit Optimization.
+
+  * Application and container managed security.
+
+* Prospective Features
+
+  * Automated lookup of mapped classes instead of adding them manually to the configuration.
+
+  * JBoss5 deployer for annotated Hibersap classes.
+
+  * Hibernate-like current session context strategy.
+
+  * Integration of the Hibernate Validation Framework to validate mapped fields.
+  
+  * Using JCo 3 stateless calls.

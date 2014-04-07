@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config">
+    <session-manager name="NSP">
+        <context>org.hibersap.execution.jco.JCAContext</context>
+        <jca-connection-factory>java:jboss/eis/sap/NSP</jca-connection-factory>
+    </session-manager>
+</hibersap>

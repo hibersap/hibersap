@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<hibersap>
+    <session-manager name="A12">
+        <context>org.hibersap.execution.jco.JCoContext</context>
+        <properties>
+            <property name="jco.client.client" value="800"/>
+            <property name="jco.client.user" value="sapuser"/>
+            <property name="jco.client.passwd" value="password"/>
+            <property name="jco.client.lang" value="en"/>
+            <property name="jco.client.ashost" value="10.20.80.76"/>
+            <property name="jco.client.sysnr" value="00"/>
+            <property name="jco.destination.pool_capacity" value="1"/>
+        </properties>
+        <annotated-classes>
+            <annotated-class>org.test.Class1</annotated-class>
+            <annotated-class>org.test.Class2</annotated-class>
+        </annotated-classes>
+    </session-manager>
+    <session-manager name="B34">
+        <context>org.hibersap.execution.jca.JCAContext</context>
+        <jca-connection-factory>java:/eis/sap/B34</jca-connection-factory>
+        <jca-connectionspec-factory>org.hibersap.test.MyTestConnectionSpecFactory</jca-connectionspec-factory>
+        <properties>
+            <property name="property1_name" value="property1_value"/>
+            <property name="property2_name" value="property2_value"/>
+        </properties>
+        <annotated-classes>
+            <annotated-class>org.test.Class1</annotated-class>
+            <annotated-class>org.test.Class3</annotated-class>
+        </annotated-classes>
+        <execution-interceptor-classes>
+            <execution-interceptor-class>org.test.Class4</execution-interceptor-class>
+            <execution-interceptor-class>org.test.Class5</execution-interceptor-class>
+        </execution-interceptor-classes>
+        <bapi-interceptor-classes>
+            <bapi-interceptor-class>org.test.Class6</bapi-interceptor-class>
+            <bapi-interceptor-class>org.test.Class7</bapi-interceptor-class>
+        </bapi-interceptor-classes>
+        <validation-mode>CALLBACK</validation-mode>
+    </session-manager>
+</hibersap>

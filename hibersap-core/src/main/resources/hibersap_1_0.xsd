@@ -1,0 +1,59 @@
+<?xml version="1.0" standalone="yes"?>
+<xsd:schema targetNamespace="http://hibersap.org/xml/ns/hibersap-config"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified"
+            version="1.0">
+    <xsd:element name="hibersap">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="session-manager" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="context" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="jca-connection-factory" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="jca-connectionspec-factory" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="properties" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="property" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:attribute name="name" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="value" type="xsd:string" use="required"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="annotated-classes" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="annotated-class" type="xsd:string" minOccurs="0"
+                                                     maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="execution-interceptor-classes" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="execution-interceptor-class" type="xsd:string" minOccurs="0"
+                                                     maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="bapi-interceptor-classes" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="bapi-interceptor-class" type="xsd:string" minOccurs="0"
+                                                     maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="name" type="xsd:string" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

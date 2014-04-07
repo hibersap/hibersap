@@ -1,0 +1,162 @@
+%!TEX root = HibersapReference.tex
+
+\chapter{Configuration}
+\label{cha:Configuration}
+
+Hibersap configuration consists of a set of properties. 
+There are two possibilities to configure Hibersap: 
+\begin{itemize}
+  \item XML file configuration 
+  \item Programmatic configuration
+\end{itemize}
+
+While bootstrapping, Hibersap first tries to configure itself looking for the \linebreak /META-INF/hibersap.xml file in the
+classpath. When creating a SessionManager, configuration can be set or overwritten using programmatic configuration.
+
+Using an XML file is usually the preferred way to configure Hibersap.
+
+
+\section{XML file configuration}
+\label{sec:XML file configuration}
+
+The format of the XML configuration file is inspired by JPA's persistence.xml.
+If you have to access different SAP systems, you can define more than one SessionManager by multiplying the
+session-manager XML element.
+
+Listing \ref{lst:hibersapXmlJCo} shows the XML configuration when using JCo. Note that you may use the Hibersap XML schema definition as shown in the hibersap element to get validation and autocompletion in your IDE or XML editor.
+\newpage
+\begin{lstlisting}[language=XML,caption=hibersap.xml for use with JCo,label=lst:hibersapXmlJCo]
+<?xml version="1.0" encoding="UTF-8"?>
+<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://hibersap.org/xml/ns/hibersap-config http://hibersap.sourceforge.net/xml/hibersap_1_1.xsd">
+  <session-manager name="A12">
+    <context>org.hibersap.execution.jco.JCoContext</context>
+    <properties>
+      <property name="jco.client.client" value="800" />
+      <property name="jco.client.user" value="sapuser" />
+      <property name="jco.client.passwd" value="password" />
+      <property name="jco.client.lang" value="en" />
+      <property name="jco.client.ashost" value="10.20.80.76" />
+      <property name="jco.client.sysnr" value="00" />
+    </properties>
+    <annotated-classes>
+      <annotated-class>org.hibersap.examples.flightlist.FlightListBapi</annotated-class>
+      <annotated-class>org.hibersap.examples.flightdetail.FlightDetailBapi</annotated-class>
+    </annotated-classes>
+  </session-manager>
+</hibersap>
+\end{lstlisting}
+
+Listing \ref{lst:hibersapXmlJCA} shows the XML configuration when using a JCA compatible resource adapter. 
+
+\begin{lstlisting}[language=XML,caption=hibersap.xml for use with JCA,label=lst:hibersapXmlJCA]
+<?xml version="1.0" encoding="UTF-8"?>
+<hibersap>
+  <session-manager name="A12">
+    <context>org.hibersap.execution.jca.JCAContext</context>
+    <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
+    <jca-connectionspec-factory>
+      org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory
+    </jca-connectionspec-factory>
+    <annotated-classes>
+      <annotated-class>org.hibersap.examples.flightlist.FlightListBapi</annotated-class>
+      <annotated-class>org.hibersap.examples.flightdetail.FlightDetailBapi</annotated-class>
+    </annotated-classes>    
+  </session-manager>
+</hibersap>
+\end{lstlisting}
+\pagebreak
+Following is a complete list of Hibersap's configuration parameters.
+\\ \\
+\begin{descriptionBlock}{Configuration Parameters}
+\begin{sloppypar}
+\item[context]
+    The fully qualified class name of the Context class. This class must implement \mbox{org.hibersap.session.Context}
+    and acts as a facade to
+    the interfacing technology that is actually used. Existing 
+    implementations are org.hibersap.execution.jco.JCoContext for the SAP Java Connector (JCo) or org.hibersap.execution.jca.JCAContext 
+    for a JCA compatible Resource Adapter. (Default: JCoContext.) 
+\item[jca-connection-factory]
+    The JNDI name of the JCA Connection Factory. This parameter has to be specified if the application uses a JCA compatible resource 
+    adapter. The resource adapter has to be deployed on the application server independently from Hibersap and the application, defining 
+    a JNDI name for each configured ConnectionFactory. Hibersap will use this name to look up the resource adapter's ConnectionFactory. 
+\item[jca-connectionspec-factory]
+    The fully qualified class name of the ConnectionSpecFactory implementation used to get a ConnectionSpec object. A ConnectionSpec is
+    is used to provide data such as a user name and password for the current session. The existing implementations are 
+    CuckooJcaAdapterConnectionSpecFactory and SapBapiJcaAdapterConnectionSpecFactory. Others may be added by implementing
+    org.hibersap.execution.jca.cci.ConnectionSpecFactory interface.
+\item[properties]
+    Zero or more additional properties. These depend on the interfacing technology in use. For the SAP JCo, all the JCo-specific 
+    properties must be defined here. See javadoc for the class com.sap.conn.jco.ext.DestinationDataProvider of the JCo distribution 
+    to get a complete list of possible properties. For use with JCA, this element is not needed.
+\item[annotated-classes]
+    All annotated BAPI classes which are used with the SessionManager must be listed here. 
+\item[validation-mode]
+    Specifies if Bean Validation (JSR-303) shall be used. Possible values are NONE to deactivate Bean Validation, 
+    AUTO to activate Bean Validation only if a provider is available on the classpath, and CALLBACK to make sure 
+    Bean Validation is used. With CALLBACK, Hibersap will throw an exception if no Bean Validation provider is 
+    present at runtime.
+\item[bapi-interceptor-classes]
+    A list of the interceptor classes. These must implement org.hibersap.interceptor.BapiInterceptor and are called before and after a 
+    SAP function module gets executed. Each interceptor must be defined with the fully qualified class name in a seperate 
+    bapi-interceptor-class element.
+\item[execution-interceptor-classes]
+    A list of the interceptor classes. These must implement org.hibersap.interceptor.ExecutionInterceptor and are called before and after a 
+    SAP function module gets executed. Each interceptor must be defined with the fully qualified class name in a seperate 
+    execution-interceptor-class element.
+\\
+\label{tab:ConfigurationParameters}
+\end{sloppypar}
+\end{descriptionBlock}
+
+To build a SessionManager using the hibersap.xml file, you simply have to create an object of
+class org.\-hibersap.\-configuration.\-AnnotationConfiguration, specifying the SessionManager name as an argument. Note 
+that there is also a default constructor for AnnotationConfiguration which can be used if there 
+is only one configured SessionManager. Hibersap will issue a warning when there are more than one SessionManagers 
+configured, but the no-args constructor is used. 
+
+\begin{lstlisting}[label=hibersap.xml]
+AnnotationConfiguration configuration= new AnnotationConfiguration("A12");
+SessionManager sessionManager = configuration.buildSessionManager();
+\end{lstlisting}
+
+
+\section{Programmatic configuration}
+\label{sec:Programmatic configuration}
+
+After creating a Configuration object which will be used to build the SessionManager, configuration can be set or
+overwritten programmatically.
+
+The information from the XML file is internally converted into a Java data structure reflecting the structure of the
+XML document. All configuration classes have Java Bean style accessor methods (get.. and set..) for
+their fields. 
+
+For programmatic configuration you have to change or create SessionManagerConfig for each 
+SessionManager you want to use. You can use method chaining to build the
+object. The following example creates a  SessionManagerConfig object that is equivalent to the one created internally by the
+hibersap.xml example in listing \ref{lst:hibersapXmlJCo}. 
+
+\begin{lstlisting}[caption=Programmatic configuration]
+SessionManagerConfig cfg = new SessionManagerConfig( "A12" )
+    .setContext( JCoContext.class.getName() )
+    .setProperty( "jco.client.client", "800" )
+    .setProperty( "jco.client.user", "sapuser" )
+    .setProperty( "jco.client.passwd", "password" )
+    .setProperty( "jco.client.lang", "en" )
+    .setProperty( "jco.client.ashost", "10.20.80.76" )
+    .setProperty( "jco.client.sysnr", "00" )
+    .addAnnotatedClass( FlightListBapi.class )
+    .addAnnotatedClass( FlightDetailBapi.class );
+
+AnnotationConfiguration configuration = new AnnotationConfiguration(cfg);
+SessionManager sessionManager = configuration.buildSessionManager();
+\end{lstlisting}
+
+
+
+
+
+
+
+

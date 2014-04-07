@@ -1,0 +1,477 @@
+%!TEX root = HibersapReference.tex
+\chapter{Usage}
+\label{cha:Usage}
+
+\section{Mapping Remote Function Modules to Java classes} 
+\label{cha:Mapping}
+The main task of Hibersap is to map Remote Function Modules (RFMs) -- which are defined in SAP R/3 -- to Java classes. To accomplish this, Hibersap provides a set of Java annotations that map Java classes and their fields to the elements of the function module's interface. This section provides detailed information on the Hibersap annotations and on how data types are converted.
+
+For a complete example of how to define Hibersap classes and mappings, see chapter \ref{cha:QuickStart} or checkout the Hibersap examples code from the source code repository.
+
+\subsection{The Annotations}
+Since Hibersap maps SAP Remote Function Modules to plain Java classes, an application must define one class for each function module that acts as a kind of proxy. This class is called a BAPI class and has to be annotated with the @Bapi\footnote{All Hibersap annotations and enumerations used by annotations are declared in the package org.hibersap.annotations.} annotation\footnote{Actually, a BAPI is a special kind of a Remote Function Module but gives a more handy term.}. The annotation's value property defines the name of the corresponding function module:
+
+\begin{lstlisting}
+@Bapi("BAPI_SFLIGHT_GETLIST") 
+public class FlightListBapi {...}
+\end{lstlisting}
+
+A function module's interface usually has a set of parameters which are either of a scalar data type (such as a number, a text or a date) or of a complex data type (in ABAP called structure, a set of parameters of scalar data types). Scalar parameters can be mapped directly to a field of the BAPI class, whereas structures are mapped to complex Java types, i.e. classes with a set of fields. In Hibersap, the classes representing an ABAP structure are annotated with the @BapiStructure annotation. Since Structure class instances need to be created by Hibersap, they must have a default constructor.
+
+\begin{lstlisting}
+@BapiStructure 
+public class BapiRet2 {...}
+\end{lstlisting}
+
+To map parameters of a function module to fields of Java classes, those fields have to be annotated with the @Parameter annotation. Here, Hibersap needs to know the name of the function module's parameter as well as its type using the annotation's value and type properties respectively. The Enumeration ParameterType defines the types STRUCTURE and SIMPLE for parameters of a complex or scalar type:
+
+\begin{lstlisting}
+@Export 
+@Parameter(value = "RETURN", type = ParameterType.STRUCTURE) 
+private BapiRet2 returnData;
+\end{lstlisting}
+
+Since the interface parameters of ABAP functions are divided into import, export and table parameters, Hibersap has to know where to find the corresponding parameters. The @Import, @Export and @Table annotations provide this information. However, since members of complex parameters should always be scalar parameters, we only have to use these annotations on ``top-level'' parameters, i.e. fields of the BAPI class. Parameters of Structure classes just need the @Parameter annotation:
+
+\begin{lstlisting}
+@BapiStructure 
+public class BapiRet2 {
+    @Parameter("MESSAGE") 
+    private String message; 
+    ...
+}
+\end{lstlisting}
+
+ABAP tables are lists of complex parameters. As such they are mapped to an Array or a java.util.Collection field. Hibersap again needs to know the name of the ABAP parameter as provided by the @Parameter annotation and its type as provided by the @Table annotation. A special characteristic of table parameters is that they can be used as import parameters as well as export parameters. 
+
+Tables that import data to the function module are filled by the Java application, Hibersap will use the application-provided Array or Collection to populate the table. Tables that export data from the function module will be read by Hibersap and copied to the corresponding Array or Collection. Hibersap detects the type of its elements by the array type if it is declared as an Array, or by its generic type if it is declared as a Collection. When using a Collection, it is crucial to declare it with a generic type (the class Flight in the example), otherwise Hibersap will throw an error because it cannot determine the element type: 
+
+\begin{lstlisting}
+@Bapi("BAPI_SFLIGHT_GETLIST") 
+public class FlightListBapi {
+    @Table 
+    @Parameter("FLIGHTLIST") 
+    private List<Flight> flightList;
+}
+\end{lstlisting}
+
+The Java field representing a table need not be defined as a concrete implementation. When Hibersap creates a Collection, it instantiates a java.util.HashSet for fields defined as java.util.Set and a java.util.ArrayList for fields defined as java.util.Collection or java.util.List.
+
+List \ref{tab:Annotations} shows an overview of the Hibersap annotations.
+
+\newpage
+
+\begin{descriptionBlock}{Annotations overview}
+\label{tab:Annotations}
+\item[@Bapi] 
+    Maps a Java class to a Remote Function Module in SAP.\\
+    \textbf{value} The name of the RFM, e.g. BAPI\_FLIGHT\_GETLIST
+\item[@BapiStructure]
+    Maps the Java class to a structure in an RFM's interface.
+\item[@Parameter]
+    Maps a field to a parameter of the RFM's interface.\\
+    \textbf{value} The parameter's name as defined by the RFM.\\ 
+    \textbf{type} The parameter's type, either ParamType.SIMPLE for a scalar type or\\
+                  ParamType.STRUCTURE for complex types. Default: SIMPLE. 
+\item[@Import]
+    Defines a field annotated with @Parameter to be an import parameter. 
+\item[@Export]
+    Defines a field annotated with @Parameter to be an export parameter. 
+\item[@Table]
+    Defines a field annotated with @Parameter to be a table parameter. 
+\item[@Convert]
+    The parameter's data type will be converted by the given Converter, i.e. the Java field's data type may differ from 
+    the JCo data type conversion pattern.\\
+    \textbf{converter} An implementation of org.hibersap.conversion.Converter. 
+\item[@ThrowExceptionOnError]
+	Tells Hibersap to throw a SapException when the function module returns errors in a RETURN structure or table. \\
+    \textbf{returnStructure} Contains the path to the BAPI's return
+    structure or table, path elements are separated by a forward slash ('/'). The first element should be 'EXPORT' or 
+    'TABLE' to indicate if the return structure is defined as an
+    export or table parameter. The second element is the name of the 
+    return structure, usually 'RETURN'. Default: "EXPORT/RETURN"\\
+    \textbf{errorMessageTypes} The ABAP message types which Hibersap shall interpret as an error. In these cases an Exception
+    will be thrown. The RETURN structure's field TYPE is compared to the message types. Default: "E", "A".\\
+\end{descriptionBlock}
+
+\subsection{Data Type Conversion}
+
+The Java type of each simple field is related to the ABAP field's data type.
+When using Hibersap with JCo, it relies on the Java Connector's conversion scheme as shown in table \ref{tab:JCoConversion}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lll} \toprule
+    \textbf{ABAP type} & \textbf{Description}       & \textbf{Java type} \\ \midrule
+    C                  & Character                  & java.lang.String \\
+    N                  & Numerical character        & java.lang.String \\
+    D                  & Date                       & java.lang.Date \\
+    T                  & Time                       & java.lang.Date \\
+    X                  & Byte field                 & byte[] \\
+    P                  & Packed number              & java.lang.BigDecimal \\
+    I                  & 4-byte integer             & int \\
+    F                  & Floating point number      & double \\
+    STRING             & Variable-length character  & java.lang.String \\
+    XSTRING            & Variable-length byte field & byte[] \\ \bottomrule
+  \end{tabular}
+  \caption{SAP Java Connector type conversion}
+  \label{tab:JCoConversion}
+\end{table}
+
+When using Hibersap with JCA, it relies on the data types returned by the Resource Adapter. Most Resource Adapters for SAP use JCo, so the above type conversion scheme will be applicable here, too. 
+
+\subsection{Using Custom Converters}
+
+Custom converters allow for converting a parameter's data type to any Java type and vice versa. A common example for a custom converter is one that converts boolean values. ABAP does not have a boolean data type, a boolean in ABAP is usually represented by a character field of length 1. A parameter is true if it equals to 'X', false if it is empty. With a Hibersap Converter it is possible to map an ABAP ``boolean'' parameter to a boolean field in Java.
+
+You can use Hibersap Converters to do any kind of data type conversion. There are a few Converters defined in the package org.hibersap.conversion. However, it is easy to write your own converter by implementing the org.hibersap.conversion.Converter interface:
+
+\begin{lstlisting}[caption=The Converter interface]
+public interface Converter
+{
+  public interface Converter<J, S> extends Serializable
+  {
+    /**
+     * Convert the SAP value, as it is returned by the underlying 
+     * interfacing technology (e.g. the SAP Java Connector, JCo) 
+     * to the Java data type of the corresponding BAPI class field.
+     * Hibersap will call this method after calling the SAP function 
+     * and before setting the field in the Java class.
+     *
+     * @param sapValue The object which is returned by the SAP interface
+     * @return The converted value
+     * @throws ConversionException if the value can not be converted
+     */
+    J convertToJava( S sapValue ) throws ConversionException;
+
+    /**
+     * Convert the Java value of the corresponding BAPI class field to 
+     * the data type as it is expected by the underlying interfacing 
+     * technology (e.g. the SAP Java Connector, JCo).
+     * Hibersap will call this method before calling the SAP function.
+     *
+     * @param javaValue The value of the BAPI class field
+     * @return The converted value
+     * @throws ConversionException if the value can not be converted
+     */
+    S convertToSap( J javaValue ) throws ConversionException;
+  }
+}
+\end{lstlisting}
+
+To use a converter, you simply annotate the field in the BAPI or Structure class with Hibersap's @Convert annotation, specifying the Converter that should be called:
+\\
+\begin{lstlisting}[caption=Using a converter]
+@Import
+@Parameter ( "SHOW_DETAILS" )
+@Convert(converter = BooleanConverter.class)
+private	final boolean showDetails;
+\end{lstlisting}
+
+You can use converters not only with simple parameters, but also with structure and table parameters. In case of a structure parameter, the object passed to Converter.convertToJava() will be a Map with the structure parameter names as keys and the parameter values as map values. Converter.convertToSap() must return a Map like this.
+
+When using a converter with a table parameter, the object passed to Converter.convertToJava() be a List of Maps where each Map has the structure parameter name and values as keys/values. Converter.convertToSap() must return a List of Maps of the same structure.
+
+\section{Calling Function Modules}
+
+\subsection{Configure Hibersap and build a SessionManager}
+Chapter \ref{cha:Configuration} explains in detail how to configure Hibersap. The following code snippet assumes that there is the /META-INF/hibersap.xml configuration file defining a SessionManager named ``A12'' in the application's classpath and shows how to build a SessionManager:
+
+
+\begin{lstlisting}[caption=Building the SessionManager]
+AnnotationConfiguration configuration= new AnnotationConfiguration("A12"); 
+SessionManager sessionManager = configuration.buildSessionManager();
+\end{lstlisting}
+    
+The SessionManager should be created only once in an application's lifetime. It depends on the kind of application how to store the SessionManager instances. E.g. in a web application it may be created and closed in a ServletContextListener when starting and stopping the web application, putting into the servlet context. In an EJB application this may be done using a Singleton EJB and its life-cycle methods, in a stand-alone application the SessionManager might be managed by a dependency injection framework.
+
+
+\subsection{Calling a function in SAP}
+
+Calling a remote function module in SAP is as easy as opening a new Session via the SessionManager, creating an instance of the BAPI class with the required parameters and passing it to the Session's execute() method.
+
+\begin{lstlisting}[caption=Executing the BAPI function]
+Session session = sessionManager.openSession();
+try
+{
+    FlightListBapi flightList = new FlightListBapi( "DE", "Frankfurt", 
+                                                    "DE", "Berlin", 
+                                                    null, false, 10 );
+    session.execute( flightList );
+    showResult( flightList );
+}
+finally
+{
+    session.close();
+}
+\end{lstlisting}
+
+After the call to session.execute(), the Bapi object is populated with the SAP function's return parameters as 
+defined in the parameter mappings.
+
+A physical connection to the SAP system is created during the first call to a Session's execute() method. 
+It is crucial to close the Session after the last call to the execute() method. If Sessions are not
+closed, the connection pool (managed by JCo or the Resource adapter) may get exhausted. 
+Therefore it is strongly recommended to close the Session in a
+finally block like in the above example. This way, even if one of the method calls in the try block throws
+a RuntimeException, the Session will still be closed.
+ 
+Keep in mind that, if the application keeps sessions open for a long time, connections may also be shut down 
+by the SAP system after some timeout period or there is some possibility that they may get broken due to network related reasons. 
+This means that Sessions should have a short lifetime (just like database sessions), usually a Session should 
+be used for a single request or unit of work.  
+
+Hibersap Sessions are inexpensive to create, the Java Connector's or Resource Adapter's connection pool takes care of 
+an efficient connection management (if properly configured), and Hibersap will not akquire a 
+SAP connection before it is needed. Thus, Sessions should be used once and then discarded.  
+
+\section{Transaction Management} 
+
+SAP R/3 allows external callers of its function modules to control logical units of work (transactions). 
+An application may call a number of function modules and commit or rollback all changes made during
+the function calls. This is done by calling special function modules named BAPI\_TRANSACTION\_COMMIT and 
+BAPI\_TRANSACTION\_ROLLBACK.\footnote{Please note that not all Remote Function Modules and even not 
+all standard BAPIs in SAP R/3 support this feature. Special care has to be taken in the ABAP code which should not
+call a COMMIT WORK itself. See SAP note 0131838, "Collective Note for BAPIs with the Commit Work Command"
+for a list of BAPIs that are not transaction enabled.}
+
+Using Hibersap, it is very easy to start and end transactions, you do not have to map and call these function modules yourself. Depending on the chosen interfacing technology, you can either handle your transactions manually (JCo and JCA) or use Container Managed Transactions (JCA only).
+
+\subsection{Manual transaction handling}
+
+The Hibersap Session has a method beginTransaction() which must be called when starting the transaction. beginTransaction() returns a Transaction object on which you can later call the methods commit() or rollback() to tell SAP to commit or rollback all changes made during the transaction.
+
+\begin{lstlisting}[caption=Manual transaction handling]
+Session session = sessionManager.openSession();
+Transaction transaction = null;
+try
+{
+    transaction = session.beginTransaction();
+    session.execute( bapiClass1 );
+    ...
+    session.execute( bapiClassN );
+    transaction.commit();
+}
+catch (Exception e)
+{
+    if (transaction != null)
+        transaction.rollback();
+}
+finally
+{
+    session.close();
+}
+\end{lstlisting}
+
+In Java EE applications that make use of EJBs and Bean Managed Transactions (BMT) it is also necessary to explicitly start, commit and rollback transactions like in the code example.
+
+\subsection{Automatic transaction handling}
+
+Applications running in an application server that use EJBs and a Java EE compatible Resource Adapter can profit from the
+application server's capability to automatically handle transactions. This is called Container Managed Transactions (CMT).
+
+In case of using CMT, the application code does not have to take care of starting, committing and rolling back transactions.
+
+See section \ref{sec:JavaEEIntegration} for a detailed discussion on Container Managed Transactions.
+
+\section{Authentication}
+
+\subsection{Using a configured User}
+
+The most common way to interact with a SAP system in enterprise applications is to use a central SAP user that is shared by all users of the application. Using this kind of authentication is a matter of configuration. When using Hibersap with JCo, the user credentials are provided through Hibersap configuration, namely the JCo properties defined for a SessionManager. When using Hibersap with JCA, the credentials are usually defined in the resource adapter configuration.
+
+\subsection{Per-session authentication}
+\label{sec:PerSessionAuthentication}
+
+If the application has to provide user credentials, e.g. when each application user logs on to the SAP system using his own SAP account, you can specify logon credentials for each Hibersap session you create.
+
+In this case, when obtaining a Session from the SessionManager, the method \\openSession(org.hibersap.session.Credentials) must be used. The authentication information is specified in the Credentials object.
+
+\begin{lstlisting}[caption=Component managed authentication]
+Credentials credentials = new Credentials()
+    .setUser("archibald_tuttle")
+    .setPassword("myPassw0rd")
+    .setLanguage("EN");
+Session session = sessionManager.openSession( credentials );
+session.execute( bapiClass );
+...
+\end{lstlisting}
+
+The attributes defined in the Credentials object are simply passed on to SAP. Table \ref{tab:SAPCredentials} lists the available attributes of the Credentials class including the corresponding JCo parameter as defined in interface DestinationDataProvider of the SAP Java Connector version 3.
+
+\begin{table}[H]
+  \renewcommand{\arraystretch}{1.5}
+  \centering
+   \begin{tabularx}{\textwidth}{ l X l }
+    \toprule
+    \textbf{Credentials field} & \textbf{Description}               & \textbf{JCo parameter} \\ 
+    \midrule
+    user                       & SAP logon user                     & jco.client.user \\
+    aliasUser                  & SAP logon user alias, can be used 
+                                 instead of logon user              & jco.client.alias\_user \\
+    client                     & SAP client                         & jco.client.client \\
+    language                   & Logon language ISO code            & jco.client.lang \\
+    password                   & Logon password                     & jco.client.passwd \\
+    ssoTicket                  & SAP Cookie Version 2 as logon 
+                                 ticket for SSO based 
+                                 authentication                     & jco.client.mysapsso2 \\
+    x509Certificate            & X509 certificate for certificate 
+                                 based authentication               & jco.client.x509cert \\
+    \bottomrule
+  \end{tabularx}
+  \caption{SAP Java Connector type conversion}
+  \label{tab:SAPCredentials}
+\end{table}
+
+Using this method together with JCo, Hibersap will internally create a custom JCo destination setting the specified credential attributes. Note that in this case, every user needs to have the proper permissions in SAP to use the function modules that are called via Hibersap. 
+
+In addition to calling the function modules itself, JCo makes calls to the SAP system to obtain meta data on function modules, the so-called repository calls. Those calls depend on different sets of permissions which the specific user might or might not have. Therefore, JCo uses a configured user to do repository calls instead of the current user supplied with the Hibersap Credentials object when creating custom destinations. This user may either be configured via the JCo parameter jco.client.user, or with a seperate user for repository calls using the parameter jco.destination.repository.user. The latter is recommended for applications which make use of per-session authentication, for this makes sure the functions are always called with the session user and the repository calls are done by the repository user. In this case, the property jco.client.user should not be set.
+
+When using Hibersap with JCA, the configuration should be done accordingly, but is resource adapter specific. The Cuckoo Resource Adapter defines almost all possible JCo properties and passes them on to the Java Connector.
+
+
+\subsection{Single sign-on}
+\label{sec:SingleSignOn}
+
+A special case of per-session authentication is the use of single sign-on. In a SAP environment it is common to use SAP Logon Tickets issued by SAP systems. In a web application / portal scenario the ticket is stored in a cookie named MYSAPSSO2 in the HTTP user session. After obtaining this ticket it can be passed to the Hibersap session by setting the ssoTicket field of the Credentials object like described in the previous section \ref{sec:PerSessionAuthentication}.
+
+\section{Java EE application server integration}
+\label{sec:JavaEEIntegration}
+When developing applications which run inside a Java EE application server and make use of Enterprise Java Beans (EJB), it is 
+strongly recommended using Hibersap in combination with a JCA compatible resource adapter. A resource adapter offers some important features which will be treated in this section.
+
+\subsection{Transaction Management} 
+The application server's transaction manager is used to handle transactions. In combination with EJBs and container managed transactions (CMT), the code does not need to care about transaction demarcation, because the container sets the transaction boundaries implicitly. This simplifies development and reduces the probability of errors. 
+
+If using CMT, all the function calls to SAP which take place during an EJB method call are running in one transaction. If the EJB method returns normally, the transaction manager commits the transaction. In case of an error, the transaction is automatically rolled back. In this context, error means that a RuntimeException is thrown or an application exception configured with the rollback=true attribute. (Note that Hibersap only throws runtime exceptions.)
+
+In EJB3, container managed transaction is the default transaction management demarcation. It can be exlicitly declared using the @TransactionManagement annotation with a transaction management type of CONTAINER or BEAN. The transaction semantics are further defined by the @TransactionAttribute annotation on the EJB class or the EJB methods, where TransactionAttributeType.REQUIRED is a sensible default value.
+
+\subsubsection{Distributed Transactions}
+In an application it might be necessary or wanted to access SAP and other resources like a database and/or a JMS message queue in one unit of work, making sure either every resource is committed in case of success, or every resource is rolled back in case of an error. To accomplish this, Java EE supports distributed transactions through the JTA transaction manager. 
+
+Unfortunately, SAP R/3 does not provide the two-phase commit protocol (2PC) which is necessary for a resource to participate in a distributed transaction. The effect is that resource adapters for SAP R/3 support only local transactions, which is no problem if there is only one resource (the SAP R/3 system) enlisting in a transaction. 
+
+If there are multiple resources participating in one distributed transaction, the transaction manager starts a distributed transaction which requires 2PC aware resources as its participants. The good news is that almost all of the modern application servers (including JBoss Application Server, Glassfish, Bea Weblogic or SAP WebAS) support a strategy called Last Resource Commit Optimization which makes it possible for a single non-2PC-aware resource (in our case SAP) to enlist in a distributed transaction. This is transparent for the programmer. However, as soon as there are two non-2PC-resources enlisting in the distributed transaction, the transaction manager will throw an error.
+
+%TODO code examples 
+
+\subsection{Security Management}
+With a resource adapter there are two different methods to authenticate with the SAP R/3 system, container managed and component managed authentication. Hibersap supports both authentication methods. 
+
+With component managed authentication, an application passes credentials each time a connection is obtained from the resource adapter. This method may be used when each user of the application signs in using its own SAP user, e.g. by entering the user name and password in the application or when using single sign-on with logon tickets. In JCA, the credentials are passed with a javax.resource.cci.ConnectionSpec instance. Internally, Hibersap will create this instance and fills it with information passed with the Credentials object when a new Session is opened (the code is the same as in \ref{sec:PerSessionAuthentication} Per-session authentication): 
+
+\begin{lstlisting}[caption=Component managed authentication]
+Credentials credentials = new Credentials()
+    .setUser("archibald_tuttle")
+    .setPassword("myPassw0rd");
+Session session = sessionManager.openSession( credentials );
+session.execute( bapiClass );
+...
+\end{lstlisting}
+
+With container managed authentication the sing-on information is either obtained from a JAAS login module or -- in the simplest case -- a central user and password is taken from the resource adapter's configuration. Using a login module, the sign-on information is passed by the container to the resource adapter with a javax.security.auth.Security object. Login module configuration is container specific.
+
+\subsection{Configuration}
+Another advantage of using a resource adapter over using JCo directly is that a resource adapter can be deployed and configured independently of the applications that use it. Thus it is not necessary to reconfigure and redeploy all applications that connect to a SAP system whenever connection parameters (e.g. the SAP system's host name) change. 
+Instead, only the resource adapter has to be reconfigured. Since the configuration of the resource adapter specifies 
+all the necessary properties to access the SAP system, the Hibersap configuration only needs to specify the JNDI name that is used to look up the resource adapter's connection factory. 
+
+\subsection{Hibersap EJB tools}
+\label{sec:HibersapEjbTools}
+If using Hibersap in a Java EE environment with Enterprise Java Beans, consider using the Hibersap EJB tools. The EJB tools help in automatically creating Hibersap Sessions, injecting them into your EJBs and closing them. 
+
+The following code implements a Stateless Session EJB with a business method to search for Customers in SAP. The EJB's business methods are intercepted with the HibersapSessionInterceptor. It has a field named "session" which is annotated with @HibersapSession to tell the interceptor which SessionManager to use in order to open the Session. The annotation's value parameter specifies a JNDI name to which the SessionManager is bound.\\
+
+\begin{lstlisting}
+@Stateless
+@Interceptors( HibersapSessionInterceptor.class )
+public class CustomerServiceBean implements CustomerService
+{
+    @HibersapSession( "java:global/eis/hibersap/A12" )
+    private Session session;
+
+    public CustomerSearch search( String nameSearchPattern )
+    {
+        CustomerSearch customerSearch = new CustomerSearch( nameSearchPattern );
+        session.execute( customerSearch );
+        return customerSearch;
+    }
+}
+\end{lstlisting}
+
+The CustomerSearch is a Hibersap BAPI class. As can be seen, the programmer can directly use the injected Hibersap session to call functions in the SAP backend. There is no need to close the Session, this is done by the interceptor. The example uses container managed transactions and the method is called with transaction attribute REQUIRED (the default). This makes sure the SAP call is transactional and will be committed or rolled back by the transaction manager.
+
+The interceptor adds each created Hibersap session to the EJB's session context to make sure that subsequent calls to other EJBs use the same session. When the HibersapSessionInterceptor is executed, it first checks if there is a session of the specified session manager already in the session context. If yes, it uses the existing session, if not, a new session is created.
+
+On returning from the business method for which the session was opened, the interceptor will close the session, thus making sure the underlying JCA connection will be returned to the connection pool.
+
+To make the example complete we need a way to create a SessionManager and bind it to JNDI. The following code implements a singleton EJB which is created when the application gets deployed. The container will automatically call the lifecycle method rebindSessionManager() which is annotated with @PostConstruct when the EJB is started. The method creates a session manager from a hibersap.xml configuration file and binds it to JNDI. When the application gets undeployed, the method unbindSessionManager() is called which unbinds the session manager from JNDI. To actually binding and unbinding the session manager to and from JNDI, the helper methods in class JndiUtil are used which is a part of the hibersap-ejb module. 
+
+\begin{lstlisting}
+@Singleton
+@Startup
+public class HibersapBootstrapBean
+{
+    public static final String JNDI_NAME = "java:jboss/eis/hibersap/NSP";
+
+    @PostConstruct
+    public void rebindSessionManager()
+    {
+        SessionManager sessionManager = new AnnotationConfiguration("A12").buildSessionManager();
+        JndiUtil.rebindSessionManager( sessionManager, JNDI_NAME );
+    }
+
+    @PreDestroy
+    public void unbindSessionManager()
+    {
+        JndiUtil.unbindSessionManager( JNDI_NAME )
+    }
+}
+\end{lstlisting}
+
+When using Maven, add the hibersap-ejb module to your application by defining the following dependency:
+
+\begin{lstlisting}[language=XML,escapechar=|]
+<dependency>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-ejb</artifactId>
+    <version>|\HibersapVersion|</version>
+</dependency>
+\end{lstlisting}
+
+
+\section{Bean Validation}
+Java Bean Validation (JSR 303) is a Java EE standard which defines an API and metadata model (in the form of Java annotations) to validate Java Beans and their attributes. If a Bean Validation provider is on the classpath of your application, Hibersap will validate the BAPI and Structure classes each time before a function gets executed.
+
+To configure Bean Validation for your Hibersap application you may specify the SessionManager's validation element in the hibersap.xml configuration file:
+
+\begin{lstlisting}[language=XML]
+<hibersap>
+  <session-manager name="A12">
+    ...
+    <validation>AUTO</validation>
+    ...
+  </session-manager>
+</hibersap>
+\end{lstlisting}
+
+If using programmatic configuration, just set the validationMode property of the SessionManagerConfig:
+
+\begin{lstlisting}
+sessionManagerConfig.setValidationMode( ValidationMode.AUTO );
+\end{lstlisting}
+
+The validation element may contain any of the values defined in \linebreak org.hibersap.configuration.xml.ValidationMode:\\
+
+\begin{descriptionBlock}{Bean Validation configuration values}
+\label{tab:BeanValidationConfigValues}
+\item[AUTO] 
+  Use Bean Validation if a provider is found on the classpath (Default).
+\item[CALLBACK]
+  Force the use of Bean Validation. Hibersap will throw an Exception if no provider is found on the classpath.
+\item[NONE]
+  Do not use Bean Validation, even if a provider is present.\\
+\end{descriptionBlock}
+
+

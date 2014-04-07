@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://hibersap.org/xml/ns/hibersap-config http://hibersap.sourceforge.net/xml/hibersap_1_1.xsd">
+    <session-manager name="TEST">
+        <context>org.hibersap.execution.jco.JCoContext</context>
+
+        <jca-connection-factory>java:/eis/sap/A12</jca-connection-factory>
+
+        <properties>
+            <property name="jco.client.user" value="user"/>
+            <property name="jco.client.passwd" value="password"/>
+            <property name="jco.client.client" value="42"/>
+            <property name="jco.client.lang" value="en"/>
+            <property name="jco.client.ashost" value="127.0.0.1"/>
+            <property name="jco.client.sysnr" value="00"/>
+            <property name="jco.destination.pool_capacity" value="1"/>
+        </properties>
+
+        <annotated-classes>
+            <annotated-class>org.hibersap.bapi.BapiTransactionCommit</annotated-class>
+        </annotated-classes>
+
+        <execution-interceptor-classes>
+            <execution-interceptor-class>org.hibersap.configuration.ConfigurationTest$ExecutionInterceptorDummy
+            </execution-interceptor-class>
+        </execution-interceptor-classes>
+
+        <bapi-interceptor-classes>
+            <bapi-interceptor-class>org.hibersap.configuration.ConfigurationTest$BapiInterceptorDummy
+            </bapi-interceptor-class>
+        </bapi-interceptor-classes>
+
+        <validation-mode>CALLBACK</validation-mode>
+    </session-manager>
+</hibersap>
+

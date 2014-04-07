@@ -1,0 +1,42 @@
+                                    ------
+                                    Developer's Guide
+                                    ------
+                                    ------
+
+Hibersap Developer's Guide
+
+    This guide is only relevant for those who want to build and/or develop Hibersap.
+
+    If you want to develop your own applications that use Hibersap, please refer to the
+    {{{./Documentation.html}Hibersap Documentation page}}.
+
+* Prerequisites
+
+  * Subversion and Maven 3 installed
+  
+* Installation
+
+  * Checkout hibersap project (and hibersap-examples) from SourceForge
+    ({{https://hibersap.svn.sourceforge.net/svnroot/hibersap}})
+
+  * Download SAP Java Connector 3.0.x ({{http://service.sap.com/connectors}}) and extract the sapjco3.jar and the
+    sapjco3 native library.
+
+  * Copy the native library into all project folders or install it into some global lib path
+    (such as C:/WINDOWS/SYSTEM32 on Windows), or specify the property <<<sap.jco.lib.path>>> in the profile part
+    of your Maven2 settings.xml to point to the folder containing the native library.
+
+  * The SapJCo JAR needs to be installed manually into your Maven repository
+
++------------------------------------------------------------------------------------------------------------------+
+mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=3.0.0 -Dpackaging=jar
+                         -Dfile=./sapjco3.jar
++------------------------------------------------------------------------------------------------------------------+
+
+* Building and running the examples
+
+  * Run <<<mvn install -DskipTests>>> on the hibersap project.
+  
+  * Now edit <<<META-INF/hibersap.xml>>> in Project jco-examples and run the tests with <<<mvn install>>>.
+  
+  * Have fun!
