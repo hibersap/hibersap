@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-deps-jco</artifactId>
+    <version>3.0</version>
+    <packaging>jar</packaging>
+
+    <name>Hibersap SAP JCo Dependency</name>
+
+    <description>
+        The SAP Java Connector (SAP JCo) is a toolkit that allows a Java application to communicate with any SAP system.
+        It combines an easy to use API with unprecedented flexibility and performance. The package supports both, Java
+        to SAP System as well as SAP System to Java calls.
+        - All SAP Connectors are licensed without additional license fees as part of the respective solution or component license.
+        However, please note that each connector may be used only for connecting external (non-SAP) applications to SAP Systems /
+        SAP Solutions. Scenarios, in which two external (non-SAP) applications are integrated via an SAP Connector, are not allowed.
+        - The redistribution of any connector is not allowed.
+        - All SAP users accessing application functionality through the relevant connector are required to be licensed under a
+        respective solution or component license.
+
+        To use the SAP JCo with the Hibersap project, you need to either install the SAP JCo jar downloaded from SAP to your local
+        Maven repository (variant a) or deploy it to e.g. an enterprise Maven repository like Nexus or Artifactory (variant b):
+
+        (a) mvn install:install-file -DgroupId=org.hibersap -DartifactId=hibersap-deps-jco -Dversion=3.0 -Dpackaging=jar -Dfile=path/to/sapjco3.jar
+        (b) mvn deploy:deploy-file -DrepositoryId=[your repo id] -DgroupId=org.hibersap -DartifactId=hibersap-deps-jco -Dversion=3.0 -Dpackaging=jar
+        -Dfile=path/to/sapjco3.jar
+    </description>
+
+    <url>http://service.sap.com/connectors</url>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.2.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <revision>${project.version}</revision>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <arguments>${arguments} -Psonatype-oss-release</arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
