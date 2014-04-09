@@ -11,8 +11,8 @@
     </parent>
 
     <groupId>org.hibersap</groupId>
-    <artifactId>hibersap-deps-jco</artifactId>
-    <version>3.0</version>
+    <artifactId>sapjco3</artifactId>
+    <version>3.0-Beta01</version>
     <packaging>jar</packaging>
 
     <name>Hibersap SAP JCo Dependency</name>
@@ -31,9 +31,8 @@
         To use the SAP JCo with the Hibersap project, you need to either install the SAP JCo jar downloaded from SAP to your local
         Maven repository (variant a) or deploy it to e.g. an enterprise Maven repository like Nexus or Artifactory (variant b):
 
-        (a) mvn install:install-file -DgroupId=org.hibersap -DartifactId=hibersap-deps-jco -Dversion=3.0 -Dpackaging=jar -Dfile=path/to/sapjco3.jar
-        (b) mvn deploy:deploy-file -DrepositoryId=[your repo id] -DgroupId=org.hibersap -DartifactId=hibersap-deps-jco -Dversion=3.0 -Dpackaging=jar
-        -Dfile=path/to/sapjco3.jar
+        (a) mvn install:install-file -DgroupId=org.hibersap -DartifactId=sapjco3 -Dversion=3.0.10 -Dpackaging=jar -Dfile=path/to/sapjco3.jar
+        (b) mvn deploy:deploy-file -DrepositoryId=[your.repo.id] -DgroupId=org.hibersap -DartifactId=sapjco3 -Dversion=3.0.10 -Dpackaging=jar -Dfile=sapjco3.jar
     </description>
 
     <url>http://service.sap.com/connectors</url>
@@ -48,6 +47,14 @@
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>2.2.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.7</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -79,18 +86,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
                     <mavenExecutorId>forked-path</mavenExecutorId>
@@ -112,6 +107,49 @@
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <!-- force creation of the empty javadoc-jar -->
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${project.build.directory}/apidocs"/>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>1.5</version>
