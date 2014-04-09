@@ -30,14 +30,6 @@
                 <configuration>
                     <forkMode>once</forkMode>
                     <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
-                    <!--
-                                        <systemProperties>
-                                            <property>
-                                                <name>java.library.path</name>
-                                                <value>${project.build.directory}/jni</value>
-                                            </property>
-                                        </systemProperties>
-                    -->
                 </configuration>
             </plugin>
             <plugin>
