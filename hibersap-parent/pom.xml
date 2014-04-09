@@ -182,8 +182,8 @@
 
             <!-- SAP Java Connector (JCo) -->
             <dependency>
-                <groupId>com.sap</groupId>
-                <artifactId>sap-jco</artifactId>
+                <groupId>org.hibersap</groupId>
+                <artifactId>sapjco3</artifactId>
                 <version>[3.0,4.0)</version>
             </dependency>
 
