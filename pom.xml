@@ -16,6 +16,12 @@
 
     <name>Hibersap Reactor</name>
 
+    <scm>
+        <url>https://github.com/hibersap/hibersap</url>
+        <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
+        <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
+    </scm>
+
     <modules>
         <module>hibersap-parent</module>
         <module>hibersap-core</module>
