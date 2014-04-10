@@ -39,6 +39,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <releaseProfiles>doc,it</releaseProfiles>
                     </configuration>
                 </plugin>
             </plugins>
@@ -55,19 +56,6 @@
         <profile>
             <id>doc</id>
             <modules>
-                <module>hibersap-doc</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <modules>
-                <module>hibersap-it</module>
                 <module>hibersap-doc</module>
             </modules>
         </profile>
