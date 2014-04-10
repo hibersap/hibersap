@@ -44,13 +44,6 @@
             <name>Hibersap Release Site</name>
             <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
         </site>
-        <!--
-                <site>
-                    <id>local</id>
-                    <name>Local file system</name>
-                    <url>file:///tmp/hibersap-site-${project.version}/</url>
-                </site>
-        -->
     </distributionManagement>
 
     <developers>
@@ -295,6 +288,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <arguments>-Psonatype-oss-release</arguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
