@@ -23,39 +23,31 @@ import org.hibersap.session.Credentials;
 import javax.resource.cci.ConnectionSpec;
 import java.util.Arrays;
 
-public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpecFactory
-{
+public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpecFactory {
+
     private static final String CONNECTION_SPEC_IMPL_CLASS_NAME = "org.cuckoo.ra.cci.ApplicationPropertiesImpl";
 
-    public ConnectionSpec createConnectionSpec( Credentials credentials ) throws InternalHiberSapException
-    {
-        Class<?> connSpecClass;
-        try
-        {
-            connSpecClass = getConnectionSpecClass( CONNECTION_SPEC_IMPL_CLASS_NAME );
-
+    public ConnectionSpec createConnectionSpec( Credentials credentials ) throws InternalHiberSapException {
+        try {
             Object[] arguments = {
                     credentials.getUser(),
-                    credentials.getPassword(),
-                    credentials.getLanguage(),
-                    credentials.getClient(),
-                    credentials.getAliasUser(),
-                    credentials.getSsoTicket(),
-                    credentials.getX509Certificate()};
+                    credentials.getPassword()
+//                    ,
+//                    credentials.getLanguage(),
+//                    credentials.getClient(),
+//                    credentials.getAliasUser(),
+//                    credentials.getSsoTicket(),
+//                    credentials.getX509Certificate()
+            };
 
             Class<?>[] parameterTypes = new Class<?>[arguments.length];
             Arrays.fill( parameterTypes, String.class );
 
-            Object connSpecImpl = newConnectionSpecInstance( connSpecClass, parameterTypes, arguments );
-
-            return ( ConnectionSpec ) connSpecImpl;
-        }
-        catch ( IllegalArgumentException e )
-        {
+            Class<?> connSpecClass = getConnectionSpecClass( CONNECTION_SPEC_IMPL_CLASS_NAME );
+            return newConnectionSpecInstance( connSpecClass, parameterTypes, arguments );
+        } catch ( IllegalArgumentException e ) {
             throw new InternalHiberSapException( e.getMessage(), e );
-        }
-        catch ( ClassNotFoundException e )
-        {
+        } catch ( ClassNotFoundException e ) {
             throw new InternalHiberSapException( e.getMessage(), e );
         }
     }
