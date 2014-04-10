@@ -32,14 +32,6 @@
         </license>
     </licenses>
 
-    <distributionManagement>
-        <site>
-            <id>hibersap.sf.net</id>
-            <name>Hibersap Release Site</name>
-            <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
-        </site>
-    </distributionManagement>
-
     <developers>
         <developer>
             <id>cerker</id>
