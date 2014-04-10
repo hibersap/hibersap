@@ -10,3 +10,6 @@ hs_err_pid*
 
 # IntelliJ IDEA project definition
 *.iml
+
+# SAP JCo trace files
+*.trc
