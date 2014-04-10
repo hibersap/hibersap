@@ -3,7 +3,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.hibersap</groupId>
+    <parent>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-parent</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+        <relativePath>hibersap-parent</relativePath>
+    </parent>
+
     <artifactId>hibersap</artifactId>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -24,286 +30,24 @@
                 <module>hibersap-it</module>
             </modules>
         </profile>
+        <profile>
+            <id>doc</id>
+            <modules>
+                <module>hibersap-doc</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <modules>
+                <module>hibersap-it</module>
+                <module>hibersap-doc</module>
+            </modules>
+        </profile>
     </profiles>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <projectVersion>${project.version}</projectVersion>
-    </properties>
-
-    <description>
-        Hibersap helps developers of Java applications to call business logic in SAP backends.
-        It defines a set of Java annotations to map SAP function modules to Java classes as well as a small,
-        clean API to execute these function modules and handle transaction and security aspects.
-    </description>
-
-    <url>http://hibersap.org</url>
-
-    <distributionManagement>
-        <site>
-            <id>hibersap.sf.net</id>
-            <name>Hibersap Release Site</name>
-            <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
-        </site>
-    </distributionManagement>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <issueManagement>
-        <system>Sourceforge Tracker</system>
-        <url>https://sourceforge.net/tracker/?group_id=225273</url>
-    </issueManagement>
-
-    <mailingLists>
-        <mailingList>
-            <name>hibersap-announce</name>
-            <subscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</subscribe>
-            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=hibersap-announce</archive>
-        </mailingList>
-    </mailingLists>
-
-    <scm>
-        <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
-        <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
-        <url>https://github.com/hibersap/hibersap</url>
-    </scm>
-
-    <organization>
-        <name>akquinet tech@spree GmbH</name>
-        <url>http://www.akquinet.de</url>
-    </organization>
-
-    <developers>
-        <developer>
-            <id>cerker</id>
-            <name>Carsten Erker</name>
-            <email>carsten.erker at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Project Creator</role>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>tfink</id>
-            <name>Torsten Fink</name>
-            <email>torsten.fink at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Architect</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>dahm</id>
-            <name>Markus Dahm</name>
-            <email>markus.dahm at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>abendt</id>
-            <name>Alphonse Bendt</name>
-            <email>alphonse.bendt at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-    </developers>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>bakersoftware</groupId>
-                    <artifactId>maven-replacer-plugin</artifactId>
-                    <version>0.0.9</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0-beta-3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.8</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.5.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>2.9</version>
-                </plugin>
-                <plugin>
-                    <groupId>de.akquinet.maven</groupId>
-                    <artifactId>maven-latex-plugin</artifactId>
-                    <version>1.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <reportPlugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-project-info-reports-plugin</artifactId>
-                            <reportSets>
-                                <reportSet>
-                                    <reports>
-                                        <report>dependency-convergence</report>
-                                        <report>index</report>
-                                        <report>issue-tracking</report>
-                                        <report>license</report>
-                                        <report>mailing-list</report>
-                                        <report>project-team</report>
-                                        <report>scm</report>
-                                        <report>summary</report>
-                                    </reports>
-                                </reportSet>
-                            </reportSets>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <configuration>
-                                <aggregate>true</aggregate>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-surefire-report-plugin</artifactId>
-                            <configuration>
-                                <aggregate>true</aggregate>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>cobertura-maven-plugin</artifactId>
-                            <configuration>
-                                <aggregate>true</aggregate>
-                                <formats>
-                                    <format>xml</format>
-                                    <format>html</format>
-                                </formats>
-                            </configuration>
-                        </plugin>
-                    </reportPlugins>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-descriptor</id>
-                        <goals>
-                            <goal>attach-descriptor</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>bakersoftware</groupId>
-                <artifactId>maven-replacer-plugin</artifactId>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <phase>pre-site</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                        <configuration>
-                            <file>src/site/tex/version.tex</file>
-                            <token>.+</token>
-                            <value>${project.version}</value>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>de.akquinet.maven</groupId>
-                <artifactId>maven-latex-plugin</artifactId>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>PDF</id>
-                        <configuration>
-                            <settings>
-                                <outputDirectory>reference</outputDirectory>
-                            </settings>
-                        </configuration>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>latex</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>HTML multipage</id>
-                        <configuration>
-                            <settings>
-                                <outputDirectory>reference/html_multipage</outputDirectory>
-                                <tex4htCommandArgs>
-                                    <tex4htCommandArg>tex4ht,2</tex4htCommandArg>
-                                    <tex4htCommandArg/>
-                                    <tex4htCommandArg/>
-                                    <tex4htCommandArg>-interaction=nonstopmode
-                                        --src-specials
-                                    </tex4htCommandArg>
-                                </tex4htCommandArgs>
-                            </settings>
-                        </configuration>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>tex4ht</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>HTML singlepage</id>
-                        <configuration>
-                            <settings>
-                                <outputDirectory>reference/html_singlepage</outputDirectory>
-                                <tex4htCommandArgs>
-                                    <tex4htCommandArg>tex4ht,1</tex4htCommandArg>
-                                    <tex4htCommandArg/>
-                                    <tex4htCommandArg/>
-                                    <tex4htCommandArg>-interaction=nonstopmode
-                                        --src-specials
-                                    </tex4htCommandArg>
-                                </tex4htCommandArgs>
-                            </settings>
-                        </configuration>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>tex4ht</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

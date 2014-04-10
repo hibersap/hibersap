@@ -3,14 +3,121 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Hibersap Parent</name>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+        <relativePath/>
+    </parent>
 
     <groupId>org.hibersap</groupId>
     <artifactId>hibersap-parent</artifactId>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>Hibersap Parent</name>
+
+    <description>
+        Hibersap helps developers of Java applications to call business logic in SAP backends.
+        It defines a set of Java annotations to map SAP function modules to Java classes as well as a small,
+        clean API to execute these function modules and handle transaction and security aspects.
+    </description>
+
+    <url>http://hibersap.org</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/hibersap/hibersap</url>
+        <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
+        <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>hibersap.sf.net</id>
+            <name>Hibersap Release Site</name>
+            <url>scp://shell.sourceforge.net/home/project-web/hibersap/htdocs/hibersap-${project.version}/</url>
+        </site>
+        <!--
+                <site>
+                    <id>local</id>
+                    <name>Local file system</name>
+                    <url>file:///tmp/hibersap-site-${project.version}/</url>
+                </site>
+        -->
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <id>cerker</id>
+            <name>Carsten Erker</name>
+            <email>carsten.erker at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Project Creator</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>tfink</id>
+            <name>Torsten Fink</name>
+            <email>torsten.fink at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Architect</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>dahm</id>
+            <name>Markus Dahm</name>
+            <email>markus.dahm at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>abendt</id>
+            <name>Alphonse Bendt</name>
+            <email>alphonse.bendt at akquinet dot de</email>
+            <organization>akquinet tech@spree GmbH</organization>
+            <organizationUrl>http://www.akquinet.de</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>akquinet tech@spree GmbH</name>
+        <url>http://www.akquinet.de</url>
+    </organization>
+
+    <issueManagement>
+        <system>Sourceforge Tracker</system>
+        <url>https://sourceforge.net/tracker/?group_id=225273</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>hibersap-announce</name>
+            <subscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</subscribe>
+            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=hibersap-announce</archive>
+        </mailingList>
+    </mailingLists>
+
     <profiles>
+        <!-- Profiles for running integration tests -->
         <profile>
             <id>Mac64BitIntel</id>
             <activation>
@@ -67,6 +174,59 @@
                 <jco.native-lib.packaging>so</jco.native-lib.packaging>
             </properties>
         </profile>
+
+        <!-- Release profile -->
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <properties>
@@ -106,34 +266,14 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>2.2.1</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -183,8 +323,8 @@
             <!-- SAP Java Connector (JCo) -->
             <dependency>
                 <groupId>org.hibersap</groupId>
-                <artifactId>sapjco3</artifactId>
-                <version>3.0-Beta01</version>
+                <artifactId>hibersap-sapjco3</artifactId>
+                <version>3.0-RC01</version>
             </dependency>
 
             <!-- Java Connector Architecture (JCA) -->
@@ -242,7 +382,7 @@
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
-                <artifactId>junit-dep</artifactId>
+                <artifactId>junit</artifactId>
                 <version>4.11</version>
             </dependency>
             <dependency>
@@ -261,7 +401,7 @@
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit-dep</artifactId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

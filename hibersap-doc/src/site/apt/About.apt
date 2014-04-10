@@ -11,31 +11,23 @@ About Hibersap
   to call a function in a SAP back-end system to a minimum. 
   Hibersap's API is very similar to Hibernate, thus offering a familiar programming interface to developers.  
 
-* Current Features
+* Features
 
-  * Calling remote function modules in SAP systems
+  * Easy-to-use API to call remote function modules in SAP systems.
 
-  * Mapping of ABAP function modules and their parameters to Java classes and their fields using Java Annotations.
-
-  * Hibernate-like API completely hiding the JCo/JCA API.
+  * A set of Java annotations to map ABAP function modules and their parameters to Java classes and their fields.
 
   * Custom data type conversion using @Convert annotation and Converter classes.
 
-  * Intercept execution of function modules using custom Interceptors.
+  * Plug in your own logic with custom Interceptors.
 
   * Automatic error propagation using the @ThrowExceptionOnError annotation.
 
-  * Configuration using XML file or programmatic configuration
+  * Configuration using XML file, programmatic configuration or a mixture of both.
 
-  * Using the SAP Java Connector (JCo), version 3, internally.
-
-  * Alteratively, using a JCA compliant Resource Adapter in managed environments.
-
-  * Switching between the use of JCo and JCA by means of configuration.
+  * Switch between the JCo and JCA as the underlying interfacing technology by means of configuration.
 
   * Manual transaction handling using JCo.
-
-  * Local Transactions using JCA.
 
   * Container Managed Transactions (CMT) using JCA.
 
@@ -43,14 +35,8 @@ About Hibersap
 
   * Application and container managed security.
 
-* Prospective Features
+  * Validate parameters using Bean Validation API.
 
-  * Automated lookup of mapped classes instead of adding them manually to the configuration.
+  * Inject Hibersap session directly into EJBs using the EJB tools.
 
-  * JBoss5 deployer for annotated Hibersap classes.
-
-  * Hibernate-like current session context strategy.
-
-  * Integration of the Hibernate Validation Framework to validate mapped fields.
-  
-  * Using JCo 3 stateless calls.
+  * Automatically generate mapping classes using the Hibersap JBoss Forge Plugin.
