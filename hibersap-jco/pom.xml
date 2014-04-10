@@ -4,14 +4,14 @@
     <parent>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-parent</artifactId>
-        <version>1.2.0-Beta01</version>
+        <version>1.2.0-Beta02-SNAPSHOT</version>
         <relativePath>../hibersap-parent</relativePath>
     </parent>
 
     <name>Hibersap JCo</name>
 
     <artifactId>hibersap-jco</artifactId>
-    <version>1.2.0-Beta01</version>
+    <version>1.2.0-Beta02-SNAPSHOT</version>
 
     <description>JCo specific Hibersap code</description>
 
