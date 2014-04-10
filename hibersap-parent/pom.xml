@@ -32,12 +32,6 @@
         </license>
     </licenses>
 
-    <scm>
-        <url>https://github.com/hibersap/hibersap</url>
-        <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
-        <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
-    </scm>
-
     <distributionManagement>
         <site>
             <id>hibersap.sf.net</id>
