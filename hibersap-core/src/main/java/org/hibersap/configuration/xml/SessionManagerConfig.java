@@ -42,14 +42,13 @@ import java.util.List;
         "bapiInterceptorClasses",
         "validationMode"
 } )
-public final class SessionManagerConfig implements Serializable
-{
+public final class SessionManagerConfig implements Serializable {
+
     @XmlTransient
     private static final long serialVersionUID = 270142113574399232L;
 
     @XmlTransient
     private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
-
 
     @XmlAttribute( required = true )
     protected String name;
@@ -76,197 +75,164 @@ public final class SessionManagerConfig implements Serializable
     protected String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
 
     @XmlElement( name = "validation-mode" )
-//    @XmlJavaTypeAdapter( CollapsedStringAdapter.class )
     protected ValidationMode validationMode = ValidationMode.AUTO;
 
-    public SessionManagerConfig()
-    {
+    public SessionManagerConfig() {
     }
 
-    public SessionManagerConfig( final String name )
-    {
+    public SessionManagerConfig( final String name ) {
         this.name = name;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public SessionManagerConfig setName( final String name )
-    {
+    public SessionManagerConfig setName( final String name ) {
         this.name = name;
         return this;
     }
 
-    public String getContext()
-    {
+    public String getContext() {
         return context;
     }
 
-    public String getJcaConnectionFactory()
-    {
+    public String getJcaConnectionFactory() {
         return jcaConnectionFactory;
     }
 
-    public SessionManagerConfig setJcaConnectionFactory( final String jcaConnectionFactory )
-    {
+    public SessionManagerConfig setJcaConnectionFactory( final String jcaConnectionFactory ) {
         this.jcaConnectionFactory = jcaConnectionFactory;
         return this;
     }
 
-    public String getJcaConnectionSpecFactory()
-    {
+    public String getJcaConnectionSpecFactory() {
         return jcaConnectionSpecFactory;
     }
 
-    public SessionManagerConfig setJcaConnectionSpecFactory( final String jcaConnectionSpecFactory )
-    {
+    public SessionManagerConfig setJcaConnectionSpecFactory( final String jcaConnectionSpecFactory ) {
         this.jcaConnectionSpecFactory = jcaConnectionSpecFactory;
         return this;
     }
 
-    public List<Property> getProperties()
-    {
+    public List<Property> getProperties() {
         return properties.getProperties();
     }
 
-    public SessionManagerConfig setProperties( final List<Property> properties )
-    {
+    public SessionManagerConfig setProperties( final List<Property> properties ) {
         LOG.debug( "SETPROPS" );
         this.properties.setProperties( properties );
         return this;
     }
 
-    public List<String> getAnnotatedClasses()
-    {
+    public List<String> getAnnotatedClasses() {
         return annotatedClasses.getAnnotatedClasses();
     }
 
-    public void setAnnotatedClasses( final List<String> annotatedClasses )
-    {
+    public void setAnnotatedClasses( final List<String> annotatedClasses ) {
         this.annotatedClasses.getAnnotatedClasses().clear();
         this.annotatedClasses.getAnnotatedClasses().addAll( annotatedClasses );
     }
 
-    public String getProperty( final String propertyName )
-    {
+    public String getProperty( final String propertyName ) {
         return properties.getPropertyValue( propertyName );
     }
 
-    public SessionManagerConfig setContext( final String context )
-    {
+    public SessionManagerConfig setContext( final String context ) {
         this.context = context;
         return this;
     }
 
-    public SessionManagerConfig setProperty( final String name, final String value )
-    {
+    public SessionManagerConfig setProperty( final String name, final String value ) {
         properties.setProperty( name, value );
         return this;
     }
 
-    public SessionManagerConfig addAnnotatedClass( final Class<?> annotatedClass )
-    {
+    /**
+     * This does not work in OSGi. Use AnnotationConfiguration.addBapiClasses instead.
+     */
+    @Deprecated
+    public SessionManagerConfig addAnnotatedClass( final Class<?> annotatedClass ) {
         annotatedClasses.add( annotatedClass.getName() );
         return this;
     }
 
-    public SessionManagerConfig setValidationMode( ValidationMode validationMode )
-    {
+    public SessionManagerConfig setValidationMode( final ValidationMode validationMode ) {
         this.validationMode = validationMode;
         return this;
     }
 
-    public ValidationMode getValidationMode()
-    {
+    public ValidationMode getValidationMode() {
         return validationMode;
     }
 
-    public List<String> getExecutionInterceptorClasses()
-    {
+    public List<String> getExecutionInterceptorClasses() {
         return executionInterceptorClasses.getExecutionInterceptorClasses();
     }
 
-    public SessionManagerConfig addExecutionInterceptorClass( Class<? extends ExecutionInterceptor> interceptorClass )
-    {
+    public SessionManagerConfig addExecutionInterceptorClass( final Class<? extends ExecutionInterceptor> interceptorClass ) {
         executionInterceptorClasses.add( interceptorClass.getName() );
         return this;
     }
 
-    public List<String> getBapiInterceptorClasses()
-    {
+    public List<String> getBapiInterceptorClasses() {
         return bapiInterceptorClasses.getBapiInterceptorClasses();
     }
 
-    public SessionManagerConfig addBapiInterceptorClass( Class<? extends BapiInterceptor> bapiInterceptorClass )
-    {
+    public SessionManagerConfig addBapiInterceptorClass( final Class<? extends BapiInterceptor> bapiInterceptorClass ) {
         executionInterceptorClasses.add( bapiInterceptorClass.getName() );
         return this;
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        SessionManagerConfig that = ( SessionManagerConfig ) o;
+        SessionManagerConfig that = (SessionManagerConfig) o;
 
         if ( annotatedClasses != null ? !annotatedClasses.equals( that.annotatedClasses ) :
-             that.annotatedClasses != null )
-        {
+             that.annotatedClasses != null ) {
             return false;
         }
         if ( bapiInterceptorClasses != null ? !bapiInterceptorClasses.equals( that.bapiInterceptorClasses ) :
-             that.bapiInterceptorClasses != null )
-        {
+             that.bapiInterceptorClasses != null ) {
             return false;
         }
-        if ( context != null ? !context.equals( that.context ) : that.context != null )
-        {
+        if ( context != null ? !context.equals( that.context ) : that.context != null ) {
             return false;
         }
         if ( executionInterceptorClasses != null ?
              !executionInterceptorClasses.equals( that.executionInterceptorClasses ) :
-             that.executionInterceptorClasses != null )
-        {
+             that.executionInterceptorClasses != null ) {
             return false;
         }
         if ( jcaConnectionFactory != null ? !jcaConnectionFactory.equals( that.jcaConnectionFactory ) :
-             that.jcaConnectionFactory != null )
-        {
+             that.jcaConnectionFactory != null ) {
             return false;
         }
         if ( jcaConnectionSpecFactory != null ? !jcaConnectionSpecFactory.equals( that.jcaConnectionSpecFactory ) :
-             that.jcaConnectionSpecFactory != null )
-        {
+             that.jcaConnectionSpecFactory != null ) {
             return false;
         }
-        if ( name != null ? !name.equals( that.name ) : that.name != null )
-        {
+        if ( name != null ? !name.equals( that.name ) : that.name != null ) {
             return false;
         }
-        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null )
-        {
+        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null ) {
             return false;
         }
-        if ( validationMode != that.validationMode )
-        {
+        if ( validationMode != that.validationMode ) {
             return false;
         }
 
         return true;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "SessionManagerConfig{" +
                 "annotatedClasses=" + annotatedClasses +
                 ", name='" + name + '\'' +

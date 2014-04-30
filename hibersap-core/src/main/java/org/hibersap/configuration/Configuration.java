@@ -23,10 +23,15 @@ import org.hibersap.ConfigurationException;
 import org.hibersap.configuration.xml.HibersapConfig;
 import org.hibersap.configuration.xml.HibersapJaxbXmlParser;
 import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.session.Context;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +43,11 @@ import java.util.Map;
  *
  * @author Carsten Erker
  */
-public abstract class Configuration
-{
+public abstract class Configuration {
+
     private static final Log LOG = LogFactory.getLog( Configuration.class );
 
-    static
-    {
+    static {
         LOG.info( "Hibersap Version " + Environment.VERSION );
     }
 
@@ -55,8 +59,7 @@ public abstract class Configuration
      *
      * @param sessionManagerConfig The session manager configuration
      */
-    public Configuration( SessionManagerConfig sessionManagerConfig )
-    {
+    public Configuration( final SessionManagerConfig sessionManagerConfig ) {
         this.data = new ConfigurationData( sessionManagerConfig );
     }
 
@@ -66,8 +69,7 @@ public abstract class Configuration
      *
      * @param sessionManagerName The SessionManager name as specified in the hibersap.xml file
      */
-    public Configuration( String sessionManagerName )
-    {
+    public Configuration( final String sessionManagerName ) {
         SessionManagerConfig sessionManagerConfig = readHibersapConfig().getSessionManager( sessionManagerName );
         this.data = new ConfigurationData( sessionManagerConfig );
     }
@@ -77,31 +79,27 @@ public abstract class Configuration
      * method should only be used when there is exactly one SessionManager specified in
      * hibersap.xml.
      */
-    public Configuration()
-    {
+    public Configuration() {
         List<SessionManagerConfig> sessionManagers = readHibersapConfig().getSessionManagers();
 
-        if ( sessionManagers.size() > 0 )
-        {
+        if ( sessionManagers.size() > 0 ) {
             this.data = new ConfigurationData( sessionManagers.get( 0 ) );
 
             LOG.warn( "Only the first session manager (" + data.getSessionManagerConfig().getName()
-                    + ") specified in hibersap.xml was configured. To configure the other specified session managers "
-                    + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration "
-                    + "implementation with the sessionManagerName argument." );
-        }
-        else
-        {
+                              + ") specified in hibersap.xml was configured. To configure the other specified session managers "
+                              + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration "
+                              + "implementation with the sessionManagerName argument." );
+        } else {
             throw new ConfigurationException( "Can not find a configured SessionManager" );
         }
     }
 
-    private HibersapConfig readHibersapConfig()
-    {
-        LOG.debug( "Reading HibersapConfig from configuration file" );
+    public void addExecutionInterceptors( final ExecutionInterceptor... executionInterceptors ) {
+        data.addExecutionInterceptors( new HashSet<ExecutionInterceptor>( Arrays.asList( executionInterceptors ) ) );
+    }
 
-        final HibersapJaxbXmlParser parser = new HibersapJaxbXmlParser();
-        return parser.parseResource( Environment.HIBERSAP_XML_FILE );
+    public void addBapiInterceptors( final BapiInterceptor... bapiInterceptors ) {
+        data.addBapiInterceptors( new HashSet<BapiInterceptor>( Arrays.asList( bapiInterceptors ) ) );
     }
 
     /**
@@ -109,15 +107,23 @@ public abstract class Configuration
      *
      * @return The session manager
      */
-    public SessionManager buildSessionManager()
-    {
+    public SessionManager buildSessionManager( final Context context ) {
         final SessionManagerConfig config = data.getSessionManagerConfig();
 
         LOG.info( "Building SessionManager '" + config.getName() + "'" );
 
-        data.setExecutionInterceptors( ConfigurationHelper.createExecutionInterceptors( config ) );
-        data.setBapiInterceptors( ConfigurationHelper.createBapiInterceptors( config ) );
-        return new SessionManagerImpl( data, ConfigurationHelper.createContext( config ) );
+        data.addExecutionInterceptors( ConfigurationHelper.createExecutionInterceptors( config ) );
+        data.addBapiInterceptors( ConfigurationHelper.createBapiInterceptors( config ) );
+        return new SessionManagerImpl( data, context );
+    }
+
+    /**
+     * Builds the session manager for this Configuration.
+     *
+     * @return The session manager
+     */
+    public SessionManager buildSessionManager() {
+        return buildSessionManager( ConfigurationHelper.createContext( data.getSessionManagerConfig() ) );
     }
 
     /**
@@ -125,13 +131,18 @@ public abstract class Configuration
      *
      * @param bapiMappings A Map with the BAPI class as key and the BapiMappings as value.
      */
-    protected void setBapiMappings( Map<Class<?>, BapiMapping> bapiMappings )
-    {
-        data.setBapiMappingsForClass( bapiMappings );
+    protected void addBapiMappings( final Map<Class<?>, BapiMapping> bapiMappings ) {
+        data.addBapiMappingsForClass( bapiMappings );
     }
 
-    protected SessionManagerConfig getSessionManagerConfig()
-    {
+    protected SessionManagerConfig getSessionManagerConfig() {
         return data.getSessionManagerConfig();
+    }
+
+    private HibersapConfig readHibersapConfig() {
+        LOG.debug( "Reading HibersapConfig from configuration file" );
+
+        final HibersapJaxbXmlParser parser = new HibersapJaxbXmlParser();
+        return parser.parseResource( Environment.HIBERSAP_XML_FILE );
     }
 }

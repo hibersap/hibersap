@@ -44,25 +44,40 @@ import java.util.HashMap;
  *
  * @author Carsten Erker
  */
-public class AnnotationConfiguration extends Configuration
-{
+public class AnnotationConfiguration extends Configuration {
+
     private static final Log LOG = LogFactory.getLog( AnnotationConfiguration.class );
 
     private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
-    public AnnotationConfiguration()
-    {
+    public AnnotationConfiguration() {
         super();
     }
 
-    public AnnotationConfiguration( SessionManagerConfig config )
-    {
+    public AnnotationConfiguration( final SessionManagerConfig config ) {
         super( config );
     }
 
-    public AnnotationConfiguration( String name )
-    {
+    public AnnotationConfiguration( final String name ) {
         super( name );
+    }
+
+    /**
+     * Programmatic configuration of bapi classes. This works in any class loader
+     *
+     * @param bapiClasses
+     */
+    public void addBapiClasses( final Class<?>... bapiClasses ) {
+        final HashMap<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
+
+        for ( Class<?> bapiClass : bapiClasses ) {
+
+            final BapiMapping bapiMapping = bapiMapper.mapBapi( bapiClass );
+
+            bapiMappings.put( bapiClass, bapiMapping );
+        }
+
+        addBapiMappings( bapiMappings );
     }
 
     /**
@@ -71,32 +86,34 @@ public class AnnotationConfiguration extends Configuration
      * @return The SessionManager
      */
     @Override
-    public SessionManager buildSessionManager()
-    {
+    public SessionManager buildSessionManager() {
+        addBapiMappingsFromConfig();
+        return super.buildSessionManager();
+    }
+
+    /**
+     * Add bapi mappings from configured class names in config file
+     */
+    private void addBapiMappingsFromConfig() {
+
         final HashMap<Class<?>, BapiMapping> bapiMappings = new HashMap<Class<?>, BapiMapping>();
 
-        for ( final String className : getSessionManagerConfig().getAnnotatedClasses() )
-        {
-            try
-            {
+        for ( final String className : getSessionManagerConfig().getAnnotatedClasses() ) {
+            try {
                 LOG.info( "Mapping BAPI class " + className );
                 Class<?> clazz = Class.forName( className );
                 final BapiMapping bapiMapping = bapiMapper.mapBapi( clazz );
                 bapiMappings.put( clazz, bapiMapping );
-            }
-            catch ( ClassNotFoundException e )
-            {
+            } catch ( ClassNotFoundException e ) {
                 String message = "Cannot find class " + className + " in classpath";
                 LOG.error( message );
                 throw new ConfigurationException( message, e );
             }
         }
-        setBapiMappings( bapiMappings );
-        return super.buildSessionManager();
+        addBapiMappings( bapiMappings );
     }
 
-    public String getSessionManagerName()
-    {
+    public String getSessionManagerName() {
         return getSessionManagerConfig().getName();
     }
 }

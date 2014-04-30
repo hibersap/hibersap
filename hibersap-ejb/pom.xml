@@ -11,7 +11,6 @@
     <name>Hibersap EJB</name>
     
     <artifactId>hibersap-ejb</artifactId>
-    <version>1.2.0-Beta04-SNAPSHOT</version>
 
     <description>EJB tools for Hibersap</description>
 
