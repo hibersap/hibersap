@@ -17,18 +17,17 @@
 
 package org.hibersap.conversion;
 
-import static org.junit.Assert.assertEquals;
-
 import org.hibersap.HibersapException;
 import org.junit.Test;
 
-public class ConverterCacheTest
-{
+import static org.junit.Assert.assertEquals;
+
+public class ConverterCacheTest {
+
     private ConverterCache cache = new ConverterCache();
 
     @Test
-    public void testCreatesOneInstanceOfEachClass()
-    {
+    public void testCreatesOneInstanceOfEachClass() {
         cache.getConverter( CharConverter.class );
         assertEquals( 1, cache.getSize() );
 
@@ -39,15 +38,13 @@ public class ConverterCacheTest
         assertEquals( 2, cache.getSize() );
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testThrowsExceptionOnNullArgument()
-    {
+    @Test( expected = IllegalArgumentException.class )
+    public void testThrowsExceptionOnNullArgument() {
         cache.getConverter( null );
     }
 
-    @Test(expected = HibersapException.class)
-    public void testThrowsHibersapExceptionIfNotInstantiable()
-    {
+    @Test( expected = HibersapException.class )
+    public void testThrowsHibersapExceptionIfNotInstantiable() {
         cache.getConverter( Converter.class );
     }
 }

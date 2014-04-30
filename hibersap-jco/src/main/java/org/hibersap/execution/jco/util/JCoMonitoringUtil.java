@@ -25,10 +25,9 @@ import com.sap.conn.jco.monitor.JCoDestinationMonitor;
 
 import java.util.Date;
 
-public class JCoMonitoringUtil
-{
-    public MonitoringData getMonitoringData( String destinationName ) throws JCoException
-    {
+public class JCoMonitoringUtil {
+
+    public MonitoringData getMonitoringData( final String destinationName ) throws JCoException {
         JCoDestination dest = JCoDestinationManager.getDestination( destinationName );
 
         MonitoringData data = new MonitoringData();
@@ -62,31 +61,29 @@ public class JCoMonitoringUtil
         return data;
     }
 
-    private void addConnectionData( MonitoringData data, JCoDestinationMonitor monitor )
-    {
-        for ( JCoConnectionData jCoConnectionData : monitor.getConnectionsData() )
-        {
+    private void addConnectionData( final MonitoringData data, final JCoDestinationMonitor monitor ) {
+        for ( JCoConnectionData jCoConnectionData : monitor.getConnectionsData() ) {
             MonitoringData.ConnectionData connectionData = new MonitoringData.ConnectionData();
 
-            connectionData.setAbapClient(jCoConnectionData.getAbapClient());
-            connectionData.setAbapHost(jCoConnectionData.getAbapHost());
-            connectionData.setAbapLanguage(jCoConnectionData.getAbapLanguage());
-            connectionData.setAbapSystemNumber(jCoConnectionData.getAbapSystemNumber());
-            connectionData.setAbapUser(jCoConnectionData.getAbapUser());
-            connectionData.setApplicationName(jCoConnectionData.getApplicationName());
-            connectionData.setConnectionHandle(jCoConnectionData.getConnectionHandleAsString());
-            connectionData.setConnectionType(jCoConnectionData.getConnectionType());
-            connectionData.setConvId(jCoConnectionData.getConvId());
-            connectionData.setDSRPassport(jCoConnectionData.getDSRPassportAsString());
-            connectionData.setFunctionModuleName(jCoConnectionData.getFunctionModuleName());
-            connectionData.setGroupName(jCoConnectionData.getGroupName());
-            connectionData.setLastActivity(new Date( jCoConnectionData.getLastActivityTimestamp()));
-            connectionData.setProtocol(jCoConnectionData.getProtocol());
-            connectionData.setSessionId(jCoConnectionData.getSessionId());
-            connectionData.setState(jCoConnectionData.getStateAsString());
-            connectionData.setSystemId(jCoConnectionData.getSystemID());
-            connectionData.setThreadId(jCoConnectionData.getThreadIdAsString());
-            connectionData.setThreadName(jCoConnectionData.getThreadName());
+            connectionData.setAbapClient( jCoConnectionData.getAbapClient() );
+            connectionData.setAbapHost( jCoConnectionData.getAbapHost() );
+            connectionData.setAbapLanguage( jCoConnectionData.getAbapLanguage() );
+            connectionData.setAbapSystemNumber( jCoConnectionData.getAbapSystemNumber() );
+            connectionData.setAbapUser( jCoConnectionData.getAbapUser() );
+            connectionData.setApplicationName( jCoConnectionData.getApplicationName() );
+            connectionData.setConnectionHandle( jCoConnectionData.getConnectionHandleAsString() );
+            connectionData.setConnectionType( jCoConnectionData.getConnectionType() );
+            connectionData.setConvId( jCoConnectionData.getConvId() );
+            connectionData.setDSRPassport( jCoConnectionData.getDSRPassportAsString() );
+            connectionData.setFunctionModuleName( jCoConnectionData.getFunctionModuleName() );
+            connectionData.setGroupName( jCoConnectionData.getGroupName() );
+            connectionData.setLastActivity( new Date( jCoConnectionData.getLastActivityTimestamp() ) );
+            connectionData.setProtocol( jCoConnectionData.getProtocol() );
+            connectionData.setSessionId( jCoConnectionData.getSessionId() );
+            connectionData.setState( jCoConnectionData.getStateAsString() );
+            connectionData.setSystemId( jCoConnectionData.getSystemID() );
+            connectionData.setThreadId( jCoConnectionData.getThreadIdAsString() );
+            connectionData.setThreadName( jCoConnectionData.getThreadName() );
             data.addConnectionData( connectionData );
         }
     }

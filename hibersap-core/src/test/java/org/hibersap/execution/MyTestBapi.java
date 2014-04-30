@@ -43,16 +43,36 @@ import java.util.Map;
  */
 @Bapi( "bapiName" )
 @ThrowExceptionOnError
-class MyTestBapi
-{
+class MyTestBapi {
+
+    @Import
+    @Parameter( "intParam" )
+    Integer intParam;
+    @Import
+    @Parameter( value = "structureParamWithConverter", type = ParameterType.STRUCTURE )
+    @Convert( converter = TestStructureToStringConverter.class )
+    String structureParamWithConverter;
+    @Export
+    @Parameter( value = "structureParam", type = ParameterType.STRUCTURE )
+    TestStructure structureParam;
+    @Export
+    @Parameter( "intParamWithConverter" )
+    @Convert( converter = IntegerToStringConverter.class )
+    String intParamWithConverter;
+    @Table
+    @Parameter( "tableParam" )
+    List<TestStructure> tableParam;
+    @Table
+    @Parameter( "tableParamWithConverter" )
+    @Convert( converter = TestStructureTableToStringConverter.class )
+    String tableParamWithConverter;
+
     @SuppressWarnings( {"UnusedDeclaration"} ) // called by Hibersap using reflection
-    private MyTestBapi()
-    {
+    private MyTestBapi() {
     }
 
     MyTestBapi( Integer intParam, String intParamWithConverter, TestStructure structureParam,
-                String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter )
-    {
+                String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter ) {
         this.intParam = intParam;
         this.intParamWithConverter = intParamWithConverter;
         this.structureParam = structureParam;
@@ -61,83 +81,48 @@ class MyTestBapi
         this.tableParamWithConverter = tableParamWithConverter;
     }
 
-    @Import
-    @Parameter( "intParam" )
-    Integer intParam;
-
-    @Import
-    @Parameter( value = "structureParamWithConverter", type = ParameterType.STRUCTURE )
-    @Convert( converter = TestStructureToStringConverter.class )
-    String structureParamWithConverter;
-
-    @Export
-    @Parameter( value = "structureParam", type = ParameterType.STRUCTURE )
-    TestStructure structureParam;
-
-    @Export
-    @Parameter( "intParamWithConverter" )
-    @Convert( converter = IntegerToStringConverter.class )
-    String intParamWithConverter;
-
-    @Table
-    @Parameter( "tableParam" )
-    List<TestStructure> tableParam;
-
-    @Table
-    @Parameter( "tableParamWithConverter" )
-    @Convert( converter = TestStructureTableToStringConverter.class )
-    String tableParamWithConverter;
-
     @BapiStructure
-    static class TestStructure
-    {
+    static class TestStructure {
+
         @Parameter( "charParam" )
         char charParam;
 
         @SuppressWarnings( "unused" )
-        private TestStructure()
-        {
+        private TestStructure() {
             // for Hibersap
         }
 
-        public TestStructure( char charParam )
-        {
+        public TestStructure( char charParam ) {
             this.charParam = charParam;
         }
     }
 
-    private static class IntegerToStringConverter implements Converter<String, Integer>
-    {
-        public String convertToJava( Integer sapValue ) throws ConversionException
-        {
+    private static class IntegerToStringConverter implements Converter<String, Integer> {
+
+        public String convertToJava( Integer sapValue ) throws ConversionException {
             return sapValue.toString();
         }
 
-        public Integer convertToSap( String javaValue ) throws ConversionException
-        {
+        public Integer convertToSap( String javaValue ) throws ConversionException {
             return Integer.valueOf( javaValue );
         }
     }
 
     private static class TestStructureTableToStringConverter
-            implements Converter<String, Collection<Map<String, Object>>>
-    {
-        public String convertToJava( Collection<Map<String, Object>> sapValue ) throws ConversionException
-        {
+            implements Converter<String, Collection<Map<String, Object>>> {
+
+        public String convertToJava( Collection<Map<String, Object>> sapValue ) throws ConversionException {
             StringBuilder result = new StringBuilder();
-            for ( Map<String, Object> row : sapValue )
-            {
+            for ( Map<String, Object> row : sapValue ) {
                 result.append( row.get( "charParam" ) );
             }
             return result.toString();
         }
 
-        public Collection<Map<String, Object>> convertToSap( String javaValue ) throws ConversionException
-        {
+        public Collection<Map<String, Object>> convertToSap( String javaValue ) throws ConversionException {
             ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-            for ( char aChar : javaValue.toCharArray() )
-            {
+            for ( char aChar : javaValue.toCharArray() ) {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put( "charParam", aChar );
                 list.add( map );
@@ -147,15 +132,13 @@ class MyTestBapi
         }
     }
 
-    private static class TestStructureToStringConverter implements Converter<String, Map<String, Object>>
-    {
-        public String convertToJava( Map<String, Object> sapValue ) throws ConversionException
-        {
+    private static class TestStructureToStringConverter implements Converter<String, Map<String, Object>> {
+
+        public String convertToJava( Map<String, Object> sapValue ) throws ConversionException {
             return "" + sapValue.get( "charParam" );
         }
 
-        public Map<String, Object> convertToSap( String javaValue ) throws ConversionException
-        {
+        public Map<String, Object> convertToSap( String javaValue ) throws ConversionException {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put( "charParam", javaValue.charAt( 0 ) );
             return map;

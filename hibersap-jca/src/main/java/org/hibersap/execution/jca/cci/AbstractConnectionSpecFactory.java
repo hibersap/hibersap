@@ -31,8 +31,7 @@ import java.lang.reflect.InvocationTargetException;
  * @author Carsten Erker
  */
 public abstract class AbstractConnectionSpecFactory
-        implements ConnectionSpecFactory
-{
+        implements ConnectionSpecFactory {
 
     /**
      * Looks up and returns the specified class. First, it will try to get the class from the
@@ -45,19 +44,17 @@ public abstract class AbstractConnectionSpecFactory
      * @throws IllegalArgumentException - if the class does not implement
      *                                  javax.resource.cci.ConnectionSpec.
      */
-    protected Class<? extends ConnectionSpec> getConnectionSpecClass( String connectionSpecClass )
-            throws ClassNotFoundException, IllegalArgumentException
-    {
+    protected Class<? extends ConnectionSpec> getConnectionSpecClass( final String connectionSpecClass )
+            throws ClassNotFoundException, IllegalArgumentException {
         Class<?> connSpecClass = ReflectionHelper.getClassForName( connectionSpecClass );
 
-        if ( !ConnectionSpec.class.isAssignableFrom( connSpecClass ) )
-        {
+        if ( !ConnectionSpec.class.isAssignableFrom( connSpecClass ) ) {
             throw new IllegalArgumentException(
                     connSpecClass.getName() + " does not implement " + ConnectionSpec.class );
         }
 
         //noinspection unchecked
-        return ( Class<? extends ConnectionSpec> ) connSpecClass;
+        return (Class<? extends ConnectionSpec>) connSpecClass;
     }
 
     /**
@@ -73,69 +70,49 @@ public abstract class AbstractConnectionSpecFactory
      * @throws InternalHiberSapException - if the class could not be accessed or instantiated,
      *                                   see cause for the actual reason.
      */
-    protected ConnectionSpec newConnectionSpecInstance( Class<?> connectionSpecClass,
-                                                        Class<?>[] constructorParameterTypes,
-                                                        Object[] constructorArguments )
-            throws InternalHiberSapException
-    {
+    protected ConnectionSpec newConnectionSpecInstance( final Class<?> connectionSpecClass,
+                                                        final Class<?>[] constructorParameterTypes,
+                                                        final Object[] constructorArguments ) throws InternalHiberSapException {
         Object connSpecImpl = null;
-        try
-        {
+        try {
             Constructor<?> constructor = connectionSpecClass.getConstructor( constructorParameterTypes );
             connSpecImpl = constructor.newInstance( constructorArguments );
-        }
-        catch ( SecurityException e )
-        {
+        } catch ( SecurityException e ) {
             final String msg = "Can not access declared constructor: ";
             throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
-        }
-        catch ( NoSuchMethodException e )
-        {
+        } catch ( NoSuchMethodException e ) {
             final String msg = "No such constructor: ";
             return throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
-        }
-        catch ( IllegalArgumentException e )
-        {
+        } catch ( IllegalArgumentException e ) {
             throw new InternalHiberSapException( "No such constructor: "
-                    + getSignature( connectionSpecClass, constructorArguments ), e );
-        }
-        catch ( InstantiationException e )
-        {
+                                                         + getSignature( connectionSpecClass, constructorArguments ), e );
+        } catch ( InstantiationException e ) {
             final String msg = "Cannot create new instance of: ";
             throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
-        }
-        catch ( IllegalAccessException e )
-        {
+        } catch ( IllegalAccessException e ) {
             final String msg = "Cannot create new instance of: ";
             throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
-        }
-        catch ( InvocationTargetException e )
-        {
+        } catch ( InvocationTargetException e ) {
             final String msg = "Constructor threw an Exception: ";
             throwInternalHibersapException( connectionSpecClass, constructorParameterTypes, e, msg );
         }
 
-        if ( !ConnectionSpec.class.isAssignableFrom( connSpecImpl.getClass() ) )
-        {
+        if ( !ConnectionSpec.class.isAssignableFrom( connSpecImpl.getClass() ) ) {
             throw new InternalHiberSapException( connectionSpecClass + " does not implement " + ConnectionSpec.class );
         }
-        return ( ConnectionSpec ) connSpecImpl;
+        return (ConnectionSpec) connSpecImpl;
     }
 
-    private ConnectionSpec throwInternalHibersapException( Class<?> connectionSpecClass,
-                                                           Class<?>[] constructorParameterTypes, Exception e,
-                                                           String msg )
-    {
-        throw new InternalHiberSapException( msg
-                + getSignature( connectionSpecClass, constructorParameterTypes ), e );
+    private ConnectionSpec throwInternalHibersapException( final Class<?> connectionSpecClass,
+                                                           final Class<?>[] constructorParameterTypes, Exception e,
+                                                           final String msg ) {
+        throw new InternalHiberSapException( msg + getSignature( connectionSpecClass, constructorParameterTypes ), e );
     }
 
-    private String getSignature( Class<?> clazz, Object[] arguments )
-    {
+    private String getSignature( final Class<?> clazz, final Object[] arguments ) {
         Class<?>[] classes = new Class<?>[arguments.length];
 
-        for ( int i = 0; i < arguments.length; i++ )
-        {
+        for ( int i = 0; i < arguments.length; i++ ) {
             Class<?> argClass = arguments[i] == null ? null : arguments[i].getClass();
             classes[i] = argClass;
         }
@@ -143,15 +120,12 @@ public abstract class AbstractConnectionSpecFactory
         return getSignature( clazz, classes );
     }
 
-    private String getSignature( Class<?> clazz, Class<?>[] argClasses )
-    {
+    private String getSignature( final Class<?> clazz, final Class<?>[] argClasses ) {
         StringBuilder sb = new StringBuilder( clazz.getName() );
         sb.append( '(' );
 
-        for ( int i = 0; i < argClasses.length; i++ )
-        {
-            if ( i > 0 )
-            {
+        for ( int i = 0; i < argClasses.length; i++ ) {
+            if ( i > 0 ) {
                 sb.append( "," );
             }
             Class<?> argClass = argClasses[i];

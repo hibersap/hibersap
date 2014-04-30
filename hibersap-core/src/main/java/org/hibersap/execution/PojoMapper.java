@@ -31,24 +31,21 @@ import java.util.Set;
 /**
  * @author Carsten Erker
  */
-public class PojoMapper
-{
+public class PojoMapper {
+
     private final ConverterCache converterCache;
 
-    public PojoMapper( ConverterCache converterCache )
-    {
+    public PojoMapper( final ConverterCache converterCache ) {
         this.converterCache = converterCache;
     }
 
-    public void mapFunctionMapToPojo( Object bapi, Map<String, Object> functionMap, BapiMapping bapiMapping )
-    {
+    public void mapFunctionMapToPojo( final Object bapi, final Map<String, Object> functionMap, final BapiMapping bapiMapping ) {
         Map<String, Object> map = getMapForAllParamTypes( functionMap );
         Set<ParameterMapping> paramMappings = bapiMapping.getAllParameters();
         functionMapToPojo( bapi, map, paramMappings );
     }
 
-    public Map<String, Object> mapPojoToFunctionMap( Object bapi, BapiMapping bapiMapping )
-    {
+    public Map<String, Object> mapPojoToFunctionMap( final Object bapi, final BapiMapping bapiMapping ) {
         Map<String, Object> functionMap = new HashMap<String, Object>();
 
         Set<ParameterMapping> imports = bapiMapping.getImportParameters();
@@ -63,32 +60,26 @@ public class PojoMapper
         return functionMap;
     }
 
-    private void functionMapToPojo( Object bapi, Map<String, Object> functionMap, Set<ParameterMapping> paramMappings )
-    {
-        for ( ParameterMapping paramMapping : paramMappings )
-        {
+    private void functionMapToPojo( final Object bapi, final Map<String, Object> functionMap, final Set<ParameterMapping> paramMappings ) {
+        for ( ParameterMapping paramMapping : paramMappings ) {
             String fieldNameSap = paramMapping.getSapName();
             Object value = functionMap.get( fieldNameSap );
 
-            if ( value != null )
-            {
+            if ( value != null ) {
                 Object mappedValue = paramMapping.mapToJava( value, converterCache );
                 ReflectionHelper.setFieldValue( bapi, paramMapping.getJavaName(), mappedValue );
             }
         }
     }
 
-    private Map<String, Object> pojoToMap( Object bapi, Set<? extends ParameterMapping> paramMappings )
-    {
+    private Map<String, Object> pojoToMap( final Object bapi, final Set<? extends ParameterMapping> paramMappings ) {
         Map<String, Object> functionMap = new HashMap<String, Object>();
 
-        for ( ParameterMapping paramMapping : paramMappings )
-        {
+        for ( ParameterMapping paramMapping : paramMappings ) {
             String fieldNameJava = paramMapping.getJavaName();
             Object value = ReflectionHelper.getFieldValue( bapi, fieldNameJava );
 
-            if ( value != null )
-            {
+            if ( value != null ) {
                 Object subMap = paramMapping.mapToSap( value, converterCache );
                 functionMap.put( paramMapping.getSapName(), subMap );
             }
@@ -97,8 +88,7 @@ public class PojoMapper
     }
 
 
-    private Map<String, Object> getMapForAllParamTypes( Map<String, Object> functionMap )
-    {
+    private Map<String, Object> getMapForAllParamTypes( final Map<String, Object> functionMap ) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.putAll( getMapNullSafe( functionMap, BapiConstants.IMPORT ) );
         map.putAll( getMapNullSafe( functionMap, BapiConstants.EXPORT ) );
@@ -106,8 +96,7 @@ public class PojoMapper
         return map;
     }
 
-    private Map<String, Object> getMapNullSafe( Map<String, Object> functionMap, final String paramName )
-    {
+    private Map<String, Object> getMapNullSafe( final Map<String, Object> functionMap, final String paramName ) {
         Map<String, Object> map = UnsafeCastHelper.castToMap( functionMap.get( paramName ) );
         return map == null ? new HashMap<String, Object>() : map;
     }

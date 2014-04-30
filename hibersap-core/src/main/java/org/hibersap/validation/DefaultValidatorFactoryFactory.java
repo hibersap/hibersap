@@ -23,10 +23,9 @@ import javax.validation.ValidatorFactory;
 /**
  * Gets the default Bean Validation ValidatorFactory.
  */
-public class DefaultValidatorFactoryFactory implements ValidatorFactoryFactory
-{
-    public ValidatorFactory buildValidatorFactory()
-    {
+public class DefaultValidatorFactoryFactory implements ValidatorFactoryFactory {
+
+    public ValidatorFactory buildValidatorFactory() {
         return Validation.buildDefaultValidatorFactory();
     }
 }

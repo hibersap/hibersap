@@ -20,6 +20,5 @@ package org.hibersap.it.bapi;
 import org.hibersap.annotations.Bapi;
 
 @Bapi( "RFC_PING" )
-public class RfcPing
-{
+public class RfcPing {
 }

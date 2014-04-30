@@ -28,44 +28,35 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-public class JndiUtil
-{
+public final class JndiUtil {
+
     private static final Log LOG = LogFactory.getLog( JndiUtil.class );
 
-    private JndiUtil()
-    {
+    private JndiUtil() {
         // use static utility methods
     }
 
     @PostConstruct
-    public static void rebindSessionManager( SessionManager sessionManager, String jndiName )
-    {
+    public static void rebindSessionManager( final SessionManager sessionManager, final String jndiName ) {
         LOG.info( "Binding Hibersap SessionManager '" + sessionManager.getConfig().getName()
-                + "' to JNDI name '" + jndiName + "'" );
+                          + "' to JNDI name '" + jndiName + "'" );
 
-        try
-        {
+        try {
             Context ctx = new InitialContext();
             ctx.rebind( jndiName, sessionManager );
-        }
-        catch ( NamingException e )
-        {
+        } catch ( NamingException e ) {
             throw new HibersapException( "Failed binding Hibersap SessionManager to JNDI name [" + jndiName + "]", e );
         }
     }
 
     @PreDestroy
-    public static void unbindSessionManager( String jndiName )
-    {
+    public static void unbindSessionManager( final String jndiName ) {
         LOG.info( "Unbinding Hibersap SessionManager from JNDI name '" + jndiName + "'" );
 
-        try
-        {
+        try {
             Context ctx = new InitialContext();
             ctx.unbind( jndiName );
-        }
-        catch ( NamingException e )
-        {
+        } catch ( NamingException e ) {
             LOG.warn( "Failed to unbind Hibersap SessionManager binding for JNDI name [" + jndiName + "]", e );
         }
     }

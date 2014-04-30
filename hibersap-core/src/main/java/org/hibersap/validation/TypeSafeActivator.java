@@ -28,34 +28,26 @@ import javax.validation.ValidationException;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
-class TypeSafeActivator
-{
+class TypeSafeActivator {
+
     private static final Log LOGGER = LogFactory.getLog( TypeSafeActivator.class );
 
     private static ValidatorFactoryFactory validatorFactoryFactory = new DefaultValidatorFactoryFactory();
 
     @SuppressWarnings( "unused" ) // called by reflection
-    static void activateBeanValidation( Set<BapiInterceptor> bapiInterceptors,
-                                        SessionManagerConfig sessionManagerConfig )
-    {
-        try
-        {
+    static void activateBeanValidation( final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig ) {
+        try {
             ValidatorFactory factory = validatorFactoryFactory.buildValidatorFactory();
             bapiInterceptors.add( new BeanValidationInterceptor( factory ) );
-        }
-        catch ( ValidationException e )
-        {
+        } catch ( ValidationException e ) {
             ValidationMode validationMode = sessionManagerConfig.getValidationMode();
-            if ( validationMode == ValidationMode.AUTO )
-            {
+            if ( validationMode == ValidationMode.AUTO ) {
                 LOGGER.warn( "Bean Validation will not be used: Bean Validation API is in the classpath, " +
-                        "but default ValidatorFactory can not be built. " +
-                        "ValidationMode is AUTO, so startup will be continued.", e );
-            }
-            else
-            {
+                                     "but default ValidatorFactory can not be built. " +
+                                     "ValidationMode is AUTO, so startup will be continued.", e );
+            } else {
                 throw new HibersapException( "Unable to build the default ValidatorFactory, ValidationMode is " +
-                        validationMode, e );
+                                                     validationMode, e );
             }
         }
     }

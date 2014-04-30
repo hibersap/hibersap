@@ -31,13 +31,12 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
 import static org.fest.assertions.Assertions.assertThat;
 
-public class PojoMapper_ToPojoTest
-{
+public class PojoMapper_ToPojoTest {
+
     private MyTestBapi bapi;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
         bapi = createEmptyBapiObject();
         Map<String, Object> functionMap = createFunctionMapForBapi();
@@ -48,46 +47,39 @@ public class PojoMapper_ToPojoTest
     }
 
     @Test
-    public void mapsSimpleParameterWithoutConverter()
-    {
+    public void mapsSimpleParameterWithoutConverter() {
         assertThat( bapi.intParam ).isEqualTo( 4711 );
     }
 
     @Test
-    public void mapsSimpleParameterWithConverter()
-    {
+    public void mapsSimpleParameterWithConverter() {
         assertThat( bapi.intParamWithConverter ).isEqualTo( "4712" );
     }
 
     @Test
-    public void mapsStructureParameterWithConverter()
-    {
+    public void mapsStructureParameterWithConverter() {
         assertThat( bapi.structureParamWithConverter ).isEqualTo( "c" );
     }
 
     @Test
-    public void mapsStructureParameterWithoutConverter()
-    {
+    public void mapsStructureParameterWithoutConverter() {
         assertThat( bapi.structureParam.charParam ).isEqualTo( 'd' );
     }
 
     @Test
-    public void mapsTableParameterWithoutConverter()
-    {
+    public void mapsTableParameterWithoutConverter() {
         assertThat( bapi.tableParam ).hasSize( 2 );
         assertThat( bapi.tableParam.get( 0 ).charParam ).isEqualTo( '1' );
         assertThat( bapi.tableParam.get( 1 ).charParam ).isEqualTo( '2' );
     }
 
     @Test
-    public void mapsTableParameterWithConverter()
-    {
-        assertThat( bapi.tableParamWithConverter).isEqualTo( "34" );
+    public void mapsTableParameterWithConverter() {
+        assertThat( bapi.tableParamWithConverter ).isEqualTo( "34" );
     }
 
     @SuppressWarnings( {"unchecked"} )
-    private Map<String, Object> createFunctionMapForBapi()
-    {
+    private Map<String, Object> createFunctionMapForBapi() {
         Map<String, Object> functionMap = createMap();
 
         Map<String, Object> importsMap = createMap();
@@ -114,13 +106,11 @@ public class PojoMapper_ToPojoTest
     }
 
 
-    private Map<String, Object> createMap()
-    {
+    private Map<String, Object> createMap() {
         return new HashMap<String, Object>();
     }
 
-    private MyTestBapi createEmptyBapiObject()
-    {
+    private MyTestBapi createEmptyBapiObject() {
         return new MyTestBapi( null, null, null, null, null, null );
     }
 }

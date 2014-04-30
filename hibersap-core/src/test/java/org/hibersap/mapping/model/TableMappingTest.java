@@ -37,22 +37,20 @@ import java.util.TreeSet;
 import static java.util.Collections.singletonMap;
 import static org.fest.assertions.Assertions.assertThat;
 
-public class TableMappingTest
-{
+public class TableMappingTest {
+
     private StructureMapping structureMapping;
     private TableMapping tableMapping;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         structureMapping = new StructureMapping( TestStructureBean.class, "sapStructureName", "javaStructureName",
-                null );
+                                                 null );
         structureMapping.addParameter( new FieldMapping( Integer.class, "sapField1", "javaField1", null ) );
     }
 
     @Test
-    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsList() throws Exception
-    {
+    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsList() throws Exception {
         tableMapping = new TableMapping( List.class, Object.class, "sapName", "javaName", structureMapping, null );
 
         Class destinationType = tableMapping.getDestinationType();
@@ -61,8 +59,7 @@ public class TableMappingTest
     }
 
     @Test
-    public void destinationTypeIsHashSetByDefaultWhenFieldTypeIsSet() throws Exception
-    {
+    public void destinationTypeIsHashSetByDefaultWhenFieldTypeIsSet() throws Exception {
         tableMapping = new TableMapping( Set.class, Object.class, "sapName", "javaName", structureMapping, null );
 
         Class destinationType = tableMapping.getDestinationType();
@@ -71,10 +68,9 @@ public class TableMappingTest
     }
 
     @Test
-    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsCollection() throws Exception
-    {
+    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsCollection() throws Exception {
         tableMapping = new TableMapping( Collection.class, Object.class, "sapName", "javaName", structureMapping,
-                null );
+                                         null );
 
         Class destinationType = tableMapping.getDestinationType();
 
@@ -82,8 +78,7 @@ public class TableMappingTest
     }
 
     @Test
-    public void destinationTypeIsSameAsFieldTypeWhenFieldTypeIsConcreteCollection() throws Exception
-    {
+    public void destinationTypeIsSameAsFieldTypeWhenFieldTypeIsConcreteCollection() throws Exception {
         tableMapping = new TableMapping( TreeSet.class, Object.class, "sapName", "javaName", structureMapping, null );
 
         Class destinationType = tableMapping.getDestinationType();
@@ -92,8 +87,7 @@ public class TableMappingTest
     }
 
     @Test
-    public void destinationTypeIsArrayListWhenFieldTypeIsArray() throws Exception
-    {
+    public void destinationTypeIsArrayListWhenFieldTypeIsArray() throws Exception {
         tableMapping = new TableMapping( Object[].class, Object.class, "sapName", "javaName", structureMapping, null );
 
         Class destinationType = tableMapping.getDestinationType();
@@ -102,10 +96,9 @@ public class TableMappingTest
     }
 
     @Test
-    public void destinationTypeIsSameAsFieldTypeWhenFieldHasConverter() throws Exception
-    {
+    public void destinationTypeIsSameAsFieldTypeWhenFieldHasConverter() throws Exception {
         tableMapping = new TableMapping( Boolean.class, Boolean.class, "sapName", "javaName", structureMapping,
-                BooleanConverter.class );
+                                         BooleanConverter.class );
 
         Class destinationType = tableMapping.getDestinationType();
 
@@ -113,20 +106,17 @@ public class TableMappingTest
     }
 
     @Test( expected = MappingException.class )
-    public void constructorThrowsMappingExceptionWhenFieldTypeIsUnsupportedCollection() throws Exception
-    {
+    public void constructorThrowsMappingExceptionWhenFieldTypeIsUnsupportedCollection() throws Exception {
         new TableMapping( Queue.class, Object.class, "sapName", "javaName", structureMapping, null );
     }
 
     @Test( expected = MappingException.class )
-    public void constructorThrowsMappingExceptionWhenFieldTypeIsNoCollectionOrArrayButConverterIsAttached()
-    {
+    public void constructorThrowsMappingExceptionWhenFieldTypeIsNoCollectionOrArrayButConverterIsAttached() {
         new TableMapping( Object.class, Object.class, "sapName", "javaName", structureMapping, null );
     }
 
     @Test
-    public void getUnconvertedValueReturnsListOfStructureBeansWithCorrectValues() throws Exception
-    {
+    public void getUnconvertedValueReturnsListOfStructureBeansWithCorrectValues() throws Exception {
         tableMapping = new TableMapping( List.class, Integer.class, "sapName", "javaName", structureMapping, null );
         List<Map<String, ?>> tableMap = new ArrayList<Map<String, ?>>();
         tableMap.add( singletonMap( "sapField1", 1 ) );
@@ -137,17 +127,16 @@ public class TableMappingTest
         assertThat( value ).isInstanceOf( ArrayList.class );
 
         @SuppressWarnings( {"unchecked"} )
-        List<TestStructureBean> structureBeans = ( List<TestStructureBean> ) value;
+        List<TestStructureBean> structureBeans = (List<TestStructureBean>) value;
         assertThat( structureBeans ).hasSize( 2 );
         assertThat( structureBeans.get( 0 ).javaField1 ).isEqualTo( 1 );
         assertThat( structureBeans.get( 1 ).javaField1 ).isEqualTo( 2 );
     }
 
     @Test
-    public void getUnconvertedValueReturnsArrayOfStructureBeansWhenDestinationTypeIsArray() throws Exception
-    {
+    public void getUnconvertedValueReturnsArrayOfStructureBeansWhenDestinationTypeIsArray() throws Exception {
         tableMapping = new TableMapping( TestStructureBean[].class, TestStructureBean.class, "sapName", "javaName",
-                structureMapping, null );
+                                         structureMapping, null );
         List<Map<String, Integer>> tableMap = new ArrayList<Map<String, Integer>>();
         tableMap.add( singletonMap( "sapField1", 1 ) );
         tableMap.add( singletonMap( "sapField1", 2 ) );
@@ -157,20 +146,19 @@ public class TableMappingTest
         assertThat( value ).isInstanceOf( TestStructureBean[].class );
 
         @SuppressWarnings( {"unchecked"} )
-        TestStructureBean[] structureBeans = ( TestStructureBean[] ) value;
+        TestStructureBean[] structureBeans = (TestStructureBean[]) value;
         assertThat( structureBeans ).hasSize( 2 );
         assertThat( structureBeans[0].javaField1 ).isEqualTo( 1 );
         assertThat( structureBeans[1].javaField1 ).isEqualTo( 2 );
     }
 
     @BapiStructure
-    private static class TestStructureBean
-    {
+    private static class TestStructureBean {
+
         @Parameter( "sapField1" )
         private Integer javaField1;
 
-        private TestStructureBean()
-        {
+        private TestStructureBean() {
         }
     }
 }

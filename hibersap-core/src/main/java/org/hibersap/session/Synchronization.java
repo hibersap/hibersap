@@ -22,8 +22,8 @@ package org.hibersap.session;
  *
  * @author Carsten Erker
  */
-public interface Synchronization
-{
+public interface Synchronization {
+
     /**
      * Callback method called before committing a transaction.
      */
@@ -31,7 +31,7 @@ public interface Synchronization
 
     /**
      * Callback method called after a transaction was committed or rolled back.
-     * 
+     *
      * @param committed Indicates if the transaction was successfully commited.
      */
     void afterCompletion( boolean committed );

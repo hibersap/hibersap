@@ -17,13 +17,6 @@
 
 package org.hibersap.generation.bapi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-import java.util.Map;
-
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Export;
@@ -35,16 +28,22 @@ import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
 
-public class BapiClassFormatterTest
-{
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class BapiClassFormatterTest {
+
     private final BapiClassFormatter formatter = new BapiClassFormatter();
 
     private final AnnotationBapiMapper mapper = new AnnotationBapiMapper();
 
     @Test
     public void createClass()
-        throws Exception
-    {
+            throws Exception {
         BapiMapping bapiMapping = mapper.mapBapi( BapiTest.class );
         Map<String, String> classes = formatter.createClasses( bapiMapping, "org.hibersap.generated.test" );
 
@@ -56,46 +55,46 @@ public class BapiClassFormatterTest
         assertTrue( classes.containsKey( "TestTable" ) );
     }
 
-    @SuppressWarnings("unused")
-    @Bapi("BAPI_TEST")
-    private class BapiTest
-    {
+    @SuppressWarnings( "unused" )
+    @Bapi( "BAPI_TEST" )
+    private class BapiTest {
+
         @Import
-        @Parameter("TEST_STRING")
+        @Parameter( "TEST_STRING" )
         private String _testString;
 
         @Import
-        @Parameter("TEST_INT")
+        @Parameter( "TEST_INT" )
         private int _testInt;
 
         @Export
-        @Parameter(value = "TEST_STRUCTURE", type = ParameterType.STRUCTURE)
+        @Parameter( value = "TEST_STRUCTURE", type = ParameterType.STRUCTURE )
         private TestStructure _testStructure;
 
         @Table
-        @Parameter("TEST_TABLE")
+        @Parameter( "TEST_TABLE" )
         private List<TestTable> _testTable;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     @BapiStructure
-    private class TestStructure
-    {
-        @Parameter("STRUCT_STRING")
+    private class TestStructure {
+
+        @Parameter( "STRUCT_STRING" )
         private String _structString;
 
-        @Parameter("STRUCT_INT")
+        @Parameter( "STRUCT_INT" )
         private int _structInt;
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     @BapiStructure
-    private class TestTable
-    {
-        @Parameter("TABLE_STRING")
+    private class TestTable {
+
+        @Parameter( "TABLE_STRING" )
         private String _tableString;
 
-        @Parameter("TABLE_INT")
+        @Parameter( "TABLE_INT" )
         private int _tableInt;
     }
 }

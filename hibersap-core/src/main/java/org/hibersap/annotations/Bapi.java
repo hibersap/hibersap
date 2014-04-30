@@ -29,11 +29,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Carsten Erker
  */
-@Retention( RUNTIME )
-@Target( value = TYPE )
+@Retention(RUNTIME)
+@Target(value = TYPE)
 @Inherited
-public @interface Bapi
-{
+public @interface Bapi {
 
     /**
      * The name of a SAP remote function module, e.g. BAPI_FLIGHT_GETLIST.

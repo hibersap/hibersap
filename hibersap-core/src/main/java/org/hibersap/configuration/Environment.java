@@ -25,35 +25,27 @@ import java.util.Properties;
 /*
 * @author Carsten Erker
 */
-public final class Environment
-{
+public final class Environment {
+
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
-
+    public static final String VERSION = readHibersapVersion();
     private static final String HIBERSAP_VERSION_FILE = "hibersap-version.properties";
-
     private static final String HIBERSAP_VERSION_PROPERTY_KEY = "hibersap-version";
 
-    public static final String VERSION = readHibersapVersion();
+    private Environment() {
+        // should not be instantiated
+    }
 
-    private static String readHibersapVersion()
-    {
+    private static String readHibersapVersion() {
         String version;
-        try
-        {
+        try {
             final Properties properties = new Properties();
             properties.load( Environment.class.getResourceAsStream( "/" + HIBERSAP_VERSION_FILE ) );
             version = properties.getProperty( HIBERSAP_VERSION_PROPERTY_KEY );
-        }
-        catch ( IOException e )
-        {
+        } catch ( IOException e ) {
             throw new HibersapException( "Can not load file " + HIBERSAP_VERSION_FILE
-                    + ". This file is part of the hibersap-core library and should always be there." );
+                                                 + ". This file is part of the hibersap-core library and should always be there." );
         }
         return version;
-    }
-
-    private Environment()
-    {
-        // should not be instantiated
     }
 }

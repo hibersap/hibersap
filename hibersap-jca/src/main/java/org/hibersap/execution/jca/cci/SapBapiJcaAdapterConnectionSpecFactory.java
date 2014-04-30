@@ -17,40 +17,32 @@
 
 package org.hibersap.execution.jca.cci;
 
-import javax.resource.cci.ConnectionSpec;
-
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
 
-public class SapBapiJcaAdapterConnectionSpecFactory
-    extends AbstractConnectionSpecFactory
+import javax.resource.cci.ConnectionSpec;
 
-{
+public class SapBapiJcaAdapterConnectionSpecFactory extends AbstractConnectionSpecFactory {
+
     private static final String CONNECTION_SPEC_IMPL_CLASS_NAME = "net.sf.sapbapijca.adapter.cci.ConnectionSpecImpl";
 
-    public ConnectionSpec createConnectionSpec( Credentials credentials )
-        throws InternalHiberSapException
-    {
+    public ConnectionSpec createConnectionSpec( final Credentials credentials )
+            throws InternalHiberSapException {
         Class<?> connSpecClass;
-        try
-        {
+        try {
             connSpecClass = getConnectionSpecClass( CONNECTION_SPEC_IMPL_CLASS_NAME );
 
-            Object[] arguments = new Object[] {
-                credentials.getUser(),
-                credentials.getPassword(),
-                credentials.getLanguage() };
-            Class<?>[] parameterTypes = new Class<?>[] { String.class, String.class, String.class };
+            Object[] arguments = new Object[]{
+                    credentials.getUser(),
+                    credentials.getPassword(),
+                    credentials.getLanguage()};
+            Class<?>[] parameterTypes = new Class<?>[]{String.class, String.class, String.class};
             Object connSpecImpl = newConnectionSpecInstance( connSpecClass, parameterTypes, arguments );
 
             return (ConnectionSpec) connSpecImpl;
-        }
-        catch ( IllegalArgumentException e )
-        {
+        } catch ( IllegalArgumentException e ) {
             throw new InternalHiberSapException( e.getMessage(), e );
-        }
-        catch ( ClassNotFoundException e )
-        {
+        } catch ( ClassNotFoundException e ) {
             throw new InternalHiberSapException( e.getMessage(), e );
         }
     }

@@ -32,8 +32,8 @@ import java.util.Collection;
 /**
  * @author Carsten Erker
  */
-class BapiField
-{
+class BapiField {
+
     private static final Class<Parameter> PARAM = Parameter.class;
 
     private static final Class<Import> IMPORT = Import.class;
@@ -46,13 +46,11 @@ class BapiField
 
     private final Field field;
 
-    public BapiField( Field field )
-    {
+    public BapiField( final Field field ) {
         this.field = field;
     }
 
-    public Class<?> getArrayType()
-    {
+    public Class<?> getArrayType() {
         Class<?> associatedType = field.getType();
         return ReflectionHelper.getArrayType( associatedType );
     }
@@ -60,81 +58,65 @@ class BapiField
     /**
      * @return The type.
      */
-    public Class<?> getAssociatedType()
-    {
-        if ( field.getType().isArray() )
-        {
+    public Class<?> getAssociatedType() {
+        if ( field.getType().isArray() ) {
             return getArrayType();
         }
-        if ( Collection.class.isAssignableFrom( field.getType() ) )
-        {
+        if ( Collection.class.isAssignableFrom( field.getType() ) ) {
             return getGenericType();
         }
         return getType();
     }
 
-    public Class<? extends Converter> getConverter()
-    {
-        if ( field.isAnnotationPresent( CONVERT ) )
-        {
+    public Class<? extends Converter> getConverter() {
+        if ( field.isAnnotationPresent( CONVERT ) ) {
             Convert convert = field.getAnnotation( CONVERT );
             return convert.converter();
         }
         return null;
     }
 
-    public Class<?> getGenericType()
-    {
+    public Class<?> getGenericType() {
         return ReflectionHelper.getGenericType( field );
     }
 
-    public String getName()
-    {
+    public String getName() {
         return field.getName();
     }
 
-    private Parameter getParameterAnnotation()
-    {
+    private Parameter getParameterAnnotation() {
         return field.getAnnotation( PARAM );
     }
 
-    public String getSapName()
-    {
+    public String getSapName() {
         return getParameterAnnotation().value();
     }
 
-    public Class<?> getType()
-    {
+    public Class<?> getType() {
         return field.getType();
     }
 
-    public boolean isExport()
-    {
+    public boolean isExport() {
         return field.isAnnotationPresent( EXPORT );
     }
 
-    public boolean isImport()
-    {
+    public boolean isImport() {
         return field.isAnnotationPresent( IMPORT );
     }
 
-    public boolean isParameter()
-    {
+    public boolean isParameter() {
         return field.isAnnotationPresent( PARAM );
     }
 
-    public boolean isStructure()
-    {
+    public boolean isStructure() {
         boolean result = false;
-        if ( isParameter() )
-        {
+        if ( isParameter() ) {
             result = getParameterAnnotation().type() == ParameterType.STRUCTURE;
         }
         return result;
     }
 
-    public boolean isTable()
-    {
+    public boolean isTable() {
         return field.isAnnotationPresent( TABLE );
     }
 }

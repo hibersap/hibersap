@@ -28,23 +28,20 @@ import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class TypeSafeActivatorTest
-{
+public class TypeSafeActivatorTest {
+
     @Before
-    public void setDefaultValdiationFactoryFactory() throws Exception
-    {
+    public void setDefaultValdiationFactoryFactory() throws Exception {
         useValidationFactoryFactory( new DefaultValidatorFactoryFactory() );
     }
 
     @Test
-    public void hibernateValidationIsInClasspath() throws ClassNotFoundException
-    {
+    public void hibernateValidationIsInClasspath() throws ClassNotFoundException {
         Class.forName( "org.hibernate.validator.HibernateValidator" );
     }
 
     @Test
-    public void addsBeanValidationInterceptorWithDefaultValidationMode()
-    {
+    public void addsBeanValidationInterceptorWithDefaultValidationMode() {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
         final SessionManagerConfig config = new SessionManagerConfig();
 
@@ -54,8 +51,7 @@ public class TypeSafeActivatorTest
         assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
     }
 
-    private void useValidationFactoryFactory( ValidatorFactoryFactory factory ) throws Exception
-    {
+    private void useValidationFactoryFactory( ValidatorFactoryFactory factory ) throws Exception {
         Field declaredField = TypeSafeActivator.class.getDeclaredField( "validatorFactoryFactory" );
         declaredField.setAccessible( true );
         declaredField.set( null, factory );

@@ -30,8 +30,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Retention( RUNTIME )
 @Target( value = FIELD )
-public @interface Parameter
-{
+public @interface Parameter {
+
     /**
      * The name of the function module's parameter.
      *

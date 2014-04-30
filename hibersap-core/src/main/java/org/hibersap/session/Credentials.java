@@ -22,15 +22,15 @@ package org.hibersap.session;
  * configured properties. Use this for logon properties than can not be statically defined, i.e.
  * when a user has to enter his SAP user / password in a dialog or when the application supports
  * single sign-on.
- * 
+ * <p/>
  * When creating a new Session, only those fields that are set using the setter methods of this
  * class (i.e. which are not null) are used to overwrite the configured properties. All other
  * properties remain as configured.
- * 
+ * <p/>
  * The fields reflect the fields of JCoCustomDestination.UserData.
  */
-public class Credentials
-{
+public class Credentials {
+
     private String user;
 
     private String aliasUser;
@@ -45,86 +45,71 @@ public class Credentials
 
     private String x509Certificate;
 
-    public String getUser()
-    {
+    public String getUser() {
         return user;
     }
 
-    public Credentials setUser( String user )
-    {
+    public Credentials setUser( final String user ) {
         this.user = user;
         return this;
     }
 
-    public String getAliasUser()
-    {
+    public String getAliasUser() {
         return aliasUser;
     }
 
-    public Credentials setAliasUser( String aliasUser )
-    {
+    public Credentials setAliasUser( final String aliasUser ) {
         this.aliasUser = aliasUser;
         return this;
     }
 
-    public String getClient()
-    {
+    public String getClient() {
         return client;
     }
 
-    public Credentials setClient( String client )
-    {
+    public Credentials setClient( final String client ) {
         this.client = client;
         return this;
     }
 
-    public String getLanguage()
-    {
+    public String getLanguage() {
         return language;
     }
 
-    public Credentials setLanguage( String language )
-    {
+    public Credentials setLanguage( final String language ) {
         this.language = language;
         return this;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public Credentials setPassword( String password )
-    {
+    public Credentials setPassword( final String password ) {
         this.password = password;
         return this;
     }
 
-    public String getSsoTicket()
-    {
+    public String getSsoTicket() {
         return ssoTicket;
     }
 
-    public Credentials setSsoTicket( String ssoTicket )
-    {
+    public Credentials setSsoTicket( final String ssoTicket ) {
         this.ssoTicket = ssoTicket;
         return this;
     }
 
-    public String getX509Certificate()
-    {
+    public String getX509Certificate() {
         return x509Certificate;
     }
 
-    public Credentials setX509Certificate( String certificate )
-    {
+    public Credentials setX509Certificate( final String certificate ) {
         x509Certificate = certificate;
         return this;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Credentials{" +
                 "aliasUser='" + aliasUser + '\'' +
                 ", user='" + user + '\'' +
@@ -137,45 +122,35 @@ public class Credentials
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        Credentials that = ( Credentials ) o;
+        Credentials that = (Credentials) o;
 
-        if ( aliasUser != null ? !aliasUser.equals( that.aliasUser ) : that.aliasUser != null )
-        {
+        if ( aliasUser != null ? !aliasUser.equals( that.aliasUser ) : that.aliasUser != null ) {
             return false;
         }
-        if ( client != null ? !client.equals( that.client ) : that.client != null )
-        {
+        if ( client != null ? !client.equals( that.client ) : that.client != null ) {
             return false;
         }
-        if ( language != null ? !language.equals( that.language ) : that.language != null )
-        {
+        if ( language != null ? !language.equals( that.language ) : that.language != null ) {
             return false;
         }
-        if ( password != null ? !password.equals( that.password ) : that.password != null )
-        {
+        if ( password != null ? !password.equals( that.password ) : that.password != null ) {
             return false;
         }
-        if ( ssoTicket != null ? !ssoTicket.equals( that.ssoTicket ) : that.ssoTicket != null )
-        {
+        if ( ssoTicket != null ? !ssoTicket.equals( that.ssoTicket ) : that.ssoTicket != null ) {
             return false;
         }
-        if ( user != null ? !user.equals( that.user ) : that.user != null )
-        {
+        if ( user != null ? !user.equals( that.user ) : that.user != null ) {
             return false;
         }
-        if ( x509Certificate != null ? !x509Certificate.equals( that.x509Certificate ) : that.x509Certificate != null )
-        {
+        if ( x509Certificate != null ? !x509Certificate.equals( that.x509Certificate ) : that.x509Certificate != null ) {
             return false;
         }
 
@@ -183,8 +158,7 @@ public class Credentials
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = user != null ? user.hashCode() : 0;
         result = 31 * result + ( aliasUser != null ? aliasUser.hashCode() : 0 );
         result = 31 * result + ( client != null ? client.hashCode() : 0 );

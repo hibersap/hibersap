@@ -29,12 +29,11 @@ import static org.easymock.EasyMock.createMock;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class ReflectionUtilTest
-{
+public class ReflectionUtilTest {
+
     @Test
     public void getSessionFieldReturnsEmptySetWhenObjectDoesNotContainAnyFieldWithHibersapSessionAnnotation() throws
-                                                                                                              Exception
-    {
+                                                                                                              Exception {
         Set<Field> fields = ReflectionUtil.getHibersapSessionFields( new Object() );
 
         assertThat( fields ).isNotNull();
@@ -42,16 +41,14 @@ public class ReflectionUtilTest
     }
 
     @Test
-    public void getSessionFieldReturnsFieldWithHibersapSessionAnnotation() throws Exception
-    {
+    public void getSessionFieldReturnsFieldWithHibersapSessionAnnotation() throws Exception {
         Set<Field> fields = ReflectionUtil.getHibersapSessionFields( new TestBean() );
 
         assertThat( fields ).hasSize( 2 );
     }
 
     @Test
-    public void getSessionManagerJndiNameReturnsTheCorrectValue() throws Exception
-    {
+    public void getSessionManagerJndiNameReturnsTheCorrectValue() throws Exception {
         Field session1Field = TestBean.class.getDeclaredField( "session1" );
 
         String jndiName = ReflectionUtil.getSessionManagerJndiName( session1Field );
@@ -60,24 +57,19 @@ public class ReflectionUtilTest
     }
 
     @Test
-    public void getSessionManagerJndiNameThrowsExceptionWhenAnnotationNotPresent() throws Exception
-    {
-        try
-        {
+    public void getSessionManagerJndiNameThrowsExceptionWhenAnnotationNotPresent() throws Exception {
+        try {
             ReflectionUtil.getSessionManagerJndiName( TestBean.class.getDeclaredField( "notASession" ) );
             fail();
-        }
-        catch ( InternalHiberSapException e )
-        {
+        } catch ( InternalHiberSapException e ) {
             assertThat( e.getMessage() ).isEqualTo( "The field "
-                    + "org.hibersap.ejb.util.ReflectionUtilTest$TestBean.notASession "
-                    + "is not annotated with @HibersapSession" );
+                                                            + "org.hibersap.ejb.util.ReflectionUtilTest$TestBean.notASession "
+                                                            + "is not annotated with @HibersapSession" );
         }
     }
 
     @Test
-    public void injectsSessionIntoTarget() throws Exception
-    {
+    public void injectsSessionIntoTarget() throws Exception {
         TestBean bean = new TestBean();
         Session session = createMock( Session.class );
 
@@ -87,16 +79,15 @@ public class ReflectionUtilTest
     }
 
     @Test( expected = InternalHiberSapException.class )
-    public void injectSessionIntoTargetThrowsExceptionWhenFieldIsNotOfTypeHibersapSession() throws Exception
-    {
+    public void injectSessionIntoTargetThrowsExceptionWhenFieldIsNotOfTypeHibersapSession() throws Exception {
         TestBean bean = new TestBean();
         Session session = createMock( Session.class );
 
         ReflectionUtil.injectSessionIntoTarget( bean, TestBean.class.getDeclaredField( "notASession" ), session );
     }
 
-    private static class TestBean
-    {
+    private static class TestBean {
+
         @HibersapSession( value = "jndiName1" )
         private Session session1;
 

@@ -25,14 +25,14 @@ import java.io.Serializable;
 /**
  * BAPI class to rollback a transaction. Maps to the BAPI_TRANSACTION_ROLLBACK function module in
  * SAP.
- * 
+ *
  * @author Carsten Erker
  */
 @Bapi(BapiConstants.BAPI_TRANSACTION_ROLLBACK)
 @ThrowExceptionOnError
 public final class BapiTransactionRollback
-    implements Serializable
-{
+        implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // no parameters to exchange
 }

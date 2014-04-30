@@ -17,16 +17,15 @@
 
 package org.hibersap.generation.bapi;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-public class BapiFormatHelperTest
-{
+import static org.junit.Assert.assertEquals;
+
+public class BapiFormatHelperTest {
+
     @Test
     public void getCamelCaseSmall()
-        throws Exception
-    {
+            throws Exception {
         assertEquals( "_", BapiFormatHelper.getCamelCaseSmall( null ) );
         assertEquals( "_", BapiFormatHelper.getCamelCaseSmall( "" ) );
         assertEquals( "_x", BapiFormatHelper.getCamelCaseSmall( "X" ) );
@@ -37,8 +36,7 @@ public class BapiFormatHelperTest
 
     @Test
     public void getCamelCaseBig()
-        throws Exception
-    {
+            throws Exception {
         assertEquals( "", BapiFormatHelper.getCamelCaseBig( null ) );
         assertEquals( "", BapiFormatHelper.getCamelCaseBig( "" ) );
         assertEquals( "X", BapiFormatHelper.getCamelCaseBig( "X" ) );
@@ -47,5 +45,4 @@ public class BapiFormatHelperTest
         assertEquals( "MyLittleClass", BapiFormatHelper.getCamelCaseBig( "MY_LITTLE_CLASS" ) );
         assertEquals( "MyLittleClass", BapiFormatHelper.getCamelCaseBig( "_MY_LITTLE_CLASS_" ) );
     }
-
 }

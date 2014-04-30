@@ -28,24 +28,22 @@ import java.util.Map;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 
-public class StructureMappingTest
-{
+public class StructureMappingTest {
+
     private final ConverterCache converterCache = new ConverterCache();
 
     private StructureMapping structureMapping;
 
     @Before
-    public void createStructureMapping() throws Exception
-    {
+    public void createStructureMapping() throws Exception {
         structureMapping = new StructureMapping( TestStructureBean.class, "sapName", "javaName",
-                null );
+                                                 null );
         structureMapping.addParameter( new FieldMapping( Integer.class, "sapField1", "javaField1", null ) );
         structureMapping.addParameter( new FieldMapping( float.class, "sapField2", "javaField2", null ) );
     }
 
     @Test
-    public void getUnconvertedValueToJavaMapsFields() throws Exception
-    {
+    public void getUnconvertedValueToJavaMapsFields() throws Exception {
         HashMap<String, Object> fieldMap = new HashMap<String, Object>();
         fieldMap.put( "sapField1", Integer.MAX_VALUE );
         fieldMap.put( "sapField2", Float.MAX_VALUE );
@@ -53,14 +51,13 @@ public class StructureMappingTest
         Object value = structureMapping.getUnconvertedValueToJava( fieldMap, converterCache );
 
         assertThat( value ).isInstanceOf( TestStructureBean.class );
-        TestStructureBean bean = ( TestStructureBean ) value;
+        TestStructureBean bean = (TestStructureBean) value;
         assertThat( bean.javaField1 ).isEqualTo( Integer.MAX_VALUE );
         assertThat( bean.javaField2 ).isEqualTo( Float.MAX_VALUE );
     }
 
     @Test
-    public void getUnconvertedValueToSapMapsFields() throws Exception
-    {
+    public void getUnconvertedValueToSapMapsFields() throws Exception {
         TestStructureBean bean = new TestStructureBean();
         bean.javaField1 = Integer.MAX_VALUE;
         bean.javaField2 = Float.MAX_VALUE;
@@ -73,16 +70,15 @@ public class StructureMappingTest
         assertThat( map.get( "sapField2" ) ).isEqualTo( Float.MAX_VALUE );
     }
 
-    private static class TestStructureBean
-    {
+    private static class TestStructureBean {
+
         @Parameter( "sapField1" )
         private Integer javaField1;
 
         @Parameter( "sapField2" )
         private float javaField2;
 
-        private TestStructureBean()
-        {
+        private TestStructureBean() {
         }
     }
 }

@@ -28,40 +28,47 @@ import java.util.Properties;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class JCoEnvironmentTest
-{
+public class JCoEnvironmentTest {
+
     private static final Properties JCO_PROPERTIES_DUMMY = new Properties();
 
     private static final String DESTINATION_1 = "dest_1";
     private static final String DESTINATION_2 = "dest_2";
+    private final Condition<String> registeredWithJCo = new Condition<String>( "registeredWithJCo" ) {
+        @Override
+        public boolean matches( String name ) {
+            try {
+                JCoDestinationManager.getDestination( name );
+                return true;
+            } catch ( JCoException e ) {
+                return false;
+            }
+        }
+    };
 
     @After
-    public void unregisterDestinationDataProvidersAndDestinations()
-    {
+    public void unregisterDestinationDataProvidersAndDestinations() {
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
         JCoEnvironment.unregisterDestination( DESTINATION_2 );
         assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
     }
 
     @Test
-    public void destinationProviderIsRegisteredWithJCoWhenFirstDestinationGetsRegistered()
-    {
+    public void destinationProviderIsRegisteredWithJCoWhenFirstDestinationGetsRegistered() {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
 
         assertThat( Environment.isDestinationDataProviderRegistered() ).isTrue();
     }
 
     @Test
-    public void destinationIsAddedToJCoWhenDestinationGetsRegistered()
-    {
+    public void destinationIsAddedToJCoWhenDestinationGetsRegistered() {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
 
         assertThat( DESTINATION_1 ).is( registeredWithJCo );
     }
 
     @Test
-    public void destinationProviderIsUnregisteredFromJCoWhenLastDestinationGetsUnregistered()
-    {
+    public void destinationProviderIsUnregisteredFromJCoWhenLastDestinationGetsUnregistered() {
         assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
 
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
@@ -71,8 +78,7 @@ public class JCoEnvironmentTest
     }
 
     @Test
-    public void destinationIsRemovedFromJCoWhenDestinationGetsUnregistered()
-    {
+    public void destinationIsRemovedFromJCoWhenDestinationGetsUnregistered() {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
 
@@ -80,8 +86,7 @@ public class JCoEnvironmentTest
     }
 
     @Test
-    public void canRegisterTwoDestinations()
-    {
+    public void canRegisterTwoDestinations() {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.registerDestination( DESTINATION_2, JCO_PROPERTIES_DUMMY );
 
@@ -90,30 +95,12 @@ public class JCoEnvironmentTest
     }
 
     @Test
-    public void destinationProviderIsUnregisteredFromJCoWhenTwoDestinationsAreRegisteredAndUnregistered()
-    {
+    public void destinationProviderIsUnregisteredFromJCoWhenTwoDestinationsAreRegisteredAndUnregistered() {
         JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.registerDestination( DESTINATION_2, JCO_PROPERTIES_DUMMY );
         JCoEnvironment.unregisterDestination( DESTINATION_1 );
         JCoEnvironment.unregisterDestination( DESTINATION_2 );
 
-        assertThat( Environment.isDestinationDataProviderRegistered()).isFalse();
+        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
     }
-
-    private final Condition<String> registeredWithJCo = new Condition<String>( "registeredWithJCo" )
-    {
-        @Override
-        public boolean matches( String name )
-        {
-            try
-            {
-                JCoDestinationManager.getDestination( name );
-                return true;
-            }
-            catch ( JCoException e )
-            {
-                return false;
-            }
-        }
-    };
 }

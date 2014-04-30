@@ -21,11 +21,11 @@ package org.hibersap.session;
  * Represents a transaction. Implementors must call beforeCompletion() on all registered
  * Synchronizations before committing a transaction and afterCompletion() after committing or
  * rolling back a transaction.
- * 
+ *
  * @author Carsten Erker
  */
-public interface Transaction
-{
+public interface Transaction {
+
     void begin();
 
     void commit();

@@ -21,8 +21,8 @@ package org.hibersap.interceptor;
  * Implementations may be registered on the SessionManager and will then be called before and after
  * a function module in SAP is called. The Bapi object itself will be passed to the methods.
  */
-public interface BapiInterceptor
-{
+public interface BapiInterceptor {
+
     /**
      * Will be called before the function module is called in SAP.
      *

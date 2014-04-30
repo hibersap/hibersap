@@ -30,25 +30,23 @@ import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class AnnotationBapiMapperTest
-{
+public class AnnotationBapiMapperTest {
+
     private final AnnotationBapiMapper mapper = new AnnotationBapiMapper();
 
     @Test
-    public void mapsBapiStructureWithInheritedField()
-    {
+    public void mapsBapiStructureWithInheritedField() {
         final BapiMapping mapping = mapper.mapBapi( TestBapiClass.class );
 
         final TableMapping tableMapping = mapping.getTableParameters().iterator().next();
         final Set<FieldMapping> parameters = tableMapping.getComponentParameter().getParameters();
 
         assertThat( parameters ).hasSize( 2 )
-                .onProperty( "javaName" ).contains( "structureParamSubClass", "structureParamSuperClass" );
+                                .onProperty( "javaName" ).contains( "structureParamSubClass", "structureParamSuperClass" );
     }
 
     @Test
-    public void mapsTable()
-    {
+    public void mapsTable() {
         final BapiMapping mapping = mapper.mapBapi( TestBapiClass.class );
 
         final Set<TableMapping> tableParams = mapping.getTableParameters();
@@ -59,8 +57,8 @@ public class AnnotationBapiMapperTest
     }
 
     @Bapi( "test" )
-    private class TestBapiClass
-    {
+    private class TestBapiClass {
+
         @Import
         @Parameter( "ABAP_FIELD" )
         @SuppressWarnings( "unused" )
@@ -72,15 +70,15 @@ public class AnnotationBapiMapperTest
         private Set<TestBapiStructureSubClass> tableParam;
     }
 
-    private class TestBapiStructureSubClass extends TestBapiStructureSuperClass
-    {
+    private class TestBapiStructureSubClass extends TestBapiStructureSuperClass {
+
         @Parameter( "ABAP_FIELD" )
         @SuppressWarnings( "unused" )
         private long structureParamSubClass;
     }
 
-    private class TestBapiStructureSuperClass
-    {
+    private class TestBapiStructureSuperClass {
+
         @Parameter( "ABAP_FIELD" )
         @SuppressWarnings( "unused" )
         private String structureParamSuperClass;

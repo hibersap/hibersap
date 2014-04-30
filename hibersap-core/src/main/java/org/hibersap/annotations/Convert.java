@@ -17,20 +17,20 @@
 
 package org.hibersap.annotations;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.hibersap.conversion.Converter;
 
 import java.lang.annotation.Retention;
 
-import org.hibersap.conversion.Converter;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Converter that maps the parameter's data type from the type returned by JCo to any Java type and
  * vice versa.
- * 
+ *
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
-public @interface Convert
-{
+public @interface Convert {
+
     Class<? extends Converter> converter();
 }

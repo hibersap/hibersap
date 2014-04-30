@@ -17,11 +17,11 @@
 
 package org.hibersap.execution;
 
-import java.util.Map;
-
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
+
+import java.util.Map;
 
 /*
  * Implementations of this interface define the functionality how to communicate with SAP, using for
@@ -32,23 +32,23 @@ import org.hibersap.session.Transaction;
  * 
  * @author Carsten Erker
  */
-public interface Connection
-{
+public interface Connection {
+
     /**
      * Set the credentials for the session. If custom credentials are provided, this method must be
      * called before the execute() method is called for the first time on the Session this
      * Connection belongs to.
-     * 
+     * <p/>
      * The credentials overwrite the configured properties. Only the credential fields that are set
      * (i.e. that are not null) will change the default behavior.
-     * 
+     *
      * @param credentials The Credentials
      */
     void setCredentials( Credentials credentials );
 
     /**
      * Begins a logical unit of work.
-     * 
+     *
      * @param session The Session this Connection belongs to.
      * @return The Transaction
      */
@@ -56,15 +56,15 @@ public interface Connection
 
     /**
      * Returns the current transaction.
-     * 
+     *
      * @return The Transaction
      */
     Transaction getTransaction();
 
     /**
      * Calls a remote function module in the SAP system.
-     * 
-     * @param bapiName The function module name
+     *
+     * @param bapiName    The function module name
      * @param functionMap The function module parameters
      */
     void execute( String bapiName, Map<String, Object> functionMap );

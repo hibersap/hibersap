@@ -34,23 +34,16 @@ import java.util.Map;
 /*
  * @author Carsten Erker
  */
-public class JCoConnection
-    implements Connection
-{
-    private JCoDestination destination = null;
+public class JCoConnection implements Connection {
 
     private final JCoContextAdapter jcoContext = new JCoContextAdapterImpl();
-
     private final JCoMapper jcoMapper;
-
-    private JCoTransaction transaction = null;
-
     private final String destinationName;
-
+    private JCoDestination destination = null;
+    private JCoTransaction transaction = null;
     private Credentials credentials;
 
-    public JCoConnection( String destinationName )
-    {
+    public JCoConnection( final String destinationName ) {
         this.jcoMapper = new JCoMapper();
         this.destinationName = destinationName;
     }
@@ -58,10 +51,8 @@ public class JCoConnection
     /**
      * {@inheritDoc}
      */
-    public Transaction beginTransaction( SessionImplementor session )
-    {
-        if ( transaction != null )
-        {
+    public Transaction beginTransaction( final SessionImplementor session ) {
+        if ( transaction != null ) {
             return transaction;
         }
         transaction = new JCoTransaction( session );
@@ -70,41 +61,31 @@ public class JCoConnection
         return transaction;
     }
 
-    public void close()
-    {
+    public void close() {
         endStatefulConnection();
     }
 
-    public void execute( String bapiName, Map<String, Object> functionMap )
-    {
-        if ( destination == null )
-        {
+    public void execute( final String bapiName, final Map<String, Object> functionMap ) {
+        if ( destination == null ) {
             startStatefulConnection();
         }
 
         JCoFunction function;
 
-        try
-        {
+        try {
             function = getRepository().getFunction( bapiName );
-        }
-        catch ( JCoException e )
-        {
+        } catch ( JCoException e ) {
             throw new HibersapException( "The function " + bapiName + " is not available in the SAP system", e );
         }
-        if ( function == null )
-        {
+        if ( function == null ) {
             throw new HibersapException( "The function module '" + bapiName + "' does not exist in SAP" );
         }
 
         jcoMapper.putFunctionMapValuesToFunction( function, functionMap );
 
-        try
-        {
+        try {
             function.execute( destination );
-        }
-        catch ( JCoException e )
-        {
+        } catch ( JCoException e ) {
             throw new HibersapException( "Error executing function module " + bapiName, e );
         }
 
@@ -114,106 +95,82 @@ public class JCoConnection
     /**
      * {@inheritDoc}
      */
-    public Transaction getTransaction()
-    {
+    public Transaction getTransaction() {
         return transaction;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setCredentials( Credentials credentials )
-    {
+    public void setCredentials( final Credentials credentials ) {
         this.credentials = credentials;
     }
 
-    private void copyCredentialsToUserData( Credentials cred, UserData data )
-    {
-        if ( isNotNull( cred.getAliasUser() ) )
-        {
+    private void copyCredentialsToUserData( final Credentials cred, final UserData data ) {
+        if ( isNotNull( cred.getAliasUser() ) ) {
             data.setAliasUser( cred.getAliasUser() );
         }
-        if ( isNotNull( cred.getClient() ) )
-        {
+        if ( isNotNull( cred.getClient() ) ) {
             data.setClient( cred.getClient() );
         }
-        if ( isNotNull( cred.getLanguage() ) )
-        {
+        if ( isNotNull( cred.getLanguage() ) ) {
             data.setLanguage( cred.getLanguage() );
         }
-        if ( isNotNull( cred.getPassword() ) )
-        {
+        if ( isNotNull( cred.getPassword() ) ) {
             data.setPassword( cred.getPassword() );
         }
-        if ( isNotNull( cred.getSsoTicket() ) )
-        {
+        if ( isNotNull( cred.getSsoTicket() ) ) {
             data.setSSOTicket( cred.getSsoTicket() );
         }
-        if ( isNotNull( cred.getUser() ) )
-        {
+        if ( isNotNull( cred.getUser() ) ) {
             data.setUser( cred.getUser() );
         }
-        if ( isNotNull( cred.getX509Certificate() ) )
-        {
+        if ( isNotNull( cred.getX509Certificate() ) ) {
             data.setX509Certificate( cred.getX509Certificate() );
         }
     }
 
-    private boolean isNotNull( Object object )
-    {
+    // TODO move to utility class
+    private boolean isNotNull( final Object object ) {
         return object != null;
     }
 
-    private void endStatefulConnection()
-    {
-        try
-        {
+    private void endStatefulConnection() {
+        try {
             jcoContext.end( destination );
-        }
-        catch ( JCoException e )
-        {
+        } catch ( JCoException e ) {
             // TODO maybe just log this error? Can we go on though? Write test for JCo
             throw new HibersapException( "JCo connection could not be ended", e );
-        }
-        finally
-        {
+        } finally {
             destination = null;
         }
     }
 
-    private JCoCustomDestination getCustomDestination( JCoDestination dest, Credentials cred )
-    {
+    private JCoCustomDestination getCustomDestination( final JCoDestination dest, final Credentials cred ) {
         JCoCustomDestination custDest = dest.createCustomDestination();
         UserData data = custDest.getUserLogonData();
         copyCredentialsToUserData( cred, data );
         return custDest;
     }
 
-    private JCoRepository getRepository()
-    {
-        try
-        {
+    private JCoRepository getRepository() {
+        try {
             return destination.getRepository();
-        }
-        catch ( JCoException e )
-        {
+        } catch ( JCoException e ) {
             throw new HibersapException( "Can not get repository from destination " + destination.getDestinationName(),
                                          e );
         }
     }
 
-    private void startStatefulConnection()
-    {
+    private void startStatefulConnection() {
         destination = JCoEnvironment.getDestination( destinationName );
 
-        if ( jcoContext.isStateful( destination ) )
-        {
+        if ( jcoContext.isStateful( destination ) ) {
             throw new HibersapException( "A stateful JCo session was already started for the given destination "
-                + "in the current thread." );
+                                                 + "in the current thread." );
         }
 
-        if ( credentials != null )
-        {
+        if ( credentials != null ) {
             destination = getCustomDestination( destination, credentials );
         }
 

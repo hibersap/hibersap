@@ -30,47 +30,39 @@ import java.util.Set;
 /**
  * @author Carsten Erker
  */
-public final class StructureMapping extends ParameterMapping
-{
+public final class StructureMapping extends ParameterMapping {
+
     private static final long serialVersionUID = 2930405767657861801L;
 
     private final Set<FieldMapping> parameters;
 
-    public StructureMapping( Class<?> associatedClass, String sapName, String javaName,
-                             Class<? extends Converter> converterClass )
-    {
+    public StructureMapping( final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converterClass ) {
         super( associatedClass, sapName, javaName, converterClass );
         parameters = new HashSet<FieldMapping>();
     }
 
-    public void addParameter( FieldMapping fieldParam )
-    {
+    public void addParameter( final FieldMapping fieldParam ) {
         parameters.add( fieldParam );
     }
 
-    public Set<FieldMapping> getParameters()
-    {
+    public Set<FieldMapping> getParameters() {
         return parameters;
     }
 
     @Override
-    public ParamType getParamType()
-    {
+    public ParamType getParamType() {
         return ParamType.STRUCTURE;
     }
 
     @Override
-    protected Object getUnconvertedValueToJava( Object fieldMap, ConverterCache converterCache )
-    {
+    protected Object getUnconvertedValueToJava( final Object fieldMap, final ConverterCache converterCache ) {
         Map<String, Object> subMap = UnsafeCastHelper.castToMap( fieldMap );
         Object subBean = ReflectionHelper.newInstance( getAssociatedType() );
 
-        for ( FieldMapping parameter : parameters )
-        {
+        for ( FieldMapping parameter : parameters ) {
             Object fieldValue = subMap.get( parameter.getSapName() );
 
-            if ( fieldValue != null )
-            {
+            if ( fieldValue != null ) {
                 Object value = parameter.mapToJava( fieldValue, converterCache );
                 ReflectionHelper.setFieldValue( subBean, parameter.getJavaName(), value );
             }
@@ -80,16 +72,13 @@ public final class StructureMapping extends ParameterMapping
     }
 
     @Override
-    protected Object getUnconvertedValueToSap( Object bapiStructure, ConverterCache converterCache )
-    {
+    protected Object getUnconvertedValueToSap( final Object bapiStructure, final ConverterCache converterCache ) {
         HashMap<String, Object> functionMap = new HashMap<String, Object>();
 
-        for ( FieldMapping parameter : parameters )
-        {
+        for ( FieldMapping parameter : parameters ) {
             Object fieldValue = ReflectionHelper.getFieldValue( bapiStructure, parameter.getJavaName() );
 
-            if ( fieldValue != null )
-            {
+            if ( fieldValue != null ) {
                 Object value = parameter.mapToSap( fieldValue, converterCache );
                 functionMap.put( parameter.getSapName(), value );
             }
@@ -99,26 +88,21 @@ public final class StructureMapping extends ParameterMapping
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
-        if ( !super.equals( o ) )
-        {
+        if ( !super.equals( o ) ) {
             return false;
         }
 
-        StructureMapping that = ( StructureMapping ) o;
+        StructureMapping that = (StructureMapping) o;
 
         //noinspection RedundantIfStatement
-        if ( parameters != null ? !parameters.equals( that.parameters ) : that.parameters != null )
-        {
+        if ( parameters != null ? !parameters.equals( that.parameters ) : that.parameters != null ) {
             return false;
         }
 
@@ -126,8 +110,7 @@ public final class StructureMapping extends ParameterMapping
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + ( parameters != null ? parameters.hashCode() : 0 );
         return result;

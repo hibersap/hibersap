@@ -17,58 +17,33 @@
 
 package org.hibersap.execution.jca;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.resource.ResourceException;
-import javax.resource.cci.IndexedRecord;
-import javax.resource.cci.MappedRecord;
-import javax.resource.cci.RecordFactory;
-
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
 import org.hibersap.execution.UnsafeCastHelper;
 import org.junit.Before;
 import org.junit.Test;
 
-public class JCAMapperTest
-{
-    final class IndexedRecordAnswer
-        implements IAnswer<IndexedRecord>
-    {
-        public IndexedRecord answer()
-            throws Throwable
-        {
-            Object[] args = EasyMock.getCurrentArguments();
-            return new MyIndexedRecord( (String) args[0] );
-        }
-    }
+import javax.resource.ResourceException;
+import javax.resource.cci.IndexedRecord;
+import javax.resource.cci.MappedRecord;
+import javax.resource.cci.RecordFactory;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    final class MappedRecordAnswer
-        implements IAnswer<MappedRecord>
-    {
-        public MappedRecord answer()
-            throws Throwable
-        {
-            Object[] args = EasyMock.getCurrentArguments();
-            return new MyMappedRecord( (String) args[0] );
-        }
-    }
+import static org.junit.Assert.assertEquals;
+
+public class JCAMapperTest {
 
     private final JCAMapper mapper = new JCAMapper();
-
     private final RecordFactory recordFactory = EasyMock.createMock( RecordFactory.class );
 
     @SuppressWarnings("unchecked")
     @Test
     public void mapToFunctionMap()
-        throws Exception
-    {
+            throws Exception {
         Map<String, Object> functionMap = createFunctionMap();
         Map<String, Object> resultRecord = new HashMap<String, Object>();
 
@@ -110,8 +85,7 @@ public class JCAMapperTest
 
     @Test
     public void mapToMappedRecord()
-        throws Exception
-    {
+            throws Exception {
         // map
         Map<String, Object> functionMap = createFunctionMap();
         MappedRecord record = mapper.mapFunctionMapValuesToMappedRecord( "BAPI_NAME", recordFactory, functionMap );
@@ -147,18 +121,16 @@ public class JCAMapperTest
 
     @Before
     public void setUp()
-        throws ResourceException
-    {
+            throws ResourceException {
         EasyMock.expect( recordFactory.createIndexedRecord( (String) EasyMock.notNull() ) )
-            .andAnswer( new IndexedRecordAnswer() ).anyTimes();
+                .andAnswer( new IndexedRecordAnswer() ).anyTimes();
         EasyMock.expect( recordFactory.createMappedRecord( (String) EasyMock.notNull() ) )
-            .andAnswer( new MappedRecordAnswer() ).anyTimes();
+                .andAnswer( new MappedRecordAnswer() ).anyTimes();
         EasyMock.replay( recordFactory );
     }
 
     @SuppressWarnings("unchecked")
-    private void addExportAndTableParameters( Map<String, Object> resultRecord )
-    {
+    private void addExportAndTableParameters( Map<String, Object> resultRecord ) {
         // add export parameters
         MyMappedRecord exportStruct1 = new MyMappedRecord( "EXPORT_PARAM1" );
         exportStruct1.put( "STRUCT_FIELD1", "structField1" );
@@ -184,8 +156,7 @@ public class JCAMapperTest
         resultRecord.put( "TABLE_PARAM2", tableRecord );
     }
 
-    private Map<String, Object> createFunctionMap()
-    {
+    private Map<String, Object> createFunctionMap() {
         Map<String, Object> functionMap = new HashMap<String, Object>();
         Map<String, Object> importMap = new HashMap<String, Object>();
         Map<String, Object> exportMap = new HashMap<String, Object>();
@@ -213,12 +184,31 @@ public class JCAMapperTest
         return functionMap;
     }
 
-    private Map<String, Object> getTableRow( String param1, Date param2, int param3 )
-    {
+    private Map<String, Object> getTableRow( String param1, Date param2, int param3 ) {
         Map<String, Object> row = new HashMap<String, Object>();
         row.put( "TABLE_FIELD1", param1 );
         row.put( "TABLE_FIELD2", param2 );
         row.put( "TABLE_FIELD3", param3 );
         return row;
+    }
+
+    final class IndexedRecordAnswer
+            implements IAnswer<IndexedRecord> {
+
+        public IndexedRecord answer()
+                throws Throwable {
+            Object[] args = EasyMock.getCurrentArguments();
+            return new MyIndexedRecord( (String) args[0] );
+        }
+    }
+
+    final class MappedRecordAnswer
+            implements IAnswer<MappedRecord> {
+
+        public MappedRecord answer()
+                throws Throwable {
+            Object[] args = EasyMock.getCurrentArguments();
+            return new MyMappedRecord( (String) args[0] );
+        }
     }
 }

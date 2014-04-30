@@ -18,17 +18,15 @@
 package org.hibersap;
 
 public class ConfigurationException
-    extends HibersapException
-{
+        extends HibersapException {
+
     private static final long serialVersionUID = 1L;
 
-    public ConfigurationException( String msg )
-    {
+    public ConfigurationException( final String msg ) {
         super( msg );
     }
 
-    public ConfigurationException( String msg, Throwable t )
-    {
+    public ConfigurationException( final String msg, final Throwable t ) {
         super( msg, t );
     }
 }

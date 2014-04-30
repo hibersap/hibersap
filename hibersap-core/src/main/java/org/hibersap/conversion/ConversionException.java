@@ -20,13 +20,11 @@ package org.hibersap.conversion;
 /**
  * @author Carsten Erker
  */
-public class ConversionException
-    extends RuntimeException
-{
-	private static final long serialVersionUID = 1L;
+public class ConversionException extends RuntimeException {
 
-	public ConversionException( String message )
-    {
+    private static final long serialVersionUID = 1L;
+
+    public ConversionException( final String message ) {
         super( message );
     }
 }

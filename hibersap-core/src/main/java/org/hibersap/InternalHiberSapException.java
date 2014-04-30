@@ -17,20 +17,15 @@
 
 package org.hibersap;
 
-public class InternalHiberSapException
-    extends HibersapException
-{
+public class InternalHiberSapException extends HibersapException {
 
     private static final long serialVersionUID = 1L;
 
-    public InternalHiberSapException( final String msg )
-    {
+    public InternalHiberSapException( final String msg ) {
         super( msg );
     }
 
-    public InternalHiberSapException( final String msg, final Throwable cause )
-    {
+    public InternalHiberSapException( final String msg, final Throwable cause ) {
         super( msg, cause );
     }
-
 }

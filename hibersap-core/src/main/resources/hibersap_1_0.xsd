@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
-<xsd:schema targetNamespace="http://hibersap.org/xml/ns/hibersap-config"
-            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://hibersap.org/xml/ns/hibersap-config"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified"
             version="1.0">

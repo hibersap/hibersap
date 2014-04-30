@@ -19,42 +19,38 @@ package org.hibersap;
 
 /**
  * A MappingException is thrown by the framework when there are errors mapping BAPI classes.
- * 
+ *
  * @author Carsten Erker
  */
-public class MappingException
-    extends HibersapException
-{
+public class MappingException extends HibersapException {
+
     private static final long serialVersionUID = 1L;
 
     /**
      * Constructs a new MappingException with a detail message and a cause.
-     * 
-     * @param msg The message
+     *
+     * @param msg   The message
      * @param cause The cause
      */
-    public MappingException( String msg, Throwable cause )
-    {
+    public MappingException( final String msg, final Throwable cause ) {
         super( msg, cause );
     }
 
     /**
      * Constructs a new MappingException with the specified cause.
-     * 
+     *
      * @param cause The cause
      */
-    public MappingException( Throwable cause )
-    {
+    public MappingException( final Throwable cause ) {
         super( cause );
     }
 
     /**
      * Constructs a new MappingException with a detail message.
-     * 
+     *
      * @param msg The message
      */
-    public MappingException( String msg )
-    {
+    public MappingException( final String msg ) {
         super( msg );
     }
 }

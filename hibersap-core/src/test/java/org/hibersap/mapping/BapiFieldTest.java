@@ -17,49 +17,48 @@
 
 package org.hibersap.mapping;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.hibersap.annotations.Table;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.hibersap.annotations.Table;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Carsten Erker
  */
-public class BapiFieldTest
-{
+public class BapiFieldTest {
+
     @Table
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private List<String> listGeneric;
 
     @Table
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private Integer[] integerArray;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private Collection<?> list;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private Map<Integer, String> mapGeneric;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private int[] intArray;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings( "unused" )
     private int intPrimitive;
 
-    @SuppressWarnings( { "unchecked", "unused" })
+    @SuppressWarnings( {"unchecked", "unused"} )
     private ArrayList listSimple;
 
     @Test
     public void testGetActualType()
-        throws NoSuchFieldException
-    {
+            throws NoSuchFieldException {
         BapiField field = new BapiField( getClass().getDeclaredField( "listGeneric" ) );
         assertEquals( String.class, field.getAssociatedType() );
 
@@ -72,8 +71,7 @@ public class BapiFieldTest
 
     @Test
     public void testGetArrayType()
-        throws NoSuchFieldException
-    {
+            throws NoSuchFieldException {
         BapiField fieldIntegerArray = new BapiField( getClass().getDeclaredField( "integerArray" ) );
         assertEquals( Integer.class, fieldIntegerArray.getArrayType() );
 
@@ -83,8 +81,7 @@ public class BapiFieldTest
 
     @Test
     public void testGetGenericType()
-        throws NoSuchFieldException
-    {
+            throws NoSuchFieldException {
         BapiField field = new BapiField( getClass().getDeclaredField( "listGeneric" ) );
         assertEquals( String.class, field.getGenericType() );
 

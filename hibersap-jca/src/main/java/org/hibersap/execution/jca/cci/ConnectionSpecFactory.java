@@ -17,26 +17,25 @@
 
 package org.hibersap.execution.jca.cci;
 
-import javax.resource.cci.ConnectionSpec;
-
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
+
+import javax.resource.cci.ConnectionSpec;
 
 /**
  * Factory for creating instances of ConnectionSpec implementations. Decouples Hibersap from the
  * ConnectionSpec implementation and thus from the actually used JCA implementation.
- * 
+ *
  * @author Carsten Erker
  */
-public interface ConnectionSpecFactory
-{
+public interface ConnectionSpecFactory {
+
     /**
      * Creates an instance of the ConnectionSpec implementation using the specified credentials.
-     * 
+     *
      * @param credentials The credentials to populate to the ConnectionSpec object.
      * @return The ConnectionSpec object, initialized with the credential properties.
      * @throws InternalHiberSapException
      */
-    ConnectionSpec createConnectionSpec( Credentials credentials )
-        throws InternalHiberSapException;
+    ConnectionSpec createConnectionSpec( Credentials credentials ) throws InternalHiberSapException;
 }

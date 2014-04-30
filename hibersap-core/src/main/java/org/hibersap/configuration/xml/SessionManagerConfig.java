@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
 
-@XmlAccessorType( XmlAccessType.FIELD )
-@XmlType( name = "", propOrder = {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {
         "context",
         "jcaConnectionFactory",
         "jcaConnectionSpecFactory",
@@ -41,7 +41,7 @@ import java.util.List;
         "executionInterceptorClasses",
         "bapiInterceptorClasses",
         "validationMode"
-} )
+})
 public final class SessionManagerConfig implements Serializable {
 
     @XmlTransient
@@ -50,31 +50,31 @@ public final class SessionManagerConfig implements Serializable {
     @XmlTransient
     private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
 
-    @XmlAttribute( required = true )
+    @XmlAttribute(required = true)
     protected String name;
 
-    @XmlElement( name = "context" )
+    @XmlElement(name = "context")
     protected String context = "org.hibersap.execution.jco.JCoContext";
 
-    @XmlElement( name = "properties" )
+    @XmlElement(name = "properties")
     protected Properties properties = new Properties();
 
-    @XmlElement( name = "annotated-classes" )
+    @XmlElement(name = "annotated-classes")
     protected AnnotatedClasses annotatedClasses = new AnnotatedClasses();
 
-    @XmlElement( name = "execution-interceptor-classes" )
+    @XmlElement(name = "execution-interceptor-classes")
     protected ExecutionInterceptorClasses executionInterceptorClasses = new ExecutionInterceptorClasses();
 
-    @XmlElement( name = "bapi-interceptor-classes" )
+    @XmlElement(name = "bapi-interceptor-classes")
     protected BapiInterceptorClasses bapiInterceptorClasses = new BapiInterceptorClasses();
 
-    @XmlElement( name = "jca-connection-factory" )
+    @XmlElement(name = "jca-connection-factory")
     protected String jcaConnectionFactory;
 
-    @XmlElement( name = "jca-connectionspec-factory" )
+    @XmlElement(name = "jca-connectionspec-factory")
     protected String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
 
-    @XmlElement( name = "validation-mode" )
+    @XmlElement(name = "validation-mode")
     protected ValidationMode validationMode = ValidationMode.AUTO;
 
     public SessionManagerConfig() {
@@ -95,6 +95,11 @@ public final class SessionManagerConfig implements Serializable {
 
     public String getContext() {
         return context;
+    }
+
+    public SessionManagerConfig setContext( final String context ) {
+        this.context = context;
+        return this;
     }
 
     public String getJcaConnectionFactory() {
@@ -138,11 +143,6 @@ public final class SessionManagerConfig implements Serializable {
         return properties.getPropertyValue( propertyName );
     }
 
-    public SessionManagerConfig setContext( final String context ) {
-        this.context = context;
-        return this;
-    }
-
     public SessionManagerConfig setProperty( final String name, final String value ) {
         properties.setProperty( name, value );
         return this;
@@ -157,13 +157,13 @@ public final class SessionManagerConfig implements Serializable {
         return this;
     }
 
+    public ValidationMode getValidationMode() {
+        return validationMode;
+    }
+
     public SessionManagerConfig setValidationMode( final ValidationMode validationMode ) {
         this.validationMode = validationMode;
         return this;
-    }
-
-    public ValidationMode getValidationMode() {
-        return validationMode;
     }
 
     public List<String> getExecutionInterceptorClasses() {

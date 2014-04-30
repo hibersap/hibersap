@@ -17,16 +17,6 @@
 
 package org.hibersap.session;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
 import org.hibersap.annotations.Bapi;
@@ -40,15 +30,24 @@ import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
 
-public class SapErrorInterceptorTest
-{
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+public class SapErrorInterceptorTest {
+
     private SapErrorInterceptor interceptor = new SapErrorInterceptor();
 
     private AnnotationBapiMapper mapper = new AnnotationBapiMapper();
 
     @Test
-    public void testAfterExecuteWithExportParameterUsingDefaults()
-    {
+    public void testAfterExecuteWithExportParameterUsingDefaults() {
         BapiMapping bapiMapping = mapper.mapBapi( TestBapiExportParam.class );
 
         Map<String, Object> functionMap = new HashMap<String, Object>();
@@ -56,13 +55,10 @@ public class SapErrorInterceptorTest
         exportParamsMap.put( "RETURN", buildReturnParamMap( "A", "message", "id", "number" ) );
         functionMap.put( "EXPORT", exportParamsMap );
 
-        try
-        {
+        try {
             interceptor.afterExecution( bapiMapping, functionMap );
             fail();
-        }
-        catch ( SapException e )
-        {
+        } catch ( SapException e ) {
             List<SapError> errors = e.getErrors();
             assertEquals( 1, errors.size() );
             SapError error = errors.get( 0 );
@@ -74,8 +70,7 @@ public class SapErrorInterceptorTest
     }
 
     @Test
-    public void testAfterExecuteWithTableParameterUsingDefaults()
-    {
+    public void testAfterExecuteWithTableParameterUsingDefaults() {
         BapiMapping bapiMapping = mapper.mapBapi( TestBapiTableParam.class );
 
         Map<String, Object> functionMap = new HashMap<String, Object>();
@@ -90,13 +85,10 @@ public class SapErrorInterceptorTest
         tableParamsMap.put( "RETURN", returnTable );
         functionMap.put( "TABLE", tableParamsMap );
 
-        try
-        {
+        try {
             interceptor.afterExecution( bapiMapping, functionMap );
             fail();
-        }
-        catch ( SapException e )
-        {
+        } catch ( SapException e ) {
             List<SapError> errors = e.getErrors();
             assertEquals( 2, errors.size() );
 
@@ -115,8 +107,7 @@ public class SapErrorInterceptorTest
     }
 
     @Test
-    public void testAfterExecuteNotUsingDefaults()
-    {
+    public void testAfterExecuteNotUsingDefaults() {
         BapiMapping bapiMapping = mapper.mapBapi( TestBapiWithoutDefaults.class );
 
         Map<String, Object> functionMap = new HashMap<String, Object>();
@@ -128,13 +119,10 @@ public class SapErrorInterceptorTest
         tableParamsMap.put( "MY_RETURN", returnTable );
         functionMap.put( "TABLE", tableParamsMap );
 
-        try
-        {
+        try {
             interceptor.afterExecution( bapiMapping, functionMap );
             fail();
-        }
-        catch ( SapException e )
-        {
+        } catch ( SapException e ) {
             List<SapError> errors = e.getErrors();
             assertEquals( 2, errors.size() );
 
@@ -153,8 +141,7 @@ public class SapErrorInterceptorTest
     }
 
     @Test
-    public void testAfterExecuteWithoutErrorCheck()
-    {
+    public void testAfterExecuteWithoutErrorCheck() {
         BapiMapping bapiMapping = mapper.mapBapi( TestBapiWithoutErrorCheck.class );
 
         Map<String, Object> functionMap = new HashMap<String, Object>();
@@ -166,8 +153,7 @@ public class SapErrorInterceptorTest
         interceptor.afterExecution( bapiMapping, functionMap );
     }
 
-    private HashMap<String, Object> buildReturnParamMap( String type, String msg, String id, String number )
-    {
+    private HashMap<String, Object> buildReturnParamMap( String type, String msg, String id, String number ) {
         HashMap<String, Object> returnParamMap = new HashMap<String, Object>();
         returnParamMap.put( "TYPE", type );
         returnParamMap.put( "MESSAGE", msg );
@@ -176,40 +162,38 @@ public class SapErrorInterceptorTest
         return returnParamMap;
     }
 
-    @Bapi(value = "TEST")
+    @Bapi( value = "TEST" )
     @ThrowExceptionOnError
-    private class TestBapiExportParam
-    {
-        @SuppressWarnings("unused")
+    private class TestBapiExportParam {
+
+        @SuppressWarnings( "unused" )
         @Export
-        @Parameter("RETURN")
+        @Parameter( "RETURN" )
         private BapiRet2 returnStruct;
     }
 
-    @Bapi(value = "TEST")
-    @ThrowExceptionOnError(returnStructure = "TABLE/RETURN")
-    private class TestBapiTableParam
-    {
-        @SuppressWarnings("unused")
+    @Bapi( value = "TEST" )
+    @ThrowExceptionOnError( returnStructure = "TABLE/RETURN" )
+    private class TestBapiTableParam {
+
+        @SuppressWarnings( "unused" )
         @Table
-        @Parameter("RETURN")
+        @Parameter( "RETURN" )
         private Set<BapiRet2> returnTable;
     }
 
-    @SuppressWarnings("synthetic-access")
-    @Bapi(value = "TEST")
+    @SuppressWarnings( "synthetic-access" )
+    @Bapi( value = "TEST" )
     private class TestBapiWithoutErrorCheck
-        extends TestBapiExportParam
-    {
+            extends TestBapiExportParam {
         // just need to "overwrite" annotations
     }
 
-    @SuppressWarnings("synthetic-access")
-    @Bapi(value = "TEST")
-    @ThrowExceptionOnError(errorMessageTypes = { "T1", "T2" }, returnStructure = "TABLE/MY_RETURN")
+    @SuppressWarnings( "synthetic-access" )
+    @Bapi( value = "TEST" )
+    @ThrowExceptionOnError( errorMessageTypes = {"T1", "T2"}, returnStructure = "TABLE/MY_RETURN" )
     private class TestBapiWithoutDefaults
-        extends TestBapiTableParam
-    {
+            extends TestBapiTableParam {
         // just need to "overwrite" annotations
     }
 }

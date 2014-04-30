@@ -25,48 +25,41 @@ import java.util.List;
  * are commonly used in SAP functions to inform the client about any errors, warnings or other
  * information. It is used by the org.hibersap.interceptor.impl.SapErrorInterceptor but can be utilized by
  * the application to make its own evaluations of SAP return structures.
- * 
- * @see org.hibersap.interceptor.impl.SapErrorInterceptor
- * 
+ *
  * @author Carsten Erker
+ * @see org.hibersap.interceptor.impl.SapErrorInterceptor
  */
-public class SapException
-    extends HibersapException
-{
+public class SapException extends HibersapException {
+
     private static final long serialVersionUID = 1L;
 
     private final List<SapError> sapErrors;
 
-    public SapException( List<SapError> sapErrors )
-    {
+    public SapException( final List<SapError> sapErrors ) {
         super( "Error(s) occurred when calling function module" );
         this.sapErrors = sapErrors;
-
     }
 
-    public SapException( SapError sapError )
-    {
+    public SapException( final SapError sapError ) {
         this( Collections.singletonList( sapError ) );
     }
 
-    public List<SapError> getErrors()
-    {
+    public List<SapError> getErrors() {
         return sapErrors;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString() + " ( " + sapErrors.toString() + " )";
     }
 
     /**
      * Hold information about (error, warning, info, etc.) values returned by a SAP function.
-     * 
+     *
      * @author cerker
      */
-    public static class SapError
-    {
+    public static class SapError {
+
         private final String message;
 
         private final String type;
@@ -75,37 +68,31 @@ public class SapException
 
         private final String number;
 
-        public SapError( String type, String id, String number, String message )
-        {
+        public SapError( final String type, final String id, final String number, final String message ) {
             this.type = type;
             this.id = id;
             this.number = number;
             this.message = message;
         }
 
-        public String getType()
-        {
+        public String getType() {
             return type;
         }
 
-        public String getId()
-        {
+        public String getId() {
             return id;
         }
 
-        public String getNumber()
-        {
+        public String getNumber() {
             return number;
         }
 
-        public String getMessage()
-        {
+        public String getMessage() {
             return message;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "SapError[type=" + type + ",id=" + id + ",number=" + number + ",message=" + message + "]";
         }
     }

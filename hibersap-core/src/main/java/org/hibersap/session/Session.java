@@ -20,11 +20,11 @@ package org.hibersap.session;
 /**
  * @author Carsten Erker
  */
-public interface Session
-{
+public interface Session {
+
     /**
      * starts a transaction.
-     * 
+     *
      * @return The Hibersap transaction
      */
     Transaction beginTransaction();
@@ -36,21 +36,21 @@ public interface Session
 
     /**
      * executes a funtion module in SAP.
-     * 
+     *
      * @param bapi The BAPI class
      */
-    void execute( Object bapi );
+    void execute( final Object bapi );
 
     /**
      * returns the transaction.
-     * 
+     *
      * @return The hibersap transaction or null if no transaction started.
      */
     Transaction getTransaction();
 
     /**
      * is session already closed?
-     * 
+     *
      * @return true if closed, else false.
      */
     boolean isClosed();

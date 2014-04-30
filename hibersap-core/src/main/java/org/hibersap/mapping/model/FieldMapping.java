@@ -23,13 +23,11 @@ import org.hibersap.conversion.ConverterCache;
 /**
  * @author Carsten Erker
  */
-public class FieldMapping extends ParameterMapping
-{
+public class FieldMapping extends ParameterMapping {
+
     private static final long serialVersionUID = -7542970603293850477L;
 
-    public FieldMapping( Class<?> associatedClass, String sapName, String javaName,
-                         Class<? extends Converter> converter )
-    {
+    public FieldMapping( final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converter ) {
         super( associatedClass, sapName, javaName, converter );
     }
 
@@ -37,20 +35,17 @@ public class FieldMapping extends ParameterMapping
      * {@inheritDoc}
      */
     @Override
-    public ParamType getParamType()
-    {
+    public ParamType getParamType() {
         return ParamType.FIELD;
     }
 
     @Override
-    protected Object getUnconvertedValueToJava( Object value, ConverterCache converterCache )
-    {
+    protected Object getUnconvertedValueToJava( final Object value, final ConverterCache converterCache ) {
         return value;
     }
 
     @Override
-    protected Object getUnconvertedValueToSap( Object value, ConverterCache converterCache )
-    {
+    protected Object getUnconvertedValueToSap( final Object value, final ConverterCache converterCache ) {
         return value;
     }
 }

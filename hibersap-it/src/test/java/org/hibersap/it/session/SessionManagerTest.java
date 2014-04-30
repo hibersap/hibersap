@@ -23,11 +23,10 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class SessionManagerTest extends AbstractBapiTest
-{
+public class SessionManagerTest extends AbstractBapiTest {
+
     @Test
-    public void sessionManagerUnregistersJCoDestinationWhenClosing() throws Exception
-    {
+    public void sessionManagerUnregistersJCoDestinationWhenClosing() throws Exception {
         assertThat( Environment.isDestinationDataProviderRegistered() ).isTrue();
 
         sessionManager.close();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<hibersap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://hibersap.org/xml/ns/hibersap-config"
           xsi:schemaLocation="http://hibersap.org/xml/ns/hibersap-config http://hibersap.sourceforge.net/xml/hibersap_1_1.xsd">
     <session-manager name="TEST">
         <context>org.hibersap.execution.jco.JCoContext</context>
@@ -22,13 +22,11 @@
         </annotated-classes>
 
         <execution-interceptor-classes>
-            <execution-interceptor-class>org.hibersap.configuration.ConfigurationTest$ExecutionInterceptorDummy
-            </execution-interceptor-class>
+            <execution-interceptor-class>org.hibersap.configuration.ConfigurationTest$ExecutionInterceptorDummy</execution-interceptor-class>
         </execution-interceptor-classes>
 
         <bapi-interceptor-classes>
-            <bapi-interceptor-class>org.hibersap.configuration.ConfigurationTest$BapiInterceptorDummy
-            </bapi-interceptor-class>
+            <bapi-interceptor-class>org.hibersap.configuration.ConfigurationTest$BapiInterceptorDummy</bapi-interceptor-class>
         </bapi-interceptor-classes>
 
         <validation-mode>CALLBACK</validation-mode>

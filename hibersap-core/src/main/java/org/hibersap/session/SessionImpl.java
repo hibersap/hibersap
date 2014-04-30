@@ -32,39 +32,29 @@ import java.util.Map;
 /*
  * @author Carsten Erker
  */
-public class SessionImpl
-        implements Session, SessionImplementor
-{
+public class SessionImpl implements Session, SessionImplementor {
+
     private static final Log LOG = LogFactory.getLog( SessionImpl.class );
 
-    private boolean closed = false;
-
     private final SessionManagerImplementor sessionManager;
-
+    private final Announcer<ExecutionInterceptor> executionInterceptors = Announcer.to( ExecutionInterceptor.class );
+    private final Announcer<BapiInterceptor> bapiInterceptors = Announcer.to( BapiInterceptor.class );
+    private final Credentials credentials;
+    private boolean closed = false;
     private PojoMapper pojoMapper;
-
     private Connection connection;
 
-    private final Announcer<ExecutionInterceptor> executionInterceptors = Announcer.to( ExecutionInterceptor.class );
-
-    private final Announcer<BapiInterceptor> bapiInterceptors = Announcer.to( BapiInterceptor.class );
-
-    private final Credentials credentials;
-
-    public SessionImpl( SessionManagerImplementor sessionManager )
-    {
+    public SessionImpl( final SessionManagerImplementor sessionManager ) {
         this( sessionManager, null );
     }
 
-    public SessionImpl( SessionManagerImplementor sessionManager, Credentials credentials )
-    {
+    public SessionImpl( final SessionManagerImplementor sessionManager, final Credentials credentials ) {
         this.sessionManager = sessionManager;
         this.credentials = credentials;
 
         pojoMapper = new PojoMapper( sessionManager.getConverterCache() );
         connection = sessionManager.getContext().getConnection();
-        if ( credentialsProvided() )
-        {
+        if ( credentialsProvided() ) {
             LOG.debug( "Providing credentials" );
             connection.setCredentials( credentials );
         }
@@ -72,51 +62,41 @@ public class SessionImpl
         bapiInterceptors.addAllListeners( sessionManager.getBapiInterceptors() );
     }
 
-    public Transaction beginTransaction()
-    {
+    public Transaction beginTransaction() {
         assertNotClosed();
         return connection.beginTransaction( this );
     }
 
-    public void close()
-    {
+    public void close() {
         assertNotClosed();
         connection.close();
         setClosed();
     }
 
-    private boolean credentialsProvided()
-    {
+    private boolean credentialsProvided() {
         return credentials != null;
     }
 
-    private void assertNotClosed()
-    {
-        if ( isClosed() )
-        {
+    private void assertNotClosed() {
+        if ( isClosed() ) {
             throw new HibersapException( "Session is already closed" );
         }
     }
 
-    public void execute( Object bapiObject )
-    {
+    public void execute( final Object bapiObject ) {
         assertNotClosed();
         Class<?> bapiClass = bapiObject.getClass();
         Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
-        if ( bapiMappings.containsKey( bapiClass ) )
-        {
+        if ( bapiMappings.containsKey( bapiClass ) ) {
             bapiInterceptors.announce().beforeExecution( bapiObject );
             execute( bapiObject, bapiMappings.get( bapiClass ) );
             bapiInterceptors.announce().afterExecution( bapiObject );
-        }
-        else
-        {
+        } else {
             throw new HibersapException( bapiClass.getName() + " is not mapped as a Bapi class" );
         }
     }
 
-    public void execute( Object bapiObject, BapiMapping bapiMapping )
-    {
+    public void execute( final Object bapiObject, final BapiMapping bapiMapping ) {
         assertNotClosed();
 
         String bapiName = bapiMapping.getBapiName();
@@ -133,34 +113,28 @@ public class SessionImpl
         pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
     }
 
-    public SessionManagerImplementor getSessionManager()
-    {
+    public SessionManagerImplementor getSessionManager() {
         return sessionManager;
     }
 
-    public Transaction getTransaction()
-    {
+    public Transaction getTransaction() {
         assertNotClosed();
         return connection.getTransaction();
     }
 
-    public boolean isClosed()
-    {
+    public boolean isClosed() {
         return closed;
     }
 
-    private void setClosed()
-    {
+    private void setClosed() {
         closed = true;
     }
 
-    public void addExecutionInterceptor( ExecutionInterceptor interceptor )
-    {
+    public void addExecutionInterceptor( final ExecutionInterceptor interceptor ) {
         executionInterceptors.addListener( interceptor );
     }
 
-    public void addBapiInterceptor( BapiInterceptor interceptor )
-    {
+    public void addBapiInterceptor( final BapiInterceptor interceptor ) {
         bapiInterceptors.addListener( interceptor );
     }
 }

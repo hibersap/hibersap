@@ -33,81 +33,62 @@ import java.util.List;
  *
  * @param <T> The Listener's type
  */
-public class Announcer<T>
-{
+public class Announcer<T> {
+
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();
 
 
-    private Announcer( Class<? extends T> listenerType )
-    {
+    private Announcer( final Class<? extends T> listenerType ) {
         proxy = listenerType.cast( Proxy.newProxyInstance(
                 listenerType.getClassLoader(),
                 new Class<?>[]{listenerType},
-                new InvocationHandler()
-                {
-                    public Object invoke( Object aProxy, Method method, Object[] args ) throws Throwable
-                    {
+                new InvocationHandler() {
+                    public Object invoke( Object aProxy, Method method, Object[] args ) throws Throwable {
                         announce( method, args );
                         return null;
                     }
-                } ) );
+                }
+        ) );
     }
 
-    public void addListener( T listener )
-    {
+    public static <T> Announcer<T> to( final Class<? extends T> listenerType ) {
+        return new Announcer<T>( listenerType );
+    }
+
+    public void addListener( final T listener ) {
         listeners.add( listener );
     }
 
-    public void addAllListeners( Collection<T> listeners )
-    {
+    public void addAllListeners( final Collection<T> listeners ) {
         this.listeners.addAll( listeners );
     }
 
-    public void removeListener( T listener )
-    {
+    public void removeListener( final T listener ) {
         listeners.remove( listener );
     }
 
-    public T announce()
-    {
+    public T announce() {
         return proxy;
     }
 
-    private void announce( Method m, Object[] args )
-    {
-        try
-        {
-            for ( T listener : listeners )
-            {
+    private void announce( final Method m, final Object[] args ) {
+        try {
+            for ( T listener : listeners ) {
                 m.invoke( listener, args );
             }
-        }
-        catch ( IllegalAccessException e )
-        {
+        } catch ( IllegalAccessException e ) {
             throw new IllegalArgumentException( "could not invoke listener", e );
-        }
-        catch ( InvocationTargetException e )
-        {
+        } catch ( InvocationTargetException e ) {
             Throwable cause = e.getCause();
 
-            if ( cause instanceof RuntimeException )
-            {
-                throw ( RuntimeException ) cause;
-            }
-            else if ( cause instanceof Error )
-            {
-                throw ( Error ) cause;
-            }
-            else
-            {
+            if ( cause instanceof RuntimeException ) {
+                throw (RuntimeException) cause;
+            } else if ( cause instanceof Error ) {
+                throw (Error) cause;
+            } else {
                 throw new UnsupportedOperationException( "listener threw exception", cause );
             }
         }
-    }
-
-    public static <T> Announcer<T> to( Class<? extends T> listenerType )
-    {
-        return new Announcer<T>( listenerType );
     }
 }

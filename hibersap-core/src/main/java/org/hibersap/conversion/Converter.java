@@ -28,8 +28,8 @@ import java.io.Serializable;
  *
  * @author Carsten Erker
  */
-public interface Converter<J, S> extends Serializable
-{
+public interface Converter<J, S> extends Serializable {
+
     /**
      * Convert the SAP value, as it is returned by the underlying interfacing technology (e.g. the
      * SAP Java Connector, JCo) to the Java data type of the corresponding BAPI class field.

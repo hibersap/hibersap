@@ -30,20 +30,17 @@ import java.util.Set;
 import static org.hibersap.mapping.ReflectionHelper.createInstances;
 import static org.hibersap.validation.BeanValidationActivator.activateBeanValidation;
 
-public class ConfigurationHelper
-{
-    private ConfigurationHelper()
-    {
+public final class ConfigurationHelper {
+
+    private ConfigurationHelper() {
         // Utility class with static methods
     }
 
-    public static Context createContext( SessionManagerConfig sessionManagerConfig )
-    {
+    public static Context createContext( final SessionManagerConfig sessionManagerConfig ) {
         return ContextFactory.create( sessionManagerConfig );
     }
 
-    public static Set<ExecutionInterceptor> createExecutionInterceptors( SessionManagerConfig sessionManagerConfig )
-    {
+    public static Set<ExecutionInterceptor> createExecutionInterceptors( final SessionManagerConfig sessionManagerConfig ) {
         final List<String> classNames = sessionManagerConfig.getExecutionInterceptorClasses();
 
         final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
@@ -53,8 +50,7 @@ public class ConfigurationHelper
         return executionInterceptors;
     }
 
-    public static Set<BapiInterceptor> createBapiInterceptors( SessionManagerConfig sessionManagerConfig )
-    {
+    public static Set<BapiInterceptor> createBapiInterceptors( final SessionManagerConfig sessionManagerConfig ) {
         final List<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
 
         final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();

@@ -25,29 +25,28 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class HibersapConfigTest
-{
+public class HibersapConfigTest {
+
     @Test
     public void testCreate()
-            throws Exception
-    {
+            throws Exception {
         HibersapConfig config = new HibersapConfig();
 
         config.addSessionManager( "Sm1" ).setContext( "org.hibersap.execution.jco.JCoContext" )
-                .setJcaConnectionFactory( "java:/eis/sap/A12" ).setProperty( "key1", "value1" ).setProperty( "key2",
-                "value2" )
-                .addAnnotatedClass( Integer.class ).addAnnotatedClass( String.class );
+              .setJcaConnectionFactory( "java:/eis/sap/A12" ).setProperty( "key1", "value1" ).setProperty( "key2",
+                                                                                                           "value2" )
+              .addAnnotatedClass( Integer.class ).addAnnotatedClass( String.class );
 
         config.addSessionManager( "Sm2" ).setContext( "org.hibersap.execution.jca.JCAContext" )
-                .setJcaConnectionFactory( "java:/eis/sap/B34" ).setProperty( "key3", "value3" ).setProperty( "key4",
-                "value4" )
-                .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class )
-                .addExecutionInterceptorClass( SapErrorInterceptor.class );
+              .setJcaConnectionFactory( "java:/eis/sap/B34" ).setProperty( "key3", "value3" ).setProperty( "key4",
+                                                                                                           "value4" )
+              .addAnnotatedClass( String.class ).addAnnotatedClass( Integer.class )
+              .addExecutionInterceptorClass( SapErrorInterceptor.class );
 
         assertProperties( config, "Sm1", "org.hibersap.execution.jco.JCoContext", "java:/eis/sap/A12", "key1",
-                "value1", "key2", "value2" );
+                          "value1", "key2", "value2" );
         assertProperties( config, "Sm2", "org.hibersap.execution.jca.JCAContext", "java:/eis/sap/B34", "key3",
-                "value3", "key4", "value4" );
+                          "value3", "key4", "value4" );
 
         List<String> interceptors = config.getSessionManager( "Sm2" ).getExecutionInterceptorClasses();
         assertEquals( 1, interceptors.size() );
@@ -55,8 +54,7 @@ public class HibersapConfigTest
     }
 
     private void assertProperties( HibersapConfig config, String smName, String smContext, String smConnFact,
-                                   String smPropKey1, String smPropVal1, String smPropKey2, String smPropVal2 )
-    {
+                                   String smPropKey1, String smPropVal1, String smPropKey2, String smPropVal2 ) {
         SessionManagerConfig sessionManager = config.getSessionManager( smName );
         assertEquals( smName, sessionManager.getName() );
         assertEquals( smContext, sessionManager.getContext() );

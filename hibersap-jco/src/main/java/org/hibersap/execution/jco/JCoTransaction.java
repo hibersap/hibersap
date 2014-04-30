@@ -28,9 +28,8 @@ import org.hibersap.session.SessionImplementor;
 /**
  * @author Carsten Erker
  */
-public class JCoTransaction
-    extends AbstractTransaction
-{
+public class JCoTransaction extends AbstractTransaction {
+
     private final SessionImplementor session;
 
     private BapiMapping bapiCommit;
@@ -39,66 +38,51 @@ public class JCoTransaction
 
     private boolean inTransaction = false;
 
-    public JCoTransaction( SessionImplementor session )
-    {
+    public JCoTransaction( final SessionImplementor session ) {
         this.session = session;
         initTransactionBapis();
     }
 
-    public void begin()
-    {
-        if ( inTransaction )
-        {
+    public void begin() {
+        if ( inTransaction ) {
             throw new HibersapException( "Transaction was already started" );
         }
         inTransaction = true;
     }
 
-    public void commit()
-    {
+    public void commit() {
         errorIfNotInTransaction();
         notifySynchronizationsBeforeCompletion();
-        try
-        {
+        try {
             executeBapi( new BapiTransactionCommit(), bapiCommit );
             notifySynchronizationsAfterCompletion( true );
-        }
-        catch ( RuntimeException e )
-        {
+        } catch ( RuntimeException e ) {
             notifySynchronizationsAfterCompletion( false );
             throw e;
         }
     }
 
-    public void rollback()
-    {
+    public void rollback() {
         errorIfNotInTransaction();
-        try
-        {
+        try {
             executeBapi( new BapiTransactionRollback(), bapiRollback );
-        }
-        finally
-        {
+        } finally {
             notifySynchronizationsAfterCompletion( false );
         }
     }
 
-    private void errorIfNotInTransaction()
-    {
-        if ( !inTransaction )
-        {
+    private void errorIfNotInTransaction() {
+        if ( !inTransaction ) {
             throw new HibersapException( "Not in transaction" );
         }
     }
 
-    private void executeBapi( Object bapi, BapiMapping mapping )
-    {
+    private void executeBapi( final Object bapi, final BapiMapping mapping ) {
         session.execute( bapi, mapping );
     }
 
     // TODO cache mappings
-    private void initTransactionBapis()
-    {
+    private void initTransactionBapis() {
         AnnotationBapiMapper mapper = new AnnotationBapiMapper();
         this.bapiCommit = mapper.mapBapi( BapiTransactionCommit.class );
         this.bapiRollback = mapper.mapBapi( BapiTransactionRollback.class );

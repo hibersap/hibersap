@@ -26,12 +26,12 @@ import com.sap.conn.jco.JCoException;
  *
  * @author Carsten Erker
  */
-public interface JCoContextAdapter
-{
+public interface JCoContextAdapter {
+
     void begin( JCoDestination destination );
 
     void end( JCoDestination destination )
-        throws JCoException;
+            throws JCoException;
 
     boolean isStateful( JCoDestination destination );
 }

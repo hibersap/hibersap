@@ -17,8 +17,7 @@
 
 package org.hibersap.configuration.xml;
 
-public enum ValidationMode
-{
+public enum ValidationMode {
     /**
      * Use Bean Validation if a provider is found on the classpath (Default).
      */

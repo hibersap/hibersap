@@ -22,8 +22,8 @@ import org.hibersap.mapping.model.BapiMapping;
 /**
  * @author Carsten Erker
  */
-public interface SessionImplementor
-{
+public interface SessionImplementor {
+
     void execute( Object bapi, BapiMapping bapiMapping );
 
     SessionManagerImplementor getSessionManager();

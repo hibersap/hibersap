@@ -23,22 +23,20 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
-@XmlAccessorType( XmlAccessType.FIELD )
-@XmlType( name = "" )
-public class Property implements Serializable
-{
-    @XmlAttribute( required = true )
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "")
+public class Property implements Serializable {
+
+    @XmlAttribute(required = true)
     protected String name;
-    @XmlAttribute( required = true )
+    @XmlAttribute(required = true)
     protected String value;
 
-    @SuppressWarnings( {"UnusedDeclaration"} )
-    public Property()
-    {
+    @SuppressWarnings({"UnusedDeclaration"})
+    public Property() {
     }
 
-    public Property( String name, String value )
-    {
+    public Property( final String name, final String value ) {
         this.name = name;
         this.value = value;
     }
@@ -47,10 +45,9 @@ public class Property implements Serializable
      * Gets the value of the name properties.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -60,8 +57,7 @@ public class Property implements Serializable
      * @param value allowed object is
      *              {@link String }
      */
-    public void setName( String value )
-    {
+    public void setName( final String value ) {
         this.name = value;
     }
 
@@ -69,10 +65,9 @@ public class Property implements Serializable
      * Gets the value of the value properties.
      *
      * @return possible object is
-     *         {@link String }
+     * {@link String }
      */
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
@@ -82,37 +77,30 @@ public class Property implements Serializable
      * @param value allowed object is
      *              {@link String }
      */
-    public void setValue( String value )
-    {
+    public void setValue( final String value ) {
         this.value = value;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "(" + name + " => " + value + ")";
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        Property property = ( Property ) o;
+        Property property = (Property) o;
 
-        if ( name != null ? !name.equals( property.name ) : property.name != null )
-        {
+        if ( name != null ? !name.equals( property.name ) : property.name != null ) {
             return false;
         }
-        if ( value != null ? !value.equals( property.value ) : property.value != null )
-        {
+        if ( value != null ? !value.equals( property.value ) : property.value != null ) {
             return false;
         }
 
@@ -120,8 +108,7 @@ public class Property implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + ( value != null ? value.hashCode() : 0 );
         return result;

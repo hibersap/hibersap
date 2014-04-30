@@ -17,11 +17,11 @@
 
 package org.hibersap.ejb.interceptor;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * The HibersapSession annotation can be used on an EJB field to let the HibersapSessionInterceptor inject the current
@@ -29,12 +29,12 @@ import java.lang.annotation.Target;
  */
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface HibersapSession
-{
-  /**
-   * Holds the JNDI name for looking up the corresponding Hibersap SessionManager.
-   *
-   * @return The JNDI name to which the SessionManager is bound.
-   */
-  String value();
+public @interface HibersapSession {
+
+    /**
+     * Holds the JNDI name for looking up the corresponding Hibersap SessionManager.
+     *
+     * @return The JNDI name to which the SessionManager is bound.
+     */
+    String value();
 }

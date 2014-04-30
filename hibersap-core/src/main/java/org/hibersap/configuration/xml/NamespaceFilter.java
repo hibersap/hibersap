@@ -17,15 +17,11 @@
 
 package org.hibersap.configuration.xml;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-public class NamespaceFilter extends XMLFilterImpl
-{
-    private static final Log LOG = LogFactory.getLog( NamespaceFilter.class );
+public class NamespaceFilter extends XMLFilterImpl {
 
     private String usedNamespaceUri;
     private boolean addNamespace;
@@ -33,17 +29,12 @@ public class NamespaceFilter extends XMLFilterImpl
     //State variable
     private boolean addedNamespace = false;
 
-    public NamespaceFilter( String namespaceUri,
-                            boolean addNamespace )
-    {
+    public NamespaceFilter( final String namespaceUri, final boolean addNamespace ) {
         super();
 
-        if ( addNamespace )
-        {
+        if ( addNamespace ) {
             this.usedNamespaceUri = namespaceUri;
-        }
-        else
-        {
+        } else {
             this.usedNamespaceUri = "";
         }
         this.addNamespace = addNamespace;
@@ -51,49 +42,38 @@ public class NamespaceFilter extends XMLFilterImpl
 
 
     @Override
-    public void startDocument() throws SAXException
-    {
+    public void startDocument() throws SAXException {
         super.startDocument();
 
-        if ( addNamespace )
-        {
+        if ( addNamespace ) {
             startControlledPrefixMapping();
         }
     }
 
 
     @Override
-    public void startElement( String arg0, String arg1, String arg2,
-                              Attributes arg3 ) throws SAXException
-    {
+    public void startElement( final String arg0, final String arg1, final String arg2, final Attributes arg3 ) throws SAXException {
         super.startElement( this.usedNamespaceUri, arg1, arg2, arg3 );
     }
 
     @Override
-    public void endElement( String arg0, String arg1, String arg2 )
-            throws SAXException
-    {
+    public void endElement( final String arg0, final String arg1, final String arg2 )
+            throws SAXException {
         super.endElement( this.usedNamespaceUri, arg1, arg2 );
     }
 
     @Override
-    public void startPrefixMapping( String prefix, String url )
-            throws SAXException
-    {
-        if ( addNamespace )
-        {
+    public void startPrefixMapping( final String prefix, final String url )
+            throws SAXException {
+        if ( addNamespace ) {
             this.startControlledPrefixMapping();
-        }
-        else
-        {
+        } else {
             //Remove the namespace, i.e. don´t call startPrefixMapping for parent!
         }
     }
 
-    private void startControlledPrefixMapping() throws SAXException
-    {
-        if ( this.addNamespace && !this.addedNamespace )
-        {
+    private void startControlledPrefixMapping() throws SAXException {
+        if ( this.addNamespace && !this.addedNamespace ) {
             //We should add namespace since it is set and has not yet been done.
             super.startPrefixMapping( "", this.usedNamespaceUri );
 

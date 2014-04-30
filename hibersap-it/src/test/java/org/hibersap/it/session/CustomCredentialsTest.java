@@ -31,14 +31,13 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CustomCredentialsTest extends AbstractBapiTest
-{
+public class CustomCredentialsTest extends AbstractBapiTest {
+
     @Test
-    public void connectToSapUsingCustomCredentials() throws Exception
-    {
+    public void connectToSapUsingCustomCredentials() throws Exception {
 
         final Credentials credentials = new Credentials().setUser( "sapuser2" )
-                .setPassword( "password" ).setLanguage( "DE" );
+                                                         .setPassword( "password" ).setLanguage( "DE" );
         callBapiWith( credentials );
 
         final JCoConnectionData connectionUsed = getConnectionDataUsed();
@@ -49,33 +48,24 @@ public class CustomCredentialsTest extends AbstractBapiTest
         assertEquals( "DE", connectionUsed.getAbapLanguage() );
     }
 
-    private void callBapiWith( Credentials credentials )
-    {
+    private void callBapiWith( Credentials credentials ) {
         final Session session = sessionManager.openSession( credentials );
 
         // make sure a connection to SAP was established
-        try
-        {
+        try {
             session.execute( new RfcPing() );
-        }
-        catch ( final SapException e )
-        {
+        } catch ( final SapException e ) {
             // expected when there are no lines found
-        }
-        finally
-        {
+        } finally {
             session.close();
         }
     }
 
-    private JCoConnectionData getConnectionDataUsed()
-    {
+    private JCoConnectionData getConnectionDataUsed() {
         final List<? extends JCoConnectionData> list = JCoConnectionMonitor
                 .getConnectionsData();
-        for ( final JCoConnectionData data : list )
-        {
-            if ( "RFC_PING".equals( data.getFunctionModuleName() ) )
-            {
+        for ( final JCoConnectionData data : list ) {
+            if ( "RFC_PING".equals( data.getFunctionModuleName() ) ) {
                 return data;
             }
         }

@@ -37,23 +37,21 @@ import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class SessionManagerImplTest
-{
+public class SessionManagerImplTest {
+
     private SessionManagerImpl sessionManager;
 
     @Before
-    public void createSessionManager()
-    {
+    public void createSessionManager() {
         SessionManagerConfig smConfig = new SessionManagerConfig( "name" ).setContext( DummyContext.class.getName() );
 
         AnnotationConfiguration config = new AnnotationConfiguration( smConfig );
 
-        sessionManager = ( SessionManagerImpl ) config.buildSessionManager();
+        sessionManager = (SessionManagerImpl) config.buildSessionManager();
     }
 
     @Test
-    public void hasConfiguredAndStandardValuesWhenCreated() throws Exception
-    {
+    public void hasConfiguredAndStandardValuesWhenCreated() throws Exception {
         assertThat( sessionManager.getContext() ).isInstanceOf( DummyContext.class );
         assertThat( sessionManager.getConfig().getName() ).isEqualTo( "name" );
         assertThat( sessionManager.getConverterCache() ).isNotNull();
@@ -62,24 +60,21 @@ public class SessionManagerImplTest
     }
 
     @Test
-    public void hasSameConfigurationAfterDeserialization() throws Exception
-    {
+    public void hasSameConfigurationAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         assertThat( managerRead.getConfig() ).isEqualTo( sessionManager.getConfig() );
     }
 
     @Test
-    public void hasConverterCacheAfterDeserialization() throws Exception
-    {
+    public void hasConverterCacheAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         assertThat( managerRead.getConverterCache() ).isNotNull();
     }
 
     @Test
-    public void hasSameContextAfterDeserialization() throws Exception
-    {
+    public void hasSameContextAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         assertThat( managerRead.getContext() ).isNotNull();
@@ -87,8 +82,7 @@ public class SessionManagerImplTest
     }
 
     @Test
-    public void hasSameBapiInterceptorsAfterDeserialization() throws Exception
-    {
+    public void hasSameBapiInterceptorsAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         final Set<BapiInterceptor> bapiInterceptors = managerRead.getBapiInterceptors();
@@ -98,8 +92,7 @@ public class SessionManagerImplTest
     }
 
     @Test
-    public void hasSameExecutionInterceptorsAfterDeserialization() throws Exception
-    {
+    public void hasSameExecutionInterceptorsAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         final Set<ExecutionInterceptor> executionInterceptors = managerRead.getExecutionInterceptors();
@@ -109,19 +102,16 @@ public class SessionManagerImplTest
     }
 
     @Test
-    public void isClosedAfterDeserializationWhenItWasClosedBefore() throws Exception
-    {
+    public void isClosedAfterDeserializationWhenItWasClosedBefore() throws Exception {
         sessionManager.close();
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.isClosed()).isTrue();
+        assertThat( managerRead.isClosed() ).isTrue();
     }
 
-    private SessionManagerImpl serializeAndDeserializeSessionManager() throws IOException, ClassNotFoundException
-    {
+    private SessionManagerImpl serializeAndDeserializeSessionManager() throws IOException, ClassNotFoundException {
         // Converter gets created lazily on first access
-        if ( !sessionManager.isClosed() )
-        {
+        if ( !sessionManager.isClosed() ) {
             sessionManager.getConverterCache().getConverter( BooleanConverter.class );
         }
 
@@ -132,7 +122,7 @@ public class SessionManagerImplTest
 
         ByteArrayInputStream bain = new ByteArrayInputStream( baos.toByteArray() );
         ObjectInputStream in = new ObjectInputStream( bain );
-        SessionManagerImpl managerRead = ( SessionManagerImpl ) in.readObject();
+        SessionManagerImpl managerRead = (SessionManagerImpl) in.readObject();
         in.close();
         return managerRead;
     }

@@ -25,40 +25,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlAccessorType( XmlAccessType.FIELD )
-@XmlType( name = "", propOrder = {"annotatedClasses"} )
-public final class AnnotatedClasses implements Serializable
-{
-    @XmlElement( name = "annotated-class" )
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {"annotatedClasses"})
+public final class AnnotatedClasses implements Serializable {
+
+    @XmlElement(name = "annotated-class")
     protected List<String> annotatedClasses = new ArrayList<String>();
 
-    public List<String> getAnnotatedClasses()
-    {
+    public List<String> getAnnotatedClasses() {
         return this.annotatedClasses;
     }
 
-    public void add( String annotatedClassName )
-    {
+    public void add( final String annotatedClassName ) {
         annotatedClasses.add( annotatedClassName );
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        AnnotatedClasses that = ( AnnotatedClasses ) o;
+        AnnotatedClasses that = (AnnotatedClasses) o;
 
         if ( annotatedClasses != null ? !annotatedClasses.equals( that.annotatedClasses ) :
-             that.annotatedClasses != null )
-        {
+             that.annotatedClasses != null ) {
             return false;
         }
 
@@ -66,14 +60,12 @@ public final class AnnotatedClasses implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return annotatedClasses != null ? annotatedClasses.hashCode() : 0;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "AnnotatedClasses{" +
                 "annotatedClasses=" + annotatedClasses +
                 '}';

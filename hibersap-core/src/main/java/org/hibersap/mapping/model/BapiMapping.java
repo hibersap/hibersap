@@ -30,26 +30,19 @@ import java.util.Set;
  *
  * @author Carsten Erker
  */
-public class BapiMapping implements Serializable
-{
+public class BapiMapping implements Serializable {
+
     private static final long serialVersionUID = 6716958693316907614L;
 
     private final String bapiName;
-
+    private final Set<ParameterMapping> importParams = new HashSet<ParameterMapping>();
+    private final Set<ParameterMapping> exportParams = new HashSet<ParameterMapping>();
+    private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
+    private final ErrorHandling errorHandling;
     private Class<?> associatedClass;
 
-    private final Set<ParameterMapping> importParams = new HashSet<ParameterMapping>();
-
-    private final Set<ParameterMapping> exportParams = new HashSet<ParameterMapping>();
-
-    private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
-
-    private final ErrorHandling errorHandling;
-
-    public BapiMapping( Class<?> associatedClass, String bapiName, ErrorHandling errorHandling )
-    {
-        if ( StringUtils.isEmpty( bapiName ) )
-        {
+    public BapiMapping( final Class<?> associatedClass, final String bapiName, final ErrorHandling errorHandling ) {
+        if ( StringUtils.isEmpty( bapiName ) ) {
             throw new MappingException( "Bapi name for class " + associatedClass.getName() + " is empty" );
         }
         this.associatedClass = associatedClass;
@@ -57,53 +50,43 @@ public class BapiMapping implements Serializable
         this.errorHandling = errorHandling;
     }
 
-    public void addExportParameter( ParameterMapping parameter )
-    {
+    public void addExportParameter( final ParameterMapping parameter ) {
         exportParams.add( parameter );
     }
 
-    public void addImportParameter( ParameterMapping parameter )
-    {
+    public void addImportParameter( final ParameterMapping parameter ) {
         importParams.add( parameter );
     }
 
-    public void addTableParameter( TableMapping parameter )
-    {
+    public void addTableParameter( final TableMapping parameter ) {
         tableParams.add( parameter );
     }
 
-    public Class<?> getAssociatedClass()
-    {
+    public Class<?> getAssociatedClass() {
         return associatedClass;
     }
 
-    public String getBapiName()
-    {
+    public String getBapiName() {
         return bapiName;
     }
 
-    public ErrorHandling getErrorHandling()
-    {
+    public ErrorHandling getErrorHandling() {
         return this.errorHandling;
     }
 
-    public Set<ParameterMapping> getExportParameters()
-    {
+    public Set<ParameterMapping> getExportParameters() {
         return exportParams;
     }
 
-    public Set<ParameterMapping> getImportParameters()
-    {
+    public Set<ParameterMapping> getImportParameters() {
         return importParams;
     }
 
-    public Set<TableMapping> getTableParameters()
-    {
+    public Set<TableMapping> getTableParameters() {
         return tableParams;
     }
 
-    public Set<ParameterMapping> getAllParameters()
-    {
+    public Set<ParameterMapping> getAllParameters() {
         HashSet<ParameterMapping> parameters = new HashSet<ParameterMapping>();
         parameters.addAll( importParams );
         parameters.addAll( exportParams );
@@ -112,48 +95,38 @@ public class BapiMapping implements Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getClass().getSimpleName() + "[BAPI: " + bapiName + ", MappedClass: " + associatedClass + "]";
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        BapiMapping that = ( BapiMapping ) o;
+        BapiMapping that = (BapiMapping) o;
 
-        if ( associatedClass != null ? !associatedClass.equals( that.associatedClass ) : that.associatedClass != null )
-        {
+        if ( associatedClass != null ? !associatedClass.equals( that.associatedClass ) : that.associatedClass != null ) {
             return false;
         }
-        if ( bapiName != null ? !bapiName.equals( that.bapiName ) : that.bapiName != null )
-        {
+        if ( bapiName != null ? !bapiName.equals( that.bapiName ) : that.bapiName != null ) {
             return false;
         }
-        if ( errorHandling != null ? !errorHandling.equals( that.errorHandling ) : that.errorHandling != null )
-        {
+        if ( errorHandling != null ? !errorHandling.equals( that.errorHandling ) : that.errorHandling != null ) {
             return false;
         }
-        if ( exportParams != null ? !exportParams.equals( that.exportParams ) : that.exportParams != null )
-        {
+        if ( exportParams != null ? !exportParams.equals( that.exportParams ) : that.exportParams != null ) {
             return false;
         }
-        if ( importParams != null ? !importParams.equals( that.importParams ) : that.importParams != null )
-        {
+        if ( importParams != null ? !importParams.equals( that.importParams ) : that.importParams != null ) {
             return false;
         }
         //noinspection RedundantIfStatement
-        if ( tableParams != null ? !tableParams.equals( that.tableParams ) : that.tableParams != null )
-        {
+        if ( tableParams != null ? !tableParams.equals( that.tableParams ) : that.tableParams != null ) {
             return false;
         }
 
@@ -161,8 +134,7 @@ public class BapiMapping implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = bapiName != null ? bapiName.hashCode() : 0;
         result = 31 * result + ( associatedClass != null ? associatedClass.hashCode() : 0 );
         result = 31 * result + ( importParams != null ? importParams.hashCode() : 0 );

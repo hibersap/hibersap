@@ -25,20 +25,18 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class JCoMonitoringUtilTest
-{
+public class JCoMonitoringUtilTest {
+
     private final JCoMonitoringUtil util = new JCoMonitoringUtil();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         // Hibersap is just used here to register the JCo destination, we don't really need the SessionManager
         new AnnotationConfiguration( "A12" ).buildSessionManager();
     }
 
     @Test
-    public void showMonitoringData() throws Exception
-    {
+    public void showMonitoringData() throws Exception {
         MonitoringData data = util.getMonitoringData( "A12" );
 
         assertThat( data.getSystemDescription() ).startsWith( "DEST:                  A12" );

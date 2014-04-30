@@ -33,8 +33,8 @@ import java.util.Set;
  *
  * @author Carsten Erker
  */
-public interface SessionManagerImplementor extends Serializable
-{
+public interface SessionManagerImplementor extends Serializable {
+
     /**
      * Returns this SessionManager's BapiMappings.
      *

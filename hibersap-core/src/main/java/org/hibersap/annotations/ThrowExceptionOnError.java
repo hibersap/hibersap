@@ -17,21 +17,21 @@
 
 package org.hibersap.annotations;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 /**
  * Generate a SapException when the function module returns errors in a RETURN structure or table.
- * 
+ *
  * @author Carsten Erker
  */
 @Retention(RUNTIME)
 @Target(value = TYPE)
-public @interface ThrowExceptionOnError
-{
+public @interface ThrowExceptionOnError {
+
     /**
      * Contains the path to the BAPI's return structure or Table. The first element should be
      * 'EXPORT' or 'TABLE' to indicate if the return structure is defined as an export or table
@@ -43,5 +43,5 @@ public @interface ThrowExceptionOnError
      * The message types which Hibersap shall interpret as an error. In these cases an Exception
      * will be thrown. The RETURN structure's field TYPE is compared to the message types.
      */
-    String[] errorMessageTypes() default { "E", "A" };
+    String[] errorMessageTypes() default {"E", "A"};
 }

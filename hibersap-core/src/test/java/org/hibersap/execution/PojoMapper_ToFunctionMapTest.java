@@ -34,16 +34,15 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 
-public class PojoMapper_ToFunctionMapTest
-{
+public class PojoMapper_ToFunctionMapTest {
+
     private final PojoMapper pojoMapper = new PojoMapper( new ConverterCache() );
     private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
     private Map<String, Object> functionMap;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         MyTestBapi bapi = createTestBapi();
         BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
 
@@ -51,40 +50,35 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void mapsAllImportParameters()
-    {
+    public void mapsAllImportParameters() {
         Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
 
         assertThat( importParams ).hasSize( 2 );
     }
 
     @Test
-    public void mapsAllExportParameters()
-    {
+    public void mapsAllExportParameters() {
         Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
 
         assertThat( exportParams ).hasSize( 2 );
     }
 
     @Test
-    public void mapsAllTableParameters()
-    {
+    public void mapsAllTableParameters() {
         Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
 
         assertThat( tableParams ).hasSize( 2 );
     }
 
     @Test
-    public void mapsSimpleParameterWithoutConverter()
-    {
+    public void mapsSimpleParameterWithoutConverter() {
         Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
 
         assertThat( importParams.get( "intParam" ) ).isEqualTo( 4711 );
     }
 
     @Test
-    public void mapsSimpleParameterWithConverter()
-    {
+    public void mapsSimpleParameterWithConverter() {
         Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
         Object parameter = exportParams.get( "intParamWithConverter" );
 
@@ -93,8 +87,7 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void mapsStructureParameterWithConverter()
-    {
+    public void mapsStructureParameterWithConverter() {
         Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
         Map<String, Object> structure = castToMap( importParams.get( "structureParamWithConverter" ) );
         Object parameter = structure.get( "charParam" );
@@ -104,8 +97,7 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void mapsStructureParameterWithoutConverter()
-    {
+    public void mapsStructureParameterWithoutConverter() {
         Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
         Object parameter = exportParams.get( "structureParam" );
         Map<String, Object> structureMap = castToMap( parameter );
@@ -115,8 +107,7 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void mapsTableParameterWithoutConverter()
-    {
+    public void mapsTableParameterWithoutConverter() {
         Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
         Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( tableParams.get( "tableParam" ) );
 
@@ -124,8 +115,7 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void mapsTableParameterWithConverter()
-    {
+    public void mapsTableParameterWithConverter() {
         Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
         Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( tableParams.get( "tableParamWithConverter" ) );
 
@@ -133,8 +123,7 @@ public class PojoMapper_ToFunctionMapTest
     }
 
     @Test
-    public void doesNotMapParametersWithNullValues()
-    {
+    public void doesNotMapParametersWithNullValues() {
         MyTestBapi bapi = new MyTestBapi( null, null, null, null, null, null );
         BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
 
@@ -148,8 +137,7 @@ public class PojoMapper_ToFunctionMapTest
         assertThat( tableParams ).hasSize( 0 );
     }
 
-    private MyTestBapi createTestBapi()
-    {
+    private MyTestBapi createTestBapi() {
         TestStructure structure = new TestStructure( 'c' );
         TestStructure tableStructure1 = new TestStructure( '1' );
         TestStructure tableStructure2 = new TestStructure( '2' );

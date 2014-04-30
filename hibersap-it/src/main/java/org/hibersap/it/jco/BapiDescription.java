@@ -19,33 +19,33 @@ package org.hibersap.it.jco;
 
 import org.hibersap.annotations.Parameter;
 
-public class BapiDescription
-{
-    @Parameter( "OBJECTNAME" )
+public class BapiDescription {
+
+    @Parameter("OBJECTNAME")
     private String businessObjectName;
 
-    @Parameter( "BO_TEXT" )
+    @Parameter("BO_TEXT")
     private String businessObjectDescription;
 
-    @Parameter( "BAPINAME" )
+    @Parameter("BAPINAME")
     private String bapiName;
 
-    @Parameter( "BAPI_TEXT" )
+    @Parameter("BAPI_TEXT")
     private String bapiDescription;
 
-    @Parameter( "ABAPNAME" )
+    @Parameter("ABAPNAME")
     private String abapName;
 
-    @SuppressWarnings( {"UnusedDeclaration"} )
-    private BapiDescription()
-    {
+    @SuppressWarnings({"UnusedDeclaration"})
+    private BapiDescription() {
         // for Hibersap
     }
 
-    BapiDescription( String businessObjectName, String businessObjectDescription, String bapiName,
-                     String bapiDescription,
-                     String abapName )
-    {
+    BapiDescription( final String businessObjectName,
+                     final String businessObjectDescription,
+                     final String bapiName,
+                     final String bapiDescription,
+                     final String abapName ) {
         this.businessObjectName = businessObjectName;
         this.businessObjectDescription = businessObjectDescription;
         this.bapiName = bapiName;
@@ -53,65 +53,52 @@ public class BapiDescription
         this.abapName = abapName;
     }
 
-    public String getBusinessObjectName()
-    {
+    public String getBusinessObjectName() {
         return businessObjectName;
     }
 
-    public String getBusinessObjectDescription()
-    {
+    public String getBusinessObjectDescription() {
         return businessObjectDescription;
     }
 
-    public String getBapiName()
-    {
+    public String getBapiName() {
         return bapiName;
     }
 
-    public String getBapiDescription()
-    {
+    public String getBapiDescription() {
         return bapiDescription;
     }
 
-    public String getAbapName()
-    {
+    public String getAbapName() {
         return abapName;
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        BapiDescription that = ( BapiDescription ) o;
+        BapiDescription that = (BapiDescription) o;
 
-        if ( abapName != null ? !abapName.equals( that.abapName ) : that.abapName != null )
-        {
+        if ( abapName != null ? !abapName.equals( that.abapName ) : that.abapName != null ) {
             return false;
         }
-        if ( bapiDescription != null ? !bapiDescription.equals( that.bapiDescription ) : that.bapiDescription != null )
-        {
+        if ( bapiDescription != null ? !bapiDescription.equals( that.bapiDescription ) : that.bapiDescription != null ) {
             return false;
         }
-        if ( bapiName != null ? !bapiName.equals( that.bapiName ) : that.bapiName != null )
-        {
+        if ( bapiName != null ? !bapiName.equals( that.bapiName ) : that.bapiName != null ) {
             return false;
         }
         if ( businessObjectDescription != null ? !businessObjectDescription.equals( that.businessObjectDescription ) :
-             that.businessObjectDescription != null )
-        {
+             that.businessObjectDescription != null ) {
             return false;
         }
         if ( businessObjectName != null ? !businessObjectName.equals( that.businessObjectName ) :
-             that.businessObjectName != null )
-        {
+             that.businessObjectName != null ) {
             return false;
         }
 
@@ -119,8 +106,7 @@ public class BapiDescription
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = businessObjectName != null ? businessObjectName.hashCode() : 0;
         result = 31 * result + ( businessObjectDescription != null ? businessObjectDescription.hashCode() : 0 );
         result = 31 * result + ( bapiName != null ? bapiName.hashCode() : 0 );
@@ -130,8 +116,7 @@ public class BapiDescription
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "BapiDescription{" +
                 "businessObjectName='" + businessObjectName + '\'' +
                 ", businessObjectDescription='" + businessObjectDescription + '\'' +

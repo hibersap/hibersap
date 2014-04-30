@@ -23,13 +23,13 @@ import javax.validation.ValidatorFactory;
  * Wrapper for building the Bean Validation's ValidatorFactory. Bean Validation API uses a static method call
  * to Validator.buildDefaultValidatorFactory(), which makes it impossible to test.
  */
-interface ValidatorFactoryFactory
-{
+interface ValidatorFactoryFactory {
+
     /**
      * Builds the Bean Validation's ValidatorFactory.
      *
      * @return The ValidatorFactory
-     * @throws ValidationException If the ValidatorFactory cannot be built.
+     * @throws javax.validation.ValidationException If the ValidatorFactory cannot be built.
      */
     ValidatorFactory buildValidatorFactory();
 }

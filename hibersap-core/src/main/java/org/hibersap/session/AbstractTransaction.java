@@ -23,12 +23,12 @@ import java.util.List;
 /**
  * May be used by implementors of the Transaction interface to unify the handling of
  * synchronizations.
- * 
+ *
  * @author Carsten Erker
  */
 public abstract class AbstractTransaction
-    implements Transaction
-{
+        implements Transaction {
+
     private final List<Synchronization> synchronizations = new ArrayList<Synchronization>();
 
     /**
@@ -36,23 +36,18 @@ public abstract class AbstractTransaction
      *
      * @param synchronization The callback object.
      */
-    public final void registerSynchronization( Synchronization synchronization )
-    {
+    public final void registerSynchronization( final Synchronization synchronization ) {
         synchronizations.add( synchronization );
     }
 
-    protected final void notifySynchronizationsBeforeCompletion()
-    {
-        for ( Synchronization synchronization : synchronizations )
-        {
+    protected final void notifySynchronizationsBeforeCompletion() {
+        for ( Synchronization synchronization : synchronizations ) {
             synchronization.beforeCompletion();
         }
     }
 
-    protected final void notifySynchronizationsAfterCompletion( boolean committed )
-    {
-        for ( Synchronization synchronization : synchronizations )
-        {
+    protected final void notifySynchronizationsAfterCompletion( final boolean committed ) {
+        for ( Synchronization synchronization : synchronizations ) {
             synchronization.afterCompletion( committed );
         }
     }

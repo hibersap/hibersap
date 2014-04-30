@@ -32,15 +32,14 @@ import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class AnnotationConfigurationTest
-{
+public class AnnotationConfigurationTest {
+
     private static final Class<BapiTransactionCommit> BAPI_CLASS = BapiTransactionCommit.class;
 
     private AnnotationConfiguration configuration = new AnnotationConfiguration();
 
     @Test
-    public void addsSapErrorInterceptorToSessionManagerPerDefault()
-    {
+    public void addsSapErrorInterceptorToSessionManagerPerDefault() {
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
@@ -49,8 +48,7 @@ public class AnnotationConfigurationTest
     }
 
     @Test
-    public void addsAnnotatedClassToSessionManager()
-    {
+    public void addsAnnotatedClassToSessionManager() {
         configuration.getSessionManagerConfig().addAnnotatedClass( BAPI_CLASS );
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
@@ -60,23 +58,20 @@ public class AnnotationConfigurationTest
     }
 
     @Test( expected = MappingException.class )
-    public void throwsMappingExceptionWhenClassWasAddedThatIsNotAnnotated()
-    {
+    public void throwsMappingExceptionWhenClassWasAddedThatIsNotAnnotated() {
         configuration.getSessionManagerConfig().addAnnotatedClass( Object.class );
         configureAndBuildSessionManager();
     }
 
     @Test( expected = ConfigurationException.class )
-    public void throwsConfigurationExceptionWhenBapiClassWasAddedThatIsNotAnnotated()
-    {
+    public void throwsConfigurationExceptionWhenBapiClassWasAddedThatIsNotAnnotated() {
         configuration.getSessionManagerConfig().getAnnotatedClasses().add( "does.not.Exist" );
         configureAndBuildSessionManager();
     }
 
-    private SessionManagerImpl configureAndBuildSessionManager()
-    {
+    private SessionManagerImpl configureAndBuildSessionManager() {
         configuration.getSessionManagerConfig().setContext( DummyContext.class.getName() );
         SessionManager sessionManager = configuration.buildSessionManager();
-        return ( SessionManagerImpl ) sessionManager;
+        return (SessionManagerImpl) sessionManager;
     }
 }

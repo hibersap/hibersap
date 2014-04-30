@@ -17,10 +17,10 @@
 
 package org.hibersap.interceptor;
 
+import org.hibersap.mapping.model.BapiMapping;
+
 import java.io.Serializable;
 import java.util.Map;
-
-import org.hibersap.mapping.model.BapiMapping;
 
 /**
  * Interceptors can be registered for a SessionManager to intercept function calls to SAP.
@@ -29,9 +29,8 @@ import org.hibersap.mapping.model.BapiMapping;
  *
  * @author Carsten Erker
  */
-public interface ExecutionInterceptor
-    extends Serializable
-{
+public interface ExecutionInterceptor extends Serializable {
+
     void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
 
     void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );

@@ -25,35 +25,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlAccessorType( XmlAccessType.FIELD )
-@XmlType( name = "", propOrder = {"bapiInterceptorClasses"} )
-public final class BapiInterceptorClasses implements Serializable
-{
-    @XmlElement( name = "bapi-interceptor-class" )
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {"bapiInterceptorClasses"})
+public final class BapiInterceptorClasses implements Serializable {
+
+    @XmlElement(name = "bapi-interceptor-class")
     protected List<String> bapiInterceptorClasses = new ArrayList<String>();
 
-    public List<String> getBapiInterceptorClasses()
-    {
+    public List<String> getBapiInterceptorClasses() {
         return this.bapiInterceptorClasses;
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        BapiInterceptorClasses that = ( BapiInterceptorClasses ) o;
+        BapiInterceptorClasses that = (BapiInterceptorClasses) o;
 
         if ( bapiInterceptorClasses != null ? !bapiInterceptorClasses.equals( that.bapiInterceptorClasses ) :
-             that.bapiInterceptorClasses != null )
-        {
+             that.bapiInterceptorClasses != null ) {
             return false;
         }
 
@@ -61,14 +56,12 @@ public final class BapiInterceptorClasses implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return bapiInterceptorClasses != null ? bapiInterceptorClasses.hashCode() : 0;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "BapiInterceptorClasses{" +
                 "bapiInterceptorClasses=" + bapiInterceptorClasses +
                 '}';

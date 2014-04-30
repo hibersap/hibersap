@@ -25,44 +25,18 @@ import javax.resource.cci.ConnectionSpec;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class AbstractConnectionSpecFactoryTest
-{
-    @SuppressWarnings( "unused" ) // constructors called by reflection
-    private static class TestConnectionSpecImpl implements ConnectionSpec
-    {
-        int property1;
-        String property2;
+public class AbstractConnectionSpecFactoryTest {
 
-        public TestConnectionSpecImpl()
-        {
-            // do nothing
-        }
-
-        public TestConnectionSpecImpl( int property )
-        {
-            this.property1 = property;
-        }
-
-        public TestConnectionSpecImpl( int property1, String property2 )
-        {
-            this.property1 = property1;
-            this.property2 = property2;
-        }
-    }
-
-    private AbstractConnectionSpecFactory factory = new AbstractConnectionSpecFactory()
-    {
+    private AbstractConnectionSpecFactory factory = new AbstractConnectionSpecFactory() {
         public ConnectionSpec createConnectionSpec( Credentials credentials )
-                throws InternalHiberSapException
-        {
+                throws InternalHiberSapException {
             // implementation not tested here
             return null;
         }
     };
 
     @Test
-    public void getConnectionSpecClassReturnsCorrectClass() throws Exception
-    {
+    public void getConnectionSpecClassReturnsCorrectClass() throws Exception {
         Class<?> specClass = factory
                 .getConnectionSpecClass( TestConnectionSpecImpl.class.getName() );
 
@@ -70,32 +44,28 @@ public class AbstractConnectionSpecFactoryTest
     }
 
     @Test( expected = IllegalArgumentException.class )
-    public void getConnectionSpecClassThrowsIllegalArgumentWhenGivenClassIsNotAConnectionSpec() throws Exception
-    {
+    public void getConnectionSpecClassThrowsIllegalArgumentWhenGivenClassIsNotAConnectionSpec() throws Exception {
         factory.getConnectionSpecClass( String.class.getName() );
     }
 
     @Test( expected = ClassNotFoundException.class )
-    public void getConnectionSpecThrowsClassNotFoundWhenCalledWithNonExistingClassName() throws Exception
-    {
+    public void getConnectionSpecThrowsClassNotFoundWhenCalledWithNonExistingClassName() throws Exception {
         factory.getConnectionSpecClass( "NonExistingClass" );
     }
 
     @Test
-    public void newConnectionSpecInstanceCalledWithOneArgumentConstructor() throws Exception
-    {
-        TestConnectionSpecImpl spec = ( TestConnectionSpecImpl ) factory
+    public void newConnectionSpecInstanceCalledWithOneArgumentConstructor() throws Exception {
+        TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory
                 .newConnectionSpecInstance( TestConnectionSpecImpl.class, new Class<?>[]{int.class},
-                        new Object[]{4711} );
+                                            new Object[]{4711} );
 
         assertThat( spec.property1 ).isEqualTo( 4711 );
         assertThat( spec.property2 ).isEqualTo( null );
     }
 
     @Test
-    public void newConnectionSpecInstanceCalledWithDefaultConstructor() throws Exception
-    {
-        TestConnectionSpecImpl spec = ( TestConnectionSpecImpl ) factory.newConnectionSpecInstance(
+    public void newConnectionSpecInstanceCalledWithDefaultConstructor() throws Exception {
+        TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory.newConnectionSpecInstance(
                 TestConnectionSpecImpl.class, null, null );
 
         assertThat( spec.property1 ).isEqualTo( 0 );
@@ -103,9 +73,8 @@ public class AbstractConnectionSpecFactoryTest
     }
 
     @Test
-    public void newConnectionSpecInstanceCalledWithTwoArgumentConstructor() throws Exception
-    {
-        TestConnectionSpecImpl spec = ( TestConnectionSpecImpl )
+    public void newConnectionSpecInstanceCalledWithTwoArgumentConstructor() throws Exception {
+        TestConnectionSpecImpl spec = (TestConnectionSpecImpl)
                 factory.newConnectionSpecInstance(
                         TestConnectionSpecImpl.class,
                         new Class<?>[]{int.class, String.class},
@@ -113,5 +82,25 @@ public class AbstractConnectionSpecFactoryTest
 
         assertThat( spec.property1 ).isEqualTo( 4711 );
         assertThat( spec.property2 ).isEqualTo( "property2" );
+    }
+
+    @SuppressWarnings( "unused" ) // constructors called by reflection
+    private static class TestConnectionSpecImpl implements ConnectionSpec {
+
+        int property1;
+        String property2;
+
+        public TestConnectionSpecImpl() {
+            // do nothing
+        }
+
+        public TestConnectionSpecImpl( int property ) {
+            this.property1 = property;
+        }
+
+        public TestConnectionSpecImpl( int property1, String property2 ) {
+            this.property1 = property1;
+            this.property2 = property2;
+        }
     }
 }

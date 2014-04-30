@@ -19,21 +19,18 @@ package org.hibersap.configuration.xml;
 
 /**
  * Thrown on semantic errors in the hibersap.xml file
- * 
- *  @author dahm
+ *
+ * @author dahm
  */
-public class HibersapParseException
-    extends RuntimeException
-{
+public class HibersapParseException extends RuntimeException {
+
     private static final long serialVersionUID = 1L;
 
-    public HibersapParseException( final String message, final Throwable cause )
-    {
+    public HibersapParseException( final String message, final Throwable cause ) {
         super( message, cause );
     }
 
-    public HibersapParseException( final String message )
-    {
+    public HibersapParseException( final String message ) {
         super( message );
     }
 }

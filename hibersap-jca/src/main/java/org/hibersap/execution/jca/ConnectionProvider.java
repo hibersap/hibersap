@@ -17,19 +17,19 @@
 
 package org.hibersap.execution.jca;
 
-import javax.resource.ResourceException;
-import javax.resource.cci.Connection;
-import javax.resource.cci.ConnectionFactory;
-import javax.resource.cci.ConnectionSpec;
-
 import org.hibersap.ConfigurationException;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.jca.cci.ConnectionSpecFactory;
 import org.hibersap.mapping.ReflectionHelper;
 import org.hibersap.session.Credentials;
 
-public class ConnectionProvider
-{
+import javax.resource.ResourceException;
+import javax.resource.cci.Connection;
+import javax.resource.cci.ConnectionFactory;
+import javax.resource.cci.ConnectionSpec;
+
+public class ConnectionProvider {
+
     private final ConnectionFactory connectionFactory;
 
     private final String connectionSpecFactoryName;
@@ -38,68 +38,51 @@ public class ConnectionProvider
 
     private Credentials credentials;
 
-    ConnectionProvider( ConnectionFactory connectionFactory, String connectionSpecFactoryName )
-    {
+    ConnectionProvider( final ConnectionFactory connectionFactory, final String connectionSpecFactoryName ) {
         this.connectionFactory = connectionFactory;
         this.connectionSpecFactoryName = connectionSpecFactoryName;
     }
 
-    Connection getConnection()
-    {
-        if ( connection == null )
-        {
+    Connection getConnection() {
+        if ( connection == null ) {
             connection = newConnection();
         }
         return connection;
     }
 
-    void setCredentials( Credentials credentials )
-    {
+    void setCredentials( final Credentials credentials ) {
         this.credentials = credentials;
     }
 
-    private Connection newConnection()
-    {
-        try
-        {
-            if ( credentials == null )
-            {
+    private Connection newConnection() {
+        try {
+            if ( credentials == null ) {
                 return connectionFactory.getConnection();
-            }
-            else
-            {
+            } else {
                 ConnectionSpec connectionSpec = newConnectionSpecFactory( connectionSpecFactoryName )
-                    .createConnectionSpec( credentials );
+                        .createConnectionSpec( credentials );
                 return connectionFactory.getConnection( connectionSpec );
             }
-        }
-        catch ( ResourceException e )
-        {
+        } catch ( ResourceException e ) {
             throw new HibersapException( "Problem creating Connection", e );
         }
     }
 
-    private ConnectionSpecFactory newConnectionSpecFactory( final String className )
-    {
+    private ConnectionSpecFactory newConnectionSpecFactory( final String className ) {
         Class<?> clazz;
-        try
-        {
+        try {
             clazz = ReflectionHelper.getClassForName( className );
-        }
-        catch ( ClassNotFoundException e )
-        {
+        } catch ( ClassNotFoundException e ) {
             throw new ConfigurationException( "ConnectionSpecFactory implementation class not found: " + className, e );
         }
 
-        if ( !ConnectionSpecFactory.class.isAssignableFrom( clazz ) )
-        {
+        if ( !ConnectionSpecFactory.class.isAssignableFrom( clazz ) ) {
             throw new ConfigurationException( "Class " + clazz.getName() + " does not implement "
-                + ConnectionSpecFactory.class.getName() );
+                                                      + ConnectionSpecFactory.class.getName() );
         }
 
         Object newInstance = ReflectionHelper.newInstance( clazz );
 
         return (ConnectionSpecFactory) newInstance;
     }
-
 }

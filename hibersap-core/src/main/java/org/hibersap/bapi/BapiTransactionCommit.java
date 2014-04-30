@@ -29,15 +29,15 @@ import java.io.Serializable;
  *
  * @author Carsten Erker
  */
-@Bapi( BapiConstants.BAPI_TRANSACTION_COMMIT )
-@ThrowExceptionOnError( returnStructure = BapiConstants.EXPORT_RETURN )
+@Bapi(BapiConstants.BAPI_TRANSACTION_COMMIT)
+@ThrowExceptionOnError(returnStructure = BapiConstants.EXPORT_RETURN)
 public final class BapiTransactionCommit
-        implements Serializable
-{
+        implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Import
-    @Parameter( BapiConstants.WAIT )
-    @SuppressWarnings( "unused" )
+    @Parameter(BapiConstants.WAIT)
+    @SuppressWarnings("unused")
     private final String wait = "X";
 }

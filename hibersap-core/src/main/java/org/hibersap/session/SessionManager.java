@@ -17,9 +17,9 @@
 
 package org.hibersap.session;
 
-import java.io.Serializable;
-
 import org.hibersap.configuration.xml.SessionManagerConfig;
+
+import java.io.Serializable;
 
 /*
  * The client's interface to the SessionManager. A SessionManager is used to create Hibersap
@@ -27,25 +27,25 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
  * 
  * @author Carsten Erker
  */
-public interface SessionManager extends Serializable
-{
+public interface SessionManager extends Serializable {
+
     /**
      * Get Configuration.
-     * 
+     *
      * @return The Configuration object
      */
     SessionManagerConfig getConfig();
 
     /**
      * Open a Session using a newly created connection to SAP.
-     * 
+     *
      * @return The Session
      */
     Session openSession();
 
     /**
      * Open a Session using a newly created connection to SAP, providing user credentials.
-     * 
+     *
      * @param credentials User Credentials for the SAP system to be called.
      * @return The Session
      */

@@ -35,8 +35,8 @@ import java.util.Set;
  * if they don't use Bean Validation at all. Therefore, this class has no direct dependency to the
  * javax.validation package.
  */
-public class BeanValidationActivator
-{
+public class BeanValidationActivator {
+
     private static final Log LOGGER = LogFactory.getLog( BeanValidationActivator.class );
 
     private static final String TYPE_SAFE_ACTIVATOR_CLASS_NAME = "org.hibersap.validation.TypeSafeActivator";
@@ -52,77 +52,55 @@ public class BeanValidationActivator
      * @param bapiInterceptors     The BeanValidationInterceptor will be added here if Bean Validation will be used.
      * @param sessionManagerConfig Provides the configuration information to decide if Bean Validation shall be used.
      */
-   public static void activateBeanValidation( Set<BapiInterceptor> bapiInterceptors,
-                                                SessionManagerConfig sessionManagerConfig )
-    {
+    public static void activateBeanValidation( final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig ) {
         ValidationMode validationMode = sessionManagerConfig.getValidationMode();
 
-        if ( validationMode != ValidationMode.NONE )
-        {
-            if ( shouldActivateBeanValidation( validationMode ) )
-            {
+        if ( validationMode != ValidationMode.NONE ) {
+            if ( shouldActivateBeanValidation( validationMode ) ) {
                 activateBeanValidationWithTypeSafeActivator( bapiInterceptors, sessionManagerConfig );
             }
         }
     }
 
-    private static boolean shouldActivateBeanValidation( ValidationMode validationMode )
-    {
-        try
-        {
+    private static boolean shouldActivateBeanValidation( final ValidationMode validationMode ) {
+        try {
             ReflectionHelper.getClassForName( VALIDATION_CLASS_NAME );
             return true;
-        }
-        catch ( ClassNotFoundException e )
-        {
-            if ( validationMode == ValidationMode.CALLBACK )
-            {
+        } catch ( ClassNotFoundException e ) {
+            if ( validationMode == ValidationMode.CALLBACK ) {
                 throw new HibersapException(
                         "Bean Validation is not available in the classpath but required " +
-                                "when ValidationMode is CALLBACK", e );
-            }
-            else if ( validationMode == ValidationMode.AUTO )
-            {
+                                "when ValidationMode is CALLBACK", e
+                );
+            } else if ( validationMode == ValidationMode.AUTO ) {
                 LOGGER.info( "Bean Validation will not be used because " +
-                        "class javax.validation.Validation was not found in classpath while ValidationMode is AUTO" );
+                                     "class javax.validation.Validation was not found in classpath while ValidationMode is AUTO" );
                 return false;
-            }
-            else
-            {
+            } else {
                 throw new HibersapException( "This should not ever happen", e );
             }
         }
     }
 
-    private static void activateBeanValidationWithTypeSafeActivator( Set<BapiInterceptor> bapiInterceptors,
-                                                                     SessionManagerConfig sessionManagerConfig )
-    {
-        try
-        {
+    private static void activateBeanValidationWithTypeSafeActivator( final Set<BapiInterceptor> bapiInterceptors,
+                                                                     final SessionManagerConfig sessionManagerConfig ) {
+        try {
             Class<?> activator = ReflectionHelper.getClassForName( TYPE_SAFE_ACTIVATOR_CLASS_NAME );
 
             Method activateBeanValidation = activator.getDeclaredMethod( TYPE_SAFE_ACTIVATOR_METHOD_NAME,
-                    Set.class, SessionManagerConfig.class );
+                                                                         Set.class, SessionManagerConfig.class );
             activateBeanValidation.invoke( null, bapiInterceptors, sessionManagerConfig );
-        }
-        catch ( ClassNotFoundException e )
-        {
+        } catch ( ClassNotFoundException e ) {
             throw new HibersapException( "Cannot find class " + TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
-        }
-        catch ( InvocationTargetException e )
-        {
+        } catch ( InvocationTargetException e ) {
             throw new HibersapException( "Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
-        }
-        catch ( NoSuchMethodException e )
-        {
+                                                 TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
+        } catch ( NoSuchMethodException e ) {
             throw new HibersapException( "Cannot find method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
-        }
-        catch ( IllegalAccessException e )
-        {
+                                                 TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
+        } catch ( IllegalAccessException e ) {
             throw new HibersapException( "Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
+                                                 TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
         }
     }
 }

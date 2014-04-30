@@ -28,32 +28,30 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class MapTableParameterToArrayTest extends AbstractBapiTest
-{
+public class MapTableParameterToArrayTest extends AbstractBapiTest {
+
     @Test
-    public void mapsTableParameterToArray() throws Exception
-    {
+    public void mapsTableParameterToArray() throws Exception {
         BapiCustomerGetList bapi = new BapiCustomerGetList();
         session.execute( bapi );
 
         assertThat( bapi.customerList ).hasSize( 2 );
     }
 
-    @Bapi( "BAPI_FLCUST_GETLIST" )
-    @ThrowExceptionOnError( returnStructure = "TABLE/RETURN" )
-    private static class BapiCustomerGetList
-    {
+    @Bapi("BAPI_FLCUST_GETLIST")
+    @ThrowExceptionOnError(returnStructure = "TABLE/RETURN")
+    private static class BapiCustomerGetList {
+
         @Import
-        @Parameter( "MAX_ROWS" )
+        @Parameter("MAX_ROWS")
         int maxRows = 2;
 
         @Table
-        @Parameter( "CUSTOMER_LIST" )
+        @Parameter("CUSTOMER_LIST")
         CustomerList[] customerList;
     }
 
     @BapiStructure
-    private static class CustomerList
-    {
+    private static class CustomerList {
     }
 }

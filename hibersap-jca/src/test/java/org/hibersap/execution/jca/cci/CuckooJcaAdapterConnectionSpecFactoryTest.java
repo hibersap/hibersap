@@ -23,8 +23,8 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class CuckooJcaAdapterConnectionSpecFactoryTest
-{
+public class CuckooJcaAdapterConnectionSpecFactoryTest {
+
     private final CuckooJcaAdapterConnectionSpecFactory factory = new CuckooJcaAdapterConnectionSpecFactory();
     private final Credentials credentials = new Credentials()
             .setUser( "user" )
@@ -36,9 +36,8 @@ public class CuckooJcaAdapterConnectionSpecFactoryTest
             .setX509Certificate( "x509Certificate" );
 
     @Test
-    public void createConnectionSpec() throws Exception
-    {
-        ApplicationProperties connectionSpec = ( ApplicationProperties ) factory.createConnectionSpec( credentials );
+    public void createConnectionSpec() throws Exception {
+        ApplicationProperties connectionSpec = (ApplicationProperties) factory.createConnectionSpec( credentials );
 
         assertThat( connectionSpec.getUser() ).isEqualTo( "user" );
         assertThat( connectionSpec.getPassword() ).isEqualTo( "password" );
@@ -51,9 +50,8 @@ public class CuckooJcaAdapterConnectionSpecFactoryTest
     }
 
     @Test
-    public void createConnectionSpecWithNullValues() throws Exception
-    {
-        ApplicationProperties connectionSpec = ( ApplicationProperties ) factory
+    public void createConnectionSpecWithNullValues() throws Exception {
+        ApplicationProperties connectionSpec = (ApplicationProperties) factory
                 .createConnectionSpec( new Credentials() );
 
         assertThat( connectionSpec.getUser() ).isNull();

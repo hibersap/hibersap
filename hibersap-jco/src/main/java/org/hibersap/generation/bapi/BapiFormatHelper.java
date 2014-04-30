@@ -17,31 +17,24 @@
 
 package org.hibersap.generation.bapi;
 
-public class BapiFormatHelper
-{
-    private BapiFormatHelper()
-    {
+public final class BapiFormatHelper {
+
+    private BapiFormatHelper() {
         // should not be instantiated
     }
 
-    public static String getCamelCaseSmall( String sapName )
-    {
-        StringBuffer result = new StringBuffer( "_" );
+    public static String getCamelCaseSmall( final String sapName ) {
+        StringBuilder result = new StringBuilder( "_" );
 
-        if ( sapName == null )
-        {
+        if ( sapName == null ) {
             return result.toString();
         }
 
         String[] parts = sapName.split( "_" );
-        for ( int i = 0; i < parts.length; i++ )
-        {
-            if ( i == 0 )
-            {
+        for ( int i = 0; i < parts.length; i++ ) {
+            if ( i == 0 ) {
                 result.append( parts[i].toLowerCase() );
-            }
-            else
-            {
+            } else {
                 result.append( parts[i].substring( 0, 1 ).toUpperCase() );
                 result.append( parts[i].substring( 1 ).toLowerCase() );
             }
@@ -49,25 +42,20 @@ public class BapiFormatHelper
         return result.toString();
     }
 
-    public static String getCamelCaseBig( String sapName )
-    {
-        StringBuffer result = new StringBuffer( "" );
+    public static String getCamelCaseBig( final String sapName ) {
+        StringBuilder result = new StringBuilder( "" );
 
-        if ( sapName == null )
-        {
+        if ( sapName == null ) {
             return result.toString();
         }
 
         String[] parts = sapName.split( "_" );
-        for ( int i = 0; i < parts.length; i++ )
-        {
-            if ( parts[i].length() > 0 )
-            {
-                result.append( parts[i].substring( 0, 1 ).toUpperCase() );
-                result.append( parts[i].substring( 1 ).toLowerCase() );
+        for ( String part : parts ) {
+            if ( part.length() > 0 ) {
+                result.append( part.substring( 0, 1 ).toUpperCase() );
+                result.append( part.substring( 1 ).toLowerCase() );
             }
         }
         return result.toString();
     }
-
 }

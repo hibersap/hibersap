@@ -24,12 +24,11 @@ import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class SessionManagerConfigTest
-{
+public class SessionManagerConfigTest {
+
     @Test
     public void testBuild()
-            throws Exception
-    {
+            throws Exception {
         SessionManagerConfig cfg = new SessionManagerConfig( "name" )
                 .setContext( "context" )
                 .setJcaConnectionFactory( "jcaConnectionFactory" )
@@ -60,8 +59,7 @@ public class SessionManagerConfigTest
 
     @Test
     public void testDefaultValues()
-            throws Exception
-    {
+            throws Exception {
         SessionManagerConfig cfg = new SessionManagerConfig( "name" );
         assertThat( cfg.getContext() ).isEqualTo( "org.hibersap.execution.jco.JCoContext" );
         assertThat( cfg.getJcaConnectionSpecFactory() ).isEqualTo(

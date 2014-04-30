@@ -28,8 +28,8 @@ import java.util.Set;
 
 @Bapi( "BAPI_MONITOR_GETLIST" )
 @ThrowExceptionOnError
-public class BapiFinder
-{
+public class BapiFinder {
+
     @Table
     @Parameter( "COMPONENTS2SELECT" )
     private Set<SapComponent> componentsToSelect = new HashSet<SapComponent>();
@@ -38,29 +38,25 @@ public class BapiFinder
     @Parameter( "BAPILIST" )
     private Set<BapiDescription> bapiDescriptions;
 
-    public BapiFinder( String componentToSelect )
-    {
+    public BapiFinder( final String componentToSelect ) {
         this.componentsToSelect.add( new SapComponent( componentToSelect ) );
     }
 
-    public Set<BapiDescription> getBapiDescriptions()
-    {
+    public Set<BapiDescription> getBapiDescriptions() {
         return bapiDescriptions;
     }
 
     @BapiStructure
-    private static class SapComponent
-    {
+    private static class SapComponent {
+
         @Parameter( "COMPONENT" )
         private String component;
 
         @SuppressWarnings( {"UnusedDeclaration"} ) // called by Hibersap
-        public SapComponent()
-        {
+        public SapComponent() {
         }
 
-        private SapComponent( String component )
-        {
+        private SapComponent( final String component ) {
             this.component = component;
         }
     }

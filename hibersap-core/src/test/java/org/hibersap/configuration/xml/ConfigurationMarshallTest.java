@@ -32,29 +32,27 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ConfigurationMarshallTest
-{
+public class ConfigurationMarshallTest {
+
     private JAXBContext jaxbContext;
 
     @Before
     public void setup()
-            throws JAXBException
-    {
+            throws JAXBException {
         jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
     }
 
 
     @Test
     public void testParseOkConfiguration()
-            throws Exception
-    {
+            throws Exception {
         final InputStream configurationAsStream = getClass()
                 .getResourceAsStream( "/xml-configurations/hibersapOK.xml" );
         assertNotNull( configurationAsStream );
 
         final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         final Object unmarshalledObject = unmarshaller.unmarshal( configurationAsStream );
-        final HibersapConfig hiberSapMetaData = ( HibersapConfig ) unmarshalledObject;
+        final HibersapConfig hiberSapMetaData = (HibersapConfig) unmarshalledObject;
 
         final List<SessionManagerConfig> sessionManagers = hiberSapMetaData.getSessionManagers();
         assertNotNull( sessionManagers );
@@ -67,8 +65,7 @@ public class ConfigurationMarshallTest
     // TODO create complete xml and verify against xsd
     @Test
     public void testMarshalling()
-            throws Exception
-    {
+            throws Exception {
         final List<Property> properties = new ArrayList<Property>();
         final Property jcoProperty = new Property( "name", "value" );
         properties.add( jcoProperty );

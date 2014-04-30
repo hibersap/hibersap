@@ -29,22 +29,18 @@ import javax.validation.constraints.NotNull;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class BeanValidationInterceptorTest
-{
+public class BeanValidationInterceptorTest {
+
     @Test
-    public void throwsConstraintViolationExceptionWhoseMessageContainsNameOfNonValidatingClass()
-    {
+    public void throwsConstraintViolationExceptionWhoseMessageContainsNameOfNonValidatingClass() {
         final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         final BeanValidationInterceptor interceptor = new BeanValidationInterceptor( validatorFactory );
 
         ConstraintViolationException validationException = null;
-        try
-        {
+        try {
             interceptor.beforeExecution( new TestObject() );
             fail();
-        }
-        catch ( ConstraintViolationException e )
-        {
+        } catch ( ConstraintViolationException e ) {
             validationException = e;
         }
 
@@ -54,15 +50,15 @@ public class BeanValidationInterceptorTest
     }
 
     @SuppressWarnings( "unused" )
-    private static class TestObject
-    {
+    private static class TestObject {
+
         @Valid
         InnerObject innerObject = new InnerObject();
     }
 
     @SuppressWarnings( "unused" )
-    private static class InnerObject
-    {
+    private static class InnerObject {
+
         @NotNull
         String str = null;
     }

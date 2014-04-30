@@ -34,111 +34,95 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
 
-public class ReflectionHelperTest
-{
+public class ReflectionHelperTest {
 
     @Test
-    public void getClassForNameReturnsObject() throws ClassNotFoundException
-    {
+    public void getClassForNameReturnsObject() throws ClassNotFoundException {
         Class<?> clazz = ReflectionHelper.getClassForName( Object.class.getName() );
 
         assertThat( clazz ).isSameAs( Object.class );
     }
 
     @Test( expected = ClassNotFoundException.class )
-    public void getClassForNameThrowsExceptionWhenClassNotFound() throws ClassNotFoundException
-    {
+    public void getClassForNameThrowsExceptionWhenClassNotFound() throws ClassNotFoundException {
         ReflectionHelper.getClassForName( "NotExistent" );
     }
 
     @Test
-    public void getArrayTypeReturnsCorrectTypeForObjectArray()
-    {
+    public void getArrayTypeReturnsCorrectTypeForObjectArray() {
         Class<?> clazz = ReflectionHelper.getArrayType( Object[].class );
         assertThat( clazz ).isSameAs( Object.class );
     }
 
     @Test
-    public void getArrayTypeReturnsNullWhenParameterTypeIsNotAnArray()
-    {
+    public void getArrayTypeReturnsNullWhenParameterTypeIsNotAnArray() {
         Class<?> clazz = ReflectionHelper.getArrayType( Object.class );
         assertThat( clazz ).isNull();
     }
 
     @Test
-    public void getDeclaredFieldReturnsCorrectField() throws Exception
-    {
+    public void getDeclaredFieldReturnsCorrectField() throws Exception {
         TestBean bean = new TestBean();
         Field field = ReflectionHelper.getDeclaredField( bean, "intValue" );
         assertThat( field.getName() ).isEqualTo( "intValue" );
     }
 
     @Test( expected = HibersapException.class )
-    public void getDeclaredFieldThrowsExceptionWhenFieldDoesNotExist() throws Exception
-    {
+    public void getDeclaredFieldThrowsExceptionWhenFieldDoesNotExist() throws Exception {
         ReflectionHelper.getDeclaredField( new TestBean(), "notExistent" );
     }
 
     @Test
-    public void getFieldValueReturnsCorrectValue()
-    {
-        int value = ( Integer ) ReflectionHelper.getFieldValue( new TestBean(), "intValue" );
+    public void getFieldValueReturnsCorrectValue() {
+        int value = (Integer) ReflectionHelper.getFieldValue( new TestBean(), "intValue" );
         assertThat( value ).isEqualTo( 1 );
     }
 
     @Test
-    public void getFieldValueReturnsCorrectValueForInheritedField()
-    {
-        int value = ( Integer ) ReflectionHelper.getFieldValue( new TestSubClass(), "intValue" );
+    public void getFieldValueReturnsCorrectValueForInheritedField() {
+        int value = (Integer) ReflectionHelper.getFieldValue( new TestSubClass(), "intValue" );
         assertThat( value ).isEqualTo( 1 );
     }
 
     @Test( expected = HibersapException.class )
-    public void testGetFieldValueThrowsExceptionWhenFieldDoesNotExist()
-    {
+    public void testGetFieldValueThrowsExceptionWhenFieldDoesNotExist() {
         ReflectionHelper.getFieldValue( new TestBean(), "notExistent" );
     }
 
     @Test
-    public void getGenericTypeReturnsCorrectTypeOfSet() throws Exception
-    {
+    public void getGenericTypeReturnsCorrectTypeOfSet() throws Exception {
         Field field = TestBean.class.getDeclaredField( "set" );
         Class<?> clazz = ReflectionHelper.getGenericType( field );
         assertThat( clazz ).isEqualTo( Object.class );
     }
 
     @Test
-    public void getGenericTypeReturnsNullIfFieldHasNoGenericType() throws Exception
-    {
+    public void getGenericTypeReturnsNullIfFieldHasNoGenericType() throws Exception {
         Field field = TestBean.class.getDeclaredField( "intValue" );
         Class<?> clazz = ReflectionHelper.getGenericType( field );
         assertThat( clazz ).isNull();
     }
 
     @Test
-    public void newCollectionInstanceCanCreateArrayList()
-    {
+    public void newCollectionInstanceCanCreateArrayList() {
         Collection<Object> collection = ReflectionHelper.newCollectionInstance( ArrayList.class );
         assertThat( collection.getClass() ).isSameAs( ArrayList.class );
     }
 
     @Test( expected = HibersapException.class )
-    public void newCollectionInstanceThrowsExceptionForInterface()
-    {
+    public void newCollectionInstanceThrowsExceptionForInterface() {
         ReflectionHelper.newCollectionInstance( List.class );
     }
 
     @Test
-    public void newInstanceCanCreateStringInstance()
-    {
+    public void newInstanceCanCreateStringInstance() {
         Object instance = ReflectionHelper.newInstance( String.class );
         assertThat( instance.getClass() ).isSameAs( String.class );
     }
 
     @Test
     @SuppressWarnings( "synthetic-access" )
-    public void setFieldValueCanChangeIntValue()
-    {
+    public void setFieldValueCanChangeIntValue() {
         TestBean bean = new TestBean();
         ReflectionHelper.setFieldValue( bean, "intValue", 2 );
         assertThat( bean.intValue ).isEqualTo( 2 );
@@ -146,23 +130,20 @@ public class ReflectionHelperTest
 
     @Test( expected = HibersapException.class )
     @SuppressWarnings( "NullableProblems" )
-    public void setFieldValueThrowsExceptionWhenTryingToSetValueOnNullObject()
-    {
+    public void setFieldValueThrowsExceptionWhenTryingToSetValueOnNullObject() {
         ReflectionHelper.setFieldValue( null, "intValue", 0 );
     }
 
     @Test( expected = HibersapException.class )
     @SuppressWarnings( "NullableProblems" )
-    public void setFieldValueThrowsExceptionWhenSettingNullValueOnPrimitiveType()
-    {
+    public void setFieldValueThrowsExceptionWhenSettingNullValueOnPrimitiveType() {
         TestBean bean = new TestBean();
         ReflectionHelper.setFieldValue( bean, "intValue", null );
     }
 
     @Test
     @SuppressWarnings( "NullableProblems" )
-    public void setFieldValueCanSetNullValue()
-    {
+    public void setFieldValueCanSetNullValue() {
         TestBean bean = new TestBean();
         bean.set = Collections.emptySet();
 
@@ -171,8 +152,7 @@ public class ReflectionHelperTest
     }
 
     @Test
-    public void setFieldValueWhenFieldIsInheritedFromSuperclass()
-    {
+    public void setFieldValueWhenFieldIsInheritedFromSuperclass() {
         TestSubClass bean = new TestSubClass();
 
         ReflectionHelper.setFieldValue( bean, "set", Collections.emptySet() );
@@ -180,8 +160,7 @@ public class ReflectionHelperTest
     }
 
     @Test
-    public void setFieldValueOnDirectMember()
-    {
+    public void setFieldValueOnDirectMember() {
         TestSubClass bean = new TestSubClass();
 
         ReflectionHelper.setFieldValue( bean, "paramSubClass", 3L );
@@ -189,31 +168,25 @@ public class ReflectionHelperTest
     }
 
     @Test
-    public void setFieldValueThrowsHibersapExceptionWithMessageContainingClassAndFieldNameWhenFieldDoesNotExist()
-    {
-        try
-        {
+    public void setFieldValueThrowsHibersapExceptionWithMessageContainingClassAndFieldNameWhenFieldDoesNotExist() {
+        try {
             ReflectionHelper.setFieldValue( new Object(), "doesNotExist", "someValue" );
             fail();
-        }
-        catch ( HibersapException e )
-        {
+        } catch ( HibersapException e ) {
             assertThat( e.getMessage() ).contains( "Object" );
             assertThat( e.getMessage() ).contains( "doesNotExist" );
         }
     }
 
     @Test
-    public void createsNewInstanceFromClassNameAndReturnsSupertype()
-    {
+    public void createsNewInstanceFromClassNameAndReturnsSupertype() {
         final CharSequence charSequence = ReflectionHelper.newInstance( "java.lang.String", CharSequence.class );
 
         assertThat( charSequence ).isEqualTo( "" );
     }
 
     @Test
-    public void getsDeclaredFieldsRecursivelyWithInheritance()
-    {
+    public void getsDeclaredFieldsRecursivelyWithInheritance() {
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( TestSubClass.class, Export.class );
 
         assertThat( fields ).hasSize( 2 );
@@ -221,8 +194,7 @@ public class ReflectionHelperTest
     }
 
     @Test
-    public void getsDeclaredFieldsRecursivelyWithoutInheritance()
-    {
+    public void getsDeclaredFieldsRecursivelyWithoutInheritance() {
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( TestBean.class, Export.class );
 
         assertThat( fields ).hasSize( 1 );
@@ -230,24 +202,21 @@ public class ReflectionHelperTest
     }
 
     @Test
-    public void newArrayFromCollectionReturnsNullWhenCollectionIsNull() throws Exception
-    {
+    public void newArrayFromCollectionReturnsNullWhenCollectionIsNull() throws Exception {
         Object[] objects = ReflectionHelper.newArrayFromCollection( null, Integer.class );
 
         assertThat( objects ).isNull();
     }
 
     @Test
-    public void newArrayFromCollectionReturnsArrayOfSizeZeroWhenCollectionIsEmpty() throws Exception
-    {
+    public void newArrayFromCollectionReturnsArrayOfSizeZeroWhenCollectionIsEmpty() throws Exception {
         Object[] objects = ReflectionHelper.newArrayFromCollection( emptySet(), Integer.class );
 
         assertThat( objects ).hasSize( 0 );
     }
 
     @Test
-    public void newArrayFromCollectionReturnsArrayOfSizeTwoWhenCollectionHasTwoElements() throws Exception
-    {
+    public void newArrayFromCollectionReturnsArrayOfSizeTwoWhenCollectionHasTwoElements() throws Exception {
         List<Integer> list = asList( 1, 2 );
         Integer[] objects = ReflectionHelper.newArrayFromCollection( list, Integer.class );
 
@@ -255,21 +224,20 @@ public class ReflectionHelperTest
     }
 
     @SuppressWarnings( "unused" )
-    class TestBean
-    {
+    class TestBean {
+
         private int intValue = 1;
 
         @Export
         private Set<Object> set;
 
-        public Set<Object> getSet()
-        {
+        public Set<Object> getSet() {
             return set;
         }
     }
 
-    private class TestSubClass extends TestBean
-    {
+    private class TestSubClass extends TestBean {
+
         @Export
         @SuppressWarnings( "unused" )
         private long paramSubClass;

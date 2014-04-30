@@ -24,15 +24,14 @@ import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class HiberSapJaxbXmlParserTest
-{
+public class HiberSapJaxbXmlParserTest {
+
     private static HibersapConfig config;
     private static SessionManagerConfig sessionManagerA12;
     private static SessionManagerConfig sessionManagerB34;
 
     @BeforeClass
-    public static void createHibersapConfig()
-    {
+    public static void createHibersapConfig() {
         final HibersapJaxbXmlParser hiberSapJaxbXmlParser = new HibersapJaxbXmlParser();
         config = hiberSapJaxbXmlParser.parseResource( "/xml-configurations/hibersapOK.xml" );
         sessionManagerA12 = config.getSessionManager( "A12" );
@@ -40,16 +39,14 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void createsTwoSessionManagers()
-    {
+    public void createsTwoSessionManagers() {
         List<SessionManagerConfig> sessionManagers = config.getSessionManagers();
 
         assertThat( sessionManagers ).hasSize( 2 );
     }
 
     @Test
-    public void sessionManagersHaveCorrectNames()
-    {
+    public void sessionManagersHaveCorrectNames() {
         final String a12Name = sessionManagerA12.getName();
         final String b34Name = sessionManagerB34.getName();
 
@@ -58,8 +55,7 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagersHaveCorrectHibersapContext()
-    {
+    public void sessionManagersHaveCorrectHibersapContext() {
 
         final String a12Context = sessionManagerA12.getContext();
         final String b34Context = sessionManagerB34.getContext();
@@ -69,16 +65,14 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagerHasCorrectJcaConnectionFactory()
-    {
+    public void sessionManagerHasCorrectJcaConnectionFactory() {
         final String connectionSpecFactory = sessionManagerB34.getJcaConnectionFactory();
 
         assertThat( connectionSpecFactory ).isEqualTo( "java:/eis/sap/B34" );
     }
 
     @Test
-    public void sessionManagerHasCorrectJcaConnectionSpecFactory()
-    {
+    public void sessionManagerHasCorrectJcaConnectionSpecFactory() {
         final SessionManagerConfig manager = sessionManagerB34;
 
         assertThat( manager.getJcaConnectionSpecFactory() )
@@ -86,8 +80,7 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagerHasCorrectProperties()
-    {
+    public void sessionManagerHasCorrectProperties() {
         List<Property> properties = sessionManagerB34.getProperties();
 
         assertThat( properties ).hasSize( 2 );
@@ -97,8 +90,7 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagerHasCorrectAnnotatedClasses()
-    {
+    public void sessionManagerHasCorrectAnnotatedClasses() {
         final List<String> classes = sessionManagerB34.getAnnotatedClasses();
 
         assertThat( classes ).hasSize( 2 );
@@ -106,8 +98,7 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagerHasCorrectExecutionInterceptors()
-    {
+    public void sessionManagerHasCorrectExecutionInterceptors() {
         final List<String> classes = sessionManagerB34.getExecutionInterceptorClasses();
 
         assertThat( classes ).hasSize( 2 );
@@ -115,8 +106,7 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagerHasCorrectBapiInterceptors()
-    {
+    public void sessionManagerHasCorrectBapiInterceptors() {
         final List<String> classes = sessionManagerB34.getBapiInterceptorClasses();
 
         assertThat( classes ).hasSize( 2 );
@@ -124,15 +114,13 @@ public class HiberSapJaxbXmlParserTest
     }
 
     @Test
-    public void sessionManagerHasCorrectValidationMode()
-    {
+    public void sessionManagerHasCorrectValidationMode() {
         final ValidationMode validationMode = sessionManagerB34.getValidationMode();
         assertThat( validationMode ).isSameAs( ValidationMode.CALLBACK );
     }
 
     @Test
-    public void simpleHibersapXmlWithANamespaceCanBeBuilt()
-    {
+    public void simpleHibersapXmlWithANamespaceCanBeBuilt() {
         final HibersapJaxbXmlParser hiberSapJaxbXmlParser = new HibersapJaxbXmlParser();
         HibersapConfig config = hiberSapJaxbXmlParser.parseResource( "/xml-configurations/hibersapSample.xml" );
         SessionManagerConfig sessionManagerNSP = config.getSessionManager( "NSP" );

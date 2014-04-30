@@ -25,68 +25,55 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlAccessorType( XmlAccessType.FIELD )
-@XmlType( name = "", propOrder = {"properties"} )
-public final class Properties implements Serializable
-{
-    @XmlElement( name = "property" )
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {"properties"})
+public final class Properties implements Serializable {
+
+    @XmlElement(name = "property")
     protected List<Property> properties = new ArrayList<Property>();
 
-    public List<Property> getProperties()
-    {
+    public List<Property> getProperties() {
         return this.properties;
     }
 
-    public boolean contains( Property property )
-    {
+    public void setProperties( final List<Property> properties ) {
+        this.properties = properties;
+    }
+
+    public boolean contains( final Property property ) {
         return properties.contains( property );
     }
 
-    public boolean remove( Property property )
-    {
+    public boolean remove( final Property property ) {
         return properties.remove( property );
     }
 
-    public void add( Property property )
-    {
+    public void add( final Property property ) {
         removePropertyWithName( property.getName() );
         properties.add( property );
     }
 
-    public int size()
-    {
+    public int size() {
         return properties.size();
     }
 
-    public void setProperties( List<Property> properties )
-    {
-        this.properties = properties;
-    }
-
-    public void setProperty( String name, String value )
-    {
+    public void setProperty( final String name, final String value ) {
         removePropertyWithName( name );
         properties.add( new Property( name, value ) );
     }
 
-    private void removePropertyWithName( String name )
-    {
-        for ( Property property : properties )
-        {
-            if ( property.getName().equals( name ) )
-            {
+    private void removePropertyWithName( final String name ) {
+        for ( Property property : properties ) {
+            if ( property.getName().equals( name ) ) {
                 properties.remove( property );
                 break;
             }
         }
     }
 
-    public String getPropertyValue( String name )
-    {
-        for ( Property property : properties )
-        {
-            if ( property.getName().equals( name ) )
-            {
+    public String getPropertyValue( final String name ) {
+        for ( Property property : properties ) {
+            if ( property.getName().equals( name ) ) {
                 return property.getValue();
             }
         }
@@ -94,21 +81,17 @@ public final class Properties implements Serializable
     }
 
     @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
+    public boolean equals( final Object o ) {
+        if ( this == o ) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() )
-        {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        Properties that = ( Properties ) o;
+        Properties that = (Properties) o;
 
-        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null )
-        {
+        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null ) {
             return false;
         }
 
@@ -116,14 +99,12 @@ public final class Properties implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return properties != null ? properties.hashCode() : 0;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Properties{" +
                 "properties=" + properties +
                 '}';

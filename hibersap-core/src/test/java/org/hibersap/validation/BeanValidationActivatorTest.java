@@ -27,11 +27,10 @@ import java.util.Set;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class BeanValidationActivatorTest
-{
+public class BeanValidationActivatorTest {
+
     @Test
-    public void doesNotAddInterceptorWhenValidationModeNoneIsConfigured()
-    {
+    public void doesNotAddInterceptorWhenValidationModeNoneIsConfigured() {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
         final SessionManagerConfig config = new SessionManagerConfig().setValidationMode( ValidationMode.NONE );
 
@@ -41,8 +40,7 @@ public class BeanValidationActivatorTest
     }
 
     @Test
-    public void addsBeanValidationInterceptorWhenValidationTypeAutoIsConfigured()
-    {
+    public void addsBeanValidationInterceptorWhenValidationTypeAutoIsConfigured() {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
         final SessionManagerConfig config = new SessionManagerConfig().setValidationMode( ValidationMode.AUTO );
 

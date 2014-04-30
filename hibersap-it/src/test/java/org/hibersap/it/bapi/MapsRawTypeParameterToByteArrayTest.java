@@ -28,11 +28,10 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest
-{
+public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
+
     @Test
-    public void handlesParameterOfRawType() throws Exception
-    {
+    public void handlesParameterOfRawType() throws Exception {
         StfcDeepStructure bapi = new StfcDeepStructure( "Ein anderer Text".getBytes() );
         session.execute( bapi );
 
@@ -40,41 +39,37 @@ public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest
         assertThat( rawParamAsString ).isEqualTo( "Ein anderer Text" );
     }
 
-    @Bapi( "STFC_DEEP_STRUCTURE" )
-    private static class StfcDeepStructure
-    {
+    @Bapi("STFC_DEEP_STRUCTURE")
+    private static class StfcDeepStructure {
+
         @Import
-        @Parameter( value = "IMPORTSTRUCT", type = ParameterType.STRUCTURE )
+        @Parameter(value = "IMPORTSTRUCT", type = ParameterType.STRUCTURE)
         ComplexVar in;
 
         @Export
-        @Parameter( value = "ECHOSTRUCT", type = ParameterType.STRUCTURE )
+        @Parameter(value = "ECHOSTRUCT", type = ParameterType.STRUCTURE)
         ComplexVar out;
 
-        @SuppressWarnings( {"UnusedDeclaration"} ) // for Hibersap
-        private StfcDeepStructure()
-        {
+        @SuppressWarnings({"UnusedDeclaration"}) // for Hibersap
+        private StfcDeepStructure() {
         }
 
-        public StfcDeepStructure( byte[] rawStringParam )
-        {
+        public StfcDeepStructure( byte[] rawStringParam ) {
             in = new ComplexVar( rawStringParam );
         }
     }
 
     @BapiStructure
-    private static class ComplexVar
-    {
-        @Parameter( "XSTR" )
+    private static class ComplexVar {
+
+        @Parameter("XSTR")
         byte[] rawStringParam;
 
-        @SuppressWarnings( {"UnusedDeclaration"} ) // for Hibersap
-        private ComplexVar()
-        {
+        @SuppressWarnings({"UnusedDeclaration"}) // for Hibersap
+        private ComplexVar() {
         }
 
-        private ComplexVar( byte[] rawStringParam )
-        {
+        private ComplexVar( byte[] rawStringParam ) {
             this.rawStringParam = rawStringParam;
         }
     }

@@ -25,58 +25,42 @@ import javax.resource.cci.LocalTransaction;
 
 /**
  * Implementation for JCA, i.e. it uses a deployed resource adapter to connect to SAP.
- * 
+ *
  * @author dahm
  */
-public class JCATransaction
-    extends AbstractTransaction
-{
+public class JCATransaction extends AbstractTransaction {
+
     private final LocalTransaction transaction;
 
-    public JCATransaction( final LocalTransaction transaction )
-    {
+    public JCATransaction( final LocalTransaction transaction ) {
         this.transaction = transaction;
     }
 
-    public void begin()
-    {
-        try
-        {
+    public void begin() {
+        try {
             transaction.begin();
-        }
-        catch ( final ResourceException e )
-        {
+        } catch ( final ResourceException e ) {
             throw new HibersapException( "Error beginning a local transaction", e );
         }
     }
 
-    public void commit()
-    {
+    public void commit() {
         notifySynchronizationsBeforeCompletion();
-        try
-        {
+        try {
             transaction.commit();
             notifySynchronizationsAfterCompletion( true );
-        }
-        catch ( final ResourceException e )
-        {
+        } catch ( final ResourceException e ) {
             notifySynchronizationsAfterCompletion( false );
             throw new HibersapException( "Error committing a local transaction", e );
         }
     }
 
-    public void rollback()
-    {
-        try
-        {
+    public void rollback() {
+        try {
             transaction.rollback();
-        }
-        catch ( final ResourceException e )
-        {
+        } catch ( final ResourceException e ) {
             throw new HibersapException( "Error rolling back a local transaction", e );
-        }
-        finally
-        {
+        } finally {
             notifySynchronizationsAfterCompletion( false );
         }
     }

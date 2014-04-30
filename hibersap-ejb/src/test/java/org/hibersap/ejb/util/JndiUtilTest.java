@@ -33,23 +33,21 @@ import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-public class JndiUtilTest
-{
+public class JndiUtilTest {
+
     private static final String JNDI_NAME = "jndiName";
 
     private final SessionManagerDummy sessionManager = new SessionManagerDummy();
     private final Context initialCtx = createNiceMock( Context.class );
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         System.setProperty( "java.naming.factory.initial", MockInitialContextFactory.NAME );
         MockInitialContextFactory.setMockContext( initialCtx );
     }
 
     @Test
-    public void rebindSessionManagerActuallyBindsItToJndi() throws Exception
-    {
+    public void rebindSessionManagerActuallyBindsItToJndi() throws Exception {
         initialCtx.rebind( JNDI_NAME, sessionManager );
         replay( initialCtx );
 
@@ -58,9 +56,8 @@ public class JndiUtilTest
         verify( initialCtx );
     }
 
-    @Test( expected = HibersapException.class )
-    public void rebindSessionManagerWithNamingExceptionThrowsHibersapException() throws Exception
-    {
+    @Test(expected = HibersapException.class)
+    public void rebindSessionManagerWithNamingExceptionThrowsHibersapException() throws Exception {
         initialCtx.rebind( JNDI_NAME, sessionManager );
         expectLastCall().andThrow( new NamingException() );
         replay( initialCtx );
@@ -71,8 +68,7 @@ public class JndiUtilTest
     }
 
     @Test
-    public void unbindSessionManagerActuallyUnbindsItFromJndi() throws Exception
-    {
+    public void unbindSessionManagerActuallyUnbindsItFromJndi() throws Exception {
         initialCtx.unbind( JNDI_NAME );
         replay( initialCtx );
 
@@ -82,8 +78,7 @@ public class JndiUtilTest
     }
 
     @Test
-    public void unbindSessionManagerWithNamingExceptionDoesNotThrowException() throws Exception
-    {
+    public void unbindSessionManagerWithNamingExceptionDoesNotThrowException() throws Exception {
         initialCtx.unbind( JNDI_NAME );
         replay( initialCtx );
 
@@ -92,29 +87,24 @@ public class JndiUtilTest
         verify( initialCtx );
     }
 
-    private static class SessionManagerDummy implements SessionManager
-    {
-        public SessionManagerConfig getConfig()
-        {
+    private static class SessionManagerDummy implements SessionManager {
+
+        public SessionManagerConfig getConfig() {
             return new SessionManagerConfig( "sessionManagerName" );
         }
 
-        public Session openSession()
-        {
+        public Session openSession() {
             return null;
         }
 
-        public Session openSession( Credentials credentials )
-        {
+        public Session openSession( Credentials credentials ) {
             return null;
         }
 
-        public void close()
-        {
+        public void close() {
         }
 
-        public boolean isClosed()
-        {
+        public boolean isClosed() {
             return false;
         }
     }

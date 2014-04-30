@@ -32,8 +32,8 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.fest.assertions.Assertions.assertThat;
 
-public class HibersapSessionInterceptor_Test
-{
+public class HibersapSessionInterceptor_Test {
+
     private final HibersapSessionInterceptor interceptor = new HibersapSessionInterceptor();
 
     private final InvocationContext invocationContext = createNiceMock( InvocationContext.class );
@@ -45,8 +45,7 @@ public class HibersapSessionInterceptor_Test
     private final TestEjb targetBean = new TestEjb();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         System.setProperty( "java.naming.factory.initial", MockInitialContextFactory.NAME );
         MockInitialContextFactory.setMockContext( initialCtx );
 
@@ -59,8 +58,7 @@ public class HibersapSessionInterceptor_Test
 
     @Test
     public void injectsTwoSessionsIntoBeanInstanceWhereOneIsAlreadyInInjectionContextAndTheOtherGetsCreated() throws
-                                                                                                              Exception
-    {
+                                                                                                              Exception {
         Session session2 = createNiceMock( Session.class );
         contextData.put( "hibersap.session.jndiName2", session2 );
 
@@ -74,8 +72,7 @@ public class HibersapSessionInterceptor_Test
     }
 
     @Test
-    public void removesTheCreatedSessionFromInvocationContextAndKeepsTheOtherOne() throws Exception
-    {
+    public void removesTheCreatedSessionFromInvocationContextAndKeepsTheOtherOne() throws Exception {
         contextData.put( "hibersap.session.jndiName1", createNiceMock( Session.class ) );
 
         expect( initialCtx.lookup( "jndiName2" ) ).andReturn( sessionManager );
@@ -86,8 +83,8 @@ public class HibersapSessionInterceptor_Test
         assertThat( contextData ).hasSize( 1 );
     }
 
-    private static class TestEjb
-    {
+    private static class TestEjb {
+
         @HibersapSession( "jndiName1" )
         private Session session1;
 

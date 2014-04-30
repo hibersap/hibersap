@@ -17,19 +17,22 @@
 
 package org.hibersap.util;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.lang.time.DateUtils;
 
 
 /**
  * @author Carsten Erker
  */
-public final class DateUtil
-{
-    public static Date joinDateAndTime( Date date, Date time )
-    {
+public final class DateUtil {
+
+    private DateUtil() {
+        // should not be instantiated
+    }
+
+    public static Date joinDateAndTime( final Date date, final Date time ) {
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime( date );
         Calendar timeCal = Calendar.getInstance();
@@ -42,21 +45,18 @@ public final class DateUtil
         return dateCal.getTime();
     }
 
-    public static Date newDate( int year, int month, int date )
-    {
+    public static Date newDate( final int year, final int month, final int date ) {
         return newDate( year, month, date, 0, 0, 0 );
     }
 
-    public static Date newDate( int year, int month, int date, int hourOfDay, int minute, int second )
-    {
+    public static Date newDate( final int year, final int month, final int date, final int hourOfDay, final int minute, final int second ) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set( year, month, date, hourOfDay, minute, second );
         return cal.getTime();
     }
 
-    public static Date stripDate( Date date )
-    {
+    public static Date stripDate( final Date date ) {
         Calendar cal = Calendar.getInstance();
         cal.setTime( date );
         cal.set( 1970, Calendar.JANUARY, 1 );
@@ -64,13 +64,7 @@ public final class DateUtil
         return cal.getTime();
     }
 
-    public static Date stripTime( Date date )
-    {
+    public static Date stripTime( final Date date ) {
         return DateUtils.truncate( date, Calendar.DAY_OF_MONTH );
-    }
-
-    private DateUtil()
-    {
-        // should not be instantiated
     }
 }

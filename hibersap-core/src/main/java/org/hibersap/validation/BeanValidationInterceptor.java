@@ -27,35 +27,30 @@ import javax.validation.ValidatorFactory;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BeanValidationInterceptor implements BapiInterceptor
-{
+public class BeanValidationInterceptor implements BapiInterceptor {
+
     private final ValidatorFactory validatorFactory;
 
-    public BeanValidationInterceptor( ValidatorFactory validatorFactory )
-    {
+    public BeanValidationInterceptor( final ValidatorFactory validatorFactory ) {
         this.validatorFactory = validatorFactory;
     }
 
-    public void beforeExecution( Object bapiObject ) throws ConstraintViolationException
-    {
+    public void beforeExecution( final Object bapiObject ) throws ConstraintViolationException {
         final Validator validator = validatorFactory.getValidator();
 
         final Set<ConstraintViolation<Object>> constraintViolations = validator.validate( bapiObject );
 
-        if ( constraintViolations.size() > 0 )
-        {
+        if ( constraintViolations.size() > 0 ) {
             checkConstraints( constraintViolations );
         }
     }
 
-    private void checkConstraints( Set<ConstraintViolation<Object>> constraintViolations )
-    {
+    private void checkConstraints( final Set<ConstraintViolation<Object>> constraintViolations ) {
         Set<ConstraintViolation<?>> propagatedViolations = new HashSet<ConstraintViolation<?>>(
                 constraintViolations.size() );
         Set<String> classNames = new HashSet<String>();
 
-        for ( ConstraintViolation<?> violation : constraintViolations )
-        {
+        for ( ConstraintViolation<?> violation : constraintViolations ) {
             propagatedViolations.add( violation );
             classNames.add( violation.getLeafBean().getClass().getName() );
         }
@@ -64,8 +59,7 @@ public class BeanValidationInterceptor implements BapiInterceptor
         throw new ConstraintViolationException( msg, propagatedViolations );
     }
 
-    public void afterExecution( Object bapiObject )
-    {
+    public void afterExecution( final Object bapiObject ) {
         // check only one way
     }
 }

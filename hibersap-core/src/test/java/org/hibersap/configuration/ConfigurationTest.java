@@ -35,26 +35,23 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author Carsten Erker
  */
-public class ConfigurationTest
-{
+public class ConfigurationTest {
+
     private SessionManagerConfig sessionManagerConfig;
     private SessionManagerImplementor sessionManager;
 
     @Before
-    public void createConfiguration()
-    {
-        Configuration configuration = new Configuration( "TEST" )
-        {
+    public void createConfiguration() {
+        Configuration configuration = new Configuration( "TEST" ) {
             // create instance of abstract class
         };
         sessionManagerConfig = configuration.getSessionManagerConfig();
         sessionManagerConfig.setContext( DummyContext.class.getName() );
-        sessionManager = ( SessionManagerImplementor ) configuration.buildSessionManager();
+        sessionManager = (SessionManagerImplementor) configuration.buildSessionManager();
     }
 
     @Test
-    public void overwritesContextClass() throws Exception
-    {
+    public void overwritesContextClass() throws Exception {
         sessionManagerConfig.setContext( "test" );
 
         assertThat( sessionManagerConfig.getContext() ).isEqualTo( "test" );
@@ -62,61 +59,53 @@ public class ConfigurationTest
 
     @Test
     public void overwritesProperties()
-            throws Exception
-    {
+            throws Exception {
         sessionManagerConfig.setProperty( "jco.client.user", "test" );
 
         assertThat( sessionManagerConfig.getProperty( "jco.client.user" ) ).isEqualTo( "test" );
     }
 
     @Test
-    public void createsBapiInterceptorsFromXmlConfig()
-    {
+    public void createsBapiInterceptorsFromXmlConfig() {
         final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
 
         assertThat( interceptors.toArray() ).hasSize( 2 )
-                .hasAtLeastOneElementOfType( BapiInterceptorDummy.class )
-                .hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
+                                            .hasAtLeastOneElementOfType( BapiInterceptorDummy.class )
+                                            .hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
     }
 
     @Test
-    public void initializesStandardExecutionInterceptorsAutomatically()
-    {
+    public void initializesStandardExecutionInterceptorsAutomatically() {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
         assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( SapErrorInterceptor.class );
     }
 
     @Test
-    public void createsExecutionInterceptorsFromXmlConfig()
-    {
+    public void createsExecutionInterceptorsFromXmlConfig() {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
         assertThat( interceptors ).hasSize( 2 );
         assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( ExecutionInterceptorDummy.class );
     }
 
-    public static class ExecutionInterceptorDummy implements ExecutionInterceptor
-    {
-        public void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
-        {
+    public static class ExecutionInterceptorDummy implements ExecutionInterceptor {
+
+        public void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap ) {
             // dummy
         }
 
-        public void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap )
-        {
+        public void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap ) {
             // dummy
         }
     }
 
-    public static class BapiInterceptorDummy implements BapiInterceptor
-    {
-        public void beforeExecution( Object bapiObject )
-        {
+    public static class BapiInterceptorDummy implements BapiInterceptor {
+
+        public void beforeExecution( Object bapiObject ) {
             // dummy
         }
 
-        public void afterExecution( Object bapiObject )
-        {
+        public void afterExecution( Object bapiObject ) {
             // dummy
         }
     }

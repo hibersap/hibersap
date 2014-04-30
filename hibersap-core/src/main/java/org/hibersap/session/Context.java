@@ -30,8 +30,8 @@ import org.hibersap.execution.Connection;
  *
  * @author Carsten Erker
  */
-public interface Context
-{
+public interface Context {
+
     /*
      * Called by the framework at initialization time, i.e. when the SessionManager is built. Allows
      * the subsystem to initialize itself. The implementation of this class must be specified in the

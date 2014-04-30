@@ -29,9 +29,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Carsten Erker
  */
-@Retention( RUNTIME )
-@Target( value = FIELD )
-public @interface Import
-{
+@Retention(RUNTIME)
+@Target(value = FIELD)
+public @interface Import {
     // marker annotation
 }

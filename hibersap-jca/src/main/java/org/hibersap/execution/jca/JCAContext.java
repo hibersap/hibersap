@@ -36,8 +36,8 @@ import javax.resource.cci.ConnectionFactory;
  *
  * @author dahm
  */
-public class JCAContext implements Context
-{
+public class JCAContext implements Context {
+
     private static final Log LOG = LogFactory.getLog( JCAContext.class );
 
     private static final String DEFAULT_CONNECTION_SPEC_FACTORY_CLASS = SapBapiJcaAdapterConnectionSpecFactory.class
@@ -51,21 +51,18 @@ public class JCAContext implements Context
      * {@inheritDoc}
      */
     public void configure( final SessionManagerConfig config )
-            throws HibersapException
-    {
+            throws HibersapException {
         final String jndiName = getJndiName( config );
         connectionFactory = getConnectionFactory( jndiName );
         connectionSpecFactoryName = getConnectionSpecFactoryName( config );
     }
 
-    private String getConnectionSpecFactoryName( SessionManagerConfig config )
-    {
+    private String getConnectionSpecFactoryName( final SessionManagerConfig config ) {
         String className = config.getJcaConnectionSpecFactory();
 
-        if ( StringUtils.isEmpty( className ) )
-        {
+        if ( StringUtils.isEmpty( className ) ) {
             LOG.info( "JCA ConnectionSpecFactory not defined in Hibersap configuration, using default: "
-                    + DEFAULT_CONNECTION_SPEC_FACTORY_CLASS );
+                              + DEFAULT_CONNECTION_SPEC_FACTORY_CLASS );
             className = DEFAULT_CONNECTION_SPEC_FACTORY_CLASS;
         }
         return className;
@@ -74,42 +71,33 @@ public class JCAContext implements Context
     /**
      * {@inheritDoc}
      */
-    public Connection getConnection()
-    {
+    public Connection getConnection() {
         return new JCAConnection( connectionFactory, connectionSpecFactoryName );
     }
 
-    private ConnectionFactory getConnectionFactory( final String jndiName )
-    {
-        try
-        {
+    private ConnectionFactory getConnectionFactory( final String jndiName ) {
+        try {
             final InitialContext initialContext = new InitialContext();
             final Object object = initialContext.lookup( jndiName );
 
-            if ( object == null )
-            {
+            if ( object == null ) {
                 throw new HibersapException( "Name not bound: " + jndiName );
             }
 
-            if ( !( object instanceof ConnectionFactory ) )
-            {
+            if ( !( object instanceof ConnectionFactory ) ) {
                 throw new HibersapException( "Object bound under " + jndiName + " is no ConnectionFactory" );
             }
 
-            return ( ConnectionFactory ) object;
-        }
-        catch ( final NamingException e )
-        {
+            return (ConnectionFactory) object;
+        } catch ( final NamingException e ) {
             throw new HibersapException( "JNDI lookup:", e );
         }
     }
 
-    private String getJndiName( final SessionManagerConfig config )
-    {
+    private String getJndiName( final SessionManagerConfig config ) {
         final String jndiName = config.getJcaConnectionFactory();
 
-        if ( StringUtils.isEmpty( jndiName ) )
-        {
+        if ( StringUtils.isEmpty( jndiName ) ) {
             throw new ConfigurationException( "JCA connection factory not defined in Hibersap configuration" );
         }
         return jndiName;
@@ -118,8 +106,7 @@ public class JCAContext implements Context
     /**
      * {@inheritDoc}
      */
-    public void close()
-    {
+    public void close() {
         connectionFactory = null;
     }
 }

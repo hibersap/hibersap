@@ -40,14 +40,11 @@ import java.util.Set;
  *
  * @author Carsten Erker
  */
-public final class SessionManagerImpl implements SessionManager, SessionManagerImplementor
-{
+public final class SessionManagerImpl implements SessionManager, SessionManagerImplementor {
+
     private static final long serialVersionUID = -541810809624063050L;
-
-    private boolean closed;
-
     private final SessionManagerConfig config;
-
+    private boolean closed;
     private Map<Class<?>, BapiMapping> bapiMappings;
 
     private transient Context context;
@@ -58,16 +55,14 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
 
     private transient Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
 
-    public SessionManagerImpl( ConfigurationData data, Context context )
-    {
+    public SessionManagerImpl( final ConfigurationData data, final Context context ) {
         closed = false;
         config = data.getSessionManagerConfig();
         bapiMappings = new HashMap<Class<?>, BapiMapping>( data.getBapiMappingsForClass() );
         initializeTransientFields( data, context );
     }
 
-    private void initializeTransientFields( ConfigurationData data, Context context )
-    {
+    private void initializeTransientFields( final ConfigurationData data, final Context context ) {
         this.context = context;
         converterCache = new ConverterCache();
         executionInterceptors = new HashSet<ExecutionInterceptor>( data.getExecutionInterceptors() );
@@ -77,10 +72,8 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public void close()
-    {
-        if ( !closed )
-        {
+    public void close() {
+        if ( !closed ) {
             closed = true;
             context.close();
             bapiMappings.clear();
@@ -93,16 +86,14 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
     * {@inheritDoc}
     */
-    public boolean isClosed()
-    {
+    public boolean isClosed() {
         return closed;
     }
 
     /*
     * {@inheritDoc}
     */
-    public Map<Class<?>, BapiMapping> getBapiMappings()
-    {
+    public Map<Class<?>, BapiMapping> getBapiMappings() {
         assertNotClosed();
         return Collections.unmodifiableMap( bapiMappings );
     }
@@ -110,8 +101,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public ConverterCache getConverterCache()
-    {
+    public ConverterCache getConverterCache() {
         assertNotClosed();
         return this.converterCache;
     }
@@ -119,8 +109,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public SessionManagerConfig getConfig()
-    {
+    public SessionManagerConfig getConfig() {
         assertNotClosed();
         return config;
     }
@@ -128,8 +117,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public Context getContext()
-    {
+    public Context getContext() {
         assertNotClosed();
         return context;
     }
@@ -137,8 +125,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public Session openSession()
-    {
+    public Session openSession() {
         assertNotClosed();
         return new SessionImpl( this );
     }
@@ -146,8 +133,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public Session openSession( Credentials credentials )
-    {
+    public Session openSession( final Credentials credentials ) {
         assertNotClosed();
         return new SessionImpl( this, credentials );
     }
@@ -155,8 +141,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public Set<ExecutionInterceptor> getExecutionInterceptors()
-    {
+    public Set<ExecutionInterceptor> getExecutionInterceptors() {
         assertNotClosed();
         return executionInterceptors;
     }
@@ -164,30 +149,25 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
      * {@inheritDoc}
      */
-    public Set<BapiInterceptor> getBapiInterceptors()
-    {
+    public Set<BapiInterceptor> getBapiInterceptors() {
         assertNotClosed();
         return bapiInterceptors;
     }
 
-    private void assertNotClosed()
-    {
-        if ( closed )
-        {
+    private void assertNotClosed() {
+        if ( closed ) {
             throw new HibersapException( "The SessionManager has been closed, it must not be used anymore" );
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         String format = "SessionManagerImpl[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
         return String.format( format, config.toString(), context.toString(), converterCache.toString(),
-                executionInterceptors, bapiMappings );
+                              executionInterceptors, bapiMappings );
     }
 
-    private void readObject( ObjectInputStream stream ) throws ClassNotFoundException, IOException
-    {
+    private void readObject( final ObjectInputStream stream ) throws ClassNotFoundException, IOException {
         stream.defaultReadObject();
 
         context = ConfigurationHelper.createContext( config );
