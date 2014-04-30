@@ -11,6 +11,8 @@
         <relativePath>../hibersap-parent</relativePath>
     </parent>
 
+    <name>Hibersap Integration Tests</name>
+
     <artifactId>hibersap-it</artifactId>
 
     <!--
@@ -34,16 +36,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
                     <forkMode>once</forkMode>
                     <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-sapjco-lib</id>
+                        <id>copy-native-libs</id>
                         <phase>process-test-resources</phase>
                         <goals>
                             <goal>copy</goal>
@@ -51,15 +53,16 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.sap</groupId>
-                                    <artifactId>sap-jco</artifactId>
-                                    <version>${jco.native-lib.version}</version>
-                                    <type>${jco.native-lib.packaging}</type>
+                                    <groupId>org.hibersap</groupId>
+                                    <artifactId>hibersap-sapjco3</artifactId>
+                                    <version>3.0-RC01</version>
                                     <classifier>${jco.native-lib.classifier}</classifier>
-                                    <outputDirectory>${project.build.directory}/native-lib</outputDirectory>
+                                    <type>${jco.native-lib.packaging}</type>
+                                    <overWrite>true</overWrite>
                                     <destFileName>${jco.native-lib.filename}</destFileName>
                                 </artifactItem>
                             </artifactItems>
+                            <outputDirectory>${project.build.directory}/native-lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -72,21 +75,11 @@
         <dependency>
             <groupId>org.hibersap</groupId>
             <artifactId>hibersap-jco</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- JAXB -->
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.1.9</version>
-        </dependency>
-
-        <!-- SAP Java Connector (JCo) -->
-        <dependency>
-            <groupId>com.sap</groupId>
-            <artifactId>sap-jco</artifactId>
-            <version>[3.0,4.0)</version>
+            <groupId>org.hibersap</groupId>
+            <artifactId>hibersap-sapjco3</artifactId>
         </dependency>
 
     </dependencies>
