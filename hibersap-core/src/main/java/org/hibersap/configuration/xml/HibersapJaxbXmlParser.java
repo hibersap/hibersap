@@ -32,61 +32,57 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class HibersapJaxbXmlParser
-{
+public class HibersapJaxbXmlParser {
+
     private final JAXBContext jaxbContext;
 
-    public HibersapJaxbXmlParser()
-    {
-        try
-        {
+    public HibersapJaxbXmlParser() {
+        try {
             jaxbContext = JAXBContext.newInstance( HibersapConfig.class );
-        }
-        catch ( final JAXBException e )
-        {
+        } catch ( final JAXBException e ) {
             throw new ConfigurationException( "Cannot not create a JAXB context.", e );
         }
     }
 
-    public HibersapConfig parseResource( final String resourceName )
-            throws HibersapParseException
-    {
+    public HibersapConfig parseResource( final String resourceName ) throws HibersapParseException {
         final InputStream resourceStream = findResource( resourceName );
         return parseResource( resourceStream, resourceName );
     }
 
+    public HibersapConfig parseResource( final ClassLoader classLoader, final String resourceName ) throws HibersapParseException {
+        final InputStream resourceStream = classLoader.getResourceAsStream( resourceName );
+
+        if ( resourceStream == null ) {
+            throw new HibersapParseException( "Resource " + resourceName + " not found in ClassLoader " + classLoader.toString() );
+        }
+
+        return parseResource( resourceStream, resourceName );
+    }
+
     public HibersapConfig parseResource( final InputStream resourceStream, final String resourceName )
-            throws HibersapParseException
-    {
+            throws HibersapParseException {
         Object unmarshalledObject;
-        try
-        {
+        try {
             SAXSource saxSource = createSaxSource( resourceStream );
             unmarshalledObject = createUnmarshaller().unmarshal( saxSource );
-        }
-        catch ( final JAXBException e )
-        {
+        } catch ( final JAXBException e ) {
             throw new HibersapParseException( "Cannot parse the resource " + resourceName, e );
         }
 
-        if ( unmarshalledObject == null )
-        {
+        if ( unmarshalledObject == null ) {
             throw new HibersapParseException( "Resource " + resourceName + " is empty." );
         }
-        if ( !( unmarshalledObject instanceof HibersapConfig ) )
-        {
+        if ( !( unmarshalledObject instanceof HibersapConfig ) ) {
             throw new HibersapParseException( "Resource " + resourceName
-                    + " does not consist of a hibersap specification. I found a "
-                    + unmarshalledObject.getClass().getSimpleName() );
+                                                      + " does not consist of a hibersap specification. I found a "
+                                                      + unmarshalledObject.getClass().getSimpleName() );
         }
-        return ( HibersapConfig ) unmarshalledObject;
+        return (HibersapConfig) unmarshalledObject;
     }
 
-    private SAXSource createSaxSource( InputStream resourceStream )
-    {
+    private SAXSource createSaxSource( final InputStream resourceStream ) {
         SAXSource source;
-        try
-        {
+        try {
             XMLReader reader = XMLReaderFactory.createXMLReader();
 
             // NamespaceFilter to remove namespaces for each element
@@ -95,46 +91,34 @@ public class HibersapJaxbXmlParser
 
             InputSource is = new InputSource( resourceStream );
             source = new SAXSource( inFilter, is );
-        }
-        catch ( SAXException e )
-        {
+        } catch ( SAXException e ) {
             throw new InternalHiberSapException( "Cannot create NamespaceFilter. ", e );
         }
         return source;
     }
 
-    private Unmarshaller createUnmarshaller()
-    {
+    private Unmarshaller createUnmarshaller() {
         Unmarshaller unmarshaller;
-        try
-        {
+        try {
             unmarshaller = jaxbContext.createUnmarshaller();
-        }
-        catch ( final JAXBException e )
-        {
+        } catch ( final JAXBException e ) {
             throw new InternalHiberSapException( "Cannot create an unmarshaller. ", e );
         }
         return unmarshaller;
     }
 
-    private InputStream findResource( final String resourceName )
-    {
+    private InputStream findResource( final String resourceName ) {
         URL resource = Thread.currentThread().getContextClassLoader().getResource( resourceName );
-        if ( resource == null )
-        {
+        if ( resource == null ) {
             resource = getClass().getResource( resourceName );
         }
-        if ( resource == null )
-        {
+        if ( resource == null ) {
             throw new InternalHiberSapException( "Cannot locate resource " + resourceName );
         }
         final InputStream resourceStream;
-        try
-        {
+        try {
             resourceStream = resource.openStream();
-        }
-        catch ( final IOException e )
-        {
+        } catch ( final IOException e ) {
             throw new InternalHiberSapException( "Cannot open resource " + resourceName, e );
         }
         return resourceStream;

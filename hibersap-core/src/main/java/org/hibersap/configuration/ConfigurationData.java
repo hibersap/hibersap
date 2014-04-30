@@ -30,8 +30,8 @@ import java.util.Set;
 /**
  * Data object to transport configuration data from Configuration to SessionManager when building the latter.
  */
-public class ConfigurationData
-{
+public class ConfigurationData {
+
     private final SessionManagerConfig sessionManagerConfig;
 
     private final Map<Class<?>, BapiMapping> bapiMappingsForClass = new HashMap<Class<?>, BapiMapping>();
@@ -40,46 +40,35 @@ public class ConfigurationData
 
     private final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
 
-    ConfigurationData( SessionManagerConfig sessionManagerConfig )
-    {
+    ConfigurationData( final SessionManagerConfig sessionManagerConfig ) {
         this.sessionManagerConfig = sessionManagerConfig;
     }
 
-    public SessionManagerConfig getSessionManagerConfig()
-    {
+    public SessionManagerConfig getSessionManagerConfig() {
         return sessionManagerConfig;
     }
 
-    public void setExecutionInterceptors( Set<ExecutionInterceptor> executionInterceptors )
-    {
-        this.executionInterceptors.clear();
+    public void addExecutionInterceptors( final Set<ExecutionInterceptor> executionInterceptors ) {
         this.executionInterceptors.addAll( executionInterceptors );
     }
 
-    public void setBapiInterceptors( Set<BapiInterceptor> bapiInterceptors )
-    {
-        this.bapiInterceptors.clear();
+    public void addBapiInterceptors( final Set<BapiInterceptor> bapiInterceptors ) {
         this.bapiInterceptors.addAll( bapiInterceptors );
     }
 
-    public void setBapiMappingsForClass( Map<Class<?>, BapiMapping> bapiMappings )
-    {
-        this.bapiMappingsForClass.clear();
+    public void addBapiMappingsForClass( final Map<Class<?>, BapiMapping> bapiMappings ) {
         bapiMappingsForClass.putAll( bapiMappings );
     }
 
-    public Set<ExecutionInterceptor> getExecutionInterceptors()
-    {
+    public Set<ExecutionInterceptor> getExecutionInterceptors() {
         return executionInterceptors;
     }
 
-    public Set<BapiInterceptor> getBapiInterceptors()
-    {
+    public Set<BapiInterceptor> getBapiInterceptors() {
         return bapiInterceptors;
     }
 
-    public Map<Class<?>, BapiMapping> getBapiMappingsForClass()
-    {
+    public Map<Class<?>, BapiMapping> getBapiMappingsForClass() {
         return bapiMappingsForClass;
     }
 }
