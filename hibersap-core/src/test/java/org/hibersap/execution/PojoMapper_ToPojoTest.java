@@ -75,6 +75,20 @@ public class PojoMapper_ToPojoTest {
     }
 
     @Test
+    public void mapsImportTableParameterWithoutConverter() {
+        assertThat( bapi.importTableStructure ).hasSize( 2 );
+        assertThat( bapi.importTableStructure.get( 0 ).charParam ).isEqualTo( '5' );
+        assertThat( bapi.importTableStructure.get( 1 ).charParam ).isEqualTo( '6' );
+    }
+
+    @Test
+    public void mapsExportTableParameterWithoutConverter() {
+        assertThat( bapi.exportTableStructure ).hasSize( 2 );
+        assertThat( bapi.exportTableStructure.get( 0 ).charParam ).isEqualTo( '7' );
+        assertThat( bapi.exportTableStructure.get( 1 ).charParam ).isEqualTo( '8' );
+    }
+
+    @Test
     public void mapsTableParameterWithConverter() {
         assertThat( bapi.tableParamWithConverter ).isEqualTo( "34" );
     }
@@ -86,11 +100,21 @@ public class PojoMapper_ToPojoTest {
         Map<String, Object> importsMap = createMap();
         importsMap.put( "intParam", 4711 );
         importsMap.put( "structureParamWithConverter", singletonMap( "charParam", 'c' ) );
+
+        List<Map<String, Character>> importTable = asList(
+                singletonMap( "charParam", '5' ),
+                singletonMap( "charParam", '6' ) );
+        importsMap.put("importTable", importTable);
         functionMap.put( "IMPORT", importsMap );
 
         Map<String, Object> exportsMap = createMap();
         exportsMap.put( "structureParam", singletonMap( "charParam", 'd' ) );
         exportsMap.put( "intParamWithConverter", 4712 );
+
+        List<Map<String, Character>> exportTable = asList(
+                singletonMap( "charParam", '7' ),
+                singletonMap( "charParam", '8' ) );
+        importsMap.put("exportTable", exportTable);
         functionMap.put( "EXPORT", exportsMap );
 
         Map<String, Object> tablesMap = createMap();
@@ -112,6 +136,6 @@ public class PojoMapper_ToPojoTest {
     }
 
     private MyTestBapi createEmptyBapiObject() {
-        return new MyTestBapi( null, null, null, null, null, null );
+        return new MyTestBapi( null, null, null, null, null, null, null, null );
     }
 }

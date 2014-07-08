@@ -117,6 +117,19 @@ class BapiField {
         return result;
     }
 
+    /**
+     * Check if the field's type equals to {@link org.hibersap.annotations.ParameterType#TABLE_STRUCTURE}.
+     *
+     * @return true if the field is of the type {@link org.hibersap.annotations.ParameterType#TABLE_STRUCTURE}
+     */
+    public boolean isTableStructure() {
+        boolean result = false;
+        if ( isParameter() ) {
+            result = getParameterAnnotation().type() == ParameterType.TABLE_STRUCTURE;
+        }
+        return result;
+    }
+
     public boolean isTable() {
         return field.isAnnotationPresent( TABLE );
     }

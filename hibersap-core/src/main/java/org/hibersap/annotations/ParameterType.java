@@ -27,5 +27,7 @@ public enum ParameterType {
     // The function module's parameter is a simple type, e.g. number, text or date.
     SIMPLE,
     // The function module's parameter is a complex type.
-    STRUCTURE
+    STRUCTURE,
+    // The function module's parameter is a table, e.g. a list
+    TABLE_STRUCTURE
 }

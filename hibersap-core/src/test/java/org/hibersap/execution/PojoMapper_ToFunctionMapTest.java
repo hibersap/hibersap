@@ -54,14 +54,14 @@ public class PojoMapper_ToFunctionMapTest {
     public void mapsAllImportParameters() {
         Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
 
-        assertThat( importParams ).hasSize( 2 );
+        assertThat( importParams ).hasSize( 3 );
     }
 
     @Test
     public void mapsAllExportParameters() {
         Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
 
-        assertThat( exportParams ).hasSize( 2 );
+        assertThat( exportParams ).hasSize( 3 );
     }
 
     @Test
@@ -116,6 +116,22 @@ public class PojoMapper_ToFunctionMapTest {
     }
 
     @Test
+    public void mapsImportTableParameterWithoutConverter() {
+        Map<String, Object> importParams = castToMap( functionMap.get( "IMPORT" ) );
+        Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( importParams.get( "importTable" ) );
+
+        assertThat( tableParam ).containsOnly( singletonMap( "charParam", '3' ), singletonMap( "charParam", '4' ) );
+    }
+
+    @Test
+    public void mapsExportTableParameterWithoutConverter() {
+        Map<String, Object> exportParams = castToMap( functionMap.get( "EXPORT" ) );
+        Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( exportParams.get( "exportTable" ) );
+
+        assertThat( tableParam ).containsOnly( singletonMap( "charParam", '5' ), singletonMap( "charParam", '6' ) );
+    }
+
+    @Test
     public void mapsTableParameterWithConverter() {
         Map<String, Object> tableParams = castToMap( functionMap.get( "TABLE" ) );
         Collection<Map<String, Object>> tableParam = castToCollectionOfMaps( tableParams.get( "tableParamWithConverter" ) );
@@ -125,7 +141,7 @@ public class PojoMapper_ToFunctionMapTest {
 
     @Test
     public void doesNotMapParametersWithNullValues() {
-        MyTestBapi bapi = new MyTestBapi( null, null, null, null, null, null );
+        MyTestBapi bapi = new MyTestBapi( null, null, null, null, null, null, null, null );
         BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
 
         Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapi, bapiMapping );
@@ -145,6 +161,15 @@ public class PojoMapper_ToFunctionMapTest {
         List<TestStructure> table = new ArrayList<TestStructure>();
         table.add( tableStructure1 );
         table.add( tableStructure2 );
-        return new MyTestBapi( 4711, "4712", structure, "c", table, "34" );
+
+        List<TestStructure> importTable = new ArrayList<TestStructure>();
+        importTable.add( new TestStructure( '3' ) );
+        importTable.add( new TestStructure( '4' ) );
+
+        List<TestStructure> exportTable = new ArrayList<TestStructure>();
+        exportTable.add( new TestStructure( '5' ) );
+        exportTable.add( new TestStructure( '6' ) );
+
+        return new MyTestBapi( 4711, "4712", structure, "c", table, "34", importTable, exportTable );
     }
 }
