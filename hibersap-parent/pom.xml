@@ -74,6 +74,18 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Cedric Röck</name>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Christian Schneider</name>
+            <roles>
+                <role>Contributor</role>
+            </roles>
+        </developer>
     </developers>
 
     <organization>
