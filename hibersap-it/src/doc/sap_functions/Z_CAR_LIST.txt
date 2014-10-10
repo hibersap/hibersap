@@ -1,0 +1,22 @@
+FUNCTION Z_CAR_LIST.
+*"----------------------------------------------------------------------
+*"*"Local Interface:
+*"  IMPORTING
+*"     VALUE(I_CARS) TYPE  Z_CAR_LIST_TABLE
+*"  EXPORTING
+*"     VALUE(E_CARS) TYPE  Z_CAR_LIST_TABLE
+*"----------------------------------------------------------------------
+
+  E_CARS[] = I_CARS.
+
+ENDFUNCTION.
+
+
+TABLE TYPE Z_CAR_LIST_TABLE:
+- LINE TYPE: ZCAR 
+
+
+STRUCTURE ZCAR:
+- MANUFACTURER: CHAR80	
+- MODEL:        CHAR80	
+- NUM_SEATS:    INTEGER
