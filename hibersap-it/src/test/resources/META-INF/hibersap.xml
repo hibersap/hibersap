@@ -7,8 +7,7 @@
             <property name="jco.client.user" value="sapuser"/>
             <property name="jco.client.passwd" value="password"/>
             <property name="jco.client.lang" value="en"/>
-            <property name="jco.client.ashost" value="sap.spree.de"/>
-            <!--<property name="jco.client.ashost" value="192.168.101.130" />-->
+            <property name="jco.client.ashost" value="192.168.101.130"/>
             <property name="jco.client.sysnr" value="00"/>
             <property name="jco.destination.pool_capacity" value="1"/>
         </properties>
@@ -19,6 +18,7 @@
             <annotated-class>org.hibersap.it.bapi.MapsRawTypeParameterToByteArrayTest$StfcDeepStructure</annotated-class>
             <annotated-class>org.hibersap.it.bapi.MapCurrencyParametersToBigDecimalTest$BapiExchangeRateGetDetail</annotated-class>
             <annotated-class>org.hibersap.it.bapi.MapTableParameterToArrayTest$BapiCustomerGetList</annotated-class>
+            <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarListBapi</annotated-class>
         </annotated-classes>
     </session-manager>
 </hibersap>
