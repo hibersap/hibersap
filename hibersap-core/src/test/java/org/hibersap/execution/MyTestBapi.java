@@ -50,6 +50,9 @@ class MyTestBapi {
     @Parameter( "intParam" )
     Integer intParam;
     @Import
+    @Parameter( value = "importTable", type = ParameterType.TABLE_STRUCTURE)
+    List<TestStructure> importTableStructure;
+    @Import
     @Parameter( value = "structureParamWithConverter", type = ParameterType.STRUCTURE )
     @Convert( converter = TestStructureToStringConverter.class )
     String structureParamWithConverter;
@@ -60,6 +63,9 @@ class MyTestBapi {
     @Parameter( "intParamWithConverter" )
     @Convert( converter = IntegerToStringConverter.class )
     String intParamWithConverter;
+    @Export
+    @Parameter( value = "exportTable", type = ParameterType.TABLE_STRUCTURE)
+    List<TestStructure> exportTableStructure;
     @Table
     @Parameter( "tableParam" )
     List<TestStructure> tableParam;
@@ -73,13 +79,16 @@ class MyTestBapi {
     }
 
     MyTestBapi( Integer intParam, String intParamWithConverter, TestStructure structureParam,
-                String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter ) {
+                String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter,
+                List<TestStructure> importTableStructure, List<TestStructure> exportTableStructure) {
         this.intParam = intParam;
         this.intParamWithConverter = intParamWithConverter;
         this.structureParam = structureParam;
         this.structureParamWithConverter = structureParamWithConverter;
         this.tableParam = tableParam;
         this.tableParamWithConverter = tableParamWithConverter;
+        this.importTableStructure = importTableStructure;
+        this.exportTableStructure = exportTableStructure;
     }
 
     @BapiStructure

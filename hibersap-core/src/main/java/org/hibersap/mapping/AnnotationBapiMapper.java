@@ -51,6 +51,9 @@ public class AnnotationBapiMapper {
             ParameterMapping mapping;
             if ( field.isStructure() ) {
                 mapping = createStructureMapping( field );
+            } else if(field.isTableStructure()) {
+                // nested table, annotated with IMPORT or EXPORT
+                mapping = createTableMapping( field );
             } else {
                 mapping = createFieldMapping( field );
             }
