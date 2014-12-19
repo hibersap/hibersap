@@ -324,11 +324,12 @@
                 <version>1.2.0-Beta04-SNAPSHOT</version>
             </dependency>
 
-            <!-- SAP Java Connector (JCo) -->
+            <!-- Wrapper for the SAP Java Connector (JCo) -->
             <dependency>
                 <groupId>org.hibersap</groupId>
-                <artifactId>hibersap-sapjco3</artifactId>
-                <version>3.0-RC01</version>
+                <artifactId>sapjco3</artifactId>
+                <version>3.0-RC02</version>
+                <optional>true</optional>
             </dependency>
 
             <!-- Java Connector Architecture (JCA) -->

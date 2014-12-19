@@ -24,8 +24,8 @@
 
         <dependency>
             <groupId>org.hibersap</groupId>
-            <artifactId>hibersap-sapjco3</artifactId>
-            <scope>provided</scope>
+            <artifactId>sapjco3</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
