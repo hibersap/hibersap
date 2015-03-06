@@ -25,6 +25,7 @@
         <dependency>
             <groupId>org.hibersap</groupId>
             <artifactId>sapjco3</artifactId>
+            <version>3.0.10</version>
         </dependency>
 
         <dependency>
@@ -63,7 +64,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.hibersap</groupId>
-                                    <artifactId>hibersap-sapjco3</artifactId>
+                                    <artifactId>sapjco3</artifactId>
                                     <version>${jco.native-lib.version}</version>
                                     <classifier>${jco.native-lib.classifier}</classifier>
                                     <type>${jco.native-lib.packaging}</type>

@@ -223,7 +223,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jco.native-lib.version>3.0-RC01</jco.native-lib.version>
+        <jco.native-lib.version>3.0.10</jco.native-lib.version>
     </properties>
 
     <build>
@@ -328,7 +328,7 @@
             <dependency>
                 <groupId>org.hibersap</groupId>
                 <artifactId>sapjco3</artifactId>
-                <version>3.0-RC02</version>
+                <version>3.0</version>
                 <optional>true</optional>
             </dependency>
 
