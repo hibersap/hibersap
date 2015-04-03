@@ -10,6 +10,6 @@ if [ ! -e $1 ]; then
   exit
 fi
 
-mvn install:install-file -Dfile=$1 -DgroupId=org.hibersap -DartifactId=hibersap-sapjco3 -Dversion=$2 -Dpackaging=jar
+mvn install:install-file -Dfile=$1 -DgroupId=org.hibersap -DartifactId=sapjco3 -Dversion=$2 -Dpackaging=jar
 
 
