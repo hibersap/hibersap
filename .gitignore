@@ -16,3 +16,9 @@ hs_err_pid*
 
 # Maven properties
 release.properties
+
+# Eclipse
+.settings/
+.project
+.classpath
+target/
