@@ -222,7 +222,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jco.native-lib.version>3.0.10</jco.native-lib.version>
+        <jco.native-lib.version>3.0.12</jco.native-lib.version>
     </properties>
 
     <build>
@@ -327,16 +327,16 @@
             <dependency>
                 <groupId>org.hibersap</groupId>
                 <artifactId>sapjco3</artifactId>
-                <version>3.0</version>
+                <version>3.0.12</version>
                 <optional>true</optional>
             </dependency>
 
             <!-- Java Connector Architecture (JCA) -->
-            <dependency>
-                <groupId>javax.resource</groupId>
-                <artifactId>connector</artifactId>
-                <version>1.0</version>
-            </dependency>
+			<dependency>
+				<groupId>javax.resource</groupId>
+				<artifactId>connector-api</artifactId>
+				<version>1.5</version>
+			</dependency>
 
             <!-- apache commons -->
             <dependency>

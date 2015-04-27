@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.hibersap</groupId>
             <artifactId>sapjco3</artifactId>
-            <version>3.0.10</version>
+            <version>3.0.12</version>
         </dependency>
 
         <dependency>

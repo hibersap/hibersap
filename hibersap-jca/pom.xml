@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>javax.resource</groupId>
-            <artifactId>connector</artifactId>
+            <artifactId>connector-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -39,6 +39,13 @@
         <dependency>
             <groupId>org.cuckoo-ra</groupId>
             <artifactId>cuckoo-jar</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.cuckoo-ra</groupId>
+            <artifactId>cuckoo-api</artifactId>
             <version>1.0.0</version>
             <scope>test</scope>
         </dependency>

@@ -55,7 +55,7 @@
                                 <artifactItem>
                                     <groupId>org.hibersap</groupId>
                                     <artifactId>sapjco3</artifactId>
-                                    <version>3.0.10</version>
+                                    <version>3.0.12</version>
                                     <classifier>${jco.native-lib.classifier}</classifier>
                                     <type>${jco.native-lib.packaging}</type>
                                     <overWrite>true</overWrite>
@@ -80,7 +80,6 @@
         <dependency>
             <groupId>org.hibersap</groupId>
             <artifactId>sapjco3</artifactId>
-            <version>3.0.10</version>
             <scope>test</scope>
         </dependency>
 
