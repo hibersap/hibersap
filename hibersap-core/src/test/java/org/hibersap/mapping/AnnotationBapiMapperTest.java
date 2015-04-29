@@ -18,18 +18,18 @@
 
 package org.hibersap.mapping;
 
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.util.Set;
+
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.Table;
 import org.hibersap.mapping.model.BapiMapping;
-import org.hibersap.mapping.model.FieldMapping;
+import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.junit.Test;
-
-import java.util.Set;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationBapiMapperTest {
 
@@ -40,7 +40,7 @@ public class AnnotationBapiMapperTest {
         final BapiMapping mapping = mapper.mapBapi( TestBapiClass.class );
 
         final TableMapping tableMapping = mapping.getTableParameters().iterator().next();
-        final Set<FieldMapping> parameters = tableMapping.getComponentParameter().getParameters();
+        final Set<ParameterMapping> parameters = tableMapping.getComponentParameter().getParameters();
 
         assertThat( parameters ).hasSize( 2 )
                                 .onProperty( "javaName" ).contains( "structureParamSubClass", "structureParamSuperClass" );
