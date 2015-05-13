@@ -21,6 +21,7 @@ package org.hibersap.configuration;
 import org.hibersap.HibersapException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /*
@@ -39,13 +40,23 @@ public final class Environment {
 
     private static String readHibersapVersion() {
         String version;
+        InputStream inputStream = null;
         try {
+            inputStream = Environment.class.getResourceAsStream( "/" + HIBERSAP_VERSION_FILE );
             final Properties properties = new Properties();
-            properties.load( Environment.class.getResourceAsStream( "/" + HIBERSAP_VERSION_FILE ) );
+            properties.load( inputStream );
             version = properties.getProperty( HIBERSAP_VERSION_PROPERTY_KEY );
         } catch ( IOException e ) {
             throw new HibersapException( "Can not load file " + HIBERSAP_VERSION_FILE
                                                  + ". This file is part of the hibersap-core library and should always be there." );
+        } finally {
+            if ( inputStream != null ) {
+                try {
+                    inputStream.close();
+                } catch ( IOException e ) {
+                    // ignore
+                }
+            }
         }
         return version;
     }
