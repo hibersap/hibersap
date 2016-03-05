@@ -49,11 +49,12 @@ public class BapiClassFormatterTest {
         Map<String, String> classes = formatter.createClasses( bapiMapping, "org.hibersap.generated.test" );
 
         assertNotNull( classes );
-        assertEquals( 3, classes.size() );
+        assertEquals( 4, classes.size() );
 
         assertTrue( classes.containsKey( "BapiTest" ) );
         assertTrue( classes.containsKey( "TestStructure" ) );
         assertTrue( classes.containsKey( "TestTable" ) );
+        assertTrue( classes.containsKey( "TestSubStructure" ) );
     }
 
     @SuppressWarnings( "unused" )
@@ -86,6 +87,9 @@ public class BapiClassFormatterTest {
 
         @Parameter( "STRUCT_INT" )
         private int _structInt;
+
+        @Parameter( value = "TEST_SUB_STRUCTURE", type = ParameterType.STRUCTURE )
+        private TestSubStructure _subStruct;
     }
 
     @SuppressWarnings( "unused" )
@@ -98,4 +102,16 @@ public class BapiClassFormatterTest {
         @Parameter( "TABLE_INT" )
         private int _tableInt;
     }
+    
+    @SuppressWarnings( "unused" )
+    @BapiStructure
+    private class TestSubStructure {
+
+        @Parameter( "STRUCT_STRING" )
+        private String _structString;
+
+        @Parameter( "STRUCT_INT" )
+        private int _structInt;
+    }
+
 }

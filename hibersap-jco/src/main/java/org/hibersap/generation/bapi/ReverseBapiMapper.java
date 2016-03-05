@@ -130,7 +130,7 @@ public class ReverseBapiMapper {
         JCoFieldIterator iter = record.getFieldIterator();
 
         while ( iter.hasNextField() ) {
-            FieldMapping fieldParam = (FieldMapping) getParameterMapping( iter.nextField() );
+            ParameterMapping fieldParam = getParameterMapping( iter.nextField() );
             structureMapping.addParameter( fieldParam );
         }
     }
