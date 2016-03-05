@@ -46,18 +46,19 @@ public class HibersapJaxbXmlParser {
     }
 
     public HibersapConfig parseResource( final String resourceName ) throws HibersapParseException {
-        final InputStream resourceStream = findResource( resourceName );
-        return parseResource( resourceStream, resourceName );
-    }
-
-    public HibersapConfig parseResource( final ClassLoader classLoader, final String resourceName ) throws HibersapParseException {
-        final InputStream resourceStream = classLoader.getResourceAsStream( resourceName );
-
-        if ( resourceStream == null ) {
-            throw new HibersapParseException( "Resource " + resourceName + " not found in ClassLoader " + classLoader.toString() );
+        InputStream resourceStream = null;
+        try {
+            resourceStream = findResource( resourceName );
+            return parseResource( resourceStream, resourceName );
+        } finally {
+            if ( resourceStream != null ) {
+                try {
+                    resourceStream.close();
+                } catch ( IOException e ) {
+                    // ignore
+                }
+            }
         }
-
-        return parseResource( resourceStream, resourceName );
     }
 
     public HibersapConfig parseResource( final InputStream resourceStream, final String resourceName )
