@@ -46,7 +46,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     private static final long serialVersionUID = -541810809624063050L;
     private final SessionManagerConfig config;
     private boolean closed;
-    private Map<Class<?>, BapiMapping> bapiMappings;
+    private Map<String, BapiMapping> bapiMappings;
 
     private transient Context context;
 
@@ -59,7 +59,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     public SessionManagerImpl( final ConfigurationData data, final Context context ) {
         closed = false;
         config = data.getSessionManagerConfig();
-        bapiMappings = new HashMap<Class<?>, BapiMapping>( data.getBapiMappingsForClass() );
+        bapiMappings = new HashMap<String, BapiMapping>( data.getBapiMappingsForClass() );
         initializeTransientFields( data, context );
     }
 
@@ -94,7 +94,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     /*
     * {@inheritDoc}
     */
-    public Map<Class<?>, BapiMapping> getBapiMappings() {
+    public Map<String, BapiMapping> getBapiMappings() {
         assertNotClosed();
         return Collections.unmodifiableMap( bapiMappings );
     }

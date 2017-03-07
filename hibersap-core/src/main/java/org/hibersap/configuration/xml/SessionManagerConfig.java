@@ -158,6 +158,11 @@ public final class SessionManagerConfig implements Serializable {
         return this;
     }
 
+    public SessionManagerConfig addAnnotatedClass( final String annotatedClassFqn ) {
+        annotatedClasses.add( annotatedClassFqn );
+        return this;
+    }
+
     public ValidationMode getValidationMode() {
         return validationMode;
     }

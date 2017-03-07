@@ -222,7 +222,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jco.native-lib.version>3.0.10</jco.native-lib.version>
+        <jco.native-lib.version>3.0.15</jco.native-lib.version>
     </properties>
 
     <build>
@@ -325,9 +325,9 @@
 
             <!-- Wrapper for the SAP Java Connector (JCo) -->
             <dependency>
-                <groupId>org.hibersap</groupId>
-                <artifactId>sapjco3</artifactId>
-                <version>3.0</version>
+                <groupId>com.sap</groupId>
+                <artifactId>com.sap.conn.jco.sapjco3</artifactId>
+                <version>3.0.15</version>
                 <optional>true</optional>
             </dependency>
 

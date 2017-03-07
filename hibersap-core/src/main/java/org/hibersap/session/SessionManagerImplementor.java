@@ -41,7 +41,7 @@ public interface SessionManagerImplementor extends Serializable {
      *
      * @return A Map with the Class as key and the corresponding BapiMapping object as value.
      */
-    Map<Class<?>, BapiMapping> getBapiMappings();
+    Map<String, BapiMapping> getBapiMappings();
 
     /**
      * Returns this SessionManager's Converter cache.

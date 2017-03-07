@@ -10,9 +10,12 @@ hs_err_pid*
 
 # IntelliJ IDEA project definition
 *.iml
+.idea/
 
 # SAP JCo trace files
 *.trc
 
 # Maven properties
 release.properties
+
+target/

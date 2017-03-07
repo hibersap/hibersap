@@ -45,33 +45,33 @@ public class AnnotationConfigurationTest {
 
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( SapErrorInterceptor.class );
+        assertThat(interceptors.toArray()).hasAtLeastOneElementOfType(SapErrorInterceptor.class);
     }
 
     @Test
     public void addsAnnotatedClassToSessionManager() {
-        configuration.getSessionManagerConfig().addAnnotatedClass( BAPI_CLASS );
+        configuration.getSessionManagerConfig().addAnnotatedClass(BAPI_CLASS);
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
-        Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
-        assertThat( bapiMappings ).hasSize( 1 );
-        assertThat( bapiMappings.get( BAPI_CLASS ) ).isNotNull();
+        Map<String, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
+        assertThat(bapiMappings).hasSize(1);
+        assertThat(bapiMappings.get(BAPI_CLASS)).isNotNull();
     }
 
-    @Test( expected = MappingException.class )
+    @Test(expected = MappingException.class)
     public void throwsMappingExceptionWhenClassWasAddedThatIsNotAnnotated() {
-        configuration.getSessionManagerConfig().addAnnotatedClass( Object.class );
+        configuration.getSessionManagerConfig().addAnnotatedClass(Object.class);
         configureAndBuildSessionManager();
     }
 
-    @Test( expected = ConfigurationException.class )
+    @Test(expected = ConfigurationException.class)
     public void throwsConfigurationExceptionWhenBapiClassWasAddedThatIsNotAnnotated() {
-        configuration.getSessionManagerConfig().getAnnotatedClasses().add( "does.not.Exist" );
+        configuration.getSessionManagerConfig().getAnnotatedClasses().add("does.not.Exist");
         configureAndBuildSessionManager();
     }
 
     private SessionManagerImpl configureAndBuildSessionManager() {
-        configuration.getSessionManagerConfig().setContext( DummyContext.class.getName() );
+        configuration.getSessionManagerConfig().setContext(DummyContext.class.getName());
         SessionManager sessionManager = configuration.buildSessionManager();
         return (SessionManagerImpl) sessionManager;
     }

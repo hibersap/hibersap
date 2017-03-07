@@ -38,73 +38,73 @@ import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-@SuppressWarnings( "unchecked" )
+@SuppressWarnings("unchecked")
 public class SessionImplTest {
 
-    private final BapiInterceptor bapiInterceptor = createStrictMock( BapiInterceptor.class );
-    private final ExecutionInterceptor executionInterceptor = createStrictMock( ExecutionInterceptor.class );
+    private final BapiInterceptor bapiInterceptor = createStrictMock(BapiInterceptor.class);
+    private final ExecutionInterceptor executionInterceptor = createStrictMock(ExecutionInterceptor.class);
 
-    private final SessionImpl session = new SessionImpl( new SessionManagerStub() );
+    private final SessionImpl session = new SessionImpl(new SessionManagerStub());
 
     @Test
     public void bapiInterceptorsFromConfigurationAreCalledWhenExecutingFunction() {
         final Object bapiObject = new Object();
-        bapiInterceptor.beforeExecution( bapiObject );
-        bapiInterceptor.afterExecution( bapiObject );
-        replay( bapiInterceptor );
+        bapiInterceptor.beforeExecution(bapiObject);
+        bapiInterceptor.afterExecution(bapiObject);
+        replay(bapiInterceptor);
 
-        session.execute( bapiObject );
+        session.execute(bapiObject);
 
-        verify( bapiInterceptor );
+        verify(bapiInterceptor);
     }
 
     @Test
     public void bapiInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction() {
-        BapiInterceptor myInterceptor = createMock( BapiInterceptor.class );
+        BapiInterceptor myInterceptor = createMock(BapiInterceptor.class);
 
         final Object bapiObject = new Object();
-        myInterceptor.beforeExecution( bapiObject );
-        myInterceptor.afterExecution( bapiObject );
-        replay( myInterceptor );
+        myInterceptor.beforeExecution(bapiObject);
+        myInterceptor.afterExecution(bapiObject);
+        replay(myInterceptor);
 
-        session.addBapiInterceptor( myInterceptor );
-        session.execute( bapiObject );
+        session.addBapiInterceptor(myInterceptor);
+        session.execute(bapiObject);
 
-        verify( myInterceptor );
+        verify(myInterceptor);
     }
 
     @Test
     public void executionInterceptorsFromConfigurationAreCalledWhenExecutingFunction() {
         final Object bapiObject = new Object();
-        executionInterceptor.beforeExecution( (BapiMapping) anyObject(), (Map<String, Object>) anyObject() );
-        executionInterceptor.afterExecution( (BapiMapping) anyObject(), (Map<String, Object>) anyObject() );
-        replay( executionInterceptor );
+        executionInterceptor.beforeExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
+        executionInterceptor.afterExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
+        replay(executionInterceptor);
 
-        session.execute( bapiObject );
+        session.execute(bapiObject);
 
-        verify( executionInterceptor );
+        verify(executionInterceptor);
     }
 
     @Test
     public void executionInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction() {
-        ExecutionInterceptor myInterceptor = createMock( ExecutionInterceptor.class );
+        ExecutionInterceptor myInterceptor = createMock(ExecutionInterceptor.class);
 
         final Object bapiObject = new Object();
-        myInterceptor.beforeExecution( (BapiMapping) anyObject(), (Map<String, Object>) anyObject() );
-        myInterceptor.afterExecution( (BapiMapping) anyObject(), (Map<String, Object>) anyObject() );
-        replay( myInterceptor );
+        myInterceptor.beforeExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
+        myInterceptor.afterExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
+        replay(myInterceptor);
 
-        session.addExecutionInterceptor( myInterceptor );
-        session.execute( bapiObject );
+        session.addExecutionInterceptor(myInterceptor);
+        session.execute(bapiObject);
 
-        verify( myInterceptor );
+        verify(myInterceptor);
     }
 
     private class SessionManagerStub implements SessionManagerImplementor {
 
-        public Map<Class<?>, BapiMapping> getBapiMappings() {
-            final HashMap<Class<?>, BapiMapping> mappings = new HashMap<Class<?>, BapiMapping>();
-            mappings.put( Object.class, new BapiMapping( Object.class, "BAPI_NAME", null ) );
+        public Map<String, BapiMapping> getBapiMappings() {
+            final HashMap<String, BapiMapping> mappings = new HashMap<String, BapiMapping>();
+            mappings.put(Object.class.getName(), new BapiMapping(Object.class, "BAPI_NAME", null));
             return mappings;
         }
 
@@ -126,17 +126,17 @@ public class SessionImplTest {
 
         public Set<ExecutionInterceptor> getExecutionInterceptors() {
 
-            return Collections.singleton( executionInterceptor );
+            return Collections.singleton(executionInterceptor);
         }
 
         public Set<BapiInterceptor> getBapiInterceptors() {
-            return Collections.singleton( bapiInterceptor );
+            return Collections.singleton(bapiInterceptor);
         }
     }
 
     private class ContextStub implements Context {
 
-        public void configure( SessionManagerConfig config ) throws HibersapException {
+        public void configure(SessionManagerConfig config) throws HibersapException {
         }
 
         public void close() {
@@ -149,10 +149,10 @@ public class SessionImplTest {
 
     private class ConnectionStub implements Connection {
 
-        public void setCredentials( Credentials credentials ) {
+        public void setCredentials(Credentials credentials) {
         }
 
-        public Transaction beginTransaction( SessionImplementor session ) {
+        public Transaction beginTransaction(SessionImplementor session) {
             return null;
         }
 
@@ -160,7 +160,7 @@ public class SessionImplTest {
             return null;
         }
 
-        public void execute( String bapiName, Map<String, Object> functionMap ) {
+        public void execute(String bapiName, Map<String, Object> functionMap) {
         }
 
         public void close() {

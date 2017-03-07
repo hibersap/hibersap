@@ -35,7 +35,7 @@ public class ConfigurationData {
 
     private final SessionManagerConfig sessionManagerConfig;
 
-    private final Map<Class<?>, BapiMapping> bapiMappingsForClass = new HashMap<Class<?>, BapiMapping>();
+    private final Map<String, BapiMapping> bapiMappingsForClass = new HashMap<String, BapiMapping>();
 
     private final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
 
@@ -57,7 +57,7 @@ public class ConfigurationData {
         this.bapiInterceptors.addAll( bapiInterceptors );
     }
 
-    public void addBapiMappingsForClass( final Map<Class<?>, BapiMapping> bapiMappings ) {
+    public void addBapiMappingsForClass( final Map<String, BapiMapping> bapiMappings ) {
         bapiMappingsForClass.putAll( bapiMappings );
     }
 
@@ -69,7 +69,7 @@ public class ConfigurationData {
         return bapiInterceptors;
     }
 
-    public Map<Class<?>, BapiMapping> getBapiMappingsForClass() {
+    public Map<String, BapiMapping> getBapiMappingsForClass() {
         return bapiMappingsForClass;
     }
 }

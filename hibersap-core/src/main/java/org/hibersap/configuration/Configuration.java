@@ -132,7 +132,7 @@ public abstract class Configuration {
      *
      * @param bapiMappings A Map with the BAPI class as key and the BapiMappings as value.
      */
-    protected void addBapiMappings( final Map<Class<?>, BapiMapping> bapiMappings ) {
+    protected void addBapiMappings( final Map<String, BapiMapping> bapiMappings ) {
         data.addBapiMappingsForClass( bapiMappings );
     }
 

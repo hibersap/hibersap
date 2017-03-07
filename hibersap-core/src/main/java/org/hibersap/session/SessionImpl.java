@@ -87,7 +87,7 @@ public class SessionImpl implements Session, SessionImplementor {
     public void execute( final Object bapiObject ) {
         assertNotClosed();
         Class<?> bapiClass = bapiObject.getClass();
-        Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
+        Map<String, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
         if ( bapiMappings.containsKey( bapiClass ) ) {
             bapiInterceptors.announce().beforeExecution( bapiObject );
             execute( bapiObject, bapiMappings.get( bapiClass ) );
