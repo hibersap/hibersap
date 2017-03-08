@@ -39,6 +39,6 @@ public class JCoMonitoringUtilTest {
     public void showMonitoringData() throws Exception {
         MonitoringData data = util.getMonitoringData("A12");
 
-        assertThat(data.getSystemDescription()).startsWith("DEST:                  A12");
+        assertThat(data.getSystemDescription()).startsWith("DEST:").contains("A12");
     }
 }

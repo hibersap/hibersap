@@ -36,7 +36,7 @@ public class CustomCredentialsTest extends AbstractBapiTest {
     public void connectToSapUsingCustomCredentials() throws Exception {
 
         final Credentials credentials = new Credentials().setUser("sapuser2")
-                .setPassword("password").setLanguage("DE");
+                .setPassword("password2").setLanguage("DE");
         callBapiWith(credentials);
 
         final JCoConnectionData connectionUsed = getConnectionDataUsed();
