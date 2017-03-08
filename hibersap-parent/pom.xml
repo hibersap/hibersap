@@ -218,6 +218,7 @@
                 <id>attach-javadocs</id>
                 <configuration>
                   <attach>true</attach>
+                  <failOnError>false</failOnError>
                 </configuration>
                 <goals>
                   <goal>jar</goal>
