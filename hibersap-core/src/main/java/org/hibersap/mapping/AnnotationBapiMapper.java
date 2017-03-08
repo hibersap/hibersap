@@ -46,26 +46,29 @@ public class AnnotationBapiMapper {
         if (field.isTable()) {
             bapiClass.addTableParameter(createTableMapping(field));
         } else {
-            ParameterMapping mapping;
-            if (field.isStructure()) {
-                mapping = createStructureMapping(field);
-            } else if (field.isTableStructure()) {
-                // nested table, annotated with IMPORT or EXPORT
-                mapping = createTableMapping(field);
-            } else {
-                mapping = createFieldMapping(field);
-            }
-            if (field.isImport()) {
-                bapiClass.addImportParameter(mapping);
+            ParameterMapping mapping = createParameterMapping(field);
+            if ( field.isImport() ) {
+                bapiClass.addImportParameter( mapping );
             } else {
                 bapiClass.addExportParameter(mapping);
             }
         }
     }
 
-    private void assertIsBapiClass(final Class<?> clazz) {
-        if (!clazz.isAnnotationPresent(BAPI)) {
-            throw new MappingException("Class " + clazz.getName() + " is not annotated with @Bapi");
+	private ParameterMapping createParameterMapping(final BapiField field) {
+		if ( field.isStructure() ) {
+			return createStructureMapping( field );
+		} else if (field.isTableStructure()) {
+			// nested table, annotated with IMPORT or EXPORT
+			return createTableMapping( field );
+		} else {
+			return createFieldMapping( field );
+		}
+	}
+
+    private void assertIsBapiClass( final Class<?> clazz ) {
+        if ( !clazz.isAnnotationPresent( BAPI ) ) {
+            throw new MappingException( "Class " + clazz.getName() + " is not annotated with @Bapi" );
         }
     }
 
@@ -79,10 +82,10 @@ public class AnnotationBapiMapper {
         StructureMapping structureMapping = new StructureMapping(structureType, structureField.getSapName(),
                 structureField.getName(), structureField.getConverter());
 
-        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(structureType, PARAMETER);
-        for (Field field : fields) {
-            FieldMapping fieldMapping = createFieldMapping(new BapiField(field));
-            structureMapping.addParameter(fieldMapping);
+        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( structureType, PARAMETER );
+        for ( Field field : fields ) {
+            ParameterMapping paramMapping = createParameterMapping( new BapiField( field ) );
+            structureMapping.addParameter( paramMapping );
         }
         return structureMapping;
     }

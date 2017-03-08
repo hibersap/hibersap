@@ -84,18 +84,18 @@ public class BapiClassFormatter {
         params.addAll(mapping.getExportParameters());
         params.addAll(mapping.getTableParameters());
 
-        for (ParameterMapping param : params) {
-            if (param.getParamType() != ParamType.FIELD) {
-                String className = BapiFormatHelper.getCamelCaseBig(param.getSapName());
-                String structureClass = formatStructureClass(param, packagePath);
-                result.put(className, structureClass);
+        for ( ParameterMapping param : params ) {
+            if ( param.getParamType() != ParamType.FIELD ) {
+                String className = BapiFormatHelper.getCamelCaseBig( param.getSapName() );
+                String structureClass = formatStructureClass( param, packagePath, result );
+                result.put( className, structureClass );
             }
         }
 
         return result;
     }
 
-    private String formatStructureClass(final ParameterMapping param, final String packagePath) {
+    private String formatStructureClass( final ParameterMapping param, final String packagePath, final Map<String, String> result ) {
         StructureMapping structure;
         if (param instanceof StructureMapping) {
             structure = ((StructureMapping) param);
@@ -107,10 +107,19 @@ public class BapiClassFormatter {
                             + param.getClass()
             );
         }
-        String structureAnnotation = String.format(BAPI_STRUCTURE_ANNOTATION_FORMAT, BapiStructure.class.getName());
-        String className = BapiFormatHelper.getCamelCaseBig(param.getSapName());
-        String fieldsAndMethods = formatFieldsAndMethods(structure);
-        return String.format(CLASS_FORMAT, packagePath, structureAnnotation, className, fieldsAndMethods);
+        String structureAnnotation = String.format( BAPI_STRUCTURE_ANNOTATION_FORMAT, BapiStructure.class.getName() );
+        String className = BapiFormatHelper.getCamelCaseBig( param.getSapName() );
+        String fieldsAndMethods = formatFieldsAndMethods( structure );
+
+        for ( ParameterMapping subparam : structure.getParameters() ) {
+            if ( subparam.getParamType() != ParamType.FIELD ) {
+                String subClassName = BapiFormatHelper.getCamelCaseBig( subparam.getSapName() );
+                String structureClass = formatStructureClass( subparam, packagePath, result );
+                result.put( subClassName, structureClass );
+            }
+        }
+
+        return String.format( CLASS_FORMAT, packagePath, structureAnnotation, className, fieldsAndMethods );
     }
 
     private String formatBapiAnnotation(final BapiMapping mapping) {
