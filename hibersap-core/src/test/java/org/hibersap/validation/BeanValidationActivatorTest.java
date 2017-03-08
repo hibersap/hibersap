@@ -31,21 +31,21 @@ public class BeanValidationActivatorTest {
     @Test
     public void doesNotAddInterceptorWhenValidationModeNoneIsConfigured() {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
-        final SessionManagerConfig config = new SessionManagerConfig().setValidationMode( ValidationMode.NONE );
+        final SessionManagerConfig config = new SessionManagerConfig().setValidationMode(ValidationMode.NONE);
 
-        BeanValidationActivator.activateBeanValidation( interceptors, config );
+        BeanValidationActivator.activateBeanValidation(interceptors, config);
 
-        assertThat( interceptors ).hasSize( 0 );
+        assertThat(interceptors).hasSize(0);
     }
 
     @Test
     public void addsBeanValidationInterceptorWhenValidationTypeAutoIsConfigured() {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
-        final SessionManagerConfig config = new SessionManagerConfig().setValidationMode( ValidationMode.AUTO );
+        final SessionManagerConfig config = new SessionManagerConfig().setValidationMode(ValidationMode.AUTO);
 
-        BeanValidationActivator.activateBeanValidation( interceptors, config );
+        BeanValidationActivator.activateBeanValidation(interceptors, config);
 
-        assertThat( interceptors ).hasSize( 1 );
-        assertThat( interceptors.iterator().next() ).isInstanceOf( BeanValidationInterceptor.class );
+        assertThat(interceptors).hasSize(1);
+        assertThat(interceptors.iterator().next()).isInstanceOf(BeanValidationInterceptor.class);
     }
 }

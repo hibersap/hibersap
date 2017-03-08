@@ -28,8 +28,8 @@ public class FieldMapping extends ParameterMapping {
 
     private static final long serialVersionUID = -7542970603293850477L;
 
-    public FieldMapping( final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converter ) {
-        super( associatedClass, sapName, javaName, converter );
+    public FieldMapping(final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converter) {
+        super(associatedClass, sapName, javaName, converter);
     }
 
     /**
@@ -41,12 +41,12 @@ public class FieldMapping extends ParameterMapping {
     }
 
     @Override
-    protected Object getUnconvertedValueToJava( final Object value, final ConverterCache converterCache ) {
+    protected Object getUnconvertedValueToJava(final Object value, final ConverterCache converterCache) {
         return value;
     }
 
     @Override
-    protected Object getUnconvertedValueToSap( final Object value, final ConverterCache converterCache ) {
+    protected Object getUnconvertedValueToSap(final Object value, final ConverterCache converterCache) {
         return value;
     }
 }

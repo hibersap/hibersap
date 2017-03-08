@@ -27,16 +27,16 @@ public class CharConverterTest {
 
     @Test
     public void testConvertToJava() {
-        assertEquals( (Object) ' ', converter.convertToJava( null ) );
-        assertEquals( (Object) ' ', converter.convertToJava( " " ) );
-        assertEquals( (Object) 'A', converter.convertToJava( "A" ) );
-        assertEquals( (Object) 'A', converter.convertToJava( "AB" ) );
+        assertEquals((Object) ' ', converter.convertToJava(null));
+        assertEquals((Object) ' ', converter.convertToJava(" "));
+        assertEquals((Object) 'A', converter.convertToJava("A"));
+        assertEquals((Object) 'A', converter.convertToJava("AB"));
     }
 
     @Test
     public void testConvertToSap() {
-        assertEquals( "", converter.convertToSap( null ) );
-        assertEquals( " ", converter.convertToSap( ' ' ) );
-        assertEquals( "A", converter.convertToSap( 'A' ) );
+        assertEquals("", converter.convertToSap(null));
+        assertEquals(" ", converter.convertToSap(' '));
+        assertEquals("A", converter.convertToSap('A'));
     }
 }

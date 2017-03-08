@@ -37,5 +37,5 @@ public interface ConnectionSpecFactory {
      * @return The ConnectionSpec object, initialized with the credential properties.
      * @throws InternalHiberSapException
      */
-    ConnectionSpec createConnectionSpec( Credentials credentials ) throws InternalHiberSapException;
+    ConnectionSpec createConnectionSpec(Credentials credentials) throws InternalHiberSapException;
 }

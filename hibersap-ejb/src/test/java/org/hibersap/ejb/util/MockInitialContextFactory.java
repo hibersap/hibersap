@@ -29,13 +29,13 @@ public class MockInitialContextFactory implements InitialContextFactory {
 
     private static Context mockContext;
 
-    public static void setMockContext( final Context mockContext ) {
+    public static void setMockContext(final Context mockContext) {
         MockInitialContextFactory.mockContext = mockContext;
     }
 
-    public Context getInitialContext( final Hashtable<?, ?> environment ) throws NamingException {
-        if ( mockContext == null ) {
-            throw new IllegalStateException( "No InitialContext set" );
+    public Context getInitialContext(final Hashtable<?, ?> environment) throws NamingException {
+        if (mockContext == null) {
+            throw new IllegalStateException("No InitialContext set");
         }
         return mockContext;
     }

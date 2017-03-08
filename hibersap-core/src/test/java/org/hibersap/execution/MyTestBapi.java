@@ -41,45 +41,45 @@ import org.hibersap.conversion.Converter;
  *
  * @author Carsten Erker
  */
-@Bapi( "bapiName" )
+@Bapi("bapiName")
 @ThrowExceptionOnError
 class MyTestBapi {
 
     @Import
-    @Parameter( "intParam" )
+    @Parameter("intParam")
     Integer intParam;
     @Import
-    @Parameter( value = "importTable", type = ParameterType.TABLE_STRUCTURE)
+    @Parameter(value = "importTable", type = ParameterType.TABLE_STRUCTURE)
     List<TestStructure> importTableStructure;
     @Import
-    @Parameter( value = "structureParamWithConverter", type = ParameterType.STRUCTURE )
-    @Convert( converter = TestStructureToStringConverter.class )
+    @Parameter(value = "structureParamWithConverter", type = ParameterType.STRUCTURE)
+    @Convert(converter = TestStructureToStringConverter.class)
     String structureParamWithConverter;
     @Export
-    @Parameter( value = "structureParam", type = ParameterType.STRUCTURE )
+    @Parameter(value = "structureParam", type = ParameterType.STRUCTURE)
     TestStructure structureParam;
     @Export
-    @Parameter( "intParamWithConverter" )
-    @Convert( converter = IntegerToStringConverter.class )
+    @Parameter("intParamWithConverter")
+    @Convert(converter = IntegerToStringConverter.class)
     String intParamWithConverter;
     @Export
-    @Parameter( value = "exportTable", type = ParameterType.TABLE_STRUCTURE)
+    @Parameter(value = "exportTable", type = ParameterType.TABLE_STRUCTURE)
     List<TestStructure> exportTableStructure;
     @Table
-    @Parameter( "tableParam" )
+    @Parameter("tableParam")
     List<TestStructure> tableParam;
     @Table
-    @Parameter( "tableParamWithConverter" )
-    @Convert( converter = TestStructureTableToStringConverter.class )
+    @Parameter("tableParamWithConverter")
+    @Convert(converter = TestStructureTableToStringConverter.class)
     String tableParamWithConverter;
 
-    @SuppressWarnings( {"UnusedDeclaration"} ) // called by Hibersap using reflection
+    @SuppressWarnings({"UnusedDeclaration"}) // called by Hibersap using reflection
     private MyTestBapi() {
     }
 
-    MyTestBapi( Integer intParam, String intParamWithConverter, TestStructure structureParam,
-                String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter,
-                List<TestStructure> importTableStructure, List<TestStructure> exportTableStructure) {
+    MyTestBapi(Integer intParam, String intParamWithConverter, TestStructure structureParam,
+               String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter,
+               List<TestStructure> importTableStructure, List<TestStructure> exportTableStructure) {
         this.intParam = intParam;
         this.intParamWithConverter = intParamWithConverter;
         this.structureParam = structureParam;
@@ -93,48 +93,48 @@ class MyTestBapi {
     @BapiStructure
     static class TestStructure {
 
-        @Parameter( "charParam" )
+        @Parameter("charParam")
         char charParam;
 
-        @SuppressWarnings( "unused" )
+        @SuppressWarnings("unused")
         private TestStructure() {
             // for Hibersap
         }
 
-        public TestStructure( char charParam ) {
+        public TestStructure(char charParam) {
             this.charParam = charParam;
         }
     }
 
     private static class IntegerToStringConverter implements Converter<String, Integer> {
 
-        public String convertToJava( Integer sapValue ) throws ConversionException {
+        public String convertToJava(Integer sapValue) throws ConversionException {
             return sapValue.toString();
         }
 
-        public Integer convertToSap( String javaValue ) throws ConversionException {
-            return Integer.valueOf( javaValue );
+        public Integer convertToSap(String javaValue) throws ConversionException {
+            return Integer.valueOf(javaValue);
         }
     }
 
     private static class TestStructureTableToStringConverter
             implements Converter<String, Collection<Map<String, Object>>> {
 
-        public String convertToJava( Collection<Map<String, Object>> sapValue ) throws ConversionException {
+        public String convertToJava(Collection<Map<String, Object>> sapValue) throws ConversionException {
             StringBuilder result = new StringBuilder();
-            for ( Map<String, Object> row : sapValue ) {
-                result.append( row.get( "charParam" ) );
+            for (Map<String, Object> row : sapValue) {
+                result.append(row.get("charParam"));
             }
             return result.toString();
         }
 
-        public Collection<Map<String, Object>> convertToSap( String javaValue ) throws ConversionException {
+        public Collection<Map<String, Object>> convertToSap(String javaValue) throws ConversionException {
             ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-            for ( char aChar : javaValue.toCharArray() ) {
+            for (char aChar : javaValue.toCharArray()) {
                 HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put( "charParam", aChar );
-                list.add( map );
+                map.put("charParam", aChar);
+                list.add(map);
             }
 
             return list;
@@ -143,13 +143,13 @@ class MyTestBapi {
 
     private static class TestStructureToStringConverter implements Converter<String, Map<String, Object>> {
 
-        public String convertToJava( Map<String, Object> sapValue ) throws ConversionException {
-            return "" + sapValue.get( "charParam" );
+        public String convertToJava(Map<String, Object> sapValue) throws ConversionException {
+            return "" + sapValue.get("charParam");
         }
 
-        public Map<String, Object> convertToSap( String javaValue ) throws ConversionException {
+        public Map<String, Object> convertToSap(String javaValue) throws ConversionException {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put( "charParam", javaValue.charAt( 0 ) );
+            map.put("charParam", javaValue.charAt(0));
             return map;
         }
     }

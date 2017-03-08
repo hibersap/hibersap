@@ -33,29 +33,29 @@ public class BeanValidationInterceptorTest {
     @Test
     public void throwsConstraintViolationExceptionWhoseMessageContainsNameOfNonValidatingClass() {
         final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        final BeanValidationInterceptor interceptor = new BeanValidationInterceptor( validatorFactory );
+        final BeanValidationInterceptor interceptor = new BeanValidationInterceptor(validatorFactory);
 
         ConstraintViolationException validationException = null;
         try {
-            interceptor.beforeExecution( new TestObject() );
+            interceptor.beforeExecution(new TestObject());
             fail();
-        } catch ( ConstraintViolationException e ) {
+        } catch (ConstraintViolationException e) {
             validationException = e;
         }
 
-        assertThat( validationException ).isNotNull();
-        assertThat( validationException.getMessage() ).contains(
-                "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject" );
+        assertThat(validationException).isNotNull();
+        assertThat(validationException.getMessage()).contains(
+                "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject");
     }
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private static class TestObject {
 
         @Valid
         InnerObject innerObject = new InnerObject();
     }
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private static class InnerObject {
 
         @NotNull

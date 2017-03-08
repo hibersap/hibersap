@@ -38,27 +38,26 @@ public class ConfigurationMarshallTest {
     @Before
     public void setup()
             throws JAXBException {
-        jaxbContext = JAXBContext.newInstance( HibersapConfig.class, SessionManagerConfig.class, Property.class );
+        jaxbContext = JAXBContext.newInstance(HibersapConfig.class, SessionManagerConfig.class, Property.class);
     }
-
 
     @Test
     public void testParseOkConfiguration()
             throws Exception {
         final InputStream configurationAsStream = getClass()
-                .getResourceAsStream( "/xml-configurations/hibersapOK.xml" );
-        assertNotNull( configurationAsStream );
+                .getResourceAsStream("/xml-configurations/hibersapOK.xml");
+        assertNotNull(configurationAsStream);
 
         final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        final Object unmarshalledObject = unmarshaller.unmarshal( configurationAsStream );
+        final Object unmarshalledObject = unmarshaller.unmarshal(configurationAsStream);
         final HibersapConfig hiberSapMetaData = (HibersapConfig) unmarshalledObject;
 
         final List<SessionManagerConfig> sessionManagers = hiberSapMetaData.getSessionManagers();
-        assertNotNull( sessionManagers );
-        assertEquals( 2, sessionManagers.size() );
+        assertNotNull(sessionManagers);
+        assertEquals(2, sessionManagers.size());
 
-        assertEquals( "A12", sessionManagers.get( 0 ).getName() );
-        assertEquals( "B34", sessionManagers.get( 1 ).getName() );
+        assertEquals("A12", sessionManagers.get(0).getName());
+        assertEquals("B34", sessionManagers.get(1).getName());
     }
 
     // TODO create complete xml and verify against xsd
@@ -66,23 +65,23 @@ public class ConfigurationMarshallTest {
     public void testMarshalling()
             throws Exception {
         final List<Property> properties = new ArrayList<Property>();
-        final Property jcoProperty = new Property( "name", "value" );
-        properties.add( jcoProperty );
-        final SessionManagerConfig sessionManagerMetaData = new SessionManagerConfig( "session-name" )
-                .setContext( "ContextClass" ).setProperties( properties );
+        final Property jcoProperty = new Property("name", "value");
+        properties.add(jcoProperty);
+        final SessionManagerConfig sessionManagerMetaData = new SessionManagerConfig("session-name")
+                .setContext("ContextClass").setProperties(properties);
 
         final List<String> classes = new ArrayList<String>();
-        classes.add( "package.Class1" );
-        classes.add( "package.Class2" );
-        sessionManagerMetaData.setAnnotatedClasses( classes );
+        classes.add("package.Class1");
+        classes.add("package.Class2");
+        sessionManagerMetaData.setAnnotatedClasses(classes);
 
-        final HibersapConfig hiberSapMetaData = new HibersapConfig( sessionManagerMetaData );
+        final HibersapConfig hiberSapMetaData = new HibersapConfig(sessionManagerMetaData);
 
         final Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty( "jaxb.formatted.output", Boolean.TRUE );
+        marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
 
         final StringWriter stringWriter = new StringWriter();
-        marshaller.marshal( hiberSapMetaData, stringWriter );
-        System.out.println( stringWriter.toString() );
+        marshaller.marshal(hiberSapMetaData, stringWriter);
+        System.out.println(stringWriter.toString());
     }
 }

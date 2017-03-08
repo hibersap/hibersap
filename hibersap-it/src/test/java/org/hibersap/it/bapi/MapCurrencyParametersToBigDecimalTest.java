@@ -37,11 +37,11 @@ public class MapCurrencyParametersToBigDecimalTest extends AbstractBapiTest {
     public void mapsCurrencyParametersToBigDecimal() throws Exception {
         BapiExchangeRateGetDetail bapi = new BapiExchangeRateGetDetail();
 
-        session.execute( bapi );
+        session.execute(bapi);
 
-        assertThat( bapi.exchangeRate.exchangeRate.toPlainString() ).startsWith( "0.511" );
-        assertThat( bapi.exchangeRate.ratioFrom ).isEqualTo( new BigDecimal( 1 ) );
-        assertThat( bapi.exchangeRate.ratioTo ).isEqualTo( new BigDecimal( 1 ) );
+        assertThat(bapi.exchangeRate.exchangeRate.toPlainString()).startsWith("0.511");
+        assertThat(bapi.exchangeRate.ratioFrom).isEqualTo(new BigDecimal(1));
+        assertThat(bapi.exchangeRate.ratioTo).isEqualTo(new BigDecimal(1));
     }
 
     @Bapi("BAPI_EXCHANGERATE_GETDETAIL")

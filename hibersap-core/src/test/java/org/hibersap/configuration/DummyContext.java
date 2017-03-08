@@ -25,7 +25,7 @@ import org.hibersap.session.Context;
 
 public class DummyContext implements Context {
 
-    public void configure( final SessionManagerConfig config )
+    public void configure(final SessionManagerConfig config)
             throws HibersapException {
         // do nothing
     }
@@ -44,7 +44,7 @@ public class DummyContext implements Context {
     }
 
     @Override
-    public boolean equals( final Object obj ) {
+    public boolean equals(final Object obj) {
         return obj instanceof DummyContext;
     }
 }

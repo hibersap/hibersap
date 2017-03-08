@@ -38,50 +38,50 @@ public class ConnectionProvider {
 
     private Credentials credentials;
 
-    ConnectionProvider( final ConnectionFactory connectionFactory, final String connectionSpecFactoryName ) {
+    ConnectionProvider(final ConnectionFactory connectionFactory, final String connectionSpecFactoryName) {
         this.connectionFactory = connectionFactory;
         this.connectionSpecFactoryName = connectionSpecFactoryName;
     }
 
     Connection getConnection() {
-        if ( connection == null ) {
+        if (connection == null) {
             connection = newConnection();
         }
         return connection;
     }
 
-    void setCredentials( final Credentials credentials ) {
+    void setCredentials(final Credentials credentials) {
         this.credentials = credentials;
     }
 
     private Connection newConnection() {
         try {
-            if ( credentials == null ) {
+            if (credentials == null) {
                 return connectionFactory.getConnection();
             } else {
-                ConnectionSpec connectionSpec = newConnectionSpecFactory( connectionSpecFactoryName )
-                        .createConnectionSpec( credentials );
-                return connectionFactory.getConnection( connectionSpec );
+                ConnectionSpec connectionSpec = newConnectionSpecFactory(connectionSpecFactoryName)
+                        .createConnectionSpec(credentials);
+                return connectionFactory.getConnection(connectionSpec);
             }
-        } catch ( ResourceException e ) {
-            throw new HibersapException( "Problem creating Connection", e );
+        } catch (ResourceException e) {
+            throw new HibersapException("Problem creating Connection", e);
         }
     }
 
-    private ConnectionSpecFactory newConnectionSpecFactory( final String className ) {
+    private ConnectionSpecFactory newConnectionSpecFactory(final String className) {
         Class<?> clazz;
         try {
-            clazz = ReflectionHelper.getClassForName( className );
-        } catch ( ClassNotFoundException e ) {
-            throw new ConfigurationException( "ConnectionSpecFactory implementation class not found: " + className, e );
+            clazz = ReflectionHelper.getClassForName(className);
+        } catch (ClassNotFoundException e) {
+            throw new ConfigurationException("ConnectionSpecFactory implementation class not found: " + className, e);
         }
 
-        if ( !ConnectionSpecFactory.class.isAssignableFrom( clazz ) ) {
-            throw new ConfigurationException( "Class " + clazz.getName() + " does not implement "
-                                                      + ConnectionSpecFactory.class.getName() );
+        if (!ConnectionSpecFactory.class.isAssignableFrom(clazz)) {
+            throw new ConfigurationException("Class " + clazz.getName() + " does not implement "
+                    + ConnectionSpecFactory.class.getName());
         }
 
-        Object newInstance = ReflectionHelper.newInstance( clazz );
+        Object newInstance = ReflectionHelper.newInstance(clazz);
 
         return (ConnectionSpecFactory) newInstance;
     }

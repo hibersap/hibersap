@@ -32,11 +32,11 @@ public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
 
     @Test
     public void handlesParameterOfRawType() throws Exception {
-        StfcDeepStructure bapi = new StfcDeepStructure( "Ein anderer Text".getBytes() );
-        session.execute( bapi );
+        StfcDeepStructure bapi = new StfcDeepStructure("Ein anderer Text".getBytes());
+        session.execute(bapi);
 
-        String rawParamAsString = new String( bapi.out.rawStringParam );
-        assertThat( rawParamAsString ).isEqualTo( "Ein anderer Text" );
+        String rawParamAsString = new String(bapi.out.rawStringParam);
+        assertThat(rawParamAsString).isEqualTo("Ein anderer Text");
     }
 
     @Bapi("STFC_DEEP_STRUCTURE")
@@ -54,8 +54,8 @@ public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
         private StfcDeepStructure() {
         }
 
-        public StfcDeepStructure( byte[] rawStringParam ) {
-            in = new ComplexVar( rawStringParam );
+        public StfcDeepStructure(byte[] rawStringParam) {
+            in = new ComplexVar(rawStringParam);
         }
     }
 
@@ -69,7 +69,7 @@ public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
         private ComplexVar() {
         }
 
-        private ComplexVar( byte[] rawStringParam ) {
+        private ComplexVar(byte[] rawStringParam) {
             this.rawStringParam = rawStringParam;
         }
     }

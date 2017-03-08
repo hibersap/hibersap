@@ -33,9 +33,9 @@ public class MapTableParameterToArrayTest extends AbstractBapiTest {
     @Test
     public void mapsTableParameterToArray() throws Exception {
         BapiCustomerGetList bapi = new BapiCustomerGetList();
-        session.execute( bapi );
+        session.execute(bapi);
 
-        assertThat( bapi.customerList ).hasSize( 2 );
+        assertThat(bapi.customerList).hasSize(2);
     }
 
     @Bapi("BAPI_FLCUST_GETLIST")
@@ -53,5 +53,6 @@ public class MapTableParameterToArrayTest extends AbstractBapiTest {
 
     @BapiStructure
     private static class CustomerList {
+
     }
 }

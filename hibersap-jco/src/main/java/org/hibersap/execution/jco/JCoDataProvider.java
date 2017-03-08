@@ -35,39 +35,39 @@ import org.hibersap.HibersapException;
  */
 public class JCoDataProvider implements DestinationDataProvider {
 
-    private static final Log LOG = LogFactory.getLog( JCoDataProvider.class );
+    private static final Log LOG = LogFactory.getLog(JCoDataProvider.class);
 
     private final Map<String, Properties> propertiesForDestinationName = new HashMap<String, Properties>();
 
     private DestinationDataEventListener eventListener;
 
-    public void addDestination( final String destinationName, final Properties properties ) {
-        LOG.debug( "Add destination " + destinationName + " to " + propertiesForDestinationName );
+    public void addDestination(final String destinationName, final Properties properties) {
+        LOG.debug("Add destination " + destinationName + " to " + propertiesForDestinationName);
 
-        propertiesForDestinationName.put( destinationName, properties );
-        fireDestinationUpdatedEvent( destinationName );
+        propertiesForDestinationName.put(destinationName, properties);
+        fireDestinationUpdatedEvent(destinationName);
     }
 
-    public void removeDestination( final String destinationName ) {
-        LOG.debug( "Remove destination " + destinationName + " from " + propertiesForDestinationName );
+    public void removeDestination(final String destinationName) {
+        LOG.debug("Remove destination " + destinationName + " from " + propertiesForDestinationName);
 
-        propertiesForDestinationName.remove( destinationName );
-        fireDestinationDeletedEvent( destinationName );
+        propertiesForDestinationName.remove(destinationName);
+        fireDestinationDeletedEvent(destinationName);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Properties getDestinationProperties( final String destinationName ) {
-        if ( wasAdded( destinationName ) ) {
-            return propertiesForDestinationName.get( destinationName );
+    public Properties getDestinationProperties(final String destinationName) {
+        if (wasAdded(destinationName)) {
+            return propertiesForDestinationName.get(destinationName);
         } else {
-            throw new HibersapException( "No JCo destination with name " + destinationName + " found" );
+            throw new HibersapException("No JCo destination with name " + destinationName + " found");
         }
     }
 
-    public boolean wasAdded( final String destinationName ) {
-        return propertiesForDestinationName.containsKey( destinationName );
+    public boolean wasAdded(final String destinationName) {
+        return propertiesForDestinationName.containsKey(destinationName);
     }
 
     public boolean hasDestinations() {
@@ -77,7 +77,7 @@ public class JCoDataProvider implements DestinationDataProvider {
     /**
      * {@inheritDoc}
      */
-    public void setDestinationDataEventListener( final DestinationDataEventListener eventListener ) {
+    public void setDestinationDataEventListener(final DestinationDataEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
@@ -88,15 +88,15 @@ public class JCoDataProvider implements DestinationDataProvider {
         return true;
     }
 
-    private void fireDestinationUpdatedEvent( final String destinationName ) {
-        if ( eventListener != null ) {
-            eventListener.updated( destinationName );
+    private void fireDestinationUpdatedEvent(final String destinationName) {
+        if (eventListener != null) {
+            eventListener.updated(destinationName);
         }
     }
 
-    private void fireDestinationDeletedEvent( final String destinationName ) {
-        if ( eventListener != null ) {
-            eventListener.deleted( destinationName );
+    private void fireDestinationDeletedEvent(final String destinationName) {
+        if (eventListener != null) {
+            eventListener.deleted(destinationName);
         }
     }
 }

@@ -30,16 +30,16 @@ public class ContextFactoryTest {
     @Test
     public void initializesContextClass()
             throws Exception {
-        SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( DummyContext.class.getName() );
-        Context context = ContextFactory.create( config );
+        SessionManagerConfig config = new SessionManagerConfig("Test").setContext(DummyContext.class.getName());
+        Context context = ContextFactory.create(config);
 
-        assertNotNull( context );
-        assertEquals( DummyContext.class, context.getClass() );
+        assertNotNull(context);
+        assertEquals(DummyContext.class, context.getClass());
     }
 
-    @Test( expected = ConfigurationException.class )
+    @Test(expected = ConfigurationException.class)
     public void throwsExceptionWhenGivenContextClassDoesNotExtendContext() throws Exception {
-        SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( String.class.getName() );
-        ContextFactory.create( config );
+        SessionManagerConfig config = new SessionManagerConfig("Test").setContext(String.class.getName());
+        ContextFactory.create(config);
     }
 }

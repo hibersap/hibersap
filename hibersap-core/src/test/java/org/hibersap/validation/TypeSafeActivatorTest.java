@@ -31,12 +31,12 @@ public class TypeSafeActivatorTest {
 
     @Before
     public void setDefaultValdiationFactoryFactory() throws Exception {
-        useValidationFactoryFactory( new DefaultValidatorFactoryFactory() );
+        useValidationFactoryFactory(new DefaultValidatorFactoryFactory());
     }
 
     @Test
     public void hibernateValidationIsInClasspath() throws ClassNotFoundException {
-        Class.forName( "org.hibernate.validator.HibernateValidator" );
+        Class.forName("org.hibernate.validator.HibernateValidator");
     }
 
     @Test
@@ -44,15 +44,15 @@ public class TypeSafeActivatorTest {
         Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
         final SessionManagerConfig config = new SessionManagerConfig();
 
-        TypeSafeActivator.activateBeanValidation( interceptors, config );
+        TypeSafeActivator.activateBeanValidation(interceptors, config);
 
-        assertThat( interceptors ).hasSize( 1 );
-        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
+        assertThat(interceptors).hasSize(1);
+        assertThat(interceptors.toArray()).hasAtLeastOneElementOfType(BeanValidationInterceptor.class);
     }
 
-    private void useValidationFactoryFactory( ValidatorFactoryFactory factory ) throws Exception {
-        Field declaredField = TypeSafeActivator.class.getDeclaredField( "validatorFactoryFactory" );
-        declaredField.setAccessible( true );
-        declaredField.set( null, factory );
+    private void useValidationFactoryFactory(ValidatorFactoryFactory factory) throws Exception {
+        Field declaredField = TypeSafeActivator.class.getDeclaredField("validatorFactoryFactory");
+        declaredField.setAccessible(true);
+        declaredField.set(null, factory);
     }
 }

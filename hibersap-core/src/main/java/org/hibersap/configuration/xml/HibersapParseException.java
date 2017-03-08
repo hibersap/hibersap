@@ -27,11 +27,11 @@ public class HibersapParseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public HibersapParseException( final String message, final Throwable cause ) {
-        super( message, cause );
+    public HibersapParseException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
-    public HibersapParseException( final String message ) {
-        super( message );
+    public HibersapParseException(final String message) {
+        super(message);
     }
 }

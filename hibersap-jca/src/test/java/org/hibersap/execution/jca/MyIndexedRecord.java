@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import javax.resource.cci.IndexedRecord;
 
 // IndexedRecord extends the List interface in a non-generic way
-@SuppressWarnings( "unchecked" )
+@SuppressWarnings("unchecked")
 public class MyIndexedRecord
         extends ArrayList
         implements IndexedRecord {
@@ -31,7 +31,7 @@ public class MyIndexedRecord
 
     private String recordName;
 
-    public MyIndexedRecord( String recordName ) {
+    public MyIndexedRecord(String recordName) {
         this.recordName = recordName;
     }
 
@@ -39,7 +39,7 @@ public class MyIndexedRecord
         return recordName;
     }
 
-    public void setRecordName( String recordName ) {
+    public void setRecordName(String recordName) {
         this.recordName = recordName;
     }
 
@@ -47,7 +47,7 @@ public class MyIndexedRecord
         return recordShortDescription;
     }
 
-    public void setRecordShortDescription( String recordShortDescription ) {
+    public void setRecordShortDescription(String recordShortDescription) {
         this.recordShortDescription = recordShortDescription;
     }
 }

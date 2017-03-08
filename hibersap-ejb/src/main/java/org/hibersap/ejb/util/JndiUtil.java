@@ -30,34 +30,34 @@ import org.hibersap.session.SessionManager;
 
 public final class JndiUtil {
 
-    private static final Log LOG = LogFactory.getLog( JndiUtil.class );
+    private static final Log LOG = LogFactory.getLog(JndiUtil.class);
 
     private JndiUtil() {
         // use static utility methods
     }
 
     @PostConstruct
-    public static void rebindSessionManager( final SessionManager sessionManager, final String jndiName ) {
-        LOG.info( "Binding Hibersap SessionManager '" + sessionManager.getConfig().getName()
-                          + "' to JNDI name '" + jndiName + "'" );
+    public static void rebindSessionManager(final SessionManager sessionManager, final String jndiName) {
+        LOG.info("Binding Hibersap SessionManager '" + sessionManager.getConfig().getName()
+                + "' to JNDI name '" + jndiName + "'");
 
         try {
             Context ctx = new InitialContext();
-            ctx.rebind( jndiName, sessionManager );
-        } catch ( NamingException e ) {
-            throw new HibersapException( "Failed binding Hibersap SessionManager to JNDI name [" + jndiName + "]", e );
+            ctx.rebind(jndiName, sessionManager);
+        } catch (NamingException e) {
+            throw new HibersapException("Failed binding Hibersap SessionManager to JNDI name [" + jndiName + "]", e);
         }
     }
 
     @PreDestroy
-    public static void unbindSessionManager( final String jndiName ) {
-        LOG.info( "Unbinding Hibersap SessionManager from JNDI name '" + jndiName + "'" );
+    public static void unbindSessionManager(final String jndiName) {
+        LOG.info("Unbinding Hibersap SessionManager from JNDI name '" + jndiName + "'");
 
         try {
             Context ctx = new InitialContext();
-            ctx.unbind( jndiName );
-        } catch ( NamingException e ) {
-            LOG.warn( "Failed to unbind Hibersap SessionManager binding for JNDI name [" + jndiName + "]", e );
+            ctx.unbind(jndiName);
+        } catch (NamingException e) {
+            LOG.warn("Failed to unbind Hibersap SessionManager binding for JNDI name [" + jndiName + "]", e);
         }
     }
 }

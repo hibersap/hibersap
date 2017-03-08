@@ -27,10 +27,10 @@ public class SessionManagerTest extends AbstractBapiTest {
 
     @Test
     public void sessionManagerUnregistersJCoDestinationWhenClosing() throws Exception {
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isTrue();
+        assertThat(Environment.isDestinationDataProviderRegistered()).isTrue();
 
         sessionManager.close();
 
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
+        assertThat(Environment.isDestinationDataProviderRegistered()).isFalse();
     }
 }

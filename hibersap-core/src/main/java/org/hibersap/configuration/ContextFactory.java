@@ -33,48 +33,48 @@ import org.hibersap.session.Context;
  */
 public final class ContextFactory {
 
-    private static final Log LOG = LogFactory.getLog( ContextFactory.class );
+    private static final Log LOG = LogFactory.getLog(ContextFactory.class);
 
     private ContextFactory() {
         // should not be instantiated
     }
 
-    public static Context create( final SessionManagerConfig config ) {
+    public static Context create(final SessionManagerConfig config) {
         // init Context
-        final Class<? extends Context> contextClass = getContextClass( config );
-        final Context context = getNewInstance( contextClass );
-        context.configure( config );
+        final Class<? extends Context> contextClass = getContextClass(config);
+        final Context context = getNewInstance(contextClass);
+        context.configure(config);
 
         return context;
     }
 
-    private static Context getNewInstance( final Class<? extends Context> clazz ) {
+    private static Context getNewInstance(final Class<? extends Context> clazz) {
         try {
             return clazz.newInstance();
-        } catch ( final IllegalAccessException e ) {
-            throw new ConfigurationException( "The class " + clazz
-                                                      + " must be accessible.", e );
-        } catch ( final InstantiationException e ) {
-            throw new ConfigurationException( "The class " + clazz
-                                                      + " must be accessible and must have a public default constructor.", e );
-        } catch ( final ConfigurationException e ) {
-            throw new HibersapException( "The class " + clazz + " must hava a public default constructor.", e );
+        } catch (final IllegalAccessException e) {
+            throw new ConfigurationException("The class " + clazz
+                    + " must be accessible.", e);
+        } catch (final InstantiationException e) {
+            throw new ConfigurationException("The class " + clazz
+                    + " must be accessible and must have a public default constructor.", e);
+        } catch (final ConfigurationException e) {
+            throw new HibersapException("The class " + clazz + " must hava a public default constructor.", e);
         }
     }
 
-    private static Class<? extends Context> getContextClass( final SessionManagerConfig config ) {
+    private static Class<? extends Context> getContextClass(final SessionManagerConfig config) {
         String contextClassName = config.getContext();
 
-        if ( StringUtils.isEmpty( contextClassName ) ) {
+        if (StringUtils.isEmpty(contextClassName)) {
             contextClassName = "org.hibersap.execution.jco.JCoContext";
-            LOG.info( "No context class specified in properties. Default class " + contextClassName + " will be used" );
+            LOG.info("No context class specified in properties. Default class " + contextClassName + " will be used");
         }
-        return getContextClassForName( contextClassName );
+        return getContextClassForName(contextClassName);
     }
 
-    private static Class<? extends Context> getContextClassForName( final String contextClassName ) {
-        Class<?> contextClass = getClassForName( contextClassName );
-        if ( Context.class.isAssignableFrom( contextClass ) ) {
+    private static Class<? extends Context> getContextClassForName(final String contextClassName) {
+        Class<?> contextClass = getClassForName(contextClassName);
+        if (Context.class.isAssignableFrom(contextClass)) {
             //noinspection unchecked
             return (Class<? extends Context>) contextClass;
         }
@@ -84,16 +84,16 @@ public final class ContextFactory {
         );
     }
 
-    public static Class<?> getClassForName( final String contextClassName ) {
+    public static Class<?> getClassForName(final String contextClassName) {
         try {
-            return Class.forName( contextClassName, true, Thread.currentThread().getContextClassLoader() );
-        } catch ( Exception exc ) {
+            return Class.forName(contextClassName, true, Thread.currentThread().getContextClassLoader());
+        } catch (Exception exc) {
             try {
-                return Class.forName( contextClassName );
-            } catch ( final ClassNotFoundException e ) {
-                throw new ConfigurationException( "Class " + contextClassName + " not found.", e );
-            } catch ( final Exception e ) {
-                throw new ConfigurationException( "Class " + contextClassName + " could not be loaded", e );
+                return Class.forName(contextClassName);
+            } catch (final ClassNotFoundException e) {
+                throw new ConfigurationException("Class " + contextClassName + " not found.", e);
+            } catch (final Exception e) {
+                throw new ConfigurationException("Class " + contextClassName + " could not be loaded", e);
             }
         }
     }

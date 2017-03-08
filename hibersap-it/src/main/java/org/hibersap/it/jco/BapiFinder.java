@@ -26,20 +26,20 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 
-@Bapi( "BAPI_MONITOR_GETLIST" )
+@Bapi("BAPI_MONITOR_GETLIST")
 @ThrowExceptionOnError
 public class BapiFinder {
 
     @Table
-    @Parameter( "COMPONENTS2SELECT" )
+    @Parameter("COMPONENTS2SELECT")
     private Set<SapComponent> componentsToSelect = new HashSet<SapComponent>();
 
     @Table
-    @Parameter( "BAPILIST" )
+    @Parameter("BAPILIST")
     private Set<BapiDescription> bapiDescriptions;
 
-    public BapiFinder( final String componentToSelect ) {
-        this.componentsToSelect.add( new SapComponent( componentToSelect ) );
+    public BapiFinder(final String componentToSelect) {
+        this.componentsToSelect.add(new SapComponent(componentToSelect));
     }
 
     public Set<BapiDescription> getBapiDescriptions() {
@@ -49,14 +49,14 @@ public class BapiFinder {
     @BapiStructure
     private static class SapComponent {
 
-        @Parameter( "COMPONENT" )
+        @Parameter("COMPONENT")
         private String component;
 
-        @SuppressWarnings( {"UnusedDeclaration"} ) // called by Hibersap
+        @SuppressWarnings({"UnusedDeclaration"}) // called by Hibersap
         public SapComponent() {
         }
 
-        private SapComponent( final String component ) {
+        private SapComponent(final String component) {
             this.component = component;
         }
     }

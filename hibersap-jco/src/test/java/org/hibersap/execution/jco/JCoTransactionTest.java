@@ -32,13 +32,13 @@ import static org.easymock.EasyMock.isA;
 public class JCoTransactionTest {
 
     private static final AnnotationBapiMapper mapper = new AnnotationBapiMapper();
-    private static final BapiMapping bapiCommitMapping = mapper.mapBapi( BapiTransactionCommit.class );
-    private static final BapiMapping bapiRollbackMapping = mapper.mapBapi( BapiTransactionRollback.class );
+    private static final BapiMapping bapiCommitMapping = mapper.mapBapi(BapiTransactionCommit.class);
+    private static final BapiMapping bapiRollbackMapping = mapper.mapBapi(BapiTransactionRollback.class);
 
-    private final SessionImplementor sessionMock = EasyMock.createMock( SessionImplementor.class );
-    private final JCoTransaction transaction = new JCoTransaction( sessionMock );
+    private final SessionImplementor sessionMock = EasyMock.createMock(SessionImplementor.class);
+    private final JCoTransaction transaction = new JCoTransaction(sessionMock);
 
-    @Test( expected = HibersapException.class )
+    @Test(expected = HibersapException.class)
     public void testMustNotBeginAlreadyStartedTransaction()
             throws Exception {
         transaction.begin();
@@ -48,8 +48,8 @@ public class JCoTransactionTest {
     @Test
     public void testCommit()
             throws Exception {
-        sessionMock.execute( isA( BapiTransactionCommit.class ), eq( bapiCommitMapping ) );
-        EasyMock.replay( sessionMock );
+        sessionMock.execute(isA(BapiTransactionCommit.class), eq(bapiCommitMapping));
+        EasyMock.replay(sessionMock);
         transaction.begin();
         transaction.commit();
     }
@@ -57,8 +57,8 @@ public class JCoTransactionTest {
     @Test
     public void testRollback()
             throws Exception {
-        sessionMock.execute( isA( BapiTransactionRollback.class ), eq( bapiRollbackMapping ) );
-        EasyMock.replay( sessionMock );
+        sessionMock.execute(isA(BapiTransactionRollback.class), eq(bapiRollbackMapping));
+        EasyMock.replay(sessionMock);
         transaction.begin();
         transaction.rollback();
     }

@@ -31,7 +31,7 @@ public class MyMappedRecord
 
     private String recordShortDescription;
 
-    public MyMappedRecord( String recordName ) {
+    public MyMappedRecord(String recordName) {
         this.recordName = recordName;
     }
 
@@ -39,7 +39,7 @@ public class MyMappedRecord
         return recordName;
     }
 
-    public void setRecordName( String recordName ) {
+    public void setRecordName(String recordName) {
         this.recordName = recordName;
     }
 
@@ -47,7 +47,7 @@ public class MyMappedRecord
         return recordShortDescription;
     }
 
-    public void setRecordShortDescription( String recordShortDescription ) {
+    public void setRecordShortDescription(String recordShortDescription) {
         this.recordShortDescription = recordShortDescription;
     }
 }

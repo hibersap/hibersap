@@ -41,63 +41,63 @@ import org.hibersap.session.SessionManager;
 
 public class ReverseBapiMapper {
 
-    public BapiMapping map( final String bapiName, final SessionManager sessionManager ) {
+    public BapiMapping map(final String bapiName, final SessionManager sessionManager) {
         JCoDestination destination;
         try {
             String sfName = sessionManager.getConfig().getName();
-            destination = JCoDestinationManager.getDestination( sfName );
+            destination = JCoDestinationManager.getDestination(sfName);
 
-            JCoFunctionTemplate ft = destination.getRepository().getFunctionTemplate( bapiName );
+            JCoFunctionTemplate ft = destination.getRepository().getFunctionTemplate(bapiName);
             JCoFunction function = ft.getFunction();
 
-            BapiMapping mapping = new BapiMapping( null, function.getName(), null );
+            BapiMapping mapping = new BapiMapping(null, function.getName(), null);
 
-            mapFields( mapping.getImportParameters(), function.getImportParameterList() );
-            mapFields( mapping.getExportParameters(), function.getExportParameterList() );
-            mapFields( mapping.getTableParameters(), function.getTableParameterList() );
+            mapFields(mapping.getImportParameters(), function.getImportParameterList());
+            mapFields(mapping.getExportParameters(), function.getExportParameterList());
+            mapFields(mapping.getTableParameters(), function.getTableParameterList());
 
             return mapping;
-        } catch ( JCoException e ) {
-            throw new HibersapException( e );
+        } catch (JCoException e) {
+            throw new HibersapException(e);
         }
     }
 
-    @SuppressWarnings( "unchecked" )
-    private void mapFields( final Set<? extends ParameterMapping> set, final JCoParameterList jcoParams ) {
-        if ( jcoParams == null ) {
+    @SuppressWarnings("unchecked")
+    private void mapFields(final Set<? extends ParameterMapping> set, final JCoParameterList jcoParams) {
+        if (jcoParams == null) {
             return;
         }
 
         JCoParameterFieldIterator iter = jcoParams.getParameterFieldIterator();
-        while ( iter.hasNextField() ) {
+        while (iter.hasNextField()) {
             JCoField field = iter.nextField();
-            ParameterMapping param = getParameterMapping( field );
+            ParameterMapping param = getParameterMapping(field);
 
-            if ( ParameterMapping.ParamType.FIELD == param.getParamType() ) {
-                ( (Set<FieldMapping>) set ).add( (FieldMapping) param );
-            } else if ( ParameterMapping.ParamType.STRUCTURE == param.getParamType() ) {
-                ( (Set<StructureMapping>) set ).add( (StructureMapping) param );
-            } else if ( ParameterMapping.ParamType.TABLE == param.getParamType() ) {
-                ( (Set<TableMapping>) set ).add( (TableMapping) param );
+            if (ParameterMapping.ParamType.FIELD == param.getParamType()) {
+                ((Set<FieldMapping>) set).add((FieldMapping) param);
+            } else if (ParameterMapping.ParamType.STRUCTURE == param.getParamType()) {
+                ((Set<StructureMapping>) set).add((StructureMapping) param);
+            } else if (ParameterMapping.ParamType.TABLE == param.getParamType()) {
+                ((Set<TableMapping>) set).add((TableMapping) param);
             }
         }
     }
 
-    private ParameterMapping getParameterMapping( final JCoField field ) {
-        String javaFieldName = BapiFormatHelper.getCamelCaseSmall( field.getName() );
+    private ParameterMapping getParameterMapping(final JCoField field) {
+        String javaFieldName = BapiFormatHelper.getCamelCaseSmall(field.getName());
 
-        if ( field.isStructure() ) {
-            StructureMapping structureMapping = new StructureMapping( null, field.getName(), javaFieldName, null );
-            addFieldMappings( structureMapping, field.getStructure() );
+        if (field.isStructure()) {
+            StructureMapping structureMapping = new StructureMapping(null, field.getName(), javaFieldName, null);
+            addFieldMappings(structureMapping, field.getStructure());
             return structureMapping;
         }
-        if ( field.isTable() ) {
-            StructureMapping structureMapping = new StructureMapping( null, field.getName(), javaFieldName, null );
-            addFieldMappings( structureMapping, field.getTable() );
-            return new TableMapping( List.class, null, field.getName(), javaFieldName, structureMapping, null );
+        if (field.isTable()) {
+            StructureMapping structureMapping = new StructureMapping(null, field.getName(), javaFieldName, null);
+            addFieldMappings(structureMapping, field.getTable());
+            return new TableMapping(List.class, null, field.getName(), javaFieldName, structureMapping, null);
         }
 
-        return new FieldMapping( getAssociatedClass( field ), field.getName(), javaFieldName, null );
+        return new FieldMapping(getAssociatedClass(field), field.getName(), javaFieldName, null);
     }
 
     /**
@@ -111,26 +111,26 @@ public class ReverseBapiMapper {
      * @param field The JCoField.
      * @return The class representing the field type.
      */
-    private Class<?> getAssociatedClass( final JCoField field ) {
+    private Class<?> getAssociatedClass(final JCoField field) {
         String canonicalClassName = field.getClassNameOfValue();
 
-        if ( byte[].class.getCanonicalName().equals( canonicalClassName ) ) {
+        if (byte[].class.getCanonicalName().equals(canonicalClassName)) {
             return byte[].class;
         }
 
         try {
-            return Class.forName( canonicalClassName );
-        } catch ( ClassNotFoundException e ) {
-            throw new InternalHiberSapException( "Can not get class for class name " + canonicalClassName, e );
+            return Class.forName(canonicalClassName);
+        } catch (ClassNotFoundException e) {
+            throw new InternalHiberSapException("Can not get class for class name " + canonicalClassName, e);
         }
     }
 
-    private void addFieldMappings( final StructureMapping structureMapping, final JCoRecord record ) {
+    private void addFieldMappings(final StructureMapping structureMapping, final JCoRecord record) {
         JCoFieldIterator iter = record.getFieldIterator();
 
-        while ( iter.hasNextField() ) {
-            FieldMapping fieldParam = (FieldMapping) getParameterMapping( iter.nextField() );
-            structureMapping.addParameter( fieldParam );
+        while (iter.hasNextField()) {
+            FieldMapping fieldParam = (FieldMapping) getParameterMapping(iter.nextField());
+            structureMapping.addParameter(fieldParam);
         }
     }
 }

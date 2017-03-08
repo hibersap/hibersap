@@ -28,41 +28,41 @@ public class SessionManagerConfigTest {
     @Test
     public void testBuild()
             throws Exception {
-        SessionManagerConfig cfg = new SessionManagerConfig( "name" )
-                .setContext( "context" )
-                .setJcaConnectionFactory( "jcaConnectionFactory" )
-                .setJcaConnectionSpecFactory( "jcaConnectionSpecFactory" )
-                .setName( "newName" )
-                .setProperty( "key1", "value1" )
-                .setProperty( "key2", "value2" )
-                .addAnnotatedClass( String.class )
-                .addAnnotatedClass( Integer.class )
-                .addExecutionInterceptorClass( ConfigurationTest.ExecutionInterceptorDummy.class )
-                .addBapiInterceptorClass( ConfigurationTest.BapiInterceptorDummy.class )
-                .setValidationMode( ValidationMode.CALLBACK );
+        SessionManagerConfig cfg = new SessionManagerConfig("name")
+                .setContext("context")
+                .setJcaConnectionFactory("jcaConnectionFactory")
+                .setJcaConnectionSpecFactory("jcaConnectionSpecFactory")
+                .setName("newName")
+                .setProperty("key1", "value1")
+                .setProperty("key2", "value2")
+                .addAnnotatedClass(String.class)
+                .addAnnotatedClass(Integer.class)
+                .addExecutionInterceptorClass(ConfigurationTest.ExecutionInterceptorDummy.class)
+                .addBapiInterceptorClass(ConfigurationTest.BapiInterceptorDummy.class)
+                .setValidationMode(ValidationMode.CALLBACK);
 
-        assertThat( cfg.getContext() ).isEqualTo( "context" );
-        assertThat( cfg.getJcaConnectionFactory() ).isEqualTo( "jcaConnectionFactory" );
-        assertThat( cfg.getJcaConnectionSpecFactory() ).isEqualTo( "jcaConnectionSpecFactory" );
-        assertThat( cfg.getName() ).isEqualTo( "newName" );
-        assertThat( cfg.getProperties() ).hasSize( 2 );
-        assertThat( cfg.getProperty( "key1" ) ).isEqualTo( "value1" );
-        assertThat( cfg.getProperty( "key2" ) ).isEqualTo( "value2" );
+        assertThat(cfg.getContext()).isEqualTo("context");
+        assertThat(cfg.getJcaConnectionFactory()).isEqualTo("jcaConnectionFactory");
+        assertThat(cfg.getJcaConnectionSpecFactory()).isEqualTo("jcaConnectionSpecFactory");
+        assertThat(cfg.getName()).isEqualTo("newName");
+        assertThat(cfg.getProperties()).hasSize(2);
+        assertThat(cfg.getProperty("key1")).isEqualTo("value1");
+        assertThat(cfg.getProperty("key2")).isEqualTo("value2");
 
         List<String> annotatedClasses = cfg.getAnnotatedClasses();
-        assertThat( annotatedClasses ).hasSize( 2 );
-        assertThat( annotatedClasses ).contains( Integer.class.getName(), String.class.getName() );
+        assertThat(annotatedClasses).hasSize(2);
+        assertThat(annotatedClasses).contains(Integer.class.getName(), String.class.getName());
 
-        assertThat( cfg.getValidationMode() ).isSameAs( ValidationMode.CALLBACK );
+        assertThat(cfg.getValidationMode()).isSameAs(ValidationMode.CALLBACK);
     }
 
     @Test
     public void testDefaultValues()
             throws Exception {
-        SessionManagerConfig cfg = new SessionManagerConfig( "name" );
-        assertThat( cfg.getContext() ).isEqualTo( "org.hibersap.execution.jco.JCoContext" );
-        assertThat( cfg.getJcaConnectionSpecFactory() ).isEqualTo(
-                "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory" );
-        assertThat( cfg.getValidationMode() ).isSameAs( ValidationMode.AUTO );
+        SessionManagerConfig cfg = new SessionManagerConfig("name");
+        assertThat(cfg.getContext()).isEqualTo("org.hibersap.execution.jco.JCoContext");
+        assertThat(cfg.getJcaConnectionSpecFactory()).isEqualTo(
+                "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory");
+        assertThat(cfg.getValidationMode()).isSameAs(ValidationMode.AUTO);
     }
 }

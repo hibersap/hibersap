@@ -36,7 +36,7 @@ import org.hibersap.session.Context;
  */
 public class JCoContext implements Context {
 
-    private static final Log LOG = LogFactory.getLog( JCoContext.class );
+    private static final Log LOG = LogFactory.getLog(JCoContext.class);
 
     private static final String JCO_PROPERTIES_PREFIX = "jco.";
 
@@ -45,33 +45,33 @@ public class JCoContext implements Context {
     /*
      * {@inheritDoc}
      */
-    public void configure( final SessionManagerConfig config )
+    public void configure(final SessionManagerConfig config)
             throws HibersapException {
-        LOG.trace( "configure JCo context" );
+        LOG.trace("configure JCo context");
 
         final Properties jcoProperties = new Properties();
         List<Property> properties = config.getProperties();
 
-        for ( Property property : properties ) {
+        for (Property property : properties) {
             String name = property.getName();
-            if ( name.startsWith( JCO_PROPERTIES_PREFIX ) ) {
-                jcoProperties.put( name, property.getValue() );
+            if (name.startsWith(JCO_PROPERTIES_PREFIX)) {
+                jcoProperties.put(name, property.getValue());
             }
         }
 
         destinationName = config.getName();
-        if ( StringUtils.isEmpty( destinationName ) ) {
-            throw new HibersapException( "A session manager name must be specified in Hibersap configuration" );
+        if (StringUtils.isEmpty(destinationName)) {
+            throw new HibersapException("A session manager name must be specified in Hibersap configuration");
         }
 
-        JCoEnvironment.registerDestination( destinationName, jcoProperties );
+        JCoEnvironment.registerDestination(destinationName, jcoProperties);
     }
 
     /*
      * {@inheritDoc}
      */
     public void close() {
-        JCoEnvironment.unregisterDestination( destinationName );
+        JCoEnvironment.unregisterDestination(destinationName);
         destinationName = null;
     }
 
@@ -79,34 +79,34 @@ public class JCoContext implements Context {
      * {@inheritDoc}
      */
     public Connection getConnection() {
-        return new JCoConnection( destinationName );
+        return new JCoConnection(destinationName);
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( ( destinationName == null ) ? 0 : destinationName.hashCode() );
+        result = prime * result + ((destinationName == null) ? 0 : destinationName.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals( final Object obj ) {
-        if ( this == obj ) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if ( obj == null ) {
+        if (obj == null) {
             return false;
         }
-        if ( getClass() != obj.getClass() ) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         JCoContext other = (JCoContext) obj;
-        if ( destinationName == null ) {
-            if ( other.destinationName != null ) {
+        if (destinationName == null) {
+            if (other.destinationName != null) {
                 return false;
             }
-        } else if ( !destinationName.equals( other.destinationName ) ) {
+        } else if (!destinationName.equals(other.destinationName)) {
             return false;
         }
         return true;

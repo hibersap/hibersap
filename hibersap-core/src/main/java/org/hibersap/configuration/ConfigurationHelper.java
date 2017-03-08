@@ -35,26 +35,26 @@ public final class ConfigurationHelper {
         // Utility class with static methods
     }
 
-    public static Context createContext( final SessionManagerConfig sessionManagerConfig ) {
-        return ContextFactory.create( sessionManagerConfig );
+    public static Context createContext(final SessionManagerConfig sessionManagerConfig) {
+        return ContextFactory.create(sessionManagerConfig);
     }
 
-    public static Set<ExecutionInterceptor> createExecutionInterceptors( final SessionManagerConfig sessionManagerConfig ) {
+    public static Set<ExecutionInterceptor> createExecutionInterceptors(final SessionManagerConfig sessionManagerConfig) {
         final List<String> classNames = sessionManagerConfig.getExecutionInterceptorClasses();
 
         final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
-        executionInterceptors.addAll( createInstances( classNames, ExecutionInterceptor.class ) );
-        executionInterceptors.add( new SapErrorInterceptor() );
+        executionInterceptors.addAll(createInstances(classNames, ExecutionInterceptor.class));
+        executionInterceptors.add(new SapErrorInterceptor());
 
         return executionInterceptors;
     }
 
-    public static Set<BapiInterceptor> createBapiInterceptors( final SessionManagerConfig sessionManagerConfig ) {
+    public static Set<BapiInterceptor> createBapiInterceptors(final SessionManagerConfig sessionManagerConfig) {
         final List<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
 
         final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
-        bapiInterceptors.addAll( createInstances( classNames, BapiInterceptor.class ) );
-        activateBeanValidation( bapiInterceptors, sessionManagerConfig );
+        bapiInterceptors.addAll(createInstances(classNames, BapiInterceptor.class));
+        activateBeanValidation(bapiInterceptors, sessionManagerConfig);
 
         return bapiInterceptors;
     }

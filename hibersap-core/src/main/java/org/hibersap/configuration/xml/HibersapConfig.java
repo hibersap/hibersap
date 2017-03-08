@@ -40,7 +40,7 @@ public final class HibersapConfig implements Serializable {
     public static final String NAMESPACE = "http://hibersap.org/xml/ns/hibersap-config";
 
     @XmlTransient
-    private static final Log LOG = LogFactory.getLog( HibersapConfig.class );
+    private static final Log LOG = LogFactory.getLog(HibersapConfig.class);
 
     @XmlTransient
     private static final long serialVersionUID = 1;
@@ -49,49 +49,49 @@ public final class HibersapConfig implements Serializable {
     protected List<SessionManagerConfig> sessionManagers = new ArrayList<SessionManagerConfig>();
 
     public HibersapConfig() {
-        LOG.trace( "created" );
+        LOG.trace("created");
     }
 
-    HibersapConfig( final SessionManagerConfig sessionManager ) {
-        this.sessionManagers.add( sessionManager );
+    HibersapConfig(final SessionManagerConfig sessionManager) {
+        this.sessionManagers.add(sessionManager);
     }
 
     public List<SessionManagerConfig> getSessionManagers() {
         return sessionManagers;
     }
 
-    public void setSessionManagers( final List<SessionManagerConfig> sessionManagers ) {
+    public void setSessionManagers(final List<SessionManagerConfig> sessionManagers) {
         this.sessionManagers.clear();
-        this.sessionManagers.addAll( sessionManagers );
+        this.sessionManagers.addAll(sessionManagers);
     }
 
-    public SessionManagerConfig getSessionManager( final String name ) {
-        for ( SessionManagerConfig config : sessionManagers ) {
-            if ( config.getName().equals( name ) ) {
+    public SessionManagerConfig getSessionManager(final String name) {
+        for (SessionManagerConfig config : sessionManagers) {
+            if (config.getName().equals(name)) {
                 return config;
             }
         }
-        throw new ConfigurationException( "No configuration found for Session Manager name '" + name + "'" );
+        throw new ConfigurationException("No configuration found for Session Manager name '" + name + "'");
     }
 
-    public SessionManagerConfig addSessionManager( final String name ) {
-        SessionManagerConfig config = new SessionManagerConfig( name );
-        sessionManagers.add( config );
+    public SessionManagerConfig addSessionManager(final String name) {
+        SessionManagerConfig config = new SessionManagerConfig(name);
+        sessionManagers.add(config);
         return config;
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         HibersapConfig that = (HibersapConfig) o;
 
-        if ( sessionManagers != null ? !sessionManagers.equals( that.sessionManagers ) : that.sessionManagers != null ) {
+        if (sessionManagers != null ? !sessionManagers.equals(that.sessionManagers) : that.sessionManagers != null) {
             return false;
         }
 

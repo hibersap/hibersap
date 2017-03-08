@@ -41,7 +41,7 @@ public class MonitoringData {
         return lastActivity;
     }
 
-    public void setLastActivity( final Date lastActivity ) {
+    public void setLastActivity(final Date lastActivity) {
         this.lastActivity = lastActivity;
     }
 
@@ -49,7 +49,7 @@ public class MonitoringData {
         return maxUsedCount;
     }
 
-    public void setMaxUsedCount( final int maxUsedCount ) {
+    public void setMaxUsedCount(final int maxUsedCount) {
         this.maxUsedCount = maxUsedCount;
     }
 
@@ -57,7 +57,7 @@ public class MonitoringData {
         return peakLimit;
     }
 
-    public void setPeakLimit( final int peakLimit ) {
+    public void setPeakLimit(final int peakLimit) {
         this.peakLimit = peakLimit;
     }
 
@@ -65,7 +65,7 @@ public class MonitoringData {
         return poolCapacity;
     }
 
-    public void setPoolCapacity( final int poolCapacity ) {
+    public void setPoolCapacity(final int poolCapacity) {
         this.poolCapacity = poolCapacity;
     }
 
@@ -73,7 +73,7 @@ public class MonitoringData {
         return pooledConnectionCount;
     }
 
-    public void setPooledConnectionCount( final int pooledConnectionCount ) {
+    public void setPooledConnectionCount(final int pooledConnectionCount) {
         this.pooledConnectionCount = pooledConnectionCount;
     }
 
@@ -81,7 +81,7 @@ public class MonitoringData {
         return systemDescription;
     }
 
-    public void setSystemDescription( final String systemDescription ) {
+    public void setSystemDescription(final String systemDescription) {
         this.systemDescription = systemDescription;
     }
 
@@ -89,12 +89,12 @@ public class MonitoringData {
         return usedConnectionCount;
     }
 
-    public void setUsedConnectionCount( final int usedConnectionCount ) {
+    public void setUsedConnectionCount(final int usedConnectionCount) {
         this.usedConnectionCount = usedConnectionCount;
     }
 
-    public void addConnectionData( final ConnectionData connectionData ) {
-        this.connections.add( connectionData );
+    public void addConnectionData(final ConnectionData connectionData) {
+        this.connections.add(connectionData);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class MonitoringData {
             return abapClient;
         }
 
-        public void setAbapClient( final String abapClient ) {
+        public void setAbapClient(final String abapClient) {
             this.abapClient = abapClient;
         }
 
@@ -145,7 +145,7 @@ public class MonitoringData {
             return abapHost;
         }
 
-        public void setAbapHost( final String abapHost ) {
+        public void setAbapHost(final String abapHost) {
             this.abapHost = abapHost;
         }
 
@@ -153,7 +153,7 @@ public class MonitoringData {
             return abapLanguage;
         }
 
-        public void setAbapLanguage( final String abapLanguage ) {
+        public void setAbapLanguage(final String abapLanguage) {
             this.abapLanguage = abapLanguage;
         }
 
@@ -161,7 +161,7 @@ public class MonitoringData {
             return abapSystemNumber;
         }
 
-        public void setAbapSystemNumber( final String abapSystemNumber ) {
+        public void setAbapSystemNumber(final String abapSystemNumber) {
             this.abapSystemNumber = abapSystemNumber;
         }
 
@@ -169,7 +169,7 @@ public class MonitoringData {
             return abapUser;
         }
 
-        public void setAbapUser( final String abapUser ) {
+        public void setAbapUser(final String abapUser) {
             this.abapUser = abapUser;
         }
 
@@ -177,7 +177,7 @@ public class MonitoringData {
             return applicationName;
         }
 
-        public void setApplicationName( final String applicationName ) {
+        public void setApplicationName(final String applicationName) {
             this.applicationName = applicationName;
         }
 
@@ -185,7 +185,7 @@ public class MonitoringData {
             return connectionHandle;
         }
 
-        public void setConnectionHandle( final String connectionHandle ) {
+        public void setConnectionHandle(final String connectionHandle) {
             this.connectionHandle = connectionHandle;
         }
 
@@ -193,7 +193,7 @@ public class MonitoringData {
             return connectionType;
         }
 
-        public void setConnectionType( final String connectionType ) {
+        public void setConnectionType(final String connectionType) {
             this.connectionType = connectionType;
         }
 
@@ -201,7 +201,7 @@ public class MonitoringData {
             return convId;
         }
 
-        public void setConvId( final String convId ) {
+        public void setConvId(final String convId) {
             this.convId = convId;
         }
 
@@ -213,7 +213,7 @@ public class MonitoringData {
             return functionModuleName;
         }
 
-        public void setFunctionModuleName( final String functionModuleName ) {
+        public void setFunctionModuleName(final String functionModuleName) {
             this.functionModuleName = functionModuleName;
         }
 
@@ -221,7 +221,7 @@ public class MonitoringData {
             return groupName;
         }
 
-        public void setGroupName( final String groupName ) {
+        public void setGroupName(final String groupName) {
             this.groupName = groupName;
         }
 
@@ -229,7 +229,7 @@ public class MonitoringData {
             return lastActivity;
         }
 
-        public void setLastActivity( final Date lastActivity ) {
+        public void setLastActivity(final Date lastActivity) {
             this.lastActivity = lastActivity;
         }
 
@@ -237,7 +237,7 @@ public class MonitoringData {
             return protocol;
         }
 
-        public void setProtocol( final String protocol ) {
+        public void setProtocol(final String protocol) {
             this.protocol = protocol;
         }
 
@@ -245,7 +245,7 @@ public class MonitoringData {
             return sessionId;
         }
 
-        public void setSessionId( final String sessionId ) {
+        public void setSessionId(final String sessionId) {
             this.sessionId = sessionId;
         }
 
@@ -253,7 +253,7 @@ public class MonitoringData {
             return state;
         }
 
-        public void setState( final String state ) {
+        public void setState(final String state) {
             this.state = state;
         }
 
@@ -261,7 +261,7 @@ public class MonitoringData {
             return systemId;
         }
 
-        public void setSystemId( final String systemId ) {
+        public void setSystemId(final String systemId) {
             this.systemId = systemId;
         }
 
@@ -269,7 +269,7 @@ public class MonitoringData {
             return threadId;
         }
 
-        public void setThreadId( final String threadId ) {
+        public void setThreadId(final String threadId) {
             this.threadId = threadId;
         }
 
@@ -277,11 +277,11 @@ public class MonitoringData {
             return threadName;
         }
 
-        public void setThreadName( final String threadName ) {
+        public void setThreadName(final String threadName) {
             this.threadName = threadName;
         }
 
-        public void setDSRPassport( final String dsrPassport ) {
+        public void setDSRPassport(final String dsrPassport) {
             this.dsrPassport = dsrPassport;
         }
 

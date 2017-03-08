@@ -40,7 +40,7 @@ public class ConfigurationData {
 
     private final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
 
-    ConfigurationData( final SessionManagerConfig sessionManagerConfig ) {
+    ConfigurationData(final SessionManagerConfig sessionManagerConfig) {
         this.sessionManagerConfig = sessionManagerConfig;
     }
 
@@ -48,16 +48,16 @@ public class ConfigurationData {
         return sessionManagerConfig;
     }
 
-    public void addExecutionInterceptors( final Set<ExecutionInterceptor> executionInterceptors ) {
-        this.executionInterceptors.addAll( executionInterceptors );
+    public void addExecutionInterceptors(final Set<ExecutionInterceptor> executionInterceptors) {
+        this.executionInterceptors.addAll(executionInterceptors);
     }
 
-    public void addBapiInterceptors( final Set<BapiInterceptor> bapiInterceptors ) {
-        this.bapiInterceptors.addAll( bapiInterceptors );
+    public void addBapiInterceptors(final Set<BapiInterceptor> bapiInterceptors) {
+        this.bapiInterceptors.addAll(bapiInterceptors);
     }
 
-    public void addBapiMappingsForClass( final Map<String, BapiMapping> bapiMappings ) {
-        bapiMappingsForClass.putAll( bapiMappings );
+    public void addBapiMappingsForClass(final Map<String, BapiMapping> bapiMappings) {
+        bapiMappingsForClass.putAll(bapiMappings);
     }
 
     public Set<ExecutionInterceptor> getExecutionInterceptors() {

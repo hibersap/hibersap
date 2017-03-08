@@ -36,78 +36,78 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     public void bapiWithTableInStructure() throws Exception {
 
         CarListBapi bapi = new CarListBapi();
-        bapi.addCarImport( "Alfa Romeo", "Spider", 2 );
-        bapi.addCarImport( "Kia", "cee'd", 5 );
+        bapi.addCarImport("Alfa Romeo", "Spider", 2);
+        bapi.addCarImport("Kia", "cee'd", 5);
 
-        session.execute( bapi );
+        session.execute(bapi);
 
-        assertThat( bapi.carsExport ).onProperty( "manufacturer" ).containsExactly( "Alfa Romeo", "Kia" );
-        assertThat( bapi.carsExport ).onProperty( "model" ).containsExactly( "Spider", "cee'd" );
-        assertThat( bapi.carsExport ).onProperty( "numberOfSeats" ).containsExactly( 2, 5 );
+        assertThat(bapi.carsExport).onProperty("manufacturer").containsExactly("Alfa Romeo", "Kia");
+        assertThat(bapi.carsExport).onProperty("model").containsExactly("Spider", "cee'd");
+        assertThat(bapi.carsExport).onProperty("numberOfSeats").containsExactly(2, 5);
     }
 
     @Test
-    @Ignore( "Hibersap does not yet support deep structures" )
+    @Ignore("Hibersap does not yet support deep structures")
     public void bapiWithDeepTableInStructure() throws Exception {
-        Manufacturer kia = new Manufacturer( "Kia" );
-        kia.addCar( new Car( "Kia", "cee'd", 5 ) );
-        kia.addCar( new Car( "Kia", "Rio", 4 ) );
+        Manufacturer kia = new Manufacturer("Kia");
+        kia.addCar(new Car("Kia", "cee'd", 5));
+        kia.addCar(new Car("Kia", "Rio", 4));
         CarManufacturerBapi bapi = new CarManufacturerBapi();
-        bapi.addManufacturer( kia );
+        bapi.addManufacturer(kia);
 
-        session.execute( bapi );
+        session.execute(bapi);
 
-        assertThat( bapi.manufacturersExport ).hasSize( 2 );
+        assertThat(bapi.manufacturersExport).hasSize(2);
     }
 
-    @Bapi( "Z_CAR_MANUFACTURER_LIST" )
+    @Bapi("Z_CAR_MANUFACTURER_LIST")
     public static class CarManufacturerBapi {
 
         @Import
-        @Parameter( value = "I_MANUFACTURERS", type = TABLE_STRUCTURE )
+        @Parameter(value = "I_MANUFACTURERS", type = TABLE_STRUCTURE)
         private List<Manufacturer> manufacturersImport = new ArrayList<Manufacturer>();
 
         @Export
-        @Parameter( value = "E_MANUFACTURERS", type = TABLE_STRUCTURE )
+        @Parameter(value = "E_MANUFACTURERS", type = TABLE_STRUCTURE)
         private List<Manufacturer> manufacturersExport;
 
-        public void addManufacturer( final Manufacturer manufacturer ) {
-            manufacturersImport.add( manufacturer );
+        public void addManufacturer(final Manufacturer manufacturer) {
+            manufacturersImport.add(manufacturer);
         }
     }
 
-    @Bapi( "Z_CAR_LIST" )
+    @Bapi("Z_CAR_LIST")
     public static class CarListBapi {
 
         @Import
-        @Parameter( value = "I_CARS", type = TABLE_STRUCTURE )
+        @Parameter(value = "I_CARS", type = TABLE_STRUCTURE)
         private List<Car> carsImport = new ArrayList<Car>();
 
         @Export
-        @Parameter( value = "E_CARS", type = TABLE_STRUCTURE )
+        @Parameter(value = "E_CARS", type = TABLE_STRUCTURE)
         private List<Car> carsExport;
 
-        public void addCarImport( final String manufacturer, final String model, final int numberOfSeats ) {
-            carsImport.add( new Car( manufacturer, model, numberOfSeats ) );
+        public void addCarImport(final String manufacturer, final String model, final int numberOfSeats) {
+            carsImport.add(new Car(manufacturer, model, numberOfSeats));
         }
     }
 
     public static class Car {
 
-        @Parameter( "MANUFACTURER" )
+        @Parameter("MANUFACTURER")
         private String manufacturer;
 
-        @Parameter( "MODEL" )
+        @Parameter("MODEL")
         private String model;
 
-        @Parameter( "NUM_SEATS" )
+        @Parameter("NUM_SEATS")
         private int numberOfSeats;
 
         private Car() {
             // needed by Hibersap
         }
 
-        public Car( final String manufacturer, final String model, final int numberOfSeats ) {
+        public Car(final String manufacturer, final String model, final int numberOfSeats) {
 
             this.manufacturer = manufacturer;
             this.model = model;
@@ -129,22 +129,22 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
     public static class Manufacturer {
 
-        @Parameter( "NAME" )
+        @Parameter("NAME")
         private String name;
-        @Parameter( value = "CARS", type = TABLE_STRUCTURE )
+        @Parameter(value = "CARS", type = TABLE_STRUCTURE)
         private List<Car> cars = new ArrayList<Car>();
 
         public Manufacturer() {
             // needed by Hibersap
         }
 
-        public Manufacturer( final String name ) {
+        public Manufacturer(final String name) {
             this.name = name;
             this.cars = cars;
         }
 
-        public void addCar( final Car car ) {
-            cars.add( car );
+        public void addCar(final Car car) {
+            cars.add(car);
         }
     }
 }

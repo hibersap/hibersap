@@ -27,7 +27,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class AbstractConnectionSpecFactoryTest {
 
     private AbstractConnectionSpecFactory factory = new AbstractConnectionSpecFactory() {
-        public ConnectionSpec createConnectionSpec( Credentials credentials )
+        public ConnectionSpec createConnectionSpec(Credentials credentials)
                 throws InternalHiberSapException {
             // implementation not tested here
             return null;
@@ -37,38 +37,38 @@ public class AbstractConnectionSpecFactoryTest {
     @Test
     public void getConnectionSpecClassReturnsCorrectClass() throws Exception {
         Class<?> specClass = factory
-                .getConnectionSpecClass( TestConnectionSpecImpl.class.getName() );
+                .getConnectionSpecClass(TestConnectionSpecImpl.class.getName());
 
-        assertThat( specClass ).isEqualTo( TestConnectionSpecImpl.class );
+        assertThat(specClass).isEqualTo(TestConnectionSpecImpl.class);
     }
 
-    @Test( expected = IllegalArgumentException.class )
+    @Test(expected = IllegalArgumentException.class)
     public void getConnectionSpecClassThrowsIllegalArgumentWhenGivenClassIsNotAConnectionSpec() throws Exception {
-        factory.getConnectionSpecClass( String.class.getName() );
+        factory.getConnectionSpecClass(String.class.getName());
     }
 
-    @Test( expected = ClassNotFoundException.class )
+    @Test(expected = ClassNotFoundException.class)
     public void getConnectionSpecThrowsClassNotFoundWhenCalledWithNonExistingClassName() throws Exception {
-        factory.getConnectionSpecClass( "NonExistingClass" );
+        factory.getConnectionSpecClass("NonExistingClass");
     }
 
     @Test
     public void newConnectionSpecInstanceCalledWithOneArgumentConstructor() throws Exception {
         TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory
-                .newConnectionSpecInstance( TestConnectionSpecImpl.class, new Class<?>[]{int.class},
-                                            new Object[]{4711} );
+                .newConnectionSpecInstance(TestConnectionSpecImpl.class, new Class<?>[]{int.class},
+                        new Object[]{4711});
 
-        assertThat( spec.property1 ).isEqualTo( 4711 );
-        assertThat( spec.property2 ).isEqualTo( null );
+        assertThat(spec.property1).isEqualTo(4711);
+        assertThat(spec.property2).isEqualTo(null);
     }
 
     @Test
     public void newConnectionSpecInstanceCalledWithDefaultConstructor() throws Exception {
         TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory.newConnectionSpecInstance(
-                TestConnectionSpecImpl.class, null, null );
+                TestConnectionSpecImpl.class, null, null);
 
-        assertThat( spec.property1 ).isEqualTo( 0 );
-        assertThat( spec.property2 ).isEqualTo( null );
+        assertThat(spec.property1).isEqualTo(0);
+        assertThat(spec.property2).isEqualTo(null);
     }
 
     @Test
@@ -77,13 +77,13 @@ public class AbstractConnectionSpecFactoryTest {
                 factory.newConnectionSpecInstance(
                         TestConnectionSpecImpl.class,
                         new Class<?>[]{int.class, String.class},
-                        new Object[]{4711, "property2"} );
+                        new Object[]{4711, "property2"});
 
-        assertThat( spec.property1 ).isEqualTo( 4711 );
-        assertThat( spec.property2 ).isEqualTo( "property2" );
+        assertThat(spec.property1).isEqualTo(4711);
+        assertThat(spec.property2).isEqualTo("property2");
     }
 
-    @SuppressWarnings( "unused" ) // constructors called by reflection
+    @SuppressWarnings("unused") // constructors called by reflection
     private static class TestConnectionSpecImpl implements ConnectionSpec {
 
         int property1;
@@ -93,11 +93,11 @@ public class AbstractConnectionSpecFactoryTest {
             // do nothing
         }
 
-        public TestConnectionSpecImpl( int property ) {
+        public TestConnectionSpecImpl(int property) {
             this.property1 = property;
         }
 
-        public TestConnectionSpecImpl( int property1, String property2 ) {
+        public TestConnectionSpecImpl(int property1, String property2) {
             this.property1 = property1;
             this.property2 = property2;
         }

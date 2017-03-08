@@ -27,6 +27,6 @@ public class EnvironmentTest {
     public void loadsHibersapVersionFromFile() {
         final String regex = "^(\\d+\\.\\d+\\.\\d+)((-SNAPSHOT)|(-[A-Za-z][0-9A-Za-z-]*))?$";
 
-        assertThat( Environment.VERSION ).matches( regex );
+        assertThat(Environment.VERSION).matches(regex);
     }
 }

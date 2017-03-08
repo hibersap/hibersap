@@ -40,29 +40,29 @@ import org.hibersap.session.Transaction;
  */
 public class JCAConnection implements Connection {
 
-    private static final Log LOG = LogFactory.getLog( JCAConnection.class );
+    private static final Log LOG = LogFactory.getLog(JCAConnection.class);
     private final JCAMapper mapper = new JCAMapper();
     private final ConnectionProvider connectionProvider;
     private RecordFactory recordFactory;
     private Transaction transaction;
 
-    public JCAConnection( final ConnectionFactory connectionFactory, final String connectionSpecFactoryName ) {
-        connectionProvider = new ConnectionProvider( connectionFactory, connectionSpecFactoryName );
+    public JCAConnection(final ConnectionFactory connectionFactory, final String connectionSpecFactoryName) {
+        connectionProvider = new ConnectionProvider(connectionFactory, connectionSpecFactoryName);
         try {
             recordFactory = connectionFactory.getRecordFactory();
-        } catch ( ResourceException e ) {
-            throw new HibersapException( "Problem creating RecordFactory.", e );
+        } catch (ResourceException e) {
+            throw new HibersapException("Problem creating RecordFactory.", e);
         }
     }
 
-    public Transaction beginTransaction( final SessionImplementor session ) {
-        if ( transaction == null ) {
-            LOG.debug( "Begin JCA transaction: " + session );
+    public Transaction beginTransaction(final SessionImplementor session) {
+        if (transaction == null) {
+            LOG.debug("Begin JCA transaction: " + session);
 
             try {
-                transaction = new JCATransaction( connectionProvider.getConnection().getLocalTransaction() );
-            } catch ( final ResourceException e ) {
-                throw new HibersapException( "new JCATransaction", e );
+                transaction = new JCATransaction(connectionProvider.getConnection().getLocalTransaction());
+            } catch (final ResourceException e) {
+                throw new HibersapException("new JCATransaction", e);
             }
 
             transaction.begin();
@@ -74,29 +74,29 @@ public class JCAConnection implements Connection {
     public void close() {
         try {
             connectionProvider.getConnection().close();
-        } catch ( final ResourceException e ) {
-            throw new HibersapException( "While closing JCA connection", e );
+        } catch (final ResourceException e) {
+            throw new HibersapException("While closing JCA connection", e);
         }
     }
 
-    public void execute( final String bapiName, final Map<String, Object> functionMap ) {
+    public void execute(final String bapiName, final Map<String, Object> functionMap) {
         Record result;
 
         try {
-            MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord( bapiName, recordFactory,
-                                                                                        functionMap );
+            MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord(bapiName, recordFactory,
+                    functionMap);
 
-            LOG.debug( "JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = "
-                               + mappedInputRecord );
+            LOG.debug("JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = "
+                    + mappedInputRecord);
 
-            result = connectionProvider.getConnection().createInteraction().execute( null, mappedInputRecord );
+            result = connectionProvider.getConnection().createInteraction().execute(null, mappedInputRecord);
 
-            LOG.debug( "JCA Execute: " + bapiName + ", result = " + result );
+            LOG.debug("JCA Execute: " + bapiName + ", result = " + result);
 
-            final Map<String, Object> resultMap = UnsafeCastHelper.castToMap( result );
-            mapper.mapRecordToFunctionMap( functionMap, resultMap );
-        } catch ( final ResourceException e ) {
-            throw new HibersapException( "Error executing function module " + bapiName, e );
+            final Map<String, Object> resultMap = UnsafeCastHelper.castToMap(result);
+            mapper.mapRecordToFunctionMap(functionMap, resultMap);
+        } catch (final ResourceException e) {
+            throw new HibersapException("Error executing function module " + bapiName, e);
         }
     }
 
@@ -104,7 +104,7 @@ public class JCAConnection implements Connection {
         return transaction;
     }
 
-    public void setCredentials( final Credentials credentials ) {
-        connectionProvider.setCredentials( credentials );
+    public void setCredentials(final Credentials credentials) {
+        connectionProvider.setCredentials(credentials);
     }
 }

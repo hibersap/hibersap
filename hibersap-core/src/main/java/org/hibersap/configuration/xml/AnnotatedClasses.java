@@ -37,23 +37,23 @@ public final class AnnotatedClasses implements Serializable {
         return this.annotatedClasses;
     }
 
-    public void add( final String annotatedClassName ) {
-        annotatedClasses.add( annotatedClassName );
+    public void add(final String annotatedClassName) {
+        annotatedClasses.add(annotatedClassName);
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         AnnotatedClasses that = (AnnotatedClasses) o;
 
-        if ( annotatedClasses != null ? !annotatedClasses.equals( that.annotatedClasses ) :
-             that.annotatedClasses != null ) {
+        if (annotatedClasses != null ? !annotatedClasses.equals(that.annotatedClasses) :
+                that.annotatedClasses != null) {
             return false;
         }
 

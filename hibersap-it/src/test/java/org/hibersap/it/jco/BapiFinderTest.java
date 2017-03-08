@@ -26,13 +26,13 @@ public class BapiFinderTest extends AbstractBapiTest {
 
     @Test
     public void findsFlightBapis() {
-        BapiFinder bapiFinder = new BapiFinder( "BC-DWB" );
-        session.execute( bapiFinder );
+        BapiFinder bapiFinder = new BapiFinder("BC-DWB");
+        session.execute(bapiFinder);
 
-        assertThat( bapiFinder.getBapiDescriptions().size() ).isGreaterThan( 0 );
-        assertThat( bapiFinder.getBapiDescriptions() ).contains(
-                new BapiDescription( "Flight", "Flight with connection data (SAP training)", "GetList",
-                                     "Find list of flights", "BAPI_FLIGHT_GETLIST" )
+        assertThat(bapiFinder.getBapiDescriptions().size()).isGreaterThan(0);
+        assertThat(bapiFinder.getBapiDescriptions()).contains(
+                new BapiDescription("Flight", "Flight with connection data (SAP training)", "GetList",
+                        "Find list of flights", "BAPI_FLIGHT_GETLIST")
         );
     }
 }
