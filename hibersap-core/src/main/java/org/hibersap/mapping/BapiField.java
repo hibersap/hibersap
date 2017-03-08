@@ -108,11 +108,7 @@ class BapiField {
     }
 
     public boolean isStructure() {
-        boolean result = false;
-        if (isParameter()) {
-            result = getParameterAnnotation().type() == ParameterType.STRUCTURE;
-        }
-        return result;
+        return isParameter() && getParameterAnnotation().type() == ParameterType.STRUCTURE;
     }
 
     /**
@@ -121,11 +117,7 @@ class BapiField {
      * @return true if the field is of the type {@link org.hibersap.annotations.ParameterType#TABLE_STRUCTURE}
      */
     public boolean isTableStructure() {
-        boolean result = false;
-        if (isParameter()) {
-            result = getParameterAnnotation().type() == ParameterType.TABLE_STRUCTURE;
-        }
-        return result;
+        return isParameter() && getParameterAnnotation().type() == ParameterType.TABLE_STRUCTURE;
     }
 
     public boolean isTable() {

@@ -46,20 +46,23 @@ public class AnnotationBapiMapper {
         if (field.isTable()) {
             bapiClass.addTableParameter(createTableMapping(field));
         } else {
-            ParameterMapping mapping;
-            if (field.isStructure()) {
-                mapping = createStructureMapping(field);
-            } else if (field.isTableStructure()) {
-                // nested table, annotated with IMPORT or EXPORT
-                mapping = createTableMapping(field);
-            } else {
-                mapping = createFieldMapping(field);
-            }
+            ParameterMapping mapping = createParameterMapping(field);
             if (field.isImport()) {
                 bapiClass.addImportParameter(mapping);
             } else {
                 bapiClass.addExportParameter(mapping);
             }
+        }
+    }
+
+    private ParameterMapping createParameterMapping(final BapiField field) {
+        if (field.isStructure()) {
+            return createStructureMapping(field);
+        } else if (field.isTableStructure()) {
+            // nested table, annotated with IMPORT or EXPORT
+            return createTableMapping(field);
+        } else {
+            return createFieldMapping(field);
         }
     }
 
@@ -81,8 +84,8 @@ public class AnnotationBapiMapper {
 
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(structureType, PARAMETER);
         for (Field field : fields) {
-            FieldMapping fieldMapping = createFieldMapping(new BapiField(field));
-            structureMapping.addParameter(fieldMapping);
+            ParameterMapping paramMapping = createParameterMapping(new BapiField(field));
+            structureMapping.addParameter(paramMapping);
         }
         return structureMapping;
     }

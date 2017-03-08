@@ -34,18 +34,17 @@ public final class StructureMapping extends ParameterMapping {
 
     private static final long serialVersionUID = 2930405767657861801L;
 
-    private final Set<FieldMapping> parameters;
+    private final Set<ParameterMapping> parameters = new HashSet<ParameterMapping>();
 
     public StructureMapping(final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converterClass) {
         super(associatedClass, sapName, javaName, converterClass);
-        parameters = new HashSet<FieldMapping>();
     }
 
-    public void addParameter(final FieldMapping fieldParam) {
-        parameters.add(fieldParam);
+    public void addParameter(final ParameterMapping param) {
+        parameters.add(param);
     }
 
-    public Set<FieldMapping> getParameters() {
+    public Set<ParameterMapping> getParameters() {
         return parameters;
     }
 
@@ -59,7 +58,7 @@ public final class StructureMapping extends ParameterMapping {
         Map<String, Object> subMap = UnsafeCastHelper.castToMap(fieldMap);
         Object subBean = ReflectionHelper.newInstance(getAssociatedType());
 
-        for (FieldMapping parameter : parameters) {
+        for (ParameterMapping parameter : parameters) {
             Object fieldValue = subMap.get(parameter.getSapName());
 
             if (fieldValue != null) {
@@ -75,7 +74,7 @@ public final class StructureMapping extends ParameterMapping {
     protected Object getUnconvertedValueToSap(final Object bapiStructure, final ConverterCache converterCache) {
         HashMap<String, Object> functionMap = new HashMap<String, Object>();
 
-        for (FieldMapping parameter : parameters) {
+        for (ParameterMapping parameter : parameters) {
             Object fieldValue = ReflectionHelper.getFieldValue(bapiStructure, parameter.getJavaName());
 
             if (fieldValue != null) {
