@@ -33,28 +33,6 @@
 
   <description>JCo specific Hibersap code</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.hibersap</groupId>
-      <artifactId>hibersap-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sap</groupId>
-      <artifactId>com.sap.conn.jco.sapjco3</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>
@@ -79,7 +57,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>com.sap</groupId>
+                  <groupId>org.hibersap</groupId>
                   <artifactId>com.sap.conn.jco.sapjco3</artifactId>
                   <version>${jco.native-lib.version}</version>
                   <classifier>${jco.native-lib.classifier}</classifier>
@@ -102,4 +80,25 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.hibersap</groupId>
+      <artifactId>hibersap-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibersap</groupId>
+      <artifactId>com.sap.conn.jco.sapjco3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+  </dependencies>
 </project>

@@ -32,6 +32,23 @@
 
   <description>JCA-specific Hibersap code</description>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.cuckoo-ra</groupId>
+        <artifactId>cuckoo-jar</artifactId>
+        <version>1.1.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.cuckoo-ra</groupId>
+        <artifactId>cuckoo-api</artifactId>
+        <version>1.1.0</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.hibersap</groupId>
@@ -48,7 +65,6 @@
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
     </dependency>
-
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
@@ -57,16 +73,12 @@
     <dependency>
       <groupId>org.cuckoo-ra</groupId>
       <artifactId>cuckoo-jar</artifactId>
-      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.cuckoo-ra</groupId>
       <artifactId>cuckoo-api</artifactId>
-      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 </project>

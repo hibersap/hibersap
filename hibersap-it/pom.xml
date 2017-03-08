@@ -71,7 +71,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>com.sap</groupId>
+                  <groupId>org.hibersap</groupId>
                   <artifactId>com.sap.conn.jco.sapjco3</artifactId>
                   <version>3.0.15</version>
                   <classifier>${jco.native-lib.classifier}</classifier>
@@ -97,7 +97,7 @@
 
     <dependency>
       <groupId>org.hibersap</groupId>
-      <artifactId>sapjco3</artifactId>
+      <artifactId>com.sap.conn.jco.sapjco3</artifactId>
       <scope>test</scope>
     </dependency>
 
