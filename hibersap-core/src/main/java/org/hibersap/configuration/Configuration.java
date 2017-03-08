@@ -105,6 +105,7 @@ public abstract class Configuration {
     /**
      * Builds the session manager for this Configuration.
      *
+     * @param context  The Hibersap Context
      * @return The session manager
      */
     public SessionManager buildSessionManager(final Context context) {

@@ -65,6 +65,8 @@ public class AnnotationConfiguration extends Configuration {
 
     /**
      * Programmatic configuration of bapi classes. This works in any class loader
+     *
+     * @param bapiClasses The @Bapi annotated classes
      */
     public void addBapiClasses(final Class<?>... bapiClasses) {
         final Map<String, BapiMapping> bapiMappings = new HashMap<String, BapiMapping>();

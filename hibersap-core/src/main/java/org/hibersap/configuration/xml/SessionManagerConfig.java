@@ -150,6 +150,9 @@ public final class SessionManagerConfig implements Serializable {
 
     /**
      * This does not work in OSGi. Use AnnotationConfiguration.addBapiClasses instead.
+     *
+     * @param annotatedClass The @Bapi annotated class
+     * @return The SessionManagerConfig
      */
     @Deprecated
     public SessionManagerConfig addAnnotatedClass(final Class<?> annotatedClass) {
