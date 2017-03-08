@@ -54,6 +54,7 @@
       <id>cerker</id>
       <name>Carsten Erker</name>
       <email>carsten.erker at akquinet dot de</email>
+      <url>https://github.com/cerker</url>
       <organization>akquinet tech@spree GmbH</organization>
       <organizationUrl>http://www.akquinet.de</organizationUrl>
       <roles>
@@ -64,7 +65,7 @@
     <developer>
       <id>tfink</id>
       <name>Torsten Fink</name>
-      <email>torsten.fink at akquinet dot de</email>
+      <url>https://github.com/tnfink</url>
       <organization>akquinet tech@spree GmbH</organization>
       <organizationUrl>http://www.akquinet.de</organizationUrl>
       <roles>
@@ -74,7 +75,7 @@
     <developer>
       <id>dahm</id>
       <name>Markus Dahm</name>
-      <email>markus.dahm at akquinet dot de</email>
+      <url>https://github.com/mdahm</url>
       <organization>akquinet tech@spree GmbH</organization>
       <organizationUrl>http://www.akquinet.de</organizationUrl>
       <roles>
@@ -84,7 +85,7 @@
     <developer>
       <id>abendt</id>
       <name>Alphonse Bendt</name>
-      <email>alphonse.bendt at akquinet dot de</email>
+      <url>https://github.com/abendt</url>
       <organization>akquinet tech@spree GmbH</organization>
       <organizationUrl>http://www.akquinet.de</organizationUrl>
       <roles>
@@ -96,12 +97,28 @@
       <roles>
         <role>Contributor</role>
       </roles>
+      <url>https://github.com/croeck</url>
     </developer>
     <developer>
       <name>Christian Schneider</name>
       <roles>
         <role>Contributor</role>
       </roles>
+      <url>https://github.com/cschneider</url>
+    </developer>
+    <developer>
+      <name>Rene Fischer</name>
+      <roles>
+        <role>Contributor</role>
+      </roles>
+      <url>https://github.com/fischey</url>
+    </developer>
+    <developer>
+      <name>lyca</name>
+      <roles>
+        <role>Contributor</role>
+      </roles>
+      <url>https://github.com/lyca</url>
     </developer>
   </developers>
 
