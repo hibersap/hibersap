@@ -65,7 +65,9 @@ public class JCAMapper {
             final Object recordValue = entry.getValue();
             final String recordKey = entry.getKey();
 
-            LOG.debug("mapping " + recordValue.getClass().getName() + ": " + recordKey + "=" + recordValue);
+            if (recordValue != null) {
+                LOG.debug("mapping " + recordValue.getClass().getName() + ": " + recordKey + "=" + recordValue);
+            }
 
             if (recordValue instanceof MappedRecord) {
                 final MappedRecord mappedResultRecord = (MappedRecord) recordValue;
