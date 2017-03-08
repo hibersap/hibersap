@@ -23,11 +23,11 @@ public class ConfigurationException
 
     private static final long serialVersionUID = 1L;
 
-    public ConfigurationException( final String msg ) {
-        super( msg );
+    public ConfigurationException(final String msg) {
+        super(msg);
     }
 
-    public ConfigurationException( final String msg, final Throwable t ) {
-        super( msg, t );
+    public ConfigurationException(final String msg, final Throwable t) {
+        super(msg, t);
     }
 }

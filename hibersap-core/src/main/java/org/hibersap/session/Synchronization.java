@@ -35,5 +35,5 @@ public interface Synchronization {
      *
      * @param committed Indicates if the transaction was successfully commited.
      */
-    void afterCompletion( boolean committed );
+    void afterCompletion(boolean committed);
 }

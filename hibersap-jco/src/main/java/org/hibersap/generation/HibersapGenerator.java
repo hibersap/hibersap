@@ -31,33 +31,33 @@ import org.hibersap.session.SessionManager;
 
 public class HibersapGenerator {
 
-    public void generate( final String outputDir, final String packagePath, final String bapiName ) {
-        String packageDir = packagePath.replace( '.', File.separatorChar );
-        File outputDirFile = new File( outputDir + File.separator + packageDir );
+    public void generate(final String outputDir, final String packagePath, final String bapiName) {
+        String packageDir = packagePath.replace('.', File.separatorChar);
+        File outputDirFile = new File(outputDir + File.separator + packageDir);
         outputDirFile.mkdirs();
 
         AnnotationConfiguration cfg = new AnnotationConfiguration();
         SessionManager sessionManager = cfg.buildSessionManager();
         ReverseBapiMapper mapper = new ReverseBapiMapper();
-        BapiMapping bapiMapping = mapper.map( bapiName, sessionManager );
+        BapiMapping bapiMapping = mapper.map(bapiName, sessionManager);
         BapiClassFormatter formatter = new BapiClassFormatter();
-        Map<String, String> classForName = formatter.createClasses( bapiMapping, packagePath );
+        Map<String, String> classForName = formatter.createClasses(bapiMapping, packagePath);
 
-        for ( String className : classForName.keySet() ) {
+        for (String className : classForName.keySet()) {
             String fileName = className + ".java";
-            String content = classForName.get( className );
-            writeToDisk( outputDirFile, fileName, content );
+            String content = classForName.get(className);
+            writeToDisk(outputDirFile, fileName, content);
         }
     }
 
-    private void writeToDisk( final File outputDir, final String fileName, final String content ) {
+    private void writeToDisk(final File outputDir, final String fileName, final String content) {
         try {
-            File file = new File( outputDir, fileName );
-            FileWriter writer = new FileWriter( file );
-            writer.append( content );
+            File file = new File(outputDir, fileName);
+            FileWriter writer = new FileWriter(file);
+            writer.append(content);
             writer.close();
-        } catch ( IOException e ) {
-            throw new HibersapException( "File " + fileName + " could not be written to file system.", e );
+        } catch (IOException e) {
+            throw new HibersapException("File " + fileName + " could not be written to file system.", e);
         }
     }
 }

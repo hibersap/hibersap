@@ -28,8 +28,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Carsten Erker
  */
-@Retention( RUNTIME )
-@Target( value = FIELD )
+@Retention(RUNTIME)
+@Target(value = FIELD)
 public @interface Parameter {
 
     /**

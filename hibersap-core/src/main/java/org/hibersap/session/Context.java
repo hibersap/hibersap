@@ -43,7 +43,7 @@ public interface Context {
      * @throws HibersapException The implementation of this method should throw a HibersapException
      * if anything goes wrong.
      */
-    void configure( SessionManagerConfig config ) throws HibersapException;
+    void configure(SessionManagerConfig config) throws HibersapException;
 
     /*
      * Called by the framework when the method org.hibersap.session.SessionManager.close() is

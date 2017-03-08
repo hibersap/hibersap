@@ -40,7 +40,7 @@ public interface Session {
      *
      * @param bapi The BAPI class
      */
-    void execute( final Object bapi );
+    void execute(final Object bapi);
 
     /**
      * returns the transaction.

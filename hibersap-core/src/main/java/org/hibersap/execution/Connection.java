@@ -44,7 +44,7 @@ public interface Connection {
      *
      * @param credentials The Credentials
      */
-    void setCredentials( Credentials credentials );
+    void setCredentials(Credentials credentials);
 
     /**
      * Begins a logical unit of work.
@@ -52,7 +52,7 @@ public interface Connection {
      * @param session The Session this Connection belongs to.
      * @return The Transaction
      */
-    Transaction beginTransaction( SessionImplementor session );
+    Transaction beginTransaction(SessionImplementor session);
 
     /**
      * Returns the current transaction.
@@ -64,10 +64,10 @@ public interface Connection {
     /**
      * Calls a remote function module in the SAP system.
      *
-     * @param bapiName    The function module name
+     * @param bapiName The function module name
      * @param functionMap The function module parameters
      */
-    void execute( String bapiName, Map<String, Object> functionMap );
+    void execute(String bapiName, Map<String, Object> functionMap);
 
     /**
      * Closes this connection. Implementing classes must do everything that is needed to free

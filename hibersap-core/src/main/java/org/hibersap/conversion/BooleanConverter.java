@@ -27,39 +27,39 @@ import static java.lang.Boolean.TRUE;
  *
  * @author Carsten Erker
  */
-@SuppressWarnings( "ConstantConditions" )
+@SuppressWarnings("ConstantConditions")
 public class BooleanConverter implements Converter<Boolean, String> {
 
     /**
      * {@inheritDoc}
      */
-    public Boolean convertToJava( final String sapValue )
+    public Boolean convertToJava(final String sapValue)
             throws ConversionException {
-        if ( sapValue == null ) {
-            throw new ConversionException( "SAP returned null" );
+        if (sapValue == null) {
+            throw new ConversionException("SAP returned null");
         }
         String value = sapValue.trim();
-        if ( "X".equalsIgnoreCase( value ) ) {
+        if ("X".equalsIgnoreCase(value)) {
             return TRUE;
-        } else if ( value.length() == 0 ) {
+        } else if (value.length() == 0) {
             return FALSE;
         } else {
-            throw new ConversionException( "Expected 'X' or '', but SAP returned '" + value + "'" );
+            throw new ConversionException("Expected 'X' or '', but SAP returned '" + value + "'");
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public String convertToSap( final Boolean javaValue )
+    public String convertToSap(final Boolean javaValue)
             throws ConversionException {
-        if ( javaValue == null ) {
-            throw new ConversionException( "Java value is null" );
+        if (javaValue == null) {
+            throw new ConversionException("Java value is null");
         }
-        if ( !Boolean.class.isInstance( javaValue ) ) {
-            throw new ConversionException( "Expected: " + Boolean.class.getName() + " but was: "
-                                                   + javaValue.getClass().getName() );
+        if (!Boolean.class.isInstance(javaValue)) {
+            throw new ConversionException("Expected: " + Boolean.class.getName() + " but was: "
+                    + javaValue.getClass().getName());
         }
-        return TRUE.equals( javaValue ) ? "X" : "";
+        return TRUE.equals(javaValue) ? "X" : "";
     }
 }

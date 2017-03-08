@@ -28,7 +28,6 @@ import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.conversion.Converter;
 
-
 /**
  * @author Carsten Erker
  */
@@ -46,38 +45,38 @@ class BapiField {
 
     private final Field field;
 
-    public BapiField( final Field field ) {
+    public BapiField(final Field field) {
         this.field = field;
     }
 
     public Class<?> getArrayType() {
         Class<?> associatedType = field.getType();
-        return ReflectionHelper.getArrayType( associatedType );
+        return ReflectionHelper.getArrayType(associatedType);
     }
 
     /**
      * @return The type.
      */
     public Class<?> getAssociatedType() {
-        if ( field.getType().isArray() ) {
+        if (field.getType().isArray()) {
             return getArrayType();
         }
-        if ( Collection.class.isAssignableFrom( field.getType() ) ) {
+        if (Collection.class.isAssignableFrom(field.getType())) {
             return getGenericType();
         }
         return getType();
     }
 
     public Class<? extends Converter> getConverter() {
-        if ( field.isAnnotationPresent( CONVERT ) ) {
-            Convert convert = field.getAnnotation( CONVERT );
+        if (field.isAnnotationPresent(CONVERT)) {
+            Convert convert = field.getAnnotation(CONVERT);
             return convert.converter();
         }
         return null;
     }
 
     public Class<?> getGenericType() {
-        return ReflectionHelper.getGenericType( field );
+        return ReflectionHelper.getGenericType(field);
     }
 
     public String getName() {
@@ -85,7 +84,7 @@ class BapiField {
     }
 
     private Parameter getParameterAnnotation() {
-        return field.getAnnotation( PARAM );
+        return field.getAnnotation(PARAM);
     }
 
     public String getSapName() {
@@ -97,20 +96,20 @@ class BapiField {
     }
 
     public boolean isExport() {
-        return field.isAnnotationPresent( EXPORT );
+        return field.isAnnotationPresent(EXPORT);
     }
 
     public boolean isImport() {
-        return field.isAnnotationPresent( IMPORT );
+        return field.isAnnotationPresent(IMPORT);
     }
 
     public boolean isParameter() {
-        return field.isAnnotationPresent( PARAM );
+        return field.isAnnotationPresent(PARAM);
     }
 
     public boolean isStructure() {
         boolean result = false;
-        if ( isParameter() ) {
+        if (isParameter()) {
             result = getParameterAnnotation().type() == ParameterType.STRUCTURE;
         }
         return result;
@@ -123,13 +122,13 @@ class BapiField {
      */
     public boolean isTableStructure() {
         boolean result = false;
-        if ( isParameter() ) {
+        if (isParameter()) {
             result = getParameterAnnotation().type() == ParameterType.TABLE_STRUCTURE;
         }
         return result;
     }
 
     public boolean isTable() {
-        return field.isAnnotationPresent( TABLE );
+        return field.isAnnotationPresent(TABLE);
     }
 }

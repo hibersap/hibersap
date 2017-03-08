@@ -39,14 +39,14 @@ public class ConverterCache {
      * @param clazz The Coverter implementation class
      * @return The Converter instance
      */
-    public Converter getConverter( Class<? extends Converter> clazz ) {
-        if ( clazz == null ) {
-            throw new IllegalArgumentException( "null" );
+    public Converter getConverter(Class<? extends Converter> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("null");
         }
-        Converter converter = converterForClass.get( clazz );
-        if ( converter == null ) {
-            converter = ReflectionHelper.newInstance( clazz );
-            converterForClass.put( clazz, converter );
+        Converter converter = converterForClass.get(clazz);
+        if (converter == null) {
+            converter = ReflectionHelper.newInstance(clazz);
+            converterForClass.put(clazz, converter);
         }
         return converter;
     }
@@ -68,24 +68,24 @@ public class ConverterCache {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( converterForClass.hashCode() );
+        result = prime * result + (converterForClass.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if ( obj == null ) {
+        if (obj == null) {
             return false;
         }
-        if ( getClass() != obj.getClass() ) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         ConverterCache other = (ConverterCache) obj;
         //noinspection RedundantIfStatement
-        if ( !converterForClass.keySet().equals( other.converterForClass.keySet() ) ) {
+        if (!converterForClass.keySet().equals(other.converterForClass.keySet())) {
             return false;
         }
         return true;

@@ -30,11 +30,11 @@ public class MappingException extends HibersapException {
     /**
      * Constructs a new MappingException with a detail message and a cause.
      *
-     * @param msg   The message
+     * @param msg The message
      * @param cause The cause
      */
-    public MappingException( final String msg, final Throwable cause ) {
-        super( msg, cause );
+    public MappingException(final String msg, final Throwable cause) {
+        super(msg, cause);
     }
 
     /**
@@ -42,8 +42,8 @@ public class MappingException extends HibersapException {
      *
      * @param cause The cause
      */
-    public MappingException( final Throwable cause ) {
-        super( cause );
+    public MappingException(final Throwable cause) {
+        super(cause);
     }
 
     /**
@@ -51,7 +51,7 @@ public class MappingException extends HibersapException {
      *
      * @param msg The message
      */
-    public MappingException( final String msg ) {
-        super( msg );
+    public MappingException(final String msg) {
+        super(msg);
     }
 }

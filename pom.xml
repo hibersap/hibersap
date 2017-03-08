@@ -18,70 +18,64 @@
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.hibersap</groupId>
-        <artifactId>hibersap-parent</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
-        <relativePath>./hibersap-parent</relativePath>
-    </parent>
-
-    <artifactId>hibersap</artifactId>
+  <parent>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-parent</artifactId>
     <version>1.2.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <relativePath>./hibersap-parent</relativePath>
+  </parent>
 
-    <name>Hibersap Reactor</name>
+  <artifactId>hibersap</artifactId>
+  <version>1.2.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <scm>
-        <url>https://github.com/hibersap/hibersap</url>
-        <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
-        <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
+  <name>Hibersap Reactor</name>
 
-    <modules>
-        <module>hibersap-parent</module>
-        <module>hibersap-core</module>
-        <module>hibersap-jco</module>
-        <module>hibersap-jca</module>
-        <module>hibersap-ejb</module>
-    </modules>
+  <scm>
+    <url>https://github.com/hibersap/hibersap</url>
+    <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
+    <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <configuration>
-                        <skip>true</skip>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <configuration>
-                        <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <!--<releaseProfiles>it</releaseProfiles>-->
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+  <modules>
+    <module>hibersap-parent</module>
+    <module>hibersap-core</module>
+    <module>hibersap-jco</module>
+    <module>hibersap-jca</module>
+    <module>hibersap-ejb</module>
+  </modules>
 
-    <profiles>
-        <profile>
-            <id>it</id>
-            <modules>
-                <module>hibersap-it</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>doc</id>
-            <modules>
-                <module>hibersap-doc</module>
-            </modules>
-        </profile>
-    </profiles>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <!--<releaseProfiles>it</releaseProfiles>-->
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>it</id>
+      <modules>
+        <module>hibersap-it</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

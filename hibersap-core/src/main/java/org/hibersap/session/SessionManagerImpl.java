@@ -55,25 +55,25 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
 
     private transient Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
 
-    public SessionManagerImpl( final ConfigurationData data, final Context context ) {
+    public SessionManagerImpl(final ConfigurationData data, final Context context) {
         closed = false;
         config = data.getSessionManagerConfig();
-        bapiMappings = new HashMap<String, BapiMapping>( data.getBapiMappingsForClass() );
-        initializeTransientFields( data, context );
+        bapiMappings = new HashMap<String, BapiMapping>(data.getBapiMappingsForClass());
+        initializeTransientFields(data, context);
     }
 
-    private void initializeTransientFields( final ConfigurationData data, final Context context ) {
+    private void initializeTransientFields(final ConfigurationData data, final Context context) {
         this.context = context;
         converterCache = new ConverterCache();
-        executionInterceptors = new HashSet<ExecutionInterceptor>( data.getExecutionInterceptors() );
-        bapiInterceptors = new HashSet<BapiInterceptor>( data.getBapiInterceptors() );
+        executionInterceptors = new HashSet<ExecutionInterceptor>(data.getExecutionInterceptors());
+        bapiInterceptors = new HashSet<BapiInterceptor>(data.getBapiInterceptors());
     }
 
     /*
      * {@inheritDoc}
      */
     public void close() {
-        if ( !closed ) {
+        if (!closed) {
             closed = true;
             context.close();
             bapiMappings.clear();
@@ -95,7 +95,7 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     */
     public Map<String, BapiMapping> getBapiMappings() {
         assertNotClosed();
-        return Collections.unmodifiableMap( bapiMappings );
+        return Collections.unmodifiableMap(bapiMappings);
     }
 
     /*
@@ -127,15 +127,15 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
      */
     public Session openSession() {
         assertNotClosed();
-        return new SessionImpl( this );
+        return new SessionImpl(this);
     }
 
     /*
      * {@inheritDoc}
      */
-    public Session openSession( final Credentials credentials ) {
+    public Session openSession(final Credentials credentials) {
         assertNotClosed();
-        return new SessionImpl( this, credentials );
+        return new SessionImpl(this, credentials);
     }
 
     /*
@@ -155,24 +155,24 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     }
 
     private void assertNotClosed() {
-        if ( closed ) {
-            throw new HibersapException( "The SessionManager has been closed, it must not be used anymore" );
+        if (closed) {
+            throw new HibersapException("The SessionManager has been closed, it must not be used anymore");
         }
     }
 
     @Override
     public String toString() {
         String format = "SessionManagerImpl[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
-        return String.format( format, config.toString(), context.toString(), converterCache.toString(),
-                              executionInterceptors, bapiMappings );
+        return String.format(format, config.toString(), context.toString(), converterCache.toString(),
+                executionInterceptors, bapiMappings);
     }
 
-    private void readObject( final ObjectInputStream stream ) throws ClassNotFoundException, IOException {
+    private void readObject(final ObjectInputStream stream) throws ClassNotFoundException, IOException {
         stream.defaultReadObject();
 
-        context = ConfigurationHelper.createContext( config );
+        context = ConfigurationHelper.createContext(config);
         converterCache = new ConverterCache();
-        bapiInterceptors = ConfigurationHelper.createBapiInterceptors( config );
-        executionInterceptors = ConfigurationHelper.createExecutionInterceptors( config );
+        bapiInterceptors = ConfigurationHelper.createBapiInterceptors(config);
+        executionInterceptors = ConfigurationHelper.createExecutionInterceptors(config);
     }
 }

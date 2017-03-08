@@ -42,70 +42,70 @@ public class AnnotationBapiMapper {
     private static final Class<Bapi> BAPI = Bapi.class;
     private static final Class<Parameter> PARAMETER = Parameter.class;
 
-    private void addParameterToBapiMapping( final BapiMapping bapiClass, final BapiField field ) {
-        if ( field.isTable() ) {
-            bapiClass.addTableParameter( createTableMapping( field ) );
+    private void addParameterToBapiMapping(final BapiMapping bapiClass, final BapiField field) {
+        if (field.isTable()) {
+            bapiClass.addTableParameter(createTableMapping(field));
         } else {
             ParameterMapping mapping;
-            if ( field.isStructure() ) {
-                mapping = createStructureMapping( field );
-            } else if(field.isTableStructure()) {
+            if (field.isStructure()) {
+                mapping = createStructureMapping(field);
+            } else if (field.isTableStructure()) {
                 // nested table, annotated with IMPORT or EXPORT
-                mapping = createTableMapping( field );
+                mapping = createTableMapping(field);
             } else {
-                mapping = createFieldMapping( field );
+                mapping = createFieldMapping(field);
             }
-            if ( field.isImport() ) {
-                bapiClass.addImportParameter( mapping );
+            if (field.isImport()) {
+                bapiClass.addImportParameter(mapping);
             } else {
-                bapiClass.addExportParameter( mapping );
+                bapiClass.addExportParameter(mapping);
             }
         }
     }
 
-    private void assertIsBapiClass( final Class<?> clazz ) {
-        if ( !clazz.isAnnotationPresent( BAPI ) ) {
-            throw new MappingException( "Class " + clazz.getName() + " is not annotated with @Bapi" );
+    private void assertIsBapiClass(final Class<?> clazz) {
+        if (!clazz.isAnnotationPresent(BAPI)) {
+            throw new MappingException("Class " + clazz.getName() + " is not annotated with @Bapi");
         }
     }
 
-    private FieldMapping createFieldMapping( final BapiField field ) {
-        return new FieldMapping( field.getType(), field.getSapName(), field.getName(), field.getConverter() );
+    private FieldMapping createFieldMapping(final BapiField field) {
+        return new FieldMapping(field.getType(), field.getSapName(), field.getName(), field.getConverter());
     }
 
-    private StructureMapping createStructureMapping( final BapiField structureField ) {
+    private StructureMapping createStructureMapping(final BapiField structureField) {
         Class<?> structureType = structureField.getAssociatedType();
 
-        StructureMapping structureMapping = new StructureMapping( structureType, structureField.getSapName(),
-                                                                  structureField.getName(), structureField.getConverter() );
+        StructureMapping structureMapping = new StructureMapping(structureType, structureField.getSapName(),
+                structureField.getName(), structureField.getConverter());
 
-        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( structureType, PARAMETER );
-        for ( Field field : fields ) {
-            FieldMapping fieldMapping = createFieldMapping( new BapiField( field ) );
-            structureMapping.addParameter( fieldMapping );
+        final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(structureType, PARAMETER);
+        for (Field field : fields) {
+            FieldMapping fieldMapping = createFieldMapping(new BapiField(field));
+            structureMapping.addParameter(fieldMapping);
         }
         return structureMapping;
     }
 
-    private TableMapping createTableMapping( final BapiField field ) {
-        StructureMapping structureMapping = createStructureMapping( field );
+    private TableMapping createTableMapping(final BapiField field) {
+        StructureMapping structureMapping = createStructureMapping(field);
         Class<?> associatedType = field.getAssociatedType();
-        if ( associatedType == null ) {
-            throw new MappingException( "The type of field " + field + " can not be detected." );
+        if (associatedType == null) {
+            throw new MappingException("The type of field " + field + " can not be detected.");
         }
-        return new TableMapping( field.getType(), associatedType, field.getSapName(), field.getName(),
-                                 structureMapping, field.getConverter() );
+        return new TableMapping(field.getType(), associatedType, field.getSapName(), field.getName(),
+                structureMapping, field.getConverter());
     }
 
-    private ErrorHandling getErrorHandling( final Class<?> clazz ) {
+    private ErrorHandling getErrorHandling(final Class<?> clazz) {
         String pathToReturnStructure = null;
         String[] errorMessageTypes = null;
-        if ( clazz.isAnnotationPresent( ThrowExceptionOnError.class ) ) {
-            ThrowExceptionOnError annotation = clazz.getAnnotation( ThrowExceptionOnError.class );
+        if (clazz.isAnnotationPresent(ThrowExceptionOnError.class)) {
+            ThrowExceptionOnError annotation = clazz.getAnnotation(ThrowExceptionOnError.class);
             pathToReturnStructure = annotation.returnStructure();
             errorMessageTypes = annotation.errorMessageTypes();
         }
-        return new ErrorHandling( pathToReturnStructure, errorMessageTypes );
+        return new ErrorHandling(pathToReturnStructure, errorMessageTypes);
     }
 
     /**
@@ -115,15 +115,15 @@ public class AnnotationBapiMapper {
      * @param clazz The annotated Bapi class.
      * @return The BapiMapping
      */
-    public BapiMapping mapBapi( final Class<?> clazz ) {
-        assertIsBapiClass( clazz );
+    public BapiMapping mapBapi(final Class<?> clazz) {
+        assertIsBapiClass(clazz);
 
-        Bapi bapiAnnotation = clazz.getAnnotation( BAPI );
-        BapiMapping bapiMapping = new BapiMapping( clazz, bapiAnnotation.value(), getErrorHandling( clazz ) );
+        Bapi bapiAnnotation = clazz.getAnnotation(BAPI);
+        BapiMapping bapiMapping = new BapiMapping(clazz, bapiAnnotation.value(), getErrorHandling(clazz));
 
-        Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively( clazz, PARAMETER );
-        for ( Field field : fields ) {
-            addParameterToBapiMapping( bapiMapping, new BapiField( field ) );
+        Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(clazz, PARAMETER);
+        for (Field field : fields) {
+            addParameterToBapiMapping(bapiMapping, new BapiField(field));
         }
         return bapiMapping;
     }

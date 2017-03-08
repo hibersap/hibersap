@@ -31,7 +31,7 @@ import org.hibersap.mapping.model.BapiMapping;
  */
 public interface ExecutionInterceptor extends Serializable {
 
-    void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
+    void beforeExecution(BapiMapping bapiMapping, Map<String, Object> functionMap);
 
-    void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
+    void afterExecution(BapiMapping bapiMapping, Map<String, Object> functionMap);
 }

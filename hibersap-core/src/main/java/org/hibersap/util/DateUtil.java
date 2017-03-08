@@ -22,7 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
 
-
 /**
  * @author Carsten Erker
  */
@@ -32,39 +31,39 @@ public final class DateUtil {
         // should not be instantiated
     }
 
-    public static Date joinDateAndTime( final Date date, final Date time ) {
+    public static Date joinDateAndTime(final Date date, final Date time) {
         Calendar dateCal = Calendar.getInstance();
-        dateCal.setTime( date );
+        dateCal.setTime(date);
         Calendar timeCal = Calendar.getInstance();
-        timeCal.setTime( time );
+        timeCal.setTime(time);
 
-        dateCal.set( Calendar.HOUR_OF_DAY, timeCal.get( Calendar.HOUR_OF_DAY ) );
-        dateCal.set( Calendar.MINUTE, timeCal.get( Calendar.MINUTE ) );
-        dateCal.set( Calendar.SECOND, timeCal.get( Calendar.SECOND ) );
-        dateCal.set( Calendar.MILLISECOND, timeCal.get( Calendar.MILLISECOND ) );
+        dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
+        dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
+        dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
+        dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
         return dateCal.getTime();
     }
 
-    public static Date newDate( final int year, final int month, final int date ) {
-        return newDate( year, month, date, 0, 0, 0 );
+    public static Date newDate(final int year, final int month, final int date) {
+        return newDate(year, month, date, 0, 0, 0);
     }
 
-    public static Date newDate( final int year, final int month, final int date, final int hourOfDay, final int minute, final int second ) {
+    public static Date newDate(final int year, final int month, final int date, final int hourOfDay, final int minute, final int second) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set( year, month, date, hourOfDay, minute, second );
+        cal.set(year, month, date, hourOfDay, minute, second);
         return cal.getTime();
     }
 
-    public static Date stripDate( final Date date ) {
+    public static Date stripDate(final Date date) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime( date );
-        cal.set( 1970, Calendar.JANUARY, 1 );
+        cal.setTime(date);
+        cal.set(1970, Calendar.JANUARY, 1);
 
         return cal.getTime();
     }
 
-    public static Date stripTime( final Date date ) {
-        return DateUtils.truncate( date, Calendar.DAY_OF_MONTH );
+    public static Date stripTime(final Date date) {
+        return DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
     }
 }

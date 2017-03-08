@@ -33,5 +33,5 @@ public interface Transaction {
 
     void rollback();
 
-    void registerSynchronization( Synchronization synchronization );
+    void registerSynchronization(Synchronization synchronization);
 }

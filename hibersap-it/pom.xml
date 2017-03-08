@@ -20,87 +20,87 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.hibersap</groupId>
-        <artifactId>hibersap-parent</artifactId>
-        <version>1.2.1-SNAPSHOT</version>
-        <relativePath>../hibersap-parent</relativePath>
-    </parent>
+  <parent>
+    <groupId>org.hibersap</groupId>
+    <artifactId>hibersap-parent</artifactId>
+    <version>1.2.1-SNAPSHOT</version>
+    <relativePath>../hibersap-parent</relativePath>
+  </parent>
 
-    <name>Hibersap Integration Tests</name>
+  <name>Hibersap Integration Tests</name>
 
-    <artifactId>hibersap-it</artifactId>
+  <artifactId>hibersap-it</artifactId>
 
-    <!--
-        Since SAP JCo is a proprietary library with a commercial license, we have to manually install or deploy it
-        to the local Maven repository or a (private!) remote repository (replace version like above,
-        classifier like in the following profile that fits to your architecture):
-        
-        mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file
-        mvn deploy:deploy-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
-    -->
+  <!--
+      Since SAP JCo is a proprietary library with a commercial license, we have to manually install or deploy it
+      to the local Maven repository or a (private!) remote repository (replace version like above,
+      classifier like in the following profile that fits to your architecture):
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <forkMode>once</forkMode>
-                    <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-native-libs</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.sap</groupId>
-                                    <artifactId>com.sap.conn.jco.sapjco3</artifactId>
-                                    <version>3.0.15</version>
-                                    <classifier>${jco.native-lib.classifier}</classifier>
-                                    <type>${jco.native-lib.packaging}</type>
-                                    <overWrite>true</overWrite>
-                                    <destFileName>${jco.native-lib.filename}</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${project.build.directory}/native-lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+      mvn install:install-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file
+      mvn deploy:deploy-file -DgroupId=com.sap -DartifactId=sap-jco -Dversion=[version] -Dclassifier=[classifier] -Dpackaging=native -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+  -->
 
-    <dependencies>
-        <!-- Hibersap -->
-        <dependency>
-            <groupId>org.hibersap</groupId>
-            <artifactId>hibersap-jco</artifactId>
-        </dependency>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkMode>once</forkMode>
+          <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-native-libs</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.sap</groupId>
+                  <artifactId>com.sap.conn.jco.sapjco3</artifactId>
+                  <version>3.0.15</version>
+                  <classifier>${jco.native-lib.classifier}</classifier>
+                  <type>${jco.native-lib.packaging}</type>
+                  <overWrite>true</overWrite>
+                  <destFileName>${jco.native-lib.filename}</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/native-lib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
-        <dependency>
-            <groupId>com.sap</groupId>
-            <artifactId>com.sap.conn.jco.sapjco3</artifactId>
-            <version>3.0.15</version>
-            <scope>test</scope>
-        </dependency>
+  <dependencies>
+    <!-- Hibersap -->
+    <dependency>
+      <groupId>org.hibersap</groupId>
+      <artifactId>hibersap-jco</artifactId>
+    </dependency>
 
-    </dependencies>
+    <dependency>
+      <groupId>com.sap</groupId>
+      <artifactId>com.sap.conn.jco.sapjco3</artifactId>
+      <version>3.0.15</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
 </project>

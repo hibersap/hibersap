@@ -37,7 +37,7 @@ import org.hibersap.mapping.ReflectionHelper;
  */
 public class BeanValidationActivator {
 
-    private static final Log LOGGER = LogFactory.getLog( BeanValidationActivator.class );
+    private static final Log LOGGER = LogFactory.getLog(BeanValidationActivator.class);
 
     private static final String TYPE_SAFE_ACTIVATOR_CLASS_NAME = "org.hibersap.validation.TypeSafeActivator";
     private static final String TYPE_SAFE_ACTIVATOR_METHOD_NAME = "activateBeanValidation";
@@ -49,58 +49,58 @@ public class BeanValidationActivator {
      * This class has no direct dependency on javax.validation, so Hibersap applications are not forced to
      * have any Bean Validation API or implementation libraries on their classpath.
      *
-     * @param bapiInterceptors     The BeanValidationInterceptor will be added here if Bean Validation will be used.
+     * @param bapiInterceptors The BeanValidationInterceptor will be added here if Bean Validation will be used.
      * @param sessionManagerConfig Provides the configuration information to decide if Bean Validation shall be used.
      */
-    public static void activateBeanValidation( final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig ) {
+    public static void activateBeanValidation(final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig) {
         ValidationMode validationMode = sessionManagerConfig.getValidationMode();
 
-        if ( validationMode != ValidationMode.NONE ) {
-            if ( shouldActivateBeanValidation( validationMode ) ) {
-                activateBeanValidationWithTypeSafeActivator( bapiInterceptors, sessionManagerConfig );
+        if (validationMode != ValidationMode.NONE) {
+            if (shouldActivateBeanValidation(validationMode)) {
+                activateBeanValidationWithTypeSafeActivator(bapiInterceptors, sessionManagerConfig);
             }
         }
     }
 
-    private static boolean shouldActivateBeanValidation( final ValidationMode validationMode ) {
+    private static boolean shouldActivateBeanValidation(final ValidationMode validationMode) {
         try {
-            ReflectionHelper.getClassForName( VALIDATION_CLASS_NAME );
+            ReflectionHelper.getClassForName(VALIDATION_CLASS_NAME);
             return true;
-        } catch ( ClassNotFoundException e ) {
-            if ( validationMode == ValidationMode.CALLBACK ) {
+        } catch (ClassNotFoundException e) {
+            if (validationMode == ValidationMode.CALLBACK) {
                 throw new HibersapException(
                         "Bean Validation is not available in the classpath but required " +
                                 "when ValidationMode is CALLBACK", e
                 );
-            } else if ( validationMode == ValidationMode.AUTO ) {
-                LOGGER.info( "Bean Validation will not be used because " +
-                                     "class javax.validation.Validation was not found in classpath while ValidationMode is AUTO" );
+            } else if (validationMode == ValidationMode.AUTO) {
+                LOGGER.info("Bean Validation will not be used because " +
+                        "class javax.validation.Validation was not found in classpath while ValidationMode is AUTO");
                 return false;
             } else {
-                throw new HibersapException( "This should not ever happen", e );
+                throw new HibersapException("This should not ever happen", e);
             }
         }
     }
 
-    private static void activateBeanValidationWithTypeSafeActivator( final Set<BapiInterceptor> bapiInterceptors,
-                                                                     final SessionManagerConfig sessionManagerConfig ) {
+    private static void activateBeanValidationWithTypeSafeActivator(final Set<BapiInterceptor> bapiInterceptors,
+                                                                    final SessionManagerConfig sessionManagerConfig) {
         try {
-            Class<?> activator = ReflectionHelper.getClassForName( TYPE_SAFE_ACTIVATOR_CLASS_NAME );
+            Class<?> activator = ReflectionHelper.getClassForName(TYPE_SAFE_ACTIVATOR_CLASS_NAME);
 
-            Method activateBeanValidation = activator.getDeclaredMethod( TYPE_SAFE_ACTIVATOR_METHOD_NAME,
-                                                                         Set.class, SessionManagerConfig.class );
-            activateBeanValidation.invoke( null, bapiInterceptors, sessionManagerConfig );
-        } catch ( ClassNotFoundException e ) {
-            throw new HibersapException( "Cannot find class " + TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
-        } catch ( InvocationTargetException e ) {
-            throw new HibersapException( "Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                                                 TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
-        } catch ( NoSuchMethodException e ) {
-            throw new HibersapException( "Cannot find method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                                                 TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
-        } catch ( IllegalAccessException e ) {
-            throw new HibersapException( "Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                                                 TYPE_SAFE_ACTIVATOR_CLASS_NAME, e );
+            Method activateBeanValidation = activator.getDeclaredMethod(TYPE_SAFE_ACTIVATOR_METHOD_NAME,
+                    Set.class, SessionManagerConfig.class);
+            activateBeanValidation.invoke(null, bapiInterceptors, sessionManagerConfig);
+        } catch (ClassNotFoundException e) {
+            throw new HibersapException("Cannot find class " + TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
+        } catch (InvocationTargetException e) {
+            throw new HibersapException("Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
+                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
+        } catch (NoSuchMethodException e) {
+            throw new HibersapException("Cannot find method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
+                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
+        } catch (IllegalAccessException e) {
+            throw new HibersapException("Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
+                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
         }
     }
 }

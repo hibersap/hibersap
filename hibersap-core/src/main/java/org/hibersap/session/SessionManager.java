@@ -49,7 +49,7 @@ public interface SessionManager extends Serializable {
      * @param credentials User Credentials for the SAP system to be called.
      * @return The Session
      */
-    Session openSession( Credentials credentials );
+    Session openSession(Credentials credentials);
 
     /**
      * Closes a SessionManager, freeing resources held by the framework.
