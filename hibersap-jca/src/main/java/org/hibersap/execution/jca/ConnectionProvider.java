@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,16 +18,15 @@
 
 package org.hibersap.execution.jca;
 
+import javax.resource.ResourceException;
+import javax.resource.cci.Connection;
+import javax.resource.cci.ConnectionFactory;
+import javax.resource.cci.ConnectionSpec;
 import org.hibersap.ConfigurationException;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.jca.cci.ConnectionSpecFactory;
 import org.hibersap.mapping.ReflectionHelper;
 import org.hibersap.session.Credentials;
-
-import javax.resource.ResourceException;
-import javax.resource.cci.Connection;
-import javax.resource.cci.ConnectionFactory;
-import javax.resource.cci.ConnectionSpec;
 
 public class ConnectionProvider {
 

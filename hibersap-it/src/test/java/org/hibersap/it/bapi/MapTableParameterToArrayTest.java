@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -26,7 +26,6 @@ import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class MapTableParameterToArrayTest extends AbstractBapiTest {

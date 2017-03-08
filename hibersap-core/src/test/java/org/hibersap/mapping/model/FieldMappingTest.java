@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -22,7 +22,6 @@ import org.hibersap.conversion.ConversionException;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 

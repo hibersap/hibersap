@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,15 +18,14 @@
 
 package org.hibersap.mapping.model;
 
-import org.hibersap.conversion.Converter;
-import org.hibersap.conversion.ConverterCache;
-import org.hibersap.execution.UnsafeCastHelper;
-import org.hibersap.mapping.ReflectionHelper;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.hibersap.conversion.Converter;
+import org.hibersap.conversion.ConverterCache;
+import org.hibersap.execution.UnsafeCastHelper;
+import org.hibersap.mapping.ReflectionHelper;
 
 /**
  * @author Carsten Erker

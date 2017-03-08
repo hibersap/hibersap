@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,10 @@
 
 package org.hibersap.execution.jca.cci;
 
+import java.util.Arrays;
+import javax.resource.cci.ConnectionSpec;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
-
-import javax.resource.cci.ConnectionSpec;
-import java.util.Arrays;
 
 public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpecFactory {
 

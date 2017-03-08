@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,11 @@
 
 package org.hibersap.execution;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Convert;
@@ -29,12 +34,6 @@ import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.conversion.ConversionException;
 import org.hibersap.conversion.Converter;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Name must not be Test* or *Test, because Surefire then tries to run it as a

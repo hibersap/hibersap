@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -28,6 +28,8 @@ import com.sap.conn.jco.JCoFunctionTemplate;
 import com.sap.conn.jco.JCoParameterFieldIterator;
 import com.sap.conn.jco.JCoParameterList;
 import com.sap.conn.jco.JCoRecord;
+import java.util.List;
+import java.util.Set;
 import org.hibersap.HibersapException;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.mapping.model.BapiMapping;
@@ -36,9 +38,6 @@ import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.session.SessionManager;
-
-import java.util.List;
-import java.util.Set;
 
 public class ReverseBapiMapper {
 

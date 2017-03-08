@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,15 +18,13 @@
 
 package org.hibersap.validation;
 
-
-import org.hibersap.interceptor.BapiInterceptor;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.HashSet;
-import java.util.Set;
+import org.hibersap.interceptor.BapiInterceptor;
 
 public class BeanValidationInterceptor implements BapiInterceptor {
 

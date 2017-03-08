@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,10 @@
 
 package org.hibersap.execution;
 
+import java.util.Map;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
-
-import java.util.Map;
 
 /*
  * Implementations of this interface define the functionality how to communicate with SAP, using for

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,7 @@
 
 package org.hibersap.mapping;
 
+import java.util.Set;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -26,9 +27,6 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.junit.Test;
-
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationBapiMapperTest {

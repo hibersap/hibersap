@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -21,12 +21,10 @@ package org.hibersap.execution.jco;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.Environment;
+import java.util.Properties;
 import org.fest.assertions.Condition;
 import org.junit.After;
 import org.junit.Test;
-
-import java.util.Properties;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class JCoEnvironmentTest {

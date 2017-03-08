@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,14 +18,12 @@
 
 package org.hibersap.validation;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.configuration.xml.ValidationMode;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.junit.Test;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class BeanValidationActivatorTest {

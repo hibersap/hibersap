@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,10 @@
 
 package org.hibersap.interceptor.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.hibersap.MappingException;
 import org.hibersap.SapException;
@@ -27,11 +31,6 @@ import org.hibersap.execution.UnsafeCastHelper;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ErrorHandling;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * Throws a SapException after the execution of a BAPI call when SAP returned an Error message.

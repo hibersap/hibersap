@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.it.bapi;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
@@ -25,10 +27,6 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hibersap.annotations.ParameterType.TABLE_STRUCTURE;
 

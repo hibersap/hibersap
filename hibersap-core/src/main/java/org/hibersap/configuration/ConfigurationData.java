@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,15 +18,14 @@
 
 package org.hibersap.configuration;
 
-import org.hibersap.configuration.xml.SessionManagerConfig;
-import org.hibersap.interceptor.BapiInterceptor;
-import org.hibersap.interceptor.ExecutionInterceptor;
-import org.hibersap.mapping.model.BapiMapping;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
+import org.hibersap.mapping.model.BapiMapping;
 
 /**
  * Data object to transport configuration data from Configuration to SessionManager when building the latter.

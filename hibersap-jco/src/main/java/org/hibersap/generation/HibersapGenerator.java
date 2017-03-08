@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,17 +18,16 @@
 
 package org.hibersap.generation;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Map;
 import org.hibersap.HibersapException;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.generation.bapi.BapiClassFormatter;
 import org.hibersap.generation.bapi.ReverseBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Map;
 
 public class HibersapGenerator {
 

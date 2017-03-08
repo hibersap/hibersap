@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.mapping.model;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
 import java.util.Arrays;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Holds information for error handling of a BAPI mapping.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.mapping;
 
+import java.lang.reflect.Field;
+import java.util.Collection;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
@@ -25,9 +27,6 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.conversion.Converter;
-
-import java.lang.reflect.Field;
-import java.util.Collection;
 
 
 /**

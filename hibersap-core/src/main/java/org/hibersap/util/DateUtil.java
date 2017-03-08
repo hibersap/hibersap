@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.util;
 
-import org.apache.commons.lang.time.DateUtils;
-
 import java.util.Calendar;
 import java.util.Date;
+import org.apache.commons.lang.time.DateUtils;
 
 
 /**

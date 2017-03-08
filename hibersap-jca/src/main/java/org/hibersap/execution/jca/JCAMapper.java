@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,16 +18,6 @@
 
 package org.hibersap.execution.jca;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.bapi.BapiConstants;
-import org.hibersap.execution.UnsafeCastHelper;
-
-import javax.resource.ResourceException;
-import javax.resource.cci.IndexedRecord;
-import javax.resource.cci.MappedRecord;
-import javax.resource.cci.Record;
-import javax.resource.cci.RecordFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,6 +25,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.resource.ResourceException;
+import javax.resource.cci.IndexedRecord;
+import javax.resource.cci.MappedRecord;
+import javax.resource.cci.Record;
+import javax.resource.cci.RecordFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.bapi.BapiConstants;
+import org.hibersap.execution.UnsafeCastHelper;
 
 /**
  * @author M. Dahm

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,9 @@
 
 package org.hibersap.execution.jca;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.resource.cci.ConnectionFactory;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,10 +30,6 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory;
 import org.hibersap.session.Context;
-
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.resource.cci.ConnectionFactory;
 
 /**
  * Implementation for JCA, which uses a deployed resource adapter to connect to SAP.

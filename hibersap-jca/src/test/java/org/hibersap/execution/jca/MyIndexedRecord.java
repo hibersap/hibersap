@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,8 +18,8 @@
 
 package org.hibersap.execution.jca;
 
-import javax.resource.cci.IndexedRecord;
 import java.util.ArrayList;
+import javax.resource.cci.IndexedRecord;
 
 // IndexedRecord extends the List interface in a non-generic way
 @SuppressWarnings( "unchecked" )

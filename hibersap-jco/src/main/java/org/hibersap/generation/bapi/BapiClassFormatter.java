@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,11 @@
 
 package org.hibersap.generation.bapi;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
@@ -31,12 +36,6 @@ import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.ParameterMapping.ParamType;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class BapiClassFormatter {
 

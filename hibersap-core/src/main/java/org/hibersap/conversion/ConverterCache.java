@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.conversion;
 
-import org.hibersap.mapping.ReflectionHelper;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.hibersap.mapping.ReflectionHelper;
 
 /**
  * Holds instances of implementations of org.hibersap.conversion.Converter. The instances are

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.ejb.util;
 
+import javax.naming.Context;
+import javax.naming.NamingException;
 import org.hibersap.HibersapException;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Credentials;
@@ -25,10 +27,6 @@ import org.hibersap.session.Session;
 import org.hibersap.session.SessionManager;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.naming.Context;
-import javax.naming.NamingException;
-
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;

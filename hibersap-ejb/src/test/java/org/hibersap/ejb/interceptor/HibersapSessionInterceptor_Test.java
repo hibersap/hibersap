@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,16 +18,14 @@
 
 package org.hibersap.ejb.interceptor;
 
+import java.util.HashMap;
+import javax.interceptor.InvocationContext;
+import javax.naming.Context;
 import org.hibersap.ejb.util.MockInitialContextFactory;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionManager;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.interceptor.InvocationContext;
-import javax.naming.Context;
-import java.util.HashMap;
-
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,14 +18,12 @@
 
 package org.hibersap.mapping.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.conversion.ConverterCache;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 

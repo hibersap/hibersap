@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,18 +18,16 @@
 
 package org.hibersap.execution;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.execution.MyTestBapi.TestStructure;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import static java.util.Collections.singletonMap;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;

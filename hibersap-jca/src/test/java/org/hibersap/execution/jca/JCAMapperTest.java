@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,22 +18,20 @@
 
 package org.hibersap.execution.jca;
 
-import org.easymock.EasyMock;
-import org.easymock.IAnswer;
-import org.hibersap.execution.UnsafeCastHelper;
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.resource.ResourceException;
-import javax.resource.cci.IndexedRecord;
-import javax.resource.cci.MappedRecord;
-import javax.resource.cci.RecordFactory;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.resource.ResourceException;
+import javax.resource.cci.IndexedRecord;
+import javax.resource.cci.MappedRecord;
+import javax.resource.cci.RecordFactory;
+import org.easymock.EasyMock;
+import org.easymock.IAnswer;
+import org.hibersap.execution.UnsafeCastHelper;
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class JCAMapperTest {

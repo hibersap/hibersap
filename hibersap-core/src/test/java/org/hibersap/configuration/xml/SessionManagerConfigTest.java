@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,9 @@
 
 package org.hibersap.configuration.xml;
 
+import java.util.List;
 import org.hibersap.configuration.ConfigurationTest;
 import org.junit.Test;
-
-import java.util.List;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerConfigTest {

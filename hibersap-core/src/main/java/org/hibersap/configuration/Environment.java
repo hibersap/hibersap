@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,10 @@
 
 package org.hibersap.configuration;
 
-import org.hibersap.HibersapException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import org.hibersap.HibersapException;
 
 /*
 * @author Carsten Erker
@@ -30,9 +29,9 @@ import java.util.Properties;
 public final class Environment {
 
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
-    public static final String VERSION = readHibersapVersion();
     private static final String HIBERSAP_VERSION_FILE = "hibersap-version.properties";
     private static final String HIBERSAP_VERSION_PROPERTY_KEY = "hibersap-version";
+    public static final String VERSION = readHibersapVersion();
 
     private Environment() {
         // should not be instantiated

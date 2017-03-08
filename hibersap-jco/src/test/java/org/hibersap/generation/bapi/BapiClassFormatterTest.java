@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.generation.bapi;
 
+import java.util.List;
+import java.util.Map;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Export;
@@ -28,10 +30,6 @@ import org.hibersap.annotations.Table;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
-
-import java.util.List;
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

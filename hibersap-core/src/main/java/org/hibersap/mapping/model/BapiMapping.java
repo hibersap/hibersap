@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,12 +18,11 @@
 
 package org.hibersap.mapping.model;
 
-import org.apache.commons.lang.StringUtils;
-import org.hibersap.MappingException;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang.StringUtils;
+import org.hibersap.MappingException;
 
 /**
  * This class is the framework internal representation of mappings between SAP function modules

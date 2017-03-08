@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -21,7 +21,6 @@ package org.hibersap.it.session;
 import com.sap.conn.jco.ext.Environment;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerTest extends AbstractBapiTest {

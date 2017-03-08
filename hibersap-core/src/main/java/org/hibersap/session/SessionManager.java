@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,9 +18,8 @@
 
 package org.hibersap.session;
 
-import org.hibersap.configuration.xml.SessionManagerConfig;
-
 import java.io.Serializable;
+import org.hibersap.configuration.xml.SessionManagerConfig;
 
 /*
  * The client's interface to the SessionManager. A SessionManager is used to create Hibersap

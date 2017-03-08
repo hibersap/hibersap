@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,9 @@
 
 package org.hibersap.validation;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -25,10 +28,6 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.configuration.xml.ValidationMode;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.mapping.ReflectionHelper;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Set;
 
 /**
  * Acts as a middle-man between Hibersap and the Bean Validation framework.

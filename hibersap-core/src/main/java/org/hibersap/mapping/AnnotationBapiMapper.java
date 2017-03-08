@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.mapping;
 
+import java.lang.reflect.Field;
+import java.util.Set;
 import org.hibersap.MappingException;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Parameter;
@@ -28,10 +30,6 @@ import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
-
-import java.lang.reflect.Field;
-import java.util.Set;
-
 import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
 
 /**

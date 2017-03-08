@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,12 +18,11 @@
 
 package org.hibersap.execution.jca.cci;
 
-import org.hibersap.InternalHiberSapException;
-import org.hibersap.mapping.ReflectionHelper;
-
-import javax.resource.cci.ConnectionSpec;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import javax.resource.cci.ConnectionSpec;
+import org.hibersap.InternalHiberSapException;
+import org.hibersap.mapping.ReflectionHelper;
 
 /**
  * Offers methods to help accessing and instantiating the ConnectionSpec implementation. May be used

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,10 @@
 
 package org.hibersap.configuration;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
@@ -30,11 +34,6 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.Context;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Abstract Superclass for different configuration strategies.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,12 @@
 
 package org.hibersap.session;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Set;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.DummyContext;
 import org.hibersap.configuration.xml.SessionManagerConfig;
@@ -28,14 +34,6 @@ import org.hibersap.interceptor.impl.SapErrorInterceptor;
 import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerImplTest {

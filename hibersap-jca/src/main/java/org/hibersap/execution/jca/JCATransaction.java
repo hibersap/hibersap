@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,10 @@
 
 package org.hibersap.execution.jca;
 
-import org.hibersap.HibersapException;
-import org.hibersap.session.AbstractTransaction;
-
 import javax.resource.ResourceException;
 import javax.resource.cci.LocalTransaction;
+import org.hibersap.HibersapException;
+import org.hibersap.session.AbstractTransaction;
 
 /**
  * Implementation for JCA, i.e. it uses a deployed resource adapter to connect to SAP.

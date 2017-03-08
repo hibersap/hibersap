@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.mapping.model;
 
+import java.io.Serializable;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
-
-import java.io.Serializable;
 
 /**
  * @author Carsten Erker

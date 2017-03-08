@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,17 +18,15 @@
 
 package org.hibersap.mapping;
 
-import org.hibersap.HibersapException;
-import org.hibersap.annotations.Export;
-import org.junit.Test;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
+import org.hibersap.HibersapException;
+import org.hibersap.annotations.Export;
+import org.junit.Test;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
 import static org.fest.assertions.Assertions.assertThat;

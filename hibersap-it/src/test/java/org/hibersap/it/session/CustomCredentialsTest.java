@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -20,15 +20,13 @@ package org.hibersap.it.session;
 
 import com.sap.conn.jco.monitor.JCoConnectionData;
 import com.sap.conn.jco.monitor.JCoConnectionMonitor;
+import java.util.List;
 import org.hibersap.SapException;
 import org.hibersap.it.AbstractBapiTest;
 import org.hibersap.it.bapi.RfcPing;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.Session;
 import org.junit.Test;
-
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,14 +18,12 @@
 
 package org.hibersap.ejb.util;
 
-import org.hibersap.InternalHiberSapException;
-import org.hibersap.ejb.interceptor.HibersapSession;
-import org.hibersap.session.Session;
-
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
-
+import org.hibersap.InternalHiberSapException;
+import org.hibersap.ejb.interceptor.HibersapSession;
+import org.hibersap.session.Session;
 import static java.lang.String.format;
 
 public final class ReflectionUtil {

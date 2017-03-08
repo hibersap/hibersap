@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,14 +18,13 @@
 
 package org.hibersap.it.jco;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Bapi( "BAPI_MONITOR_GETLIST" )
 @ThrowExceptionOnError
