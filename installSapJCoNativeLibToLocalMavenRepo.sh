@@ -15,4 +15,4 @@ fi
 FILE_NAME=$1
 FILE_EXT=${FILE_NAME/*./}
 
-mvn install:install-file -Dfile=$1 -DgroupId=org.hibersap -DartifactId=sapjco3 -Dversion=$2 -Dclassifier=$3 -Dpackaging=$FILE_EXT
+mvn install:install-file -Dfile=$1 -DgroupId=org.hibersap -DartifactId=com.sap.conn.jco.sapjco3 -Dversion=$2 -Dclassifier=$3 -Dpackaging=$FILE_EXT
