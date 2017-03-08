@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,11 @@
 
 package org.hibersap.configuration.xml;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
@@ -37,7 +37,7 @@ public class Property implements Serializable {
     public Property() {
     }
 
-    public Property( final String name, final String value ) {
+    public Property(final String name, final String value) {
         this.name = name;
         this.value = value;
     }
@@ -56,9 +56,9 @@ public class Property implements Serializable {
      * Sets the value of the name properties.
      *
      * @param value allowed object is
-     *              {@link String }
+     * {@link String }
      */
-    public void setName( final String value ) {
+    public void setName(final String value) {
         this.name = value;
     }
 
@@ -76,9 +76,9 @@ public class Property implements Serializable {
      * Sets the value of the value properties.
      *
      * @param value allowed object is
-     *              {@link String }
+     * {@link String }
      */
-    public void setValue( final String value ) {
+    public void setValue(final String value) {
         this.value = value;
     }
 
@@ -88,20 +88,20 @@ public class Property implements Serializable {
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Property property = (Property) o;
 
-        if ( name != null ? !name.equals( property.name ) : property.name != null ) {
+        if (name != null ? !name.equals(property.name) : property.name != null) {
             return false;
         }
-        if ( value != null ? !value.equals( property.value ) : property.value != null ) {
+        if (value != null ? !value.equals(property.value) : property.value != null) {
             return false;
         }
 
@@ -111,7 +111,7 @@ public class Property implements Serializable {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + ( value != null ? value.hashCode() : 0 );
+        result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
 }

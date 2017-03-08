@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,15 +18,14 @@
 
 package org.hibersap.configuration;
 
-import org.hibersap.configuration.xml.SessionManagerConfig;
-import org.hibersap.interceptor.BapiInterceptor;
-import org.hibersap.interceptor.ExecutionInterceptor;
-import org.hibersap.mapping.model.BapiMapping;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.hibersap.configuration.xml.SessionManagerConfig;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
+import org.hibersap.mapping.model.BapiMapping;
 
 /**
  * Data object to transport configuration data from Configuration to SessionManager when building the latter.
@@ -35,13 +34,13 @@ public class ConfigurationData {
 
     private final SessionManagerConfig sessionManagerConfig;
 
-    private final Map<Class<?>, BapiMapping> bapiMappingsForClass = new HashMap<Class<?>, BapiMapping>();
+    private final Map<String, BapiMapping> bapiMappingsForClass = new HashMap<String, BapiMapping>();
 
     private final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
 
     private final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
 
-    ConfigurationData( final SessionManagerConfig sessionManagerConfig ) {
+    ConfigurationData(final SessionManagerConfig sessionManagerConfig) {
         this.sessionManagerConfig = sessionManagerConfig;
     }
 
@@ -49,16 +48,16 @@ public class ConfigurationData {
         return sessionManagerConfig;
     }
 
-    public void addExecutionInterceptors( final Set<ExecutionInterceptor> executionInterceptors ) {
-        this.executionInterceptors.addAll( executionInterceptors );
+    public void addExecutionInterceptors(final Set<ExecutionInterceptor> executionInterceptors) {
+        this.executionInterceptors.addAll(executionInterceptors);
     }
 
-    public void addBapiInterceptors( final Set<BapiInterceptor> bapiInterceptors ) {
-        this.bapiInterceptors.addAll( bapiInterceptors );
+    public void addBapiInterceptors(final Set<BapiInterceptor> bapiInterceptors) {
+        this.bapiInterceptors.addAll(bapiInterceptors);
     }
 
-    public void addBapiMappingsForClass( final Map<Class<?>, BapiMapping> bapiMappings ) {
-        bapiMappingsForClass.putAll( bapiMappings );
+    public void addBapiMappingsForClass(final Map<String, BapiMapping> bapiMappings) {
+        bapiMappingsForClass.putAll(bapiMappings);
     }
 
     public Set<ExecutionInterceptor> getExecutionInterceptors() {
@@ -69,7 +68,7 @@ public class ConfigurationData {
         return bapiInterceptors;
     }
 
-    public Map<Class<?>, BapiMapping> getBapiMappingsForClass() {
+    public Map<String, BapiMapping> getBapiMappingsForClass() {
         return bapiMappingsForClass;
     }
 }

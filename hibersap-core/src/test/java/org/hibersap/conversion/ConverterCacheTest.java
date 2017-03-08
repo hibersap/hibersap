@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -20,7 +20,6 @@ package org.hibersap.conversion;
 
 import org.hibersap.HibersapException;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 
 public class ConverterCacheTest {
@@ -29,23 +28,23 @@ public class ConverterCacheTest {
 
     @Test
     public void testCreatesOneInstanceOfEachClass() {
-        cache.getConverter( CharConverter.class );
-        assertEquals( 1, cache.getSize() );
+        cache.getConverter(CharConverter.class);
+        assertEquals(1, cache.getSize());
 
-        cache.getConverter( CharConverter.class );
-        assertEquals( 1, cache.getSize() );
+        cache.getConverter(CharConverter.class);
+        assertEquals(1, cache.getSize());
 
-        cache.getConverter( BooleanConverter.class );
-        assertEquals( 2, cache.getSize() );
+        cache.getConverter(BooleanConverter.class);
+        assertEquals(2, cache.getSize());
     }
 
-    @Test( expected = IllegalArgumentException.class )
+    @Test(expected = IllegalArgumentException.class)
     public void testThrowsExceptionOnNullArgument() {
-        cache.getConverter( null );
+        cache.getConverter(null);
     }
 
-    @Test( expected = HibersapException.class )
+    @Test(expected = HibersapException.class)
     public void testThrowsHibersapExceptionIfNotInstantiable() {
-        cache.getConverter( Converter.class );
+        cache.getConverter(Converter.class);
     }
 }

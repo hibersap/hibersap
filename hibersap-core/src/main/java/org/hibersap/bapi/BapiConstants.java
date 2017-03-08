@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -23,6 +23,7 @@ package org.hibersap.bapi;
  *
  * @author Markus Dahm
  */
+@SuppressWarnings("WeakerAccess")
 public final class BapiConstants {
 
     public static final String TYPE = "TYPE";

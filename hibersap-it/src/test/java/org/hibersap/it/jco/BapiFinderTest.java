@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -20,20 +20,19 @@ package org.hibersap.it.jco;
 
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class BapiFinderTest extends AbstractBapiTest {
 
     @Test
     public void findsFlightBapis() {
-        BapiFinder bapiFinder = new BapiFinder( "BC-DWB" );
-        session.execute( bapiFinder );
+        BapiFinder bapiFinder = new BapiFinder("BC-DWB");
+        session.execute(bapiFinder);
 
-        assertThat( bapiFinder.getBapiDescriptions().size() ).isGreaterThan( 0 );
-        assertThat( bapiFinder.getBapiDescriptions() ).contains(
-                new BapiDescription( "Flight", "Flight with connection data (SAP training)", "GetList",
-                                     "Find list of flights", "BAPI_FLIGHT_GETLIST" )
+        assertThat(bapiFinder.getBapiDescriptions().size()).isGreaterThan(0);
+        assertThat(bapiFinder.getBapiDescriptions()).contains(
+                new BapiDescription("Flight", "Flight with connection data (SAP training)", "GetList",
+                        "Find list of flights", "BAPI_FLIGHT_GETLIST")
         );
     }
 }

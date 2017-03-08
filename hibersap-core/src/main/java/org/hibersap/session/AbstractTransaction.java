@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -37,19 +37,19 @@ public abstract class AbstractTransaction
      *
      * @param synchronization The callback object.
      */
-    public final void registerSynchronization( final Synchronization synchronization ) {
-        synchronizations.add( synchronization );
+    public final void registerSynchronization(final Synchronization synchronization) {
+        synchronizations.add(synchronization);
     }
 
     protected final void notifySynchronizationsBeforeCompletion() {
-        for ( Synchronization synchronization : synchronizations ) {
+        for (Synchronization synchronization : synchronizations) {
             synchronization.beforeCompletion();
         }
     }
 
-    protected final void notifySynchronizationsAfterCompletion( final boolean committed ) {
-        for ( Synchronization synchronization : synchronizations ) {
-            synchronization.afterCompletion( committed );
+    protected final void notifySynchronizationsAfterCompletion(final boolean committed) {
+        for (Synchronization synchronization : synchronizations) {
+            synchronization.afterCompletion(committed);
         }
     }
 }

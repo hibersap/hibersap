@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,12 @@
 
 package org.hibersap.session;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Set;
 import org.hibersap.configuration.AnnotationConfiguration;
 import org.hibersap.configuration.DummyContext;
 import org.hibersap.configuration.xml.SessionManagerConfig;
@@ -28,14 +34,6 @@ import org.hibersap.interceptor.impl.SapErrorInterceptor;
 import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class SessionManagerImplTest {
@@ -44,42 +42,42 @@ public class SessionManagerImplTest {
 
     @Before
     public void createSessionManager() {
-        SessionManagerConfig smConfig = new SessionManagerConfig( "name" ).setContext( DummyContext.class.getName() );
+        SessionManagerConfig smConfig = new SessionManagerConfig("name").setContext(DummyContext.class.getName());
 
-        AnnotationConfiguration config = new AnnotationConfiguration( smConfig );
+        AnnotationConfiguration config = new AnnotationConfiguration(smConfig);
 
         sessionManager = (SessionManagerImpl) config.buildSessionManager();
     }
 
     @Test
     public void hasConfiguredAndStandardValuesWhenCreated() throws Exception {
-        assertThat( sessionManager.getContext() ).isInstanceOf( DummyContext.class );
-        assertThat( sessionManager.getConfig().getName() ).isEqualTo( "name" );
-        assertThat( sessionManager.getConverterCache() ).isNotNull();
-        assertThat( sessionManager.getBapiMappings() ).isNotNull();
-        assertThat( sessionManager.getExecutionInterceptors() ).isNotNull();
+        assertThat(sessionManager.getContext()).isInstanceOf(DummyContext.class);
+        assertThat(sessionManager.getConfig().getName()).isEqualTo("name");
+        assertThat(sessionManager.getConverterCache()).isNotNull();
+        assertThat(sessionManager.getBapiMappings()).isNotNull();
+        assertThat(sessionManager.getExecutionInterceptors()).isNotNull();
     }
 
     @Test
     public void hasSameConfigurationAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.getConfig() ).isEqualTo( sessionManager.getConfig() );
+        assertThat(managerRead.getConfig()).isEqualTo(sessionManager.getConfig());
     }
 
     @Test
     public void hasConverterCacheAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.getConverterCache() ).isNotNull();
+        assertThat(managerRead.getConverterCache()).isNotNull();
     }
 
     @Test
     public void hasSameContextAfterDeserialization() throws Exception {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.getContext() ).isNotNull();
-        assertThat( managerRead.getContext() ).isEqualTo( sessionManager.getContext() );
+        assertThat(managerRead.getContext()).isNotNull();
+        assertThat(managerRead.getContext()).isEqualTo(sessionManager.getContext());
     }
 
     @Test
@@ -87,9 +85,9 @@ public class SessionManagerImplTest {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         final Set<BapiInterceptor> bapiInterceptors = managerRead.getBapiInterceptors();
-        assertThat( bapiInterceptors ).isNotNull();
-        assertThat( bapiInterceptors ).hasSize( 1 );
-        assertThat( bapiInterceptors.iterator().next() ).isInstanceOf( BeanValidationInterceptor.class );
+        assertThat(bapiInterceptors).isNotNull();
+        assertThat(bapiInterceptors).hasSize(1);
+        assertThat(bapiInterceptors.iterator().next()).isInstanceOf(BeanValidationInterceptor.class);
     }
 
     @Test
@@ -97,9 +95,9 @@ public class SessionManagerImplTest {
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
         final Set<ExecutionInterceptor> executionInterceptors = managerRead.getExecutionInterceptors();
-        assertThat( executionInterceptors ).isNotNull();
-        assertThat( executionInterceptors ).hasSize( 1 );
-        assertThat( executionInterceptors.iterator().next() ).isInstanceOf( SapErrorInterceptor.class );
+        assertThat(executionInterceptors).isNotNull();
+        assertThat(executionInterceptors).hasSize(1);
+        assertThat(executionInterceptors.iterator().next()).isInstanceOf(SapErrorInterceptor.class);
     }
 
     @Test
@@ -107,22 +105,22 @@ public class SessionManagerImplTest {
         sessionManager.close();
         SessionManagerImpl managerRead = serializeAndDeserializeSessionManager();
 
-        assertThat( managerRead.isClosed() ).isTrue();
+        assertThat(managerRead.isClosed()).isTrue();
     }
 
     private SessionManagerImpl serializeAndDeserializeSessionManager() throws IOException, ClassNotFoundException {
         // Converter gets created lazily on first access
-        if ( !sessionManager.isClosed() ) {
-            sessionManager.getConverterCache().getConverter( BooleanConverter.class );
+        if (!sessionManager.isClosed()) {
+            sessionManager.getConverterCache().getConverter(BooleanConverter.class);
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream( baos );
-        out.writeObject( sessionManager );
+        ObjectOutputStream out = new ObjectOutputStream(baos);
+        out.writeObject(sessionManager);
         out.close();
 
-        ByteArrayInputStream bain = new ByteArrayInputStream( baos.toByteArray() );
-        ObjectInputStream in = new ObjectInputStream( bain );
+        ByteArrayInputStream bain = new ByteArrayInputStream(baos.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(bain);
         SessionManagerImpl managerRead = (SessionManagerImpl) in.readObject();
         in.close();
         return managerRead;

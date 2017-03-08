@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,20 +18,18 @@
 
 package org.hibersap.mapping.model;
 
-import org.hibersap.InternalHiberSapException;
-import org.hibersap.MappingException;
-import org.hibersap.conversion.Converter;
-import org.hibersap.conversion.ConverterCache;
-import org.hibersap.mapping.ReflectionHelper;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static java.util.Arrays.asList;
+import org.hibersap.InternalHiberSapException;
+import org.hibersap.MappingException;
+import org.hibersap.conversion.Converter;
+import org.hibersap.conversion.ConverterCache;
+import org.hibersap.mapping.ReflectionHelper;
+import static java.util.Collections.singletonList;
 import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;
 import static org.hibersap.mapping.ReflectionHelper.newCollectionInstance;
 
@@ -49,22 +47,22 @@ public final class TableMapping extends ParameterMapping {
     private final Class<?> destinationType;
 
     /**
-     * @param fieldType          The type of the field in the bean; may be a Collection interface like List,
-     *                           Set, Collection, a concrete class that implements Collection or an array.
-     *                           If there is a Converter specified on the field, it may be a Pojo class.
-     * @param associatedType     The type of the elements, i.e. a Pojo class.
-     * @param sapName            The table's name in SAP.
-     * @param javaName           The Java field name of the Collection or array.
+     * @param fieldType The type of the field in the bean; may be a Collection interface like List,
+     * Set, Collection, a concrete class that implements Collection or an array.
+     * If there is a Converter specified on the field, it may be a Pojo class.
+     * @param associatedType The type of the elements, i.e. a Pojo class.
+     * @param sapName The table's name in SAP.
+     * @param javaName The Java field name of the Collection or array.
      * @param componentParameter A StructureMapping containing the table's fields.
-     * @param converterClass     The Class of the table field's converter, if defined.
+     * @param converterClass The Class of the table field's converter, if defined.
      */
-    public TableMapping( final Class<?> fieldType,
-                         final Class<?> associatedType,
-                         final String sapName,
-                         final String javaName,
-                         final StructureMapping componentParameter,
-                         final Class<? extends Converter> converterClass ) {
-        super( associatedType, sapName, javaName, converterClass );
+    public TableMapping(final Class<?> fieldType,
+                        final Class<?> associatedType,
+                        final String sapName,
+                        final String javaName,
+                        final StructureMapping componentParameter,
+                        final Class<? extends Converter> converterClass) {
+        super(associatedType, sapName, javaName, converterClass);
         this.componentParameter = componentParameter;
         this.fieldType = fieldType;
         this.destinationType = determineDestinationType();
@@ -74,13 +72,13 @@ public final class TableMapping extends ParameterMapping {
     private Class<?> determineDestinationType() {
         Class<?> resultingType;
 
-        if ( isDestinationTypeCollection() ) {
-            if ( fieldType.isInterface() ) {
-                if ( List.class.equals( fieldType ) ) {
+        if (isDestinationTypeCollection()) {
+            if (fieldType.isInterface()) {
+                if (List.class.equals(fieldType)) {
                     resultingType = ArrayList.class;
-                } else if ( Set.class.equals( fieldType ) ) {
+                } else if (Set.class.equals(fieldType)) {
                     resultingType = HashSet.class;
-                } else if ( Collection.class.equals( fieldType ) ) {
+                } else if (Collection.class.equals(fieldType)) {
                     resultingType = ArrayList.class;
                 } else {
                     throw new MappingException(
@@ -91,14 +89,14 @@ public final class TableMapping extends ParameterMapping {
             } else {
                 resultingType = fieldType;
             }
-        } else if ( fieldType.isArray() ) {
+        } else if (fieldType.isArray()) {
             resultingType = ArrayList.class;
         } else {
-            if ( hasConverter() ) {
+            if (hasConverter()) {
                 resultingType = fieldType;
             } else {
-                throw new MappingException( "The field " + getJavaName() + " must be an array or a "
-                                                    + "Collection or have a Converter, but is: " + fieldType.getName() );
+                throw new MappingException("The field " + getJavaName() + " must be an array or a "
+                        + "Collection or have a Converter, but is: " + fieldType.getName());
             }
         }
 
@@ -106,7 +104,7 @@ public final class TableMapping extends ParameterMapping {
     }
 
     private boolean isDestinationTypeCollection() {
-        return Collection.class.isAssignableFrom( fieldType );
+        return Collection.class.isAssignableFrom(fieldType);
     }
 
     @SuppressWarnings("unchecked")
@@ -128,24 +126,24 @@ public final class TableMapping extends ParameterMapping {
     }
 
     @Override
-    public Object getUnconvertedValueToJava( final Object fieldMapCollection, final ConverterCache converterCache ) {
-        if ( !hasConverter() ) {
+    public Object getUnconvertedValueToJava(final Object fieldMapCollection, final ConverterCache converterCache) {
+        if (!hasConverter()) {
             @SuppressWarnings({"unchecked"}) // must be Collection, since there is no Converter
                     Class<? extends Collection> destinationType = (Class<? extends Collection>) getDestinationType();
 
-            Collection<Object> collection = newCollectionInstance( destinationType );
+            Collection<Object> collection = newCollectionInstance(destinationType);
 
-            Collection<Map<String, Object>> rows = castToCollectionOfMaps( fieldMapCollection );
+            Collection<Map<String, Object>> rows = castToCollectionOfMaps(fieldMapCollection);
 
-            if ( rows != null ) {
-                for ( Map<String, Object> tableMap : rows ) {
-                    Object elementBean = getComponentParameter().mapToJava( tableMap, converterCache );
-                    collection.add( elementBean );
+            if (rows != null) {
+                for (Map<String, Object> tableMap : rows) {
+                    Object elementBean = getComponentParameter().mapToJava(tableMap, converterCache);
+                    collection.add(elementBean);
                 }
             }
 
-            if ( getFieldType().isArray() ) {
-                return ReflectionHelper.newArrayFromCollection( collection, getAssociatedType() );
+            if (getFieldType().isArray()) {
+                return ReflectionHelper.newArrayFromCollection(collection, getAssociatedType());
             } else {
                 return collection;
             }
@@ -158,24 +156,24 @@ public final class TableMapping extends ParameterMapping {
     }
 
     @Override
-    protected Object getUnconvertedValueToSap( final Object value, final ConverterCache converterCache ) {
+    protected Object getUnconvertedValueToSap(final Object value, final ConverterCache converterCache) {
         Collection bapiStructures;
 
-        if ( getFieldType().isArray() ) {
-            bapiStructures = asList( value );
+        if (getFieldType().isArray()) {
+            bapiStructures = singletonList(value);
         } else {
             bapiStructures = (Collection) value;
         }
 
         List<Map<String, Object>> tableRows = new ArrayList<Map<String, Object>>();
 
-        if ( bapiStructures != null ) {
-            for ( Object bapiStructure : bapiStructures ) {
+        if (bapiStructures != null) {
+            for (Object bapiStructure : bapiStructures) {
 
                 @SuppressWarnings({"unchecked"})
                 Map<String, Object> paramMap = (Map<String, Object>) getComponentParameter()
-                        .mapToSap( bapiStructure, converterCache );
-                tableRows.add( paramMap );
+                        .mapToSap(bapiStructure, converterCache);
+                tableRows.add(paramMap);
             }
         }
 
@@ -183,28 +181,28 @@ public final class TableMapping extends ParameterMapping {
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if ( !super.equals( o ) ) {
+        if (!super.equals(o)) {
             return false;
         }
 
         TableMapping that = (TableMapping) o;
 
-        if ( destinationType != null ? !destinationType.equals( that.destinationType ) : that.destinationType != null ) {
+        if (destinationType != null ? !destinationType.equals(that.destinationType) : that.destinationType != null) {
             return false;
         }
-        if ( componentParameter != null ? !componentParameter.equals( that.componentParameter ) :
-             that.componentParameter != null ) {
+        if (componentParameter != null ? !componentParameter.equals(that.componentParameter) :
+                that.componentParameter != null) {
             return false;
         }
         //noinspection RedundantIfStatement
-        if ( fieldType != null ? !fieldType.equals( that.fieldType ) : that.fieldType != null ) {
+        if (fieldType != null ? !fieldType.equals(that.fieldType) : that.fieldType != null) {
             return false;
         }
 
@@ -214,9 +212,9 @@ public final class TableMapping extends ParameterMapping {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + ( componentParameter != null ? componentParameter.hashCode() : 0 );
-        result = 31 * result + ( fieldType != null ? fieldType.hashCode() : 0 );
-        result = 31 * result + ( destinationType != null ? destinationType.hashCode() : 0 );
+        result = 31 * result + (componentParameter != null ? componentParameter.hashCode() : 0);
+        result = 31 * result + (fieldType != null ? fieldType.hashCode() : 0);
+        result = 31 * result + (destinationType != null ? destinationType.hashCode() : 0);
         return result;
     }
 }

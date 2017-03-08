@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -34,18 +34,18 @@ public class HibersapException
      *
      * @param cause The cause
      */
-    public HibersapException( final Throwable cause ) {
-        super( cause );
+    public HibersapException(final Throwable cause) {
+        super(cause);
     }
 
     /**
      * Constructs a new HibersapException with a detail message and a cause.
      *
-     * @param msg   The message
+     * @param msg The message
      * @param cause The cause
      */
-    public HibersapException( final String msg, final Throwable cause ) {
-        super( msg, cause );
+    public HibersapException(final String msg, final Throwable cause) {
+        super(msg, cause);
     }
 
     /**
@@ -53,7 +53,7 @@ public class HibersapException
      *
      * @param msg The message
      */
-    public HibersapException( final String msg ) {
-        super( msg );
+    public HibersapException(final String msg) {
+        super(msg);
     }
 }

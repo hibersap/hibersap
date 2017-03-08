@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -39,14 +39,14 @@ public class JCoTransaction extends AbstractTransaction {
 
     private boolean inTransaction = false;
 
-    public JCoTransaction( final SessionImplementor session ) {
+    public JCoTransaction(final SessionImplementor session) {
         this.session = session;
         initTransactionBapis();
     }
 
     public void begin() {
-        if ( inTransaction ) {
-            throw new HibersapException( "Transaction was already started" );
+        if (inTransaction) {
+            throw new HibersapException("Transaction was already started");
         }
         inTransaction = true;
     }
@@ -55,10 +55,10 @@ public class JCoTransaction extends AbstractTransaction {
         errorIfNotInTransaction();
         notifySynchronizationsBeforeCompletion();
         try {
-            executeBapi( new BapiTransactionCommit(), bapiCommit );
-            notifySynchronizationsAfterCompletion( true );
-        } catch ( RuntimeException e ) {
-            notifySynchronizationsAfterCompletion( false );
+            executeBapi(new BapiTransactionCommit(), bapiCommit);
+            notifySynchronizationsAfterCompletion(true);
+        } catch (RuntimeException e) {
+            notifySynchronizationsAfterCompletion(false);
             throw e;
         }
     }
@@ -66,26 +66,26 @@ public class JCoTransaction extends AbstractTransaction {
     public void rollback() {
         errorIfNotInTransaction();
         try {
-            executeBapi( new BapiTransactionRollback(), bapiRollback );
+            executeBapi(new BapiTransactionRollback(), bapiRollback);
         } finally {
-            notifySynchronizationsAfterCompletion( false );
+            notifySynchronizationsAfterCompletion(false);
         }
     }
 
     private void errorIfNotInTransaction() {
-        if ( !inTransaction ) {
-            throw new HibersapException( "Not in transaction" );
+        if (!inTransaction) {
+            throw new HibersapException("Not in transaction");
         }
     }
 
-    private void executeBapi( final Object bapi, final BapiMapping mapping ) {
-        session.execute( bapi, mapping );
+    private void executeBapi(final Object bapi, final BapiMapping mapping) {
+        session.execute(bapi, mapping);
     }
 
     // TODO cache mappings
     private void initTransactionBapis() {
         AnnotationBapiMapper mapper = new AnnotationBapiMapper();
-        this.bapiCommit = mapper.mapBapi( BapiTransactionCommit.class );
-        this.bapiRollback = mapper.mapBapi( BapiTransactionRollback.class );
+        this.bapiCommit = mapper.mapBapi(BapiTransactionCommit.class);
+        this.bapiRollback = mapper.mapBapi(BapiTransactionRollback.class);
     }
 }

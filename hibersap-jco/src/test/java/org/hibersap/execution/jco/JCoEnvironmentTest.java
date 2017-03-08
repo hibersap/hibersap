@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -21,12 +21,10 @@ package org.hibersap.execution.jco;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.Environment;
+import java.util.Properties;
 import org.fest.assertions.Condition;
 import org.junit.After;
 import org.junit.Test;
-
-import java.util.Properties;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class JCoEnvironmentTest {
@@ -35,13 +33,13 @@ public class JCoEnvironmentTest {
 
     private static final String DESTINATION_1 = "dest_1";
     private static final String DESTINATION_2 = "dest_2";
-    private final Condition<String> registeredWithJCo = new Condition<String>( "registeredWithJCo" ) {
+    private final Condition<String> registeredWithJCo = new Condition<String>("registeredWithJCo") {
         @Override
-        public boolean matches( String name ) {
+        public boolean matches(String name) {
             try {
-                JCoDestinationManager.getDestination( name );
+                JCoDestinationManager.getDestination(name);
                 return true;
-            } catch ( JCoException e ) {
+            } catch (JCoException e) {
                 return false;
             }
         }
@@ -49,59 +47,59 @@ public class JCoEnvironmentTest {
 
     @After
     public void unregisterDestinationDataProvidersAndDestinations() {
-        JCoEnvironment.unregisterDestination( DESTINATION_1 );
-        JCoEnvironment.unregisterDestination( DESTINATION_2 );
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
+        JCoEnvironment.unregisterDestination(DESTINATION_1);
+        JCoEnvironment.unregisterDestination(DESTINATION_2);
+        assertThat(Environment.isDestinationDataProviderRegistered()).isFalse();
     }
 
     @Test
     public void destinationProviderIsRegisteredWithJCoWhenFirstDestinationGetsRegistered() {
-        JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
+        JCoEnvironment.registerDestination(DESTINATION_1, JCO_PROPERTIES_DUMMY);
 
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isTrue();
+        assertThat(Environment.isDestinationDataProviderRegistered()).isTrue();
     }
 
     @Test
     public void destinationIsAddedToJCoWhenDestinationGetsRegistered() {
-        JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
+        JCoEnvironment.registerDestination(DESTINATION_1, JCO_PROPERTIES_DUMMY);
 
-        assertThat( DESTINATION_1 ).is( registeredWithJCo );
+        assertThat(DESTINATION_1).is(registeredWithJCo);
     }
 
     @Test
     public void destinationProviderIsUnregisteredFromJCoWhenLastDestinationGetsUnregistered() {
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
+        assertThat(Environment.isDestinationDataProviderRegistered()).isFalse();
 
-        JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
-        JCoEnvironment.unregisterDestination( DESTINATION_1 );
+        JCoEnvironment.registerDestination(DESTINATION_1, JCO_PROPERTIES_DUMMY);
+        JCoEnvironment.unregisterDestination(DESTINATION_1);
 
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
+        assertThat(Environment.isDestinationDataProviderRegistered()).isFalse();
     }
 
     @Test
     public void destinationIsRemovedFromJCoWhenDestinationGetsUnregistered() {
-        JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
-        JCoEnvironment.unregisterDestination( DESTINATION_1 );
+        JCoEnvironment.registerDestination(DESTINATION_1, JCO_PROPERTIES_DUMMY);
+        JCoEnvironment.unregisterDestination(DESTINATION_1);
 
-        assertThat( DESTINATION_1 ).isNot( registeredWithJCo );
+        assertThat(DESTINATION_1).isNot(registeredWithJCo);
     }
 
     @Test
     public void canRegisterTwoDestinations() {
-        JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
-        JCoEnvironment.registerDestination( DESTINATION_2, JCO_PROPERTIES_DUMMY );
+        JCoEnvironment.registerDestination(DESTINATION_1, JCO_PROPERTIES_DUMMY);
+        JCoEnvironment.registerDestination(DESTINATION_2, JCO_PROPERTIES_DUMMY);
 
-        assertThat( DESTINATION_1 ).is( registeredWithJCo );
-        assertThat( DESTINATION_2 ).is( registeredWithJCo );
+        assertThat(DESTINATION_1).is(registeredWithJCo);
+        assertThat(DESTINATION_2).is(registeredWithJCo);
     }
 
     @Test
     public void destinationProviderIsUnregisteredFromJCoWhenTwoDestinationsAreRegisteredAndUnregistered() {
-        JCoEnvironment.registerDestination( DESTINATION_1, JCO_PROPERTIES_DUMMY );
-        JCoEnvironment.registerDestination( DESTINATION_2, JCO_PROPERTIES_DUMMY );
-        JCoEnvironment.unregisterDestination( DESTINATION_1 );
-        JCoEnvironment.unregisterDestination( DESTINATION_2 );
+        JCoEnvironment.registerDestination(DESTINATION_1, JCO_PROPERTIES_DUMMY);
+        JCoEnvironment.registerDestination(DESTINATION_2, JCO_PROPERTIES_DUMMY);
+        JCoEnvironment.unregisterDestination(DESTINATION_1);
+        JCoEnvironment.unregisterDestination(DESTINATION_2);
 
-        assertThat( Environment.isDestinationDataProviderRegistered() ).isFalse();
+        assertThat(Environment.isDestinationDataProviderRegistered()).isFalse();
     }
 }

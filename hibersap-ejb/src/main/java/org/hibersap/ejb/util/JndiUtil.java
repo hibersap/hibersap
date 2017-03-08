@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,47 +18,46 @@
 
 package org.hibersap.ejb.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.HibersapException;
-import org.hibersap.session.SessionManager;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.HibersapException;
+import org.hibersap.session.SessionManager;
 
 public final class JndiUtil {
 
-    private static final Log LOG = LogFactory.getLog( JndiUtil.class );
+    private static final Log LOG = LogFactory.getLog(JndiUtil.class);
 
     private JndiUtil() {
         // use static utility methods
     }
 
     @PostConstruct
-    public static void rebindSessionManager( final SessionManager sessionManager, final String jndiName ) {
-        LOG.info( "Binding Hibersap SessionManager '" + sessionManager.getConfig().getName()
-                          + "' to JNDI name '" + jndiName + "'" );
+    public static void rebindSessionManager(final SessionManager sessionManager, final String jndiName) {
+        LOG.info("Binding Hibersap SessionManager '" + sessionManager.getConfig().getName()
+                + "' to JNDI name '" + jndiName + "'");
 
         try {
             Context ctx = new InitialContext();
-            ctx.rebind( jndiName, sessionManager );
-        } catch ( NamingException e ) {
-            throw new HibersapException( "Failed binding Hibersap SessionManager to JNDI name [" + jndiName + "]", e );
+            ctx.rebind(jndiName, sessionManager);
+        } catch (NamingException e) {
+            throw new HibersapException("Failed binding Hibersap SessionManager to JNDI name [" + jndiName + "]", e);
         }
     }
 
     @PreDestroy
-    public static void unbindSessionManager( final String jndiName ) {
-        LOG.info( "Unbinding Hibersap SessionManager from JNDI name '" + jndiName + "'" );
+    public static void unbindSessionManager(final String jndiName) {
+        LOG.info("Unbinding Hibersap SessionManager from JNDI name '" + jndiName + "'");
 
         try {
             Context ctx = new InitialContext();
-            ctx.unbind( jndiName );
-        } catch ( NamingException e ) {
-            LOG.warn( "Failed to unbind Hibersap SessionManager binding for JNDI name [" + jndiName + "]", e );
+            ctx.unbind(jndiName);
+        } catch (NamingException e) {
+            LOG.warn("Failed to unbind Hibersap SessionManager binding for JNDI name [" + jndiName + "]", e);
         }
     }
 }

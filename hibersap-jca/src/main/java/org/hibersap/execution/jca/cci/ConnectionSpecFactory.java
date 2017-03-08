@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.execution.jca.cci;
 
+import javax.resource.cci.ConnectionSpec;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
-
-import javax.resource.cci.ConnectionSpec;
 
 /**
  * Factory for creating instances of ConnectionSpec implementations. Decouples Hibersap from the
@@ -38,5 +37,5 @@ public interface ConnectionSpecFactory {
      * @return The ConnectionSpec object, initialized with the credential properties.
      * @throws InternalHiberSapException
      */
-    ConnectionSpec createConnectionSpec( Credentials credentials ) throws InternalHiberSapException;
+    ConnectionSpec createConnectionSpec(Credentials credentials) throws InternalHiberSapException;
 }

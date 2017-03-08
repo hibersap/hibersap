@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -42,11 +42,11 @@ public class BapiDescription {
         // for Hibersap
     }
 
-    BapiDescription( final String businessObjectName,
-                     final String businessObjectDescription,
-                     final String bapiName,
-                     final String bapiDescription,
-                     final String abapName ) {
+    BapiDescription(final String businessObjectName,
+                    final String businessObjectDescription,
+                    final String bapiName,
+                    final String bapiDescription,
+                    final String abapName) {
         this.businessObjectName = businessObjectName;
         this.businessObjectDescription = businessObjectDescription;
         this.bapiName = bapiName;
@@ -75,31 +75,31 @@ public class BapiDescription {
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         BapiDescription that = (BapiDescription) o;
 
-        if ( abapName != null ? !abapName.equals( that.abapName ) : that.abapName != null ) {
+        if (abapName != null ? !abapName.equals(that.abapName) : that.abapName != null) {
             return false;
         }
-        if ( bapiDescription != null ? !bapiDescription.equals( that.bapiDescription ) : that.bapiDescription != null ) {
+        if (bapiDescription != null ? !bapiDescription.equals(that.bapiDescription) : that.bapiDescription != null) {
             return false;
         }
-        if ( bapiName != null ? !bapiName.equals( that.bapiName ) : that.bapiName != null ) {
+        if (bapiName != null ? !bapiName.equals(that.bapiName) : that.bapiName != null) {
             return false;
         }
-        if ( businessObjectDescription != null ? !businessObjectDescription.equals( that.businessObjectDescription ) :
-             that.businessObjectDescription != null ) {
+        if (businessObjectDescription != null ? !businessObjectDescription.equals(that.businessObjectDescription) :
+                that.businessObjectDescription != null) {
             return false;
         }
-        if ( businessObjectName != null ? !businessObjectName.equals( that.businessObjectName ) :
-             that.businessObjectName != null ) {
+        if (businessObjectName != null ? !businessObjectName.equals(that.businessObjectName) :
+                that.businessObjectName != null) {
             return false;
         }
 
@@ -109,10 +109,10 @@ public class BapiDescription {
     @Override
     public int hashCode() {
         int result = businessObjectName != null ? businessObjectName.hashCode() : 0;
-        result = 31 * result + ( businessObjectDescription != null ? businessObjectDescription.hashCode() : 0 );
-        result = 31 * result + ( bapiName != null ? bapiName.hashCode() : 0 );
-        result = 31 * result + ( bapiDescription != null ? bapiDescription.hashCode() : 0 );
-        result = 31 * result + ( abapName != null ? abapName.hashCode() : 0 );
+        result = 31 * result + (businessObjectDescription != null ? businessObjectDescription.hashCode() : 0);
+        result = 31 * result + (bapiName != null ? bapiName.hashCode() : 0);
+        result = 31 * result + (bapiDescription != null ? bapiDescription.hashCode() : 0);
+        result = 31 * result + (abapName != null ? abapName.hashCode() : 0);
         return result;
     }
 

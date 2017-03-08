@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -31,16 +31,16 @@ public class AbstractBapiTest {
 
     @Before
     public void openSession() throws Exception {
-        sessionManager = new AnnotationConfiguration( "A12" ).buildSessionManager();
+        sessionManager = new AnnotationConfiguration("A12").buildSessionManager();
         session = sessionManager.openSession();
     }
 
     @After
     public void closeSession() throws Exception {
-        if ( session != null ) {
+        if (session != null) {
             session.close();
         }
-        if ( sessionManager != null ) {
+        if (sessionManager != null) {
             sessionManager.close();
         }
     }

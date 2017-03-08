@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -27,11 +27,11 @@ public class HibersapParseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public HibersapParseException( final String message, final Throwable cause ) {
-        super( message, cause );
+    public HibersapParseException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
-    public HibersapParseException( final String message ) {
-        super( message );
+    public HibersapParseException(final String message) {
+        super(message);
     }
 }

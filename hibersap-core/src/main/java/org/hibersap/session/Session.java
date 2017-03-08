@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -40,7 +40,7 @@ public interface Session {
      *
      * @param bapi The BAPI class
      */
-    void execute( final Object bapi );
+    void execute(final Object bapi);
 
     /**
      * returns the transaction.

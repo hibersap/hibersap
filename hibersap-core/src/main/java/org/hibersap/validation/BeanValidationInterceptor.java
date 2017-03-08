@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,49 +18,47 @@
 
 package org.hibersap.validation;
 
-
-import org.hibersap.interceptor.BapiInterceptor;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.HashSet;
-import java.util.Set;
+import org.hibersap.interceptor.BapiInterceptor;
 
 public class BeanValidationInterceptor implements BapiInterceptor {
 
     private final ValidatorFactory validatorFactory;
 
-    public BeanValidationInterceptor( final ValidatorFactory validatorFactory ) {
+    public BeanValidationInterceptor(final ValidatorFactory validatorFactory) {
         this.validatorFactory = validatorFactory;
     }
 
-    public void beforeExecution( final Object bapiObject ) throws ConstraintViolationException {
+    public void beforeExecution(final Object bapiObject) throws ConstraintViolationException {
         final Validator validator = validatorFactory.getValidator();
 
-        final Set<ConstraintViolation<Object>> constraintViolations = validator.validate( bapiObject );
+        final Set<ConstraintViolation<Object>> constraintViolations = validator.validate(bapiObject);
 
-        if ( constraintViolations.size() > 0 ) {
-            checkConstraints( constraintViolations );
+        if (constraintViolations.size() > 0) {
+            checkConstraints(constraintViolations);
         }
     }
 
-    private void checkConstraints( final Set<ConstraintViolation<Object>> constraintViolations ) {
+    private void checkConstraints(final Set<ConstraintViolation<Object>> constraintViolations) {
         Set<ConstraintViolation<?>> propagatedViolations = new HashSet<ConstraintViolation<?>>(
-                constraintViolations.size() );
+                constraintViolations.size());
         Set<String> classNames = new HashSet<String>();
 
-        for ( ConstraintViolation<?> violation : constraintViolations ) {
-            propagatedViolations.add( violation );
-            classNames.add( violation.getLeafBean().getClass().getName() );
+        for (ConstraintViolation<?> violation : constraintViolations) {
+            propagatedViolations.add(violation);
+            classNames.add(violation.getLeafBean().getClass().getName());
         }
 
         String msg = "Validation failed for classes " + classNames;
-        throw new ConstraintViolationException( msg, propagatedViolations );
+        throw new ConstraintViolationException(msg, propagatedViolations);
     }
 
-    public void afterExecution( final Object bapiObject ) {
+    public void afterExecution(final Object bapiObject) {
         // check only one way
     }
 }

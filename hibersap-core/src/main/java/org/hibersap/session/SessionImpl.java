@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,7 @@
 
 package org.hibersap.session;
 
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -28,44 +29,42 @@ import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.util.Announcer;
 
-import java.util.Map;
-
 /*
  * @author Carsten Erker
  */
 public class SessionImpl implements Session, SessionImplementor {
 
-    private static final Log LOG = LogFactory.getLog( SessionImpl.class );
+    private static final Log LOG = LogFactory.getLog(SessionImpl.class);
 
     private final SessionManagerImplementor sessionManager;
-    private final Announcer<ExecutionInterceptor> executionInterceptors = Announcer.to( ExecutionInterceptor.class );
-    private final Announcer<BapiInterceptor> bapiInterceptors = Announcer.to( BapiInterceptor.class );
+    private final Announcer<ExecutionInterceptor> executionInterceptors = Announcer.to(ExecutionInterceptor.class);
+    private final Announcer<BapiInterceptor> bapiInterceptors = Announcer.to(BapiInterceptor.class);
     private final Credentials credentials;
     private boolean closed = false;
     private PojoMapper pojoMapper;
     private Connection connection;
 
-    public SessionImpl( final SessionManagerImplementor sessionManager ) {
-        this( sessionManager, null );
+    public SessionImpl(final SessionManagerImplementor sessionManager) {
+        this(sessionManager, null);
     }
 
-    public SessionImpl( final SessionManagerImplementor sessionManager, final Credentials credentials ) {
+    public SessionImpl(final SessionManagerImplementor sessionManager, final Credentials credentials) {
         this.sessionManager = sessionManager;
         this.credentials = credentials;
 
-        pojoMapper = new PojoMapper( sessionManager.getConverterCache() );
+        pojoMapper = new PojoMapper(sessionManager.getConverterCache());
         connection = sessionManager.getContext().getConnection();
-        if ( credentialsProvided() ) {
-            LOG.debug( "Providing credentials" );
-            connection.setCredentials( credentials );
+        if (credentialsProvided()) {
+            LOG.debug("Providing credentials");
+            connection.setCredentials(credentials);
         }
-        executionInterceptors.addAllListeners( sessionManager.getExecutionInterceptors() );
-        bapiInterceptors.addAllListeners( sessionManager.getBapiInterceptors() );
+        executionInterceptors.addAllListeners(sessionManager.getExecutionInterceptors());
+        bapiInterceptors.addAllListeners(sessionManager.getBapiInterceptors());
     }
 
     public Transaction beginTransaction() {
         assertNotClosed();
-        return connection.beginTransaction( this );
+        return connection.beginTransaction(this);
     }
 
     public void close() {
@@ -79,39 +78,39 @@ public class SessionImpl implements Session, SessionImplementor {
     }
 
     private void assertNotClosed() {
-        if ( isClosed() ) {
-            throw new HibersapException( "Session is already closed" );
+        if (isClosed()) {
+            throw new HibersapException("Session is already closed");
         }
     }
 
-    public void execute( final Object bapiObject ) {
+    public void execute(final Object bapiObject) {
         assertNotClosed();
         Class<?> bapiClass = bapiObject.getClass();
-        Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
-        if ( bapiMappings.containsKey( bapiClass ) ) {
-            bapiInterceptors.announce().beforeExecution( bapiObject );
-            execute( bapiObject, bapiMappings.get( bapiClass ) );
-            bapiInterceptors.announce().afterExecution( bapiObject );
+        Map<String, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
+        if (bapiMappings.containsKey(bapiClass.getName())) {
+            bapiInterceptors.announce().beforeExecution(bapiObject);
+            execute(bapiObject, bapiMappings.get(bapiClass.getName()));
+            bapiInterceptors.announce().afterExecution(bapiObject);
         } else {
-            throw new HibersapException( bapiClass.getName() + " is not mapped as a Bapi class" );
+            throw new HibersapException(bapiClass.getName() + " is not mapped as a Bapi class");
         }
     }
 
-    public void execute( final Object bapiObject, final BapiMapping bapiMapping ) {
+    public void execute(final Object bapiObject, final BapiMapping bapiMapping) {
         assertNotClosed();
 
         String bapiName = bapiMapping.getBapiName();
-        LOG.debug( "Executing " + bapiName );
+        LOG.debug("Executing " + bapiName);
 
-        Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap( bapiObject, bapiMapping );
+        Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap(bapiObject, bapiMapping);
 
-        executionInterceptors.announce().beforeExecution( bapiMapping, functionMap );
+        executionInterceptors.announce().beforeExecution(bapiMapping, functionMap);
 
-        connection.execute( bapiName, functionMap );
+        connection.execute(bapiName, functionMap);
 
-        executionInterceptors.announce().afterExecution( bapiMapping, functionMap );
+        executionInterceptors.announce().afterExecution(bapiMapping, functionMap);
 
-        pojoMapper.mapFunctionMapToPojo( bapiObject, functionMap, bapiMapping );
+        pojoMapper.mapFunctionMapToPojo(bapiObject, functionMap, bapiMapping);
     }
 
     public SessionManagerImplementor getSessionManager() {
@@ -131,11 +130,11 @@ public class SessionImpl implements Session, SessionImplementor {
         closed = true;
     }
 
-    public void addExecutionInterceptor( final ExecutionInterceptor interceptor ) {
-        executionInterceptors.addListener( interceptor );
+    public void addExecutionInterceptor(final ExecutionInterceptor interceptor) {
+        executionInterceptors.addListener(interceptor);
     }
 
-    public void addBapiInterceptor( final BapiInterceptor interceptor ) {
-        bapiInterceptors.addListener( interceptor );
+    public void addBapiInterceptor(final BapiInterceptor interceptor) {
+        bapiInterceptors.addListener(interceptor);
     }
 }

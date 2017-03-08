@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,13 +18,13 @@
 
 package org.hibersap.configuration.xml;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"properties"})
@@ -37,44 +37,44 @@ public final class Properties implements Serializable {
         return this.properties;
     }
 
-    public void setProperties( final List<Property> properties ) {
+    public void setProperties(final List<Property> properties) {
         this.properties = properties;
     }
 
-    public boolean contains( final Property property ) {
-        return properties.contains( property );
+    public boolean contains(final Property property) {
+        return properties.contains(property);
     }
 
-    public boolean remove( final Property property ) {
-        return properties.remove( property );
+    public boolean remove(final Property property) {
+        return properties.remove(property);
     }
 
-    public void add( final Property property ) {
-        removePropertyWithName( property.getName() );
-        properties.add( property );
+    public void add(final Property property) {
+        removePropertyWithName(property.getName());
+        properties.add(property);
     }
 
     public int size() {
         return properties.size();
     }
 
-    public void setProperty( final String name, final String value ) {
-        removePropertyWithName( name );
-        properties.add( new Property( name, value ) );
+    public void setProperty(final String name, final String value) {
+        removePropertyWithName(name);
+        properties.add(new Property(name, value));
     }
 
-    private void removePropertyWithName( final String name ) {
-        for ( Property property : properties ) {
-            if ( property.getName().equals( name ) ) {
-                properties.remove( property );
+    private void removePropertyWithName(final String name) {
+        for (Property property : properties) {
+            if (property.getName().equals(name)) {
+                properties.remove(property);
                 break;
             }
         }
     }
 
-    public String getPropertyValue( final String name ) {
-        for ( Property property : properties ) {
-            if ( property.getName().equals( name ) ) {
+    public String getPropertyValue(final String name) {
+        for (Property property : properties) {
+            if (property.getName().equals(name)) {
                 return property.getValue();
             }
         }
@@ -82,17 +82,17 @@ public final class Properties implements Serializable {
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Properties that = (Properties) o;
 
-        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null ) {
+        if (properties != null ? !properties.equals(that.properties) : that.properties != null) {
             return false;
         }
 
