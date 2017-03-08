@@ -25,6 +25,8 @@ import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoRepository;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Credentials;
@@ -35,6 +37,8 @@ import org.hibersap.session.Transaction;
  * @author Carsten Erker
  */
 public class JCoConnection implements Connection {
+
+    private static final Log LOG = LogFactory.getLog(JCoConnection.class);
 
     private final JCoContextAdapter jcoContext = new JCoContextAdapterImpl();
     private final JCoMapper jcoMapper;
@@ -62,7 +66,9 @@ public class JCoConnection implements Connection {
     }
 
     public void close() {
-        endStatefulConnection();
+        if (destination != null) {
+            endStatefulConnection();
+        }
     }
 
     public void execute(final String bapiName, final Map<String, Object> functionMap) {
@@ -139,8 +145,7 @@ public class JCoConnection implements Connection {
         try {
             jcoContext.end(destination);
         } catch (JCoException e) {
-            // TODO maybe just log this error? Can we go on though? Write test for JCo
-            throw new HibersapException("JCo connection could not be ended", e);
+            LOG.warn("JCo connection could not be ended, ignoring it for now...", e);
         } finally {
             destination = null;
         }
