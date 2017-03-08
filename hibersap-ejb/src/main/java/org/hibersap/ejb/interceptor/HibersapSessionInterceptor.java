@@ -18,22 +18,20 @@
 
 package org.hibersap.ejb.interceptor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.HibersapException;
-import org.hibersap.session.Session;
-import org.hibersap.session.SessionManager;
-
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.InvocationContext;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.HibersapException;
+import org.hibersap.session.Session;
+import org.hibersap.session.SessionManager;
 import static java.lang.String.format;
 import static org.hibersap.ejb.util.ReflectionUtil.getHibersapSessionFields;
 import static org.hibersap.ejb.util.ReflectionUtil.getSessionManagerJndiName;
@@ -43,93 +41,93 @@ public class HibersapSessionInterceptor {
 
     private static final String HIBERSAP_SESSION_PREFIX = "hibersap.session.";
 
-    private static final Log LOGGER = LogFactory.getLog( HibersapSessionInterceptor.class );
+    private static final Log LOGGER = LogFactory.getLog(HibersapSessionInterceptor.class);
 
     @AroundInvoke
-    public Object injectSessionsIntoEjb( final InvocationContext ctx ) throws Exception {
-        Set<Field> sessionFields = getHibersapSessionFields( ctx.getTarget() );
+    public Object injectSessionsIntoEjb(final InvocationContext ctx) throws Exception {
+        Set<Field> sessionFields = getHibersapSessionFields(ctx.getTarget());
 
         Map<Session, String> sessionsCreated = new HashMap<Session, String>();
         try {
-            for ( Field sessionField : sessionFields ) {
-                String jndiName = getSessionManagerJndiName( sessionField );
+            for (Field sessionField : sessionFields) {
+                String jndiName = getSessionManagerJndiName(sessionField);
                 String key = HIBERSAP_SESSION_PREFIX + jndiName;
-                Session session = (Session) ctx.getContextData().get( key );
+                Session session = (Session) ctx.getContextData().get(key);
 
-                if ( session == null ) {
-                    LOGGER.debug( "Erzeuge Hibersap-Session f�r SessionManager " + jndiName );
-                    session = openSession( jndiName );
-                    sessionsCreated.put( session, jndiName );
-                    ctx.getContextData().put( key, session );
+                if (session == null) {
+                    LOGGER.debug("Create Hibersap session for SessionManager " + jndiName);
+                    session = openSession(jndiName);
+                    sessionsCreated.put(session, jndiName);
+                    ctx.getContextData().put(key, session);
                 }
 
-                injectSessionIntoTarget( ctx.getTarget(), sessionField, session );
+                injectSessionIntoTarget(ctx.getTarget(), sessionField, session);
             }
 
             return ctx.proceed();
         } finally {
-            closeSessions( sessionsCreated, ctx.getContextData() );
+            closeSessions(sessionsCreated, ctx.getContextData());
         }
     }
 
-    private void closeSessions( final Map<Session, String> sessions, final Map<String, Object> contextData ) {
+    private void closeSessions(final Map<Session, String> sessions, final Map<String, Object> contextData) {
         Set<String> sessionManagerNamesWithError = new HashSet<String>();
-        for ( Session session : sessions.keySet() ) {
-            String jndiName = sessions.get( session );
+        for (Session session : sessions.keySet()) {
+            String jndiName = sessions.get(session);
             try {
-                contextData.remove( HIBERSAP_SESSION_PREFIX + jndiName );
+                contextData.remove(HIBERSAP_SESSION_PREFIX + jndiName);
 
-                if ( session != null && !session.isClosed() ) {
-                    LOGGER.debug( "Schlie�e Hibersap-Session f�r SessionManager " + jndiName );
+                if (session != null && !session.isClosed()) {
+                    LOGGER.debug("Close Hibersap session for SessionManager " + jndiName);
                     session.close();
                 }
-            } catch ( RuntimeException e ) {
-                LOGGER.error( "Error closing Hibersap Session for SessionManager with JNDI name " + jndiName, e );
-                sessionManagerNamesWithError.add( jndiName );
+            } catch (RuntimeException e) {
+                LOGGER.error("Error closing Hibersap Session for SessionManager with JNDI name " + jndiName, e);
+                sessionManagerNamesWithError.add(jndiName);
             }
         }
-        if ( !sessionManagerNamesWithError.isEmpty() ) {
-            throw new HibersapException( format(
+        if (!sessionManagerNamesWithError.isEmpty()) {
+            LOGGER.error(format(
                     "Error closing Session(s) for the SessionManager(s): %s. "
                             +
                             "The corresponding SAP connection may not be released! For individual reasons see error logs.",
                     sessionManagerNamesWithError
-            ) );
+            ));
         }
     }
 
-    private Session openSession( final String sessionManagerJndiName ) {
-        SessionManager sessionManager = lookupSessionManager( sessionManagerJndiName );
+    private Session openSession(final String sessionManagerJndiName) {
+        SessionManager sessionManager = lookupSessionManager(sessionManagerJndiName);
         return sessionManager.openSession();
     }
 
-    private SessionManager lookupSessionManager( final String jndiName ) {
+    private SessionManager lookupSessionManager(final String jndiName) {
         InitialContext context = null;
         try {
             context = new InitialContext();
-            Object object = context.lookup( jndiName );
+            Object object = context.lookup(jndiName);
 
-            if ( object == null ) {
+            if (object == null) {
                 throw new HibersapException(
-                        format( "Lookup for JNDI name '%s' returned null. Expected to find an instance of %s",
-                                jndiName, SessionManager.class.getName() )
+                        format("Lookup for JNDI name '%s' returned null. Expected to find an instance of %s",
+                                jndiName, SessionManager.class.getName())
                 );
             }
-            if ( !SessionManager.class.isAssignableFrom( object.getClass() ) ) {
+            if (!SessionManager.class.isAssignableFrom(object.getClass())) {
                 throw new HibersapException(
-                        format( "Object bound under JNDI name '%s' is not a %s but an instance of %s",
-                                jndiName, SessionManager.class.getName(), object.getClass().getName() )
+                        format("Object bound under JNDI name '%s' is not a %s but an instance of %s",
+                                jndiName, SessionManager.class.getName(), object.getClass().getName())
                 );
             }
             return (SessionManager) object;
-        } catch ( NamingException e ) {
-            throw new HibersapException( "Error creating InitialContext", e );
+        } catch (NamingException e) {
+            throw new HibersapException("Error creating InitialContext", e);
         } finally {
-            if ( context != null ) {
+            if (context != null) {
                 try {
                     context.close();
-                } catch ( NamingException e ) {
-                    LOGGER.warn( "Error closing InitialContext", e );
+                } catch (NamingException e) {
+                    LOGGER.warn("Error closing InitialContext", e);
                 }
             }
         }
