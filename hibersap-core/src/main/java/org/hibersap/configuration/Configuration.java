@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,10 @@
 
 package org.hibersap.configuration;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
@@ -31,11 +35,6 @@ import org.hibersap.session.Context;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Abstract Superclass for different configuration strategies.
  * Implements properties / settings handling.
@@ -46,10 +45,10 @@ import java.util.Map;
  */
 public abstract class Configuration {
 
-    private static final Log LOG = LogFactory.getLog( Configuration.class );
+    private static final Log LOG = LogFactory.getLog(Configuration.class);
 
     static {
-        LOG.info( "Hibersap Version " + Environment.VERSION );
+        LOG.info("Hibersap Version " + Environment.VERSION);
     }
 
     private final ConfigurationData data;
@@ -60,8 +59,8 @@ public abstract class Configuration {
      *
      * @param sessionManagerConfig The session manager configuration
      */
-    public Configuration( final SessionManagerConfig sessionManagerConfig ) {
-        this.data = new ConfigurationData( sessionManagerConfig );
+    public Configuration(final SessionManagerConfig sessionManagerConfig) {
+        this.data = new ConfigurationData(sessionManagerConfig);
     }
 
     /**
@@ -70,9 +69,9 @@ public abstract class Configuration {
      *
      * @param sessionManagerName The SessionManager name as specified in the hibersap.xml file
      */
-    public Configuration( final String sessionManagerName ) {
-        SessionManagerConfig sessionManagerConfig = readHibersapConfig().getSessionManager( sessionManagerName );
-        this.data = new ConfigurationData( sessionManagerConfig );
+    public Configuration(final String sessionManagerName) {
+        SessionManagerConfig sessionManagerConfig = readHibersapConfig().getSessionManager(sessionManagerName);
+        this.data = new ConfigurationData(sessionManagerConfig);
     }
 
     /**
@@ -83,24 +82,24 @@ public abstract class Configuration {
     public Configuration() {
         List<SessionManagerConfig> sessionManagers = readHibersapConfig().getSessionManagers();
 
-        if ( sessionManagers.size() > 0 ) {
-            this.data = new ConfigurationData( sessionManagers.get( 0 ) );
+        if (sessionManagers.size() > 0) {
+            this.data = new ConfigurationData(sessionManagers.get(0));
 
-            LOG.warn( "Only the first session manager (" + data.getSessionManagerConfig().getName()
-                              + ") specified in hibersap.xml was configured. To configure the other specified session managers "
-                              + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration "
-                              + "implementation with the sessionManagerName argument." );
+            LOG.warn("Only the first session manager (" + data.getSessionManagerConfig().getName()
+                    + ") specified in hibersap.xml was configured. To configure the other specified session managers "
+                    + "you must explicitly call the constructor of the org.hibersap.configuration.Configuration "
+                    + "implementation with the sessionManagerName argument.");
         } else {
-            throw new ConfigurationException( "Can not find a configured SessionManager" );
+            throw new ConfigurationException("Can not find a configured SessionManager");
         }
     }
 
-    public void addExecutionInterceptors( final ExecutionInterceptor... executionInterceptors ) {
-        data.addExecutionInterceptors( new HashSet<ExecutionInterceptor>( Arrays.asList( executionInterceptors ) ) );
+    public void addExecutionInterceptors(final ExecutionInterceptor... executionInterceptors) {
+        data.addExecutionInterceptors(new HashSet<ExecutionInterceptor>(Arrays.asList(executionInterceptors)));
     }
 
-    public void addBapiInterceptors( final BapiInterceptor... bapiInterceptors ) {
-        data.addBapiInterceptors( new HashSet<BapiInterceptor>( Arrays.asList( bapiInterceptors ) ) );
+    public void addBapiInterceptors(final BapiInterceptor... bapiInterceptors) {
+        data.addBapiInterceptors(new HashSet<BapiInterceptor>(Arrays.asList(bapiInterceptors)));
     }
 
     /**
@@ -108,14 +107,14 @@ public abstract class Configuration {
      *
      * @return The session manager
      */
-    public SessionManager buildSessionManager( final Context context ) {
+    public SessionManager buildSessionManager(final Context context) {
         final SessionManagerConfig config = data.getSessionManagerConfig();
 
-        LOG.info( "Building SessionManager '" + config.getName() + "'" );
+        LOG.info("Building SessionManager '" + config.getName() + "'");
 
-        data.addExecutionInterceptors( ConfigurationHelper.createExecutionInterceptors( config ) );
-        data.addBapiInterceptors( ConfigurationHelper.createBapiInterceptors( config ) );
-        return new SessionManagerImpl( data, context );
+        data.addExecutionInterceptors(ConfigurationHelper.createExecutionInterceptors(config));
+        data.addBapiInterceptors(ConfigurationHelper.createBapiInterceptors(config));
+        return new SessionManagerImpl(data, context);
     }
 
     /**
@@ -124,7 +123,7 @@ public abstract class Configuration {
      * @return The session manager
      */
     public SessionManager buildSessionManager() {
-        return buildSessionManager( ConfigurationHelper.createContext( data.getSessionManagerConfig() ) );
+        return buildSessionManager(ConfigurationHelper.createContext(data.getSessionManagerConfig()));
     }
 
     /**
@@ -132,8 +131,8 @@ public abstract class Configuration {
      *
      * @param bapiMappings A Map with the BAPI class as key and the BapiMappings as value.
      */
-    protected void addBapiMappings( final Map<Class<?>, BapiMapping> bapiMappings ) {
-        data.addBapiMappingsForClass( bapiMappings );
+    protected void addBapiMappings(final Map<String, BapiMapping> bapiMappings) {
+        data.addBapiMappingsForClass(bapiMappings);
     }
 
     protected SessionManagerConfig getSessionManagerConfig() {
@@ -141,9 +140,9 @@ public abstract class Configuration {
     }
 
     private HibersapConfig readHibersapConfig() {
-        LOG.debug( "Reading HibersapConfig from configuration file" );
+        LOG.debug("Reading HibersapConfig from configuration file");
 
         final HibersapJaxbXmlParser parser = new HibersapJaxbXmlParser();
-        return parser.parseResource( Environment.HIBERSAP_XML_FILE );
+        return parser.parseResource(Environment.HIBERSAP_XML_FILE);
     }
 }

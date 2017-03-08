@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,13 +18,8 @@
 
 package org.hibersap.annotations;
 
-/**
- * @author Carsten Erker
- */
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

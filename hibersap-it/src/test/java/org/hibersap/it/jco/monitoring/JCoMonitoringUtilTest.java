@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -23,7 +23,6 @@ import org.hibersap.execution.jco.util.JCoMonitoringUtil;
 import org.hibersap.execution.jco.util.MonitoringData;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class JCoMonitoringUtilTest {
@@ -33,13 +32,13 @@ public class JCoMonitoringUtilTest {
     @Before
     public void setUp() throws Exception {
         // Hibersap is just used here to register the JCo destination, we don't really need the SessionManager
-        new AnnotationConfiguration( "A12" ).buildSessionManager();
+        new AnnotationConfiguration("A12").buildSessionManager();
     }
 
     @Test
     public void showMonitoringData() throws Exception {
-        MonitoringData data = util.getMonitoringData( "A12" );
+        MonitoringData data = util.getMonitoringData("A12");
 
-        assertThat( data.getSystemDescription() ).startsWith( "DEST:                  A12" );
+        assertThat(data.getSystemDescription()).startsWith("DEST:").contains("A12");
     }
 }

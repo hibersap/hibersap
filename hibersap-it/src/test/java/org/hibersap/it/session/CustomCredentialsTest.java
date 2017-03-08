@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -20,15 +20,13 @@ package org.hibersap.it.session;
 
 import com.sap.conn.jco.monitor.JCoConnectionData;
 import com.sap.conn.jco.monitor.JCoConnectionMonitor;
+import java.util.List;
 import org.hibersap.SapException;
 import org.hibersap.it.AbstractBapiTest;
 import org.hibersap.it.bapi.RfcPing;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.Session;
 import org.junit.Test;
-
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -37,25 +35,25 @@ public class CustomCredentialsTest extends AbstractBapiTest {
     @Test
     public void connectToSapUsingCustomCredentials() throws Exception {
 
-        final Credentials credentials = new Credentials().setUser( "sapuser2" )
-                                                         .setPassword( "password" ).setLanguage( "DE" );
-        callBapiWith( credentials );
+        final Credentials credentials = new Credentials().setUser("sapuser2")
+                .setPassword("password2").setLanguage("DE");
+        callBapiWith(credentials);
 
         final JCoConnectionData connectionUsed = getConnectionDataUsed();
 
         // these parameters should be used instead of the configured ones
-        assertNotNull( connectionUsed );
-        assertEquals( "SAPUSER2", connectionUsed.getAbapUser() );
-        assertEquals( "DE", connectionUsed.getAbapLanguage() );
+        assertNotNull(connectionUsed);
+        assertEquals("SAPUSER2", connectionUsed.getAbapUser());
+        assertEquals("DE", connectionUsed.getAbapLanguage());
     }
 
-    private void callBapiWith( Credentials credentials ) {
-        final Session session = sessionManager.openSession( credentials );
+    private void callBapiWith(Credentials credentials) {
+        final Session session = sessionManager.openSession(credentials);
 
         // make sure a connection to SAP was established
         try {
-            session.execute( new RfcPing() );
-        } catch ( final SapException e ) {
+            session.execute(new RfcPing());
+        } catch (final SapException e) {
             // expected when there are no lines found
         } finally {
             session.close();
@@ -65,8 +63,8 @@ public class CustomCredentialsTest extends AbstractBapiTest {
     private JCoConnectionData getConnectionDataUsed() {
         final List<? extends JCoConnectionData> list = JCoConnectionMonitor
                 .getConnectionsData();
-        for ( final JCoConnectionData data : list ) {
-            if ( "RFC_PING".equals( data.getFunctionModuleName() ) ) {
+        for (final JCoConnectionData data : list) {
+            if ("RFC_PING".equals(data.getFunctionModuleName())) {
                 return data;
             }
         }

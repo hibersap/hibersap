@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,11 +18,10 @@
 
 package org.hibersap.configuration;
 
-import org.hibersap.HibersapException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import org.hibersap.HibersapException;
 
 /*
 * @author Carsten Erker
@@ -30,9 +29,9 @@ import java.util.Properties;
 public final class Environment {
 
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
-    public static final String VERSION = readHibersapVersion();
     private static final String HIBERSAP_VERSION_FILE = "hibersap-version.properties";
     private static final String HIBERSAP_VERSION_PROPERTY_KEY = "hibersap-version";
+    public static final String VERSION = readHibersapVersion();
 
     private Environment() {
         // should not be instantiated
@@ -42,18 +41,18 @@ public final class Environment {
         String version;
         InputStream inputStream = null;
         try {
-            inputStream = Environment.class.getResourceAsStream( "/" + HIBERSAP_VERSION_FILE );
+            inputStream = Environment.class.getResourceAsStream("/" + HIBERSAP_VERSION_FILE);
             final Properties properties = new Properties();
-            properties.load( inputStream );
-            version = properties.getProperty( HIBERSAP_VERSION_PROPERTY_KEY );
-        } catch ( IOException e ) {
-            throw new HibersapException( "Can not load file " + HIBERSAP_VERSION_FILE
-                                                 + ". This file is part of the hibersap-core library and should always be there." );
+            properties.load(inputStream);
+            version = properties.getProperty(HIBERSAP_VERSION_PROPERTY_KEY);
+        } catch (IOException e) {
+            throw new HibersapException("Can not load file " + HIBERSAP_VERSION_FILE
+                    + ". This file is part of the hibersap-core library and should always be there.");
         } finally {
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch ( IOException e ) {
+                } catch (IOException e) {
                     // ignore
                 }
             }

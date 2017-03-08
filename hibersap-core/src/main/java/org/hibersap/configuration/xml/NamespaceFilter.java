@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -30,10 +30,10 @@ public class NamespaceFilter extends XMLFilterImpl {
     //State variable
     private boolean addedNamespace = false;
 
-    public NamespaceFilter( final String namespaceUri, final boolean addNamespace ) {
+    public NamespaceFilter(final String namespaceUri, final boolean addNamespace) {
         super();
 
-        if ( addNamespace ) {
+        if (addNamespace) {
             this.usedNamespaceUri = namespaceUri;
         } else {
             this.usedNamespaceUri = "";
@@ -41,32 +41,30 @@ public class NamespaceFilter extends XMLFilterImpl {
         this.addNamespace = addNamespace;
     }
 
-
     @Override
     public void startDocument() throws SAXException {
         super.startDocument();
 
-        if ( addNamespace ) {
+        if (addNamespace) {
             startControlledPrefixMapping();
         }
     }
 
-
     @Override
-    public void startElement( final String arg0, final String arg1, final String arg2, final Attributes arg3 ) throws SAXException {
-        super.startElement( this.usedNamespaceUri, arg1, arg2, arg3 );
+    public void startElement(final String arg0, final String arg1, final String arg2, final Attributes arg3) throws SAXException {
+        super.startElement(this.usedNamespaceUri, arg1, arg2, arg3);
     }
 
     @Override
-    public void endElement( final String arg0, final String arg1, final String arg2 )
+    public void endElement(final String arg0, final String arg1, final String arg2)
             throws SAXException {
-        super.endElement( this.usedNamespaceUri, arg1, arg2 );
+        super.endElement(this.usedNamespaceUri, arg1, arg2);
     }
 
     @Override
-    public void startPrefixMapping( final String prefix, final String url )
+    public void startPrefixMapping(final String prefix, final String url)
             throws SAXException {
-        if ( addNamespace ) {
+        if (addNamespace) {
             this.startControlledPrefixMapping();
         } else {
             //Remove the namespace, i.e. don´t call startPrefixMapping for parent!
@@ -74,9 +72,9 @@ public class NamespaceFilter extends XMLFilterImpl {
     }
 
     private void startControlledPrefixMapping() throws SAXException {
-        if ( this.addNamespace && !this.addedNamespace ) {
+        if (this.addNamespace && !this.addedNamespace) {
             //We should add namespace since it is set and has not yet been done.
-            super.startPrefixMapping( "", this.usedNamespaceUri );
+            super.startPrefixMapping("", this.usedNamespaceUri);
 
             //Make sure we dont do it twice
             this.addedNamespace = true;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -28,17 +28,17 @@ public final class UnsafeCastHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static Collection<Object> castToCollection( final Object value ) {
+    public static Collection<Object> castToCollection(final Object value) {
         return (Collection<Object>) value;
     }
 
     @SuppressWarnings("unchecked")
-    public static Collection<Map<String, Object>> castToCollectionOfMaps( final Object value ) {
+    public static Collection<Map<String, Object>> castToCollectionOfMaps(final Object value) {
         return (Collection<Map<String, Object>>) value;
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> castToMap( final Object value ) {
-        return Map.class.cast( value );
+    public static Map<String, Object> castToMap(final Object value) {
+        return Map.class.cast(value);
     }
 }

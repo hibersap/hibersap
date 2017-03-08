@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -20,7 +20,6 @@ package org.hibersap.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -29,8 +28,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Carsten Erker
  */
-@Retention( RUNTIME )
-@Target( value = FIELD )
+@Retention(RUNTIME)
+@Target(value = FIELD)
 public @interface Parameter {
 
     /**

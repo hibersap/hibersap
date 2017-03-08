@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.it.bapi;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Export;
@@ -27,10 +29,6 @@ import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.util.Date;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class MapCurrencyParametersToBigDecimalTest extends AbstractBapiTest {
@@ -39,11 +37,11 @@ public class MapCurrencyParametersToBigDecimalTest extends AbstractBapiTest {
     public void mapsCurrencyParametersToBigDecimal() throws Exception {
         BapiExchangeRateGetDetail bapi = new BapiExchangeRateGetDetail();
 
-        session.execute( bapi );
+        session.execute(bapi);
 
-        assertThat( bapi.exchangeRate.exchangeRate.toPlainString() ).startsWith( "0.511" );
-        assertThat( bapi.exchangeRate.ratioFrom ).isEqualTo( new BigDecimal( 1 ) );
-        assertThat( bapi.exchangeRate.ratioTo ).isEqualTo( new BigDecimal( 1 ) );
+        assertThat(bapi.exchangeRate.exchangeRate.toPlainString()).startsWith("0.511");
+        assertThat(bapi.exchangeRate.ratioFrom).isEqualTo(new BigDecimal(1));
+        assertThat(bapi.exchangeRate.ratioTo).isEqualTo(new BigDecimal(1));
     }
 
     @Bapi("BAPI_EXCHANGERATE_GETDETAIL")

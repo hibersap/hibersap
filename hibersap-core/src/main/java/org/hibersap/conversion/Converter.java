@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -41,7 +41,7 @@ public interface Converter<J, S> extends Serializable {
      * @return The converted value
      * @throws ConversionException if the value can not be converted
      */
-    J convertToJava( S sapValue ) throws ConversionException;
+    J convertToJava(S sapValue) throws ConversionException;
 
     /**
      * Convert the Java value of the corresponding BAPI class field to the data type as it is
@@ -52,5 +52,5 @@ public interface Converter<J, S> extends Serializable {
      * @return The converted value
      * @throws ConversionException if the value can not be converted
      */
-    S convertToSap( J javaValue ) throws ConversionException;
+    S convertToSap(J javaValue) throws ConversionException;
 }

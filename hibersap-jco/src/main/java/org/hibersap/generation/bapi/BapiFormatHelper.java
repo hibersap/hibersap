@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -24,37 +24,37 @@ public final class BapiFormatHelper {
         // should not be instantiated
     }
 
-    public static String getCamelCaseSmall( final String sapName ) {
-        StringBuilder result = new StringBuilder( "_" );
+    public static String getCamelCaseSmall(final String sapName) {
+        StringBuilder result = new StringBuilder("_");
 
-        if ( sapName == null ) {
+        if (sapName == null) {
             return result.toString();
         }
 
-        String[] parts = sapName.split( "_" );
-        for ( int i = 0; i < parts.length; i++ ) {
-            if ( i == 0 ) {
-                result.append( parts[i].toLowerCase() );
+        String[] parts = sapName.split("_");
+        for (int i = 0; i < parts.length; i++) {
+            if (i == 0) {
+                result.append(parts[i].toLowerCase());
             } else {
-                result.append( parts[i].substring( 0, 1 ).toUpperCase() );
-                result.append( parts[i].substring( 1 ).toLowerCase() );
+                result.append(parts[i].substring(0, 1).toUpperCase());
+                result.append(parts[i].substring(1).toLowerCase());
             }
         }
         return result.toString();
     }
 
-    public static String getCamelCaseBig( final String sapName ) {
-        StringBuilder result = new StringBuilder( "" );
+    public static String getCamelCaseBig(final String sapName) {
+        StringBuilder result = new StringBuilder("");
 
-        if ( sapName == null ) {
+        if (sapName == null) {
             return result.toString();
         }
 
-        String[] parts = sapName.split( "_" );
-        for ( String part : parts ) {
-            if ( part.length() > 0 ) {
-                result.append( part.substring( 0, 1 ).toUpperCase() );
-                result.append( part.substring( 1 ).toLowerCase() );
+        String[] parts = sapName.split("_");
+        for (String part : parts) {
+            if (part.length() > 0) {
+                result.append(part.substring(0, 1).toUpperCase());
+                result.append(part.substring(1).toLowerCase());
             }
         }
         return result.toString();

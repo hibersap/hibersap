@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -21,11 +21,11 @@ package org.hibersap.session;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
- * @author Carsten Erker
+ * Internal interface to the Session.
  */
 public interface SessionImplementor {
 
-    void execute( Object bapi, BapiMapping bapiMapping );
+    void execute(Object bapi, BapiMapping bapiMapping);
 
     SessionManagerImplementor getSessionManager();
 }

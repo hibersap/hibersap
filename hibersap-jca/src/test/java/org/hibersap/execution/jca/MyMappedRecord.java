@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,8 +18,8 @@
 
 package org.hibersap.execution.jca;
 
-import javax.resource.cci.MappedRecord;
 import java.util.HashMap;
+import javax.resource.cci.MappedRecord;
 
 // MappedRecord extends the Map interface in a non-generic way
 @SuppressWarnings("unchecked")
@@ -31,7 +31,7 @@ public class MyMappedRecord
 
     private String recordShortDescription;
 
-    public MyMappedRecord( String recordName ) {
+    public MyMappedRecord(String recordName) {
         this.recordName = recordName;
     }
 
@@ -39,7 +39,7 @@ public class MyMappedRecord
         return recordName;
     }
 
-    public void setRecordName( String recordName ) {
+    public void setRecordName(String recordName) {
         this.recordName = recordName;
     }
 
@@ -47,7 +47,7 @@ public class MyMappedRecord
         return recordShortDescription;
     }
 
-    public void setRecordShortDescription( String recordShortDescription ) {
+    public void setRecordShortDescription(String recordShortDescription) {
         this.recordShortDescription = recordShortDescription;
     }
 }

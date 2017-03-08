@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,9 @@
 
 package org.hibersap.validation;
 
+import java.util.Set;
+import javax.validation.ValidationException;
+import javax.validation.ValidatorFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -25,30 +28,26 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.configuration.xml.ValidationMode;
 import org.hibersap.interceptor.BapiInterceptor;
 
-import javax.validation.ValidationException;
-import javax.validation.ValidatorFactory;
-import java.util.Set;
-
 class TypeSafeActivator {
 
-    private static final Log LOGGER = LogFactory.getLog( TypeSafeActivator.class );
+    private static final Log LOGGER = LogFactory.getLog(TypeSafeActivator.class);
 
     private static ValidatorFactoryFactory validatorFactoryFactory = new DefaultValidatorFactoryFactory();
 
-    @SuppressWarnings( "unused" ) // called by reflection
-    static void activateBeanValidation( final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig ) {
+    @SuppressWarnings("unused") // called by reflection
+    static void activateBeanValidation(final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig) {
         try {
             ValidatorFactory factory = validatorFactoryFactory.buildValidatorFactory();
-            bapiInterceptors.add( new BeanValidationInterceptor( factory ) );
-        } catch ( ValidationException e ) {
+            bapiInterceptors.add(new BeanValidationInterceptor(factory));
+        } catch (ValidationException e) {
             ValidationMode validationMode = sessionManagerConfig.getValidationMode();
-            if ( validationMode == ValidationMode.AUTO ) {
-                LOGGER.warn( "Bean Validation will not be used: Bean Validation API is in the classpath, " +
-                                     "but default ValidatorFactory can not be built. " +
-                                     "ValidationMode is AUTO, so startup will be continued.", e );
+            if (validationMode == ValidationMode.AUTO) {
+                LOGGER.warn("Bean Validation will not be used: Bean Validation API is in the classpath, " +
+                        "but default ValidatorFactory can not be built. " +
+                        "ValidationMode is AUTO, so startup will be continued.", e);
             } else {
-                throw new HibersapException( "Unable to build the default ValidatorFactory, ValidationMode is " +
-                                                     validationMode, e );
+                throw new HibersapException("Unable to build the default ValidatorFactory, ValidationMode is " +
+                        validationMode, e);
             }
         }
     }

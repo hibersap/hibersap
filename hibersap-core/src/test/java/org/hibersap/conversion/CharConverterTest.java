@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -19,7 +19,6 @@
 package org.hibersap.conversion;
 
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 
 public class CharConverterTest {
@@ -28,16 +27,16 @@ public class CharConverterTest {
 
     @Test
     public void testConvertToJava() {
-        assertEquals( (Object) ' ', converter.convertToJava( null ) );
-        assertEquals( (Object) ' ', converter.convertToJava( " " ) );
-        assertEquals( (Object) 'A', converter.convertToJava( "A" ) );
-        assertEquals( (Object) 'A', converter.convertToJava( "AB" ) );
+        assertEquals((Object) ' ', converter.convertToJava(null));
+        assertEquals((Object) ' ', converter.convertToJava(" "));
+        assertEquals((Object) 'A', converter.convertToJava("A"));
+        assertEquals((Object) 'A', converter.convertToJava("AB"));
     }
 
     @Test
     public void testConvertToSap() {
-        assertEquals( "", converter.convertToSap( null ) );
-        assertEquals( " ", converter.convertToSap( ' ' ) );
-        assertEquals( "A", converter.convertToSap( 'A' ) );
+        assertEquals("", converter.convertToSap(null));
+        assertEquals(" ", converter.convertToSap(' '));
+        assertEquals("A", converter.convertToSap('A'));
     }
 }

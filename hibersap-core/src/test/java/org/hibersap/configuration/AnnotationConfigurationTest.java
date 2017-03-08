@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.configuration;
 
+import java.util.Map;
+import java.util.Set;
 import org.hibersap.ConfigurationException;
 import org.hibersap.MappingException;
 import org.hibersap.bapi.BapiTransactionCommit;
@@ -27,10 +29,6 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationConfigurationTest {
@@ -45,33 +43,34 @@ public class AnnotationConfigurationTest {
 
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( SapErrorInterceptor.class );
+        assertThat(interceptors.toArray()).hasAtLeastOneElementOfType(SapErrorInterceptor.class);
     }
 
     @Test
     public void addsAnnotatedClassToSessionManager() {
-        configuration.getSessionManagerConfig().addAnnotatedClass( BAPI_CLASS );
+        configuration.getSessionManagerConfig().addAnnotatedClass(BAPI_CLASS.getName());
+
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
-        Map<Class<?>, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
-        assertThat( bapiMappings ).hasSize( 1 );
-        assertThat( bapiMappings.get( BAPI_CLASS ) ).isNotNull();
+        Map<String, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
+        assertThat(bapiMappings).hasSize(1);
+        assertThat(bapiMappings.get(BAPI_CLASS.getName())).isNotNull();
     }
 
-    @Test( expected = MappingException.class )
+    @Test(expected = MappingException.class)
     public void throwsMappingExceptionWhenClassWasAddedThatIsNotAnnotated() {
-        configuration.getSessionManagerConfig().addAnnotatedClass( Object.class );
+        configuration.getSessionManagerConfig().addAnnotatedClass(Object.class);
         configureAndBuildSessionManager();
     }
 
-    @Test( expected = ConfigurationException.class )
+    @Test(expected = ConfigurationException.class)
     public void throwsConfigurationExceptionWhenBapiClassWasAddedThatIsNotAnnotated() {
-        configuration.getSessionManagerConfig().getAnnotatedClasses().add( "does.not.Exist" );
+        configuration.getSessionManagerConfig().getAnnotatedClasses().add("does.not.Exist");
         configureAndBuildSessionManager();
     }
 
     private SessionManagerImpl configureAndBuildSessionManager() {
-        configuration.getSessionManagerConfig().setContext( DummyContext.class.getName() );
+        configuration.getSessionManagerConfig().setContext(DummyContext.class.getName());
         SessionManager sessionManager = configuration.buildSessionManager();
         return (SessionManagerImpl) sessionManager;
     }

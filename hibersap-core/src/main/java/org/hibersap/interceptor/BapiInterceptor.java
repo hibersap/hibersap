@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -29,12 +29,12 @@ public interface BapiInterceptor {
      *
      * @param bapiObject The Bapi object as provided by the application code.
      */
-    void beforeExecution( Object bapiObject );
+    void beforeExecution(Object bapiObject);
 
     /**
      * Will be called after the function module is called in SAP.
      *
      * @param bapiObject The Bapi object as provided by the application code.
      */
-    void afterExecution( Object bapiObject );
+    void afterExecution(Object bapiObject);
 }

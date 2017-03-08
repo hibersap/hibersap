@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,12 +18,11 @@
 
 package org.hibersap.bapi;
 
+import java.io.Serializable;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ThrowExceptionOnError;
-
-import java.io.Serializable;
 
 /**
  * BAPI class to commit a transaction. Maps to the BAPI_TRANSACTION_COMMIT function module in SAP.

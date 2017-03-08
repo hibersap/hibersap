@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config">
-    <session-manager name="A12">
-        <context>org.hibersap.execution.jco.JCoContext</context>
-        <properties>
-            <property name="jco.client.client" value="001"/>
-            <property name="jco.client.user" value="sapuser"/>
-            <property name="jco.client.passwd" value="password"/>
-            <property name="jco.client.lang" value="en"/>
-            <property name="jco.client.ashost" value="192.168.101.130"/>
-            <property name="jco.client.sysnr" value="00"/>
-            <property name="jco.destination.pool_capacity" value="1"/>
-        </properties>
+<!--
+  ~ Copyright (c) 2008-2017 akquinet tech@spree GmbH
+  ~
+  ~ This file is part of Hibersap.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this software except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 
-        <annotated-classes>
-            <annotated-class>org.hibersap.it.jco.BapiFinder</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.RfcPing</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.MapsRawTypeParameterToByteArrayTest$StfcDeepStructure</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.MapCurrencyParametersToBigDecimalTest$BapiExchangeRateGetDetail</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.MapTableParameterToArrayTest$BapiCustomerGetList</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarListBapi</annotated-class>
-            <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarManufacturerBapi</annotated-class>
-        </annotated-classes>
-    </session-manager>
+<hibersap xmlns="http://hibersap.org/xml/ns/hibersap-config">
+  <session-manager name="A12">
+    <context>org.hibersap.execution.jco.JCoContext</context>
+    <properties>
+      <property name="jco.client.client" value="001"/>
+      <property name="jco.client.user" value="sapuser"/>
+      <property name="jco.client.passwd" value="password"/>
+      <property name="jco.client.lang" value="en"/>
+      <property name="jco.client.ashost" value="192.168.101.130"/>
+      <property name="jco.client.sysnr" value="00"/>
+      <property name="jco.destination.pool_capacity" value="1"/>
+    </properties>
+
+    <annotated-classes>
+      <annotated-class>org.hibersap.it.jco.BapiFinder</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.RfcPing</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.MapsRawTypeParameterToByteArrayTest$StfcDeepStructure</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.MapCurrencyParametersToBigDecimalTest$BapiExchangeRateGetDetail</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.MapTableParameterToArrayTest$BapiCustomerGetList</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarListBapi</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarManufacturerBapi</annotated-class>
+    </annotated-classes>
+  </session-manager>
 </hibersap>
 

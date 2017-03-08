@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -36,13 +36,13 @@ public class SapException extends HibersapException {
 
     private final List<SapError> sapErrors;
 
-    public SapException( final List<SapError> sapErrors ) {
-        super( "Error(s) occurred when calling function module" );
+    public SapException(final List<SapError> sapErrors) {
+        super("Error(s) occurred when calling function module");
         this.sapErrors = sapErrors;
     }
 
-    public SapException( final SapError sapError ) {
-        this( Collections.singletonList( sapError ) );
+    public SapException(final SapError sapError) {
+        this(Collections.singletonList(sapError));
     }
 
     public List<SapError> getErrors() {
@@ -69,7 +69,7 @@ public class SapException extends HibersapException {
 
         private final String number;
 
-        public SapError( final String type, final String id, final String number, final String message ) {
+        public SapError(final String type, final String id, final String number, final String message) {
             this.type = type;
             this.id = id;
             this.number = number;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -22,11 +22,11 @@ public class InternalHiberSapException extends HibersapException {
 
     private static final long serialVersionUID = 1L;
 
-    public InternalHiberSapException( final String msg ) {
-        super( msg );
+    public InternalHiberSapException(final String msg) {
+        super(msg);
     }
 
-    public InternalHiberSapException( final String msg, final Throwable cause ) {
-        super( msg, cause );
+    public InternalHiberSapException(final String msg, final Throwable cause) {
+        super(msg, cause);
     }
 }

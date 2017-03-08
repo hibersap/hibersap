@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,19 +18,18 @@
 
 package org.hibersap.configuration.xml;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibersap.interceptor.BapiInterceptor;
-import org.hibersap.interceptor.ExecutionInterceptor;
-
+import java.io.Serializable;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibersap.interceptor.BapiInterceptor;
+import org.hibersap.interceptor.ExecutionInterceptor;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -49,7 +48,7 @@ public final class SessionManagerConfig implements Serializable {
     private static final long serialVersionUID = 270142113574399232L;
 
     @XmlTransient
-    private static final Log LOG = LogFactory.getLog( SessionManagerConfig.class );
+    private static final Log LOG = LogFactory.getLog(SessionManagerConfig.class);
 
     @XmlAttribute(required = true)
     protected String name;
@@ -81,7 +80,7 @@ public final class SessionManagerConfig implements Serializable {
     public SessionManagerConfig() {
     }
 
-    public SessionManagerConfig( final String name ) {
+    public SessionManagerConfig(final String name) {
         this.name = name;
     }
 
@@ -89,7 +88,7 @@ public final class SessionManagerConfig implements Serializable {
         return name;
     }
 
-    public SessionManagerConfig setName( final String name ) {
+    public SessionManagerConfig setName(final String name) {
         this.name = name;
         return this;
     }
@@ -98,7 +97,7 @@ public final class SessionManagerConfig implements Serializable {
         return context;
     }
 
-    public SessionManagerConfig setContext( final String context ) {
+    public SessionManagerConfig setContext(final String context) {
         this.context = context;
         return this;
     }
@@ -107,7 +106,7 @@ public final class SessionManagerConfig implements Serializable {
         return jcaConnectionFactory;
     }
 
-    public SessionManagerConfig setJcaConnectionFactory( final String jcaConnectionFactory ) {
+    public SessionManagerConfig setJcaConnectionFactory(final String jcaConnectionFactory) {
         this.jcaConnectionFactory = jcaConnectionFactory;
         return this;
     }
@@ -116,7 +115,7 @@ public final class SessionManagerConfig implements Serializable {
         return jcaConnectionSpecFactory;
     }
 
-    public SessionManagerConfig setJcaConnectionSpecFactory( final String jcaConnectionSpecFactory ) {
+    public SessionManagerConfig setJcaConnectionSpecFactory(final String jcaConnectionSpecFactory) {
         this.jcaConnectionSpecFactory = jcaConnectionSpecFactory;
         return this;
     }
@@ -125,9 +124,9 @@ public final class SessionManagerConfig implements Serializable {
         return properties.getProperties();
     }
 
-    public SessionManagerConfig setProperties( final List<Property> properties ) {
-        LOG.debug( "SETPROPS" );
-        this.properties.setProperties( properties );
+    public SessionManagerConfig setProperties(final List<Property> properties) {
+        LOG.debug("SETPROPS");
+        this.properties.setProperties(properties);
         return this;
     }
 
@@ -135,17 +134,17 @@ public final class SessionManagerConfig implements Serializable {
         return annotatedClasses.getAnnotatedClasses();
     }
 
-    public void setAnnotatedClasses( final List<String> annotatedClasses ) {
+    public void setAnnotatedClasses(final List<String> annotatedClasses) {
         this.annotatedClasses.getAnnotatedClasses().clear();
-        this.annotatedClasses.getAnnotatedClasses().addAll( annotatedClasses );
+        this.annotatedClasses.getAnnotatedClasses().addAll(annotatedClasses);
     }
 
-    public String getProperty( final String propertyName ) {
-        return properties.getPropertyValue( propertyName );
+    public String getProperty(final String propertyName) {
+        return properties.getPropertyValue(propertyName);
     }
 
-    public SessionManagerConfig setProperty( final String name, final String value ) {
-        properties.setProperty( name, value );
+    public SessionManagerConfig setProperty(final String name, final String value) {
+        properties.setProperty(name, value);
         return this;
     }
 
@@ -153,8 +152,13 @@ public final class SessionManagerConfig implements Serializable {
      * This does not work in OSGi. Use AnnotationConfiguration.addBapiClasses instead.
      */
     @Deprecated
-    public SessionManagerConfig addAnnotatedClass( final Class<?> annotatedClass ) {
-        annotatedClasses.add( annotatedClass.getName() );
+    public SessionManagerConfig addAnnotatedClass(final Class<?> annotatedClass) {
+        annotatedClasses.add(annotatedClass.getName());
+        return this;
+    }
+
+    public SessionManagerConfig addAnnotatedClass(final String annotatedClassFqn) {
+        annotatedClasses.add(annotatedClassFqn);
         return this;
     }
 
@@ -162,7 +166,7 @@ public final class SessionManagerConfig implements Serializable {
         return validationMode;
     }
 
-    public SessionManagerConfig setValidationMode( final ValidationMode validationMode ) {
+    public SessionManagerConfig setValidationMode(final ValidationMode validationMode) {
         this.validationMode = validationMode;
         return this;
     }
@@ -171,8 +175,8 @@ public final class SessionManagerConfig implements Serializable {
         return executionInterceptorClasses.getExecutionInterceptorClasses();
     }
 
-    public SessionManagerConfig addExecutionInterceptorClass( final Class<? extends ExecutionInterceptor> interceptorClass ) {
-        executionInterceptorClasses.add( interceptorClass.getName() );
+    public SessionManagerConfig addExecutionInterceptorClass(final Class<? extends ExecutionInterceptor> interceptorClass) {
+        executionInterceptorClasses.add(interceptorClass.getName());
         return this;
     }
 
@@ -180,53 +184,53 @@ public final class SessionManagerConfig implements Serializable {
         return bapiInterceptorClasses.getBapiInterceptorClasses();
     }
 
-    public SessionManagerConfig addBapiInterceptorClass( final Class<? extends BapiInterceptor> bapiInterceptorClass ) {
-        executionInterceptorClasses.add( bapiInterceptorClass.getName() );
+    public SessionManagerConfig addBapiInterceptorClass(final Class<? extends BapiInterceptor> bapiInterceptorClass) {
+        executionInterceptorClasses.add(bapiInterceptorClass.getName());
         return this;
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         SessionManagerConfig that = (SessionManagerConfig) o;
 
-        if ( annotatedClasses != null ? !annotatedClasses.equals( that.annotatedClasses ) :
-             that.annotatedClasses != null ) {
+        if (annotatedClasses != null ? !annotatedClasses.equals(that.annotatedClasses) :
+                that.annotatedClasses != null) {
             return false;
         }
-        if ( bapiInterceptorClasses != null ? !bapiInterceptorClasses.equals( that.bapiInterceptorClasses ) :
-             that.bapiInterceptorClasses != null ) {
+        if (bapiInterceptorClasses != null ? !bapiInterceptorClasses.equals(that.bapiInterceptorClasses) :
+                that.bapiInterceptorClasses != null) {
             return false;
         }
-        if ( context != null ? !context.equals( that.context ) : that.context != null ) {
+        if (context != null ? !context.equals(that.context) : that.context != null) {
             return false;
         }
-        if ( executionInterceptorClasses != null ?
-             !executionInterceptorClasses.equals( that.executionInterceptorClasses ) :
-             that.executionInterceptorClasses != null ) {
+        if (executionInterceptorClasses != null ?
+                !executionInterceptorClasses.equals(that.executionInterceptorClasses) :
+                that.executionInterceptorClasses != null) {
             return false;
         }
-        if ( jcaConnectionFactory != null ? !jcaConnectionFactory.equals( that.jcaConnectionFactory ) :
-             that.jcaConnectionFactory != null ) {
+        if (jcaConnectionFactory != null ? !jcaConnectionFactory.equals(that.jcaConnectionFactory) :
+                that.jcaConnectionFactory != null) {
             return false;
         }
-        if ( jcaConnectionSpecFactory != null ? !jcaConnectionSpecFactory.equals( that.jcaConnectionSpecFactory ) :
-             that.jcaConnectionSpecFactory != null ) {
+        if (jcaConnectionSpecFactory != null ? !jcaConnectionSpecFactory.equals(that.jcaConnectionSpecFactory) :
+                that.jcaConnectionSpecFactory != null) {
             return false;
         }
-        if ( name != null ? !name.equals( that.name ) : that.name != null ) {
+        if (name != null ? !name.equals(that.name) : that.name != null) {
             return false;
         }
-        if ( properties != null ? !properties.equals( that.properties ) : that.properties != null ) {
+        if (properties != null ? !properties.equals(that.properties) : that.properties != null) {
             return false;
         }
-        if ( validationMode != that.validationMode ) {
+        if (validationMode != that.validationMode) {
             return false;
         }
 

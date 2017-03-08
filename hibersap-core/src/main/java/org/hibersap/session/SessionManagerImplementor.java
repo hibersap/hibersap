@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,18 +18,17 @@
 
 package org.hibersap.session;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 
-import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
-
 /**
- * The client's interface to the SessionManager. A SessionManager is used to create Hibersap
+ * The internal interface to the SessionManager. A SessionManager is used to create Hibersap
  * sessions.
  *
  * @author Carsten Erker
@@ -41,7 +40,7 @@ public interface SessionManagerImplementor extends Serializable {
      *
      * @return A Map with the Class as key and the corresponding BapiMapping object as value.
      */
-    Map<Class<?>, BapiMapping> getBapiMappings();
+    Map<String, BapiMapping> getBapiMappings();
 
     /**
      * Returns this SessionManager's Converter cache.

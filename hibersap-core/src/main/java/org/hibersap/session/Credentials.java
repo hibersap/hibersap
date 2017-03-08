@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -50,7 +50,7 @@ public class Credentials {
         return user;
     }
 
-    public Credentials setUser( final String user ) {
+    public Credentials setUser(final String user) {
         this.user = user;
         return this;
     }
@@ -59,7 +59,7 @@ public class Credentials {
         return aliasUser;
     }
 
-    public Credentials setAliasUser( final String aliasUser ) {
+    public Credentials setAliasUser(final String aliasUser) {
         this.aliasUser = aliasUser;
         return this;
     }
@@ -68,7 +68,7 @@ public class Credentials {
         return client;
     }
 
-    public Credentials setClient( final String client ) {
+    public Credentials setClient(final String client) {
         this.client = client;
         return this;
     }
@@ -77,7 +77,7 @@ public class Credentials {
         return language;
     }
 
-    public Credentials setLanguage( final String language ) {
+    public Credentials setLanguage(final String language) {
         this.language = language;
         return this;
     }
@@ -86,7 +86,7 @@ public class Credentials {
         return password;
     }
 
-    public Credentials setPassword( final String password ) {
+    public Credentials setPassword(final String password) {
         this.password = password;
         return this;
     }
@@ -95,7 +95,7 @@ public class Credentials {
         return ssoTicket;
     }
 
-    public Credentials setSsoTicket( final String ssoTicket ) {
+    public Credentials setSsoTicket(final String ssoTicket) {
         this.ssoTicket = ssoTicket;
         return this;
     }
@@ -104,7 +104,7 @@ public class Credentials {
         return x509Certificate;
     }
 
-    public Credentials setX509Certificate( final String certificate ) {
+    public Credentials setX509Certificate(final String certificate) {
         x509Certificate = certificate;
         return this;
     }
@@ -123,35 +123,35 @@ public class Credentials {
     }
 
     @Override
-    public boolean equals( Object o ) {
-        if ( this == o ) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Credentials that = (Credentials) o;
 
-        if ( aliasUser != null ? !aliasUser.equals( that.aliasUser ) : that.aliasUser != null ) {
+        if (aliasUser != null ? !aliasUser.equals(that.aliasUser) : that.aliasUser != null) {
             return false;
         }
-        if ( client != null ? !client.equals( that.client ) : that.client != null ) {
+        if (client != null ? !client.equals(that.client) : that.client != null) {
             return false;
         }
-        if ( language != null ? !language.equals( that.language ) : that.language != null ) {
+        if (language != null ? !language.equals(that.language) : that.language != null) {
             return false;
         }
-        if ( password != null ? !password.equals( that.password ) : that.password != null ) {
+        if (password != null ? !password.equals(that.password) : that.password != null) {
             return false;
         }
-        if ( ssoTicket != null ? !ssoTicket.equals( that.ssoTicket ) : that.ssoTicket != null ) {
+        if (ssoTicket != null ? !ssoTicket.equals(that.ssoTicket) : that.ssoTicket != null) {
             return false;
         }
-        if ( user != null ? !user.equals( that.user ) : that.user != null ) {
+        if (user != null ? !user.equals(that.user) : that.user != null) {
             return false;
         }
-        if ( x509Certificate != null ? !x509Certificate.equals( that.x509Certificate ) : that.x509Certificate != null ) {
+        if (x509Certificate != null ? !x509Certificate.equals(that.x509Certificate) : that.x509Certificate != null) {
             return false;
         }
 
@@ -161,12 +161,12 @@ public class Credentials {
     @Override
     public int hashCode() {
         int result = user != null ? user.hashCode() : 0;
-        result = 31 * result + ( aliasUser != null ? aliasUser.hashCode() : 0 );
-        result = 31 * result + ( client != null ? client.hashCode() : 0 );
-        result = 31 * result + ( language != null ? language.hashCode() : 0 );
-        result = 31 * result + ( password != null ? password.hashCode() : 0 );
-        result = 31 * result + ( ssoTicket != null ? ssoTicket.hashCode() : 0 );
-        result = 31 * result + ( x509Certificate != null ? x509Certificate.hashCode() : 0 );
+        result = 31 * result + (aliasUser != null ? aliasUser.hashCode() : 0);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (ssoTicket != null ? ssoTicket.hashCode() : 0);
+        result = 31 * result + (x509Certificate != null ? x509Certificate.hashCode() : 0);
         return result;
     }
 }

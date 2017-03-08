@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -22,11 +22,10 @@ import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.Environment;
+import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
-
-import java.util.Properties;
 
 /**
  * This class acts as a wrapper for the ugly static JCo classes.
@@ -35,7 +34,7 @@ import java.util.Properties;
  */
 public class JCoEnvironment {
 
-    private static final Log LOG = LogFactory.getLog( JCoEnvironment.class );
+    private static final Log LOG = LogFactory.getLog(JCoEnvironment.class);
     /**
      * JCo's Environment class doesn't offer any methods to check if a provider class is already
      * registered, but we need to dynamically register destinations
@@ -46,43 +45,43 @@ public class JCoEnvironment {
         // should not be instantiated
     }
 
-    public static void registerDestination( final String destinationName, final Properties jcoProperties ) {
-        LOG.info( "Registering destination " + destinationName );
+    public static void registerDestination(final String destinationName, final Properties jcoProperties) {
+        LOG.info("Registering destination " + destinationName);
 
-        if ( !destinationDataProvider.hasDestinations() ) {
+        if (!destinationDataProvider.hasDestinations()) {
             registerDestinationDataProvider();
         }
 
-        destinationDataProvider.addDestination( destinationName, jcoProperties );
+        destinationDataProvider.addDestination(destinationName, jcoProperties);
     }
 
-    public static void unregisterDestination( final String destinationName ) {
-        LOG.info( "Unregistering destination " + destinationName );
+    public static void unregisterDestination(final String destinationName) {
+        LOG.info("Unregistering destination " + destinationName);
 
-        destinationDataProvider.removeDestination( destinationName );
+        destinationDataProvider.removeDestination(destinationName);
 
-        if ( !destinationDataProvider.hasDestinations() ) {
+        if (!destinationDataProvider.hasDestinations()) {
             unregisterDestinationDataProvider();
         }
     }
 
-    public static JCoDestination getDestination( final String destinationName ) {
+    public static JCoDestination getDestination(final String destinationName) {
         try {
-            return JCoDestinationManager.getDestination( destinationName );
-        } catch ( JCoException e ) {
-            throw new HibersapException( "Destination named '" + destinationName + "' is not registered with JCo", e );
+            return JCoDestinationManager.getDestination(destinationName);
+        } catch (JCoException e) {
+            throw new HibersapException("Destination named '" + destinationName + "' is not registered with JCo", e);
         }
     }
 
     private static void registerDestinationDataProvider() {
-        LOG.info( "Registering DestinationDataProvider with JCo" );
+        LOG.info("Registering DestinationDataProvider with JCo");
 
-        Environment.registerDestinationDataProvider( destinationDataProvider );
+        Environment.registerDestinationDataProvider(destinationDataProvider);
     }
 
     private static void unregisterDestinationDataProvider() {
-        LOG.info( "Unregistering DestinationDataProvider from JCo" );
+        LOG.info("Unregistering DestinationDataProvider from JCo");
 
-        Environment.unregisterDestinationDataProvider( destinationDataProvider );
+        Environment.unregisterDestinationDataProvider(destinationDataProvider);
     }
 }

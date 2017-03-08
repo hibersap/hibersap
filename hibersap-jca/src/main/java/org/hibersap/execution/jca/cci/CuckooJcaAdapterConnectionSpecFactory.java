@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,17 +18,16 @@
 
 package org.hibersap.execution.jca.cci;
 
+import java.util.Arrays;
+import javax.resource.cci.ConnectionSpec;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
-
-import javax.resource.cci.ConnectionSpec;
-import java.util.Arrays;
 
 public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpecFactory {
 
     private static final String CONNECTION_SPEC_IMPL_CLASS_NAME = "org.cuckoo.ra.cci.ApplicationPropertiesImpl";
 
-    public ConnectionSpec createConnectionSpec( Credentials credentials ) throws InternalHiberSapException {
+    public ConnectionSpec createConnectionSpec(Credentials credentials) throws InternalHiberSapException {
         try {
             Object[] arguments = {
                     credentials.getUser(),
@@ -42,14 +41,14 @@ public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpe
             };
 
             Class<?>[] parameterTypes = new Class<?>[arguments.length];
-            Arrays.fill( parameterTypes, String.class );
+            Arrays.fill(parameterTypes, String.class);
 
-            Class<?> connSpecClass = getConnectionSpecClass( CONNECTION_SPEC_IMPL_CLASS_NAME );
-            return newConnectionSpecInstance( connSpecClass, parameterTypes, arguments );
-        } catch ( IllegalArgumentException e ) {
-            throw new InternalHiberSapException( e.getMessage(), e );
-        } catch ( ClassNotFoundException e ) {
-            throw new InternalHiberSapException( e.getMessage(), e );
+            Class<?> connSpecClass = getConnectionSpecClass(CONNECTION_SPEC_IMPL_CLASS_NAME);
+            return newConnectionSpecInstance(connSpecClass, parameterTypes, arguments);
+        } catch (IllegalArgumentException e) {
+            throw new InternalHiberSapException(e.getMessage(), e);
+        } catch (ClassNotFoundException e) {
+            throw new InternalHiberSapException(e.getMessage(), e);
         }
     }
 }
