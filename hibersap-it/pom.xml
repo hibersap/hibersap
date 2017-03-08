@@ -95,11 +95,11 @@
       <artifactId>hibersap-jco</artifactId>
     </dependency>
 
-        <dependency>
-            <groupId>org.hibersap</groupId>
-            <artifactId>sapjco3</artifactId>
-            <scope>test</scope>
-        </dependency>
+    <dependency>
+      <groupId>org.hibersap</groupId>
+      <artifactId>sapjco3</artifactId>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 </project>

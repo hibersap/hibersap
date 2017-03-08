@@ -36,12 +36,12 @@ public final class StructureMapping extends ParameterMapping {
 
     private final Set<ParameterMapping> parameters = new HashSet<ParameterMapping>();
 
-    public StructureMapping( final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converterClass ) {
-        super( associatedClass, sapName, javaName, converterClass );
+    public StructureMapping(final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converterClass) {
+        super(associatedClass, sapName, javaName, converterClass);
     }
 
-    public void addParameter( final ParameterMapping param ) {
-        parameters.add( param );
+    public void addParameter(final ParameterMapping param) {
+        parameters.add(param);
     }
 
     public Set<ParameterMapping> getParameters() {
@@ -58,8 +58,8 @@ public final class StructureMapping extends ParameterMapping {
         Map<String, Object> subMap = UnsafeCastHelper.castToMap(fieldMap);
         Object subBean = ReflectionHelper.newInstance(getAssociatedType());
 
-        for ( ParameterMapping parameter : parameters ) {
-            Object fieldValue = subMap.get( parameter.getSapName() );
+        for (ParameterMapping parameter : parameters) {
+            Object fieldValue = subMap.get(parameter.getSapName());
 
             if (fieldValue != null) {
                 Object value = parameter.mapToJava(fieldValue, converterCache);
@@ -74,8 +74,8 @@ public final class StructureMapping extends ParameterMapping {
     protected Object getUnconvertedValueToSap(final Object bapiStructure, final ConverterCache converterCache) {
         HashMap<String, Object> functionMap = new HashMap<String, Object>();
 
-        for ( ParameterMapping parameter : parameters ) {
-            Object fieldValue = ReflectionHelper.getFieldValue( bapiStructure, parameter.getJavaName() );
+        for (ParameterMapping parameter : parameters) {
+            Object fieldValue = ReflectionHelper.getFieldValue(bapiStructure, parameter.getJavaName());
 
             if (fieldValue != null) {
                 Object value = parameter.mapToSap(fieldValue, converterCache);

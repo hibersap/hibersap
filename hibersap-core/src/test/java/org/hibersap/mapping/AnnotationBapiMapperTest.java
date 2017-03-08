@@ -18,10 +18,7 @@
 
 package org.hibersap.mapping;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.util.Set;
-
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -30,7 +27,6 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationBapiMapperTest {

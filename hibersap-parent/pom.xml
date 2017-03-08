@@ -349,12 +349,12 @@
         <optional>true</optional>
       </dependency>
 
-            <!-- Java Connector Architecture (JCA) -->
-			<dependency>
-				<groupId>javax.resource</groupId>
-				<artifactId>connector-api</artifactId>
-				<version>1.5</version>
-			</dependency>
+      <!-- Java Connector Architecture (JCA) -->
+      <dependency>
+        <groupId>javax.resource</groupId>
+        <artifactId>connector-api</artifactId>
+        <version>1.5</version>
+      </dependency>
 
       <!-- apache commons -->
       <dependency>

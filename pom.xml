@@ -27,8 +27,8 @@
     <relativePath>./hibersap-parent</relativePath>
   </parent>
 
-    <artifactId>hibersap</artifactId>
-    <packaging>pom</packaging>
+  <artifactId>hibersap</artifactId>
+  <packaging>pom</packaging>
 
   <name>Hibersap Reactor</name>
 
