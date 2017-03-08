@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -30,18 +30,18 @@ public class CharConverter implements Converter<Character, String> {
     /**
      * {@inheritDoc}
      */
-    public Character convertToJava( String sapValue ) throws ConversionException {
-        if ( StringUtils.isEmpty( sapValue ) ) {
+    public Character convertToJava(String sapValue) throws ConversionException {
+        if (StringUtils.isEmpty(sapValue)) {
             return ' ';
         }
-        return sapValue.charAt( 0 );
+        return sapValue.charAt(0);
     }
 
     /**
      * {@inheritDoc}
      */
-    public String convertToSap( Character javaValue ) throws ConversionException {
-        if ( javaValue == null ) {
+    public String convertToSap(Character javaValue) throws ConversionException {
+        if (javaValue == null) {
             return "";
         }
         return "" + javaValue;

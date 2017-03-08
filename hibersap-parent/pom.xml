@@ -1,110 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<!--
+  ~ Copyright (c) 2008-2017 akquinet tech@spree GmbH
+  ~
+  ~ This file is part of Hibersap.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this software except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-        <relativePath />
-    </parent>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.hibersap</groupId>
-    <artifactId>hibersap-parent</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+    <relativePath/>
+  </parent>
 
-    <name>Hibersap Parent</name>
+  <groupId>org.hibersap</groupId>
+  <artifactId>hibersap-parent</artifactId>
+  <version>1.2.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <description>
-        Hibersap helps developers of Java applications to call business logic in SAP backends.
-        It defines a set of Java annotations to map SAP function modules to Java classes as well as a small,
-        clean API to execute these function modules and handle transaction and security aspects.
-    </description>
+  <name>Hibersap Parent</name>
 
-    <url>http://hibersap.org</url>
+  <description>
+    Hibersap helps developers of Java applications to call business logic in SAP backends.
+    It defines a set of Java annotations to map SAP function modules to Java classes as well as a small,
+    clean API to execute these function modules and handle transaction and security aspects.
+  </description>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+  <url>http://hibersap.org</url>
 
-    <developers>
-        <developer>
-            <id>cerker</id>
-            <name>Carsten Erker</name>
-            <email>carsten.erker at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Project Creator</role>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>tfink</id>
-            <name>Torsten Fink</name>
-            <email>torsten.fink at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Architect</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>dahm</id>
-            <name>Markus Dahm</name>
-            <email>markus.dahm at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>abendt</id>
-            <name>Alphonse Bendt</name>
-            <email>alphonse.bendt at akquinet dot de</email>
-            <organization>akquinet tech@spree GmbH</organization>
-            <organizationUrl>http://www.akquinet.de</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Cedric Röck</name>
-            <roles>
-                <role>Contributor</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Christian Schneider</name>
-            <roles>
-                <role>Contributor</role>
-            </roles>
-        </developer>
-    </developers>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
 
-    <organization>
-        <name>akquinet tech@spree GmbH</name>
-        <url>http://www.akquinet.de</url>
-    </organization>
+  <developers>
+    <developer>
+      <id>cerker</id>
+      <name>Carsten Erker</name>
+      <email>carsten.erker at akquinet dot de</email>
+      <organization>akquinet tech@spree GmbH</organization>
+      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <roles>
+        <role>Project Creator</role>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>tfink</id>
+      <name>Torsten Fink</name>
+      <email>torsten.fink at akquinet dot de</email>
+      <organization>akquinet tech@spree GmbH</organization>
+      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <roles>
+        <role>Architect</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>dahm</id>
+      <name>Markus Dahm</name>
+      <email>markus.dahm at akquinet dot de</email>
+      <organization>akquinet tech@spree GmbH</organization>
+      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>abendt</id>
+      <name>Alphonse Bendt</name>
+      <email>alphonse.bendt at akquinet dot de</email>
+      <organization>akquinet tech@spree GmbH</organization>
+      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Cedric Röck</name>
+      <roles>
+        <role>Contributor</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Christian Schneider</name>
+      <roles>
+        <role>Contributor</role>
+      </roles>
+    </developer>
+  </developers>
 
-    <issueManagement>
-        <system>Sourceforge Tracker</system>
-        <url>https://sourceforge.net/tracker/?group_id=225273</url>
-    </issueManagement>
+  <organization>
+    <name>akquinet tech@spree GmbH</name>
+    <url>http://www.akquinet.de</url>
+  </organization>
 
-    <mailingLists>
-        <mailingList>
-            <name>hibersap-announce</name>
-            <subscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</subscribe>
-            <unsubscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=hibersap-announce</archive>
-        </mailingList>
-    </mailingLists>
+  <issueManagement>
+    <system>Sourceforge Tracker</system>
+    <url>https://sourceforge.net/tracker/?group_id=225273</url>
+  </issueManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>hibersap-announce</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/hibersap-announce</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=hibersap-announce</archive>
+    </mailingList>
+  </mailingLists>
 
     <profiles>
         <!-- Profiles for running integration tests -->
@@ -141,7 +159,7 @@
             <activation>
                 <os>
                     <family>windows</family>
-                    <arch>x86_64</arch>
+                    <arch>amd64</arch>
                 </os>
             </activation>
             <properties>
@@ -165,258 +183,258 @@
             </properties>
         </profile>
 
-        <!-- Release profile -->
-        <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <configuration>
-                                    <attach>true</attach>
-                                </configuration>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+      <!-- Release profile -->
+      <profile>
+        <id>release</id>
+        <activation>
+          <property>
+            <name>performRelease</name>
+            <value>true</value>
+          </property>
+        </activation>
+        <build>
+          <plugins>
+            <plugin>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>attach-javadocs</id>
+                  <configuration>
+                    <attach>true</attach>
+                  </configuration>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <artifactId>maven-source-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>1.5</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+      </profile>
     </profiles>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jco.native-lib.version>3.0.10</jco.native-lib.version>
-    </properties>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <jco.native-lib.version>3.0.15</jco.native-lib.version>
+  </properties>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
-                    <configuration>
-                        <source>1.5</source>
-                        <target>1.5</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>1.3.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.17</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.9.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>2.2.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.4.0</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.3.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.2.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.4.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.0</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>1.5</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <arguments>-Psonatype-oss-release</arguments>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.0</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.5</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <mavenExecutorId>forked-path</mavenExecutorId>
+          <useReleaseProfile>false</useReleaseProfile>
+          <arguments>-Psonatype-oss-release</arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Hibersap Dependencies -->
-            <dependency>
-                <groupId>org.hibersap</groupId>
-                <artifactId>hibersap-core</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibersap</groupId>
-                <artifactId>hibersap-jco</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibersap</groupId>
-                <artifactId>hibersap-jca</artifactId>
-                <version>1.2.1-SNAPSHOT</version>
-            </dependency>
-
-            <!-- Wrapper for the SAP Java Connector (JCo) -->
-            <dependency>
-                <groupId>org.hibersap</groupId>
-                <artifactId>sapjco3</artifactId>
-                <version>3.0</version>
-                <optional>true</optional>
-            </dependency>
-
-            <!-- Java Connector Architecture (JCA) -->
-            <dependency>
-                <groupId>javax.resource</groupId>
-                <artifactId>connector</artifactId>
-                <version>1.0</version>
-            </dependency>
-
-            <!-- apache commons -->
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.1.3</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.6</version>
-            </dependency>
-
-            <!-- JAXB -->
-            <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>2.2.11</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>2.2.8-b01</version>
-            </dependency>
-
-            <!-- Bean Validation -->
-            <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>1.0.0.GA</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>4.0.2.GA</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <!-- Needed by Hibernate-Validator -->
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.5.6</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.11</version>
-            </dependency>
-            <dependency>
-                <groupId>org.easymock</groupId>
-                <artifactId>easymock</artifactId>
-                <version>3.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.easytesting</groupId>
-                <artifactId>fest-assert</artifactId>
-                <version>1.4</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+  <dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert</artifactId>
-            <scope>test</scope>
-        </dependency>
+      <!-- Hibersap Dependencies -->
+      <dependency>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-core</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-jco</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibersap</groupId>
+        <artifactId>hibersap-jca</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+      </dependency>
+
+      <!-- Wrapper for the SAP Java Connector (JCo) -->
+      <dependency>
+        <groupId>com.sap</groupId>
+        <artifactId>com.sap.conn.jco.sapjco3</artifactId>
+        <version>3.0.15</version>
+        <optional>true</optional>
+      </dependency>
+
+      <!-- Java Connector Architecture (JCA) -->
+      <dependency>
+        <groupId>javax.resource</groupId>
+        <artifactId>connector</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <!-- apache commons -->
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+
+      <!-- JAXB -->
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.2.11</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>2.2.8-b01</version>
+      </dependency>
+
+      <!-- Bean Validation -->
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.0.0.GA</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>4.0.2.GA</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <!-- Needed by Hibernate-Validator -->
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.5.6</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+      </dependency>
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.easytesting</groupId>
+        <artifactId>fest-assert</artifactId>
+        <version>1.4</version>
+      </dependency>
     </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

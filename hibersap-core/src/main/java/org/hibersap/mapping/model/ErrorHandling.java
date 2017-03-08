@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.mapping.model;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
 import java.util.Arrays;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Holds information for error handling of a BAPI mapping.
@@ -38,14 +37,14 @@ public class ErrorHandling implements Serializable {
 
     private final String[] errorMessageTypes;
 
-    public ErrorHandling( final String pathToReturnStructure, final String[] errorMessageTypes ) {
+    public ErrorHandling(final String pathToReturnStructure, final String[] errorMessageTypes) {
         this.errorMessageTypes = errorMessageTypes == null ? null : errorMessageTypes;
-        throwExceptionOnError = StringUtils.isNotEmpty( pathToReturnStructure );
+        throwExceptionOnError = StringUtils.isNotEmpty(pathToReturnStructure);
         this.pathToReturnStructure = pathToReturnStructure;
     }
 
     public String[] getErrorMessageTypes() {
-        return errorMessageTypes == null ? null : Arrays.copyOf( errorMessageTypes, errorMessageTypes.length );
+        return errorMessageTypes == null ? null : Arrays.copyOf(errorMessageTypes, errorMessageTypes.length);
     }
 
     public String getPathToReturnStructure() {
@@ -57,23 +56,23 @@ public class ErrorHandling implements Serializable {
     }
 
     @Override
-    public boolean equals( final Object o ) {
-        if ( this == o ) {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if ( o == null || getClass() != o.getClass() ) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         ErrorHandling that = (ErrorHandling) o;
 
-        if ( throwExceptionOnError != that.throwExceptionOnError ) {
+        if (throwExceptionOnError != that.throwExceptionOnError) {
             return false;
         }
-        if ( !Arrays.equals( errorMessageTypes, that.errorMessageTypes ) ) {
+        if (!Arrays.equals(errorMessageTypes, that.errorMessageTypes)) {
             return false;
         }
-        if ( pathToReturnStructure != null ? !pathToReturnStructure.equals( that.pathToReturnStructure ) : that.pathToReturnStructure != null ) {
+        if (pathToReturnStructure != null ? !pathToReturnStructure.equals(that.pathToReturnStructure) : that.pathToReturnStructure != null) {
             return false;
         }
 
@@ -82,9 +81,9 @@ public class ErrorHandling implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = ( throwExceptionOnError ? 1 : 0 );
-        result = 31 * result + ( pathToReturnStructure != null ? pathToReturnStructure.hashCode() : 0 );
-        result = 31 * result + ( errorMessageTypes != null ? Arrays.hashCode( errorMessageTypes ) : 0 );
+        int result = (throwExceptionOnError ? 1 : 0);
+        result = 31 * result + (pathToReturnStructure != null ? pathToReturnStructure.hashCode() : 0);
+        result = 31 * result + (errorMessageTypes != null ? Arrays.hashCode(errorMessageTypes) : 0);
         return result;
     }
 }

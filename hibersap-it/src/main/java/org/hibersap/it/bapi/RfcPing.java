@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -20,6 +20,7 @@ package org.hibersap.it.bapi;
 
 import org.hibersap.annotations.Bapi;
 
-@Bapi( "RFC_PING" )
+@Bapi("RFC_PING")
 public class RfcPing {
+
 }

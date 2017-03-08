@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -22,7 +22,6 @@ import org.hibersap.ConfigurationException;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Context;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -31,16 +30,16 @@ public class ContextFactoryTest {
     @Test
     public void initializesContextClass()
             throws Exception {
-        SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( DummyContext.class.getName() );
-        Context context = ContextFactory.create( config );
+        SessionManagerConfig config = new SessionManagerConfig("Test").setContext(DummyContext.class.getName());
+        Context context = ContextFactory.create(config);
 
-        assertNotNull( context );
-        assertEquals( DummyContext.class, context.getClass() );
+        assertNotNull(context);
+        assertEquals(DummyContext.class, context.getClass());
     }
 
-    @Test( expected = ConfigurationException.class )
+    @Test(expected = ConfigurationException.class)
     public void throwsExceptionWhenGivenContextClassDoesNotExtendContext() throws Exception {
-        SessionManagerConfig config = new SessionManagerConfig( "Test" ).setContext( String.class.getName() );
-        ContextFactory.create( config );
+        SessionManagerConfig config = new SessionManagerConfig("Test").setContext(String.class.getName());
+        ContextFactory.create(config);
     }
 }

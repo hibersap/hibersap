@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,14 +18,12 @@
 
 package org.hibersap.mapping;
 
-import org.hibersap.annotations.Table;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
+import org.hibersap.annotations.Table;
+import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -35,67 +33,67 @@ import static org.junit.Assert.assertNull;
 public class BapiFieldTest {
 
     @Table
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private List<String> listGeneric;
 
     @Table
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private Integer[] integerArray;
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private Collection<?> list;
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private Map<Integer, String> mapGeneric;
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private int[] intArray;
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private int intPrimitive;
 
-    @SuppressWarnings( {"unchecked", "unused"} )
+    @SuppressWarnings({"unchecked", "unused"})
     private ArrayList listSimple;
 
     @Test
     public void testGetActualType()
             throws NoSuchFieldException {
-        BapiField field = new BapiField( getClass().getDeclaredField( "listGeneric" ) );
-        assertEquals( String.class, field.getAssociatedType() );
+        BapiField field = new BapiField(getClass().getDeclaredField("listGeneric"));
+        assertEquals(String.class, field.getAssociatedType());
 
-        field = new BapiField( getClass().getDeclaredField( "integerArray" ) );
-        assertEquals( Integer.class, field.getAssociatedType() );
+        field = new BapiField(getClass().getDeclaredField("integerArray"));
+        assertEquals(Integer.class, field.getAssociatedType());
 
-        field = new BapiField( getClass().getDeclaredField( "intPrimitive" ) );
-        assertEquals( int.class, field.getAssociatedType() );
+        field = new BapiField(getClass().getDeclaredField("intPrimitive"));
+        assertEquals(int.class, field.getAssociatedType());
     }
 
     @Test
     public void testGetArrayType()
             throws NoSuchFieldException {
-        BapiField fieldIntegerArray = new BapiField( getClass().getDeclaredField( "integerArray" ) );
-        assertEquals( Integer.class, fieldIntegerArray.getArrayType() );
+        BapiField fieldIntegerArray = new BapiField(getClass().getDeclaredField("integerArray"));
+        assertEquals(Integer.class, fieldIntegerArray.getArrayType());
 
-        BapiField fieldIntArray = new BapiField( getClass().getDeclaredField( "intArray" ) );
-        assertEquals( int.class, fieldIntArray.getArrayType() );
+        BapiField fieldIntArray = new BapiField(getClass().getDeclaredField("intArray"));
+        assertEquals(int.class, fieldIntArray.getArrayType());
     }
 
     @Test
     public void testGetGenericType()
             throws NoSuchFieldException {
-        BapiField field = new BapiField( getClass().getDeclaredField( "listGeneric" ) );
-        assertEquals( String.class, field.getGenericType() );
+        BapiField field = new BapiField(getClass().getDeclaredField("listGeneric"));
+        assertEquals(String.class, field.getGenericType());
 
-        field = new BapiField( getClass().getDeclaredField( "list" ) );
-        assertNull( field.getGenericType() );
+        field = new BapiField(getClass().getDeclaredField("list"));
+        assertNull(field.getGenericType());
 
-        field = new BapiField( getClass().getDeclaredField( "listSimple" ) );
-        assertNull( field.getGenericType() );
+        field = new BapiField(getClass().getDeclaredField("listSimple"));
+        assertNull(field.getGenericType());
 
-        field = new BapiField( getClass().getDeclaredField( "mapGeneric" ) );
-        assertNull( field.getGenericType() );
+        field = new BapiField(getClass().getDeclaredField("mapGeneric"));
+        assertNull(field.getGenericType());
 
-        field = new BapiField( getClass().getDeclaredField( "integerArray" ) );
-        assertEquals( null, field.getGenericType() );
+        field = new BapiField(getClass().getDeclaredField("integerArray"));
+        assertEquals(null, field.getGenericType());
     }
 }

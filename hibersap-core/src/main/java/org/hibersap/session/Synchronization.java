@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -35,5 +35,5 @@ public interface Synchronization {
      *
      * @param committed Indicates if the transaction was successfully commited.
      */
-    void afterCompletion( boolean committed );
+    void afterCompletion(boolean committed);
 }

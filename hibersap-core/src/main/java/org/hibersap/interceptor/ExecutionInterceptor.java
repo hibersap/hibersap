@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,10 +18,9 @@
 
 package org.hibersap.interceptor;
 
-import org.hibersap.mapping.model.BapiMapping;
-
 import java.io.Serializable;
 import java.util.Map;
+import org.hibersap.mapping.model.BapiMapping;
 
 /**
  * Interceptors can be registered for a SessionManager to intercept function calls to SAP.
@@ -32,7 +31,7 @@ import java.util.Map;
  */
 public interface ExecutionInterceptor extends Serializable {
 
-    void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
+    void beforeExecution(BapiMapping bapiMapping, Map<String, Object> functionMap);
 
-    void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap );
+    void afterExecution(BapiMapping bapiMapping, Map<String, Object> functionMap);
 }

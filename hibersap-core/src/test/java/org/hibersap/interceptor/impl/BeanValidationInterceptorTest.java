@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,15 +18,13 @@
 
 package org.hibersap.interceptor.impl;
 
-import org.hibersap.validation.BeanValidationInterceptor;
-import org.junit.Test;
-
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
-
+import org.hibersap.validation.BeanValidationInterceptor;
+import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
@@ -35,29 +33,29 @@ public class BeanValidationInterceptorTest {
     @Test
     public void throwsConstraintViolationExceptionWhoseMessageContainsNameOfNonValidatingClass() {
         final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        final BeanValidationInterceptor interceptor = new BeanValidationInterceptor( validatorFactory );
+        final BeanValidationInterceptor interceptor = new BeanValidationInterceptor(validatorFactory);
 
         ConstraintViolationException validationException = null;
         try {
-            interceptor.beforeExecution( new TestObject() );
+            interceptor.beforeExecution(new TestObject());
             fail();
-        } catch ( ConstraintViolationException e ) {
+        } catch (ConstraintViolationException e) {
             validationException = e;
         }
 
-        assertThat( validationException ).isNotNull();
-        assertThat( validationException.getMessage() ).contains(
-                "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject" );
+        assertThat(validationException).isNotNull();
+        assertThat(validationException.getMessage()).contains(
+                "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject");
     }
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private static class TestObject {
 
         @Valid
         InnerObject innerObject = new InnerObject();
     }
 
-    @SuppressWarnings( "unused" )
+    @SuppressWarnings("unused")
     private static class InnerObject {
 
         @NotNull

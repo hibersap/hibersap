@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,16 +18,14 @@
 
 package org.hibersap.execution;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
 import static org.fest.assertions.Assertions.assertThat;
@@ -41,101 +39,100 @@ public class PojoMapper_ToPojoTest {
         AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
         bapi = createEmptyBapiObject();
         Map<String, Object> functionMap = createFunctionMapForBapi();
-        BapiMapping bapiMapping = bapiMapper.mapBapi( MyTestBapi.class );
-        PojoMapper pojoMapper = new PojoMapper( new ConverterCache() );
+        BapiMapping bapiMapping = bapiMapper.mapBapi(MyTestBapi.class);
+        PojoMapper pojoMapper = new PojoMapper(new ConverterCache());
 
-        pojoMapper.mapFunctionMapToPojo( bapi, functionMap, bapiMapping );
+        pojoMapper.mapFunctionMapToPojo(bapi, functionMap, bapiMapping);
     }
 
     @Test
     public void mapsSimpleParameterWithoutConverter() {
-        assertThat( bapi.intParam ).isEqualTo( 4711 );
+        assertThat(bapi.intParam).isEqualTo(4711);
     }
 
     @Test
     public void mapsSimpleParameterWithConverter() {
-        assertThat( bapi.intParamWithConverter ).isEqualTo( "4712" );
+        assertThat(bapi.intParamWithConverter).isEqualTo("4712");
     }
 
     @Test
     public void mapsStructureParameterWithConverter() {
-        assertThat( bapi.structureParamWithConverter ).isEqualTo( "c" );
+        assertThat(bapi.structureParamWithConverter).isEqualTo("c");
     }
 
     @Test
     public void mapsStructureParameterWithoutConverter() {
-        assertThat( bapi.structureParam.charParam ).isEqualTo( 'd' );
+        assertThat(bapi.structureParam.charParam).isEqualTo('d');
     }
 
     @Test
     public void mapsTableParameterWithoutConverter() {
-        assertThat( bapi.tableParam ).hasSize( 2 );
-        assertThat( bapi.tableParam.get( 0 ).charParam ).isEqualTo( '1' );
-        assertThat( bapi.tableParam.get( 1 ).charParam ).isEqualTo( '2' );
+        assertThat(bapi.tableParam).hasSize(2);
+        assertThat(bapi.tableParam.get(0).charParam).isEqualTo('1');
+        assertThat(bapi.tableParam.get(1).charParam).isEqualTo('2');
     }
 
     @Test
     public void mapsImportTableParameterWithoutConverter() {
-        assertThat( bapi.importTableStructure ).hasSize( 2 );
-        assertThat( bapi.importTableStructure.get( 0 ).charParam ).isEqualTo( '5' );
-        assertThat( bapi.importTableStructure.get( 1 ).charParam ).isEqualTo( '6' );
+        assertThat(bapi.importTableStructure).hasSize(2);
+        assertThat(bapi.importTableStructure.get(0).charParam).isEqualTo('5');
+        assertThat(bapi.importTableStructure.get(1).charParam).isEqualTo('6');
     }
 
     @Test
     public void mapsExportTableParameterWithoutConverter() {
-        assertThat( bapi.exportTableStructure ).hasSize( 2 );
-        assertThat( bapi.exportTableStructure.get( 0 ).charParam ).isEqualTo( '7' );
-        assertThat( bapi.exportTableStructure.get( 1 ).charParam ).isEqualTo( '8' );
+        assertThat(bapi.exportTableStructure).hasSize(2);
+        assertThat(bapi.exportTableStructure.get(0).charParam).isEqualTo('7');
+        assertThat(bapi.exportTableStructure.get(1).charParam).isEqualTo('8');
     }
 
     @Test
     public void mapsTableParameterWithConverter() {
-        assertThat( bapi.tableParamWithConverter ).isEqualTo( "34" );
+        assertThat(bapi.tableParamWithConverter).isEqualTo("34");
     }
 
-    @SuppressWarnings( {"unchecked"} )
+    @SuppressWarnings({"unchecked"})
     private Map<String, Object> createFunctionMapForBapi() {
         Map<String, Object> functionMap = createMap();
 
         Map<String, Object> importsMap = createMap();
-        importsMap.put( "intParam", 4711 );
-        importsMap.put( "structureParamWithConverter", singletonMap( "charParam", 'c' ) );
+        importsMap.put("intParam", 4711);
+        importsMap.put("structureParamWithConverter", singletonMap("charParam", 'c'));
 
         List<Map<String, Character>> importTable = asList(
-                singletonMap( "charParam", '5' ),
-                singletonMap( "charParam", '6' ) );
+                singletonMap("charParam", '5'),
+                singletonMap("charParam", '6'));
         importsMap.put("importTable", importTable);
-        functionMap.put( "IMPORT", importsMap );
+        functionMap.put("IMPORT", importsMap);
 
         Map<String, Object> exportsMap = createMap();
-        exportsMap.put( "structureParam", singletonMap( "charParam", 'd' ) );
-        exportsMap.put( "intParamWithConverter", 4712 );
+        exportsMap.put("structureParam", singletonMap("charParam", 'd'));
+        exportsMap.put("intParamWithConverter", 4712);
 
         List<Map<String, Character>> exportTable = asList(
-                singletonMap( "charParam", '7' ),
-                singletonMap( "charParam", '8' ) );
+                singletonMap("charParam", '7'),
+                singletonMap("charParam", '8'));
         importsMap.put("exportTable", exportTable);
-        functionMap.put( "EXPORT", exportsMap );
+        functionMap.put("EXPORT", exportsMap);
 
         Map<String, Object> tablesMap = createMap();
         List<Map<String, Character>> tableWithoutConverter = asList(
-                singletonMap( "charParam", '1' ),
-                singletonMap( "charParam", '2' ) );
+                singletonMap("charParam", '1'),
+                singletonMap("charParam", '2'));
         List<Map<String, Character>> tableWithConverter = asList(
-                singletonMap( "charParam", '3' ),
-                singletonMap( "charParam", '4' ) );
-        tablesMap.put( "tableParam", tableWithoutConverter );
-        tablesMap.put( "tableParamWithConverter", tableWithConverter );
-        functionMap.put( "TABLE", tablesMap );
+                singletonMap("charParam", '3'),
+                singletonMap("charParam", '4'));
+        tablesMap.put("tableParam", tableWithoutConverter);
+        tablesMap.put("tableParamWithConverter", tableWithConverter);
+        functionMap.put("TABLE", tablesMap);
         return functionMap;
     }
-
 
     private Map<String, Object> createMap() {
         return new HashMap<String, Object>();
     }
 
     private MyTestBapi createEmptyBapiObject() {
-        return new MyTestBapi( null, null, null, null, null, null, null, null );
+        return new MyTestBapi(null, null, null, null, null, null, null, null);
     }
 }

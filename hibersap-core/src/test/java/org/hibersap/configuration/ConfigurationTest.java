@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,6 +18,8 @@
 
 package org.hibersap.configuration;
 
+import java.util.Map;
+import java.util.Set;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
@@ -27,10 +29,6 @@ import org.hibersap.session.SessionManagerImplementor;
 import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 /**
@@ -43,70 +41,70 @@ public class ConfigurationTest {
 
     @Before
     public void createConfiguration() {
-        Configuration configuration = new Configuration( "TEST" ) {
+        Configuration configuration = new Configuration("TEST") {
             // create instance of abstract class
         };
         sessionManagerConfig = configuration.getSessionManagerConfig();
-        sessionManagerConfig.setContext( DummyContext.class.getName() );
+        sessionManagerConfig.setContext(DummyContext.class.getName());
         sessionManager = (SessionManagerImplementor) configuration.buildSessionManager();
     }
 
     @Test
     public void overwritesContextClass() throws Exception {
-        sessionManagerConfig.setContext( "test" );
+        sessionManagerConfig.setContext("test");
 
-        assertThat( sessionManagerConfig.getContext() ).isEqualTo( "test" );
+        assertThat(sessionManagerConfig.getContext()).isEqualTo("test");
     }
 
     @Test
     public void overwritesProperties()
             throws Exception {
-        sessionManagerConfig.setProperty( "jco.client.user", "test" );
+        sessionManagerConfig.setProperty("jco.client.user", "test");
 
-        assertThat( sessionManagerConfig.getProperty( "jco.client.user" ) ).isEqualTo( "test" );
+        assertThat(sessionManagerConfig.getProperty("jco.client.user")).isEqualTo("test");
     }
 
     @Test
     public void createsBapiInterceptorsFromXmlConfig() {
         final Set<BapiInterceptor> interceptors = sessionManager.getBapiInterceptors();
 
-        assertThat( interceptors.toArray() ).hasSize( 2 )
-                                            .hasAtLeastOneElementOfType( BapiInterceptorDummy.class )
-                                            .hasAtLeastOneElementOfType( BeanValidationInterceptor.class );
+        assertThat(interceptors.toArray()).hasSize(2)
+                .hasAtLeastOneElementOfType(BapiInterceptorDummy.class)
+                .hasAtLeastOneElementOfType(BeanValidationInterceptor.class);
     }
 
     @Test
     public void initializesStandardExecutionInterceptorsAutomatically() {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
 
-        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( SapErrorInterceptor.class );
+        assertThat(interceptors.toArray()).hasAtLeastOneElementOfType(SapErrorInterceptor.class);
     }
 
     @Test
     public void createsExecutionInterceptorsFromXmlConfig() {
         final Set<ExecutionInterceptor> interceptors = sessionManager.getExecutionInterceptors();
-        assertThat( interceptors ).hasSize( 2 );
-        assertThat( interceptors.toArray() ).hasAtLeastOneElementOfType( ExecutionInterceptorDummy.class );
+        assertThat(interceptors).hasSize(2);
+        assertThat(interceptors.toArray()).hasAtLeastOneElementOfType(ExecutionInterceptorDummy.class);
     }
 
     public static class ExecutionInterceptorDummy implements ExecutionInterceptor {
 
-        public void afterExecution( BapiMapping bapiMapping, Map<String, Object> functionMap ) {
+        public void afterExecution(BapiMapping bapiMapping, Map<String, Object> functionMap) {
             // dummy
         }
 
-        public void beforeExecution( BapiMapping bapiMapping, Map<String, Object> functionMap ) {
+        public void beforeExecution(BapiMapping bapiMapping, Map<String, Object> functionMap) {
             // dummy
         }
     }
 
     public static class BapiInterceptorDummy implements BapiInterceptor {
 
-        public void beforeExecution( Object bapiObject ) {
+        public void beforeExecution(Object bapiObject) {
             // dummy
         }
 
-        public void afterExecution( Object bapiObject ) {
+        public void afterExecution(Object bapiObject) {
             // dummy
         }
     }

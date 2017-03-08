@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,14 +18,12 @@
 
 package org.hibersap.ejb.util;
 
-import org.hibersap.InternalHiberSapException;
-import org.hibersap.ejb.interceptor.HibersapSession;
-import org.hibersap.session.Session;
-
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
-
+import org.hibersap.InternalHiberSapException;
+import org.hibersap.ejb.interceptor.HibersapSession;
+import org.hibersap.session.Session;
 import static java.lang.String.format;
 
 public final class ReflectionUtil {
@@ -34,36 +32,36 @@ public final class ReflectionUtil {
         // utility class with static methods
     }
 
-    public static Set<Field> getHibersapSessionFields( final Object target ) {
+    public static Set<Field> getHibersapSessionFields(final Object target) {
         HashSet<Field> fields = new HashSet<Field>();
 
         Field[] declaredFields = target.getClass().getDeclaredFields();
-        for ( Field declaredField : declaredFields ) {
-            if ( declaredField.getAnnotation( HibersapSession.class ) != null ) {
-                fields.add( declaredField );
+        for (Field declaredField : declaredFields) {
+            if (declaredField.getAnnotation(HibersapSession.class) != null) {
+                fields.add(declaredField);
             }
         }
 
         return fields;
     }
 
-    public static String getSessionManagerJndiName( final Field sessionField ) {
-        HibersapSession annotation = sessionField.getAnnotation( HibersapSession.class );
+    public static String getSessionManagerJndiName(final Field sessionField) {
+        HibersapSession annotation = sessionField.getAnnotation(HibersapSession.class);
 
-        if ( annotation == null ) {
-            throw new InternalHiberSapException( format( "The field %s.%s is not annotated with @%s",
-                                                         sessionField.getDeclaringClass().getName(),
-                                                         sessionField.getName(),
-                                                         HibersapSession.class.getSimpleName() ) );
+        if (annotation == null) {
+            throw new InternalHiberSapException(format("The field %s.%s is not annotated with @%s",
+                    sessionField.getDeclaringClass().getName(),
+                    sessionField.getName(),
+                    HibersapSession.class.getSimpleName()));
         }
 
         return annotation.value();
     }
 
-    public static void injectSessionIntoTarget( final Object target, final Field field, final Session session ) {
-        if ( !Session.class.isAssignableFrom( field.getType() ) ) {
+    public static void injectSessionIntoTarget(final Object target, final Field field, final Session session) {
+        if (!Session.class.isAssignableFrom(field.getType())) {
             throw new InternalHiberSapException(
-                    format( "Annotation @%s can only be used on a field of type or subtype of %s. "
+                    format("Annotation @%s can only be used on a field of type or subtype of %s. "
                                     + "Can not set %s field %s.%s to %s",
                             HibersapSession.class.getSimpleName(),
                             Session.class,
@@ -77,19 +75,19 @@ public final class ReflectionUtil {
 
         boolean accessible = field.isAccessible();
 
-        synchronized ( field ) {
-            field.setAccessible( true );
+        synchronized (field) {
+            field.setAccessible(true);
             try {
-                field.set( target, session );
-            } catch ( IllegalAccessException e ) {
+                field.set(target, session);
+            } catch (IllegalAccessException e) {
                 throw new InternalHiberSapException(
-                        format( "Error injecting Hibersap Session %s into %s.%s",
+                        format("Error injecting Hibersap Session %s into %s.%s",
                                 session,
                                 target.getClass().getName(),
-                                field.getName() ), e
+                                field.getName()), e
                 );
             } finally {
-                field.setAccessible( accessible );
+                field.setAccessible(accessible);
             }
         }
     }

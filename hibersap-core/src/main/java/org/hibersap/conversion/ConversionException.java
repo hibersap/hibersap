@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -25,7 +25,7 @@ public class ConversionException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public ConversionException( final String message ) {
-        super( message );
+    public ConversionException(final String message) {
+        super(message);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -24,16 +24,16 @@ import com.sap.conn.jco.JCoException;
 
 public class JCoContextAdapterImpl implements JCoContextAdapter {
 
-    public void begin( final JCoDestination destination ) {
-        JCoContext.begin( destination );
+    public void begin(final JCoDestination destination) {
+        JCoContext.begin(destination);
     }
 
-    public void end( final JCoDestination destination )
+    public void end(final JCoDestination destination)
             throws JCoException {
-        JCoContext.end( destination );
+        JCoContext.end(destination);
     }
 
-    public boolean isStateful( final JCoDestination destination ) {
-        return JCoContext.isStateful( destination );
+    public boolean isStateful(final JCoDestination destination) {
+        return JCoContext.isStateful(destination);
     }
 }

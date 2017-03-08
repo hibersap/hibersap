@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2014 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2017 akquinet tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -19,7 +19,6 @@
 package org.hibersap.configuration;
 
 import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class EnvironmentTest {
@@ -28,6 +27,6 @@ public class EnvironmentTest {
     public void loadsHibersapVersionFromFile() {
         final String regex = "^(\\d+\\.\\d+\\.\\d+)((-SNAPSHOT)|(-[A-Za-z][0-9A-Za-z-]*))?$";
 
-        assertThat( Environment.VERSION ).matches( regex );
+        assertThat(Environment.VERSION).matches(regex);
     }
 }
