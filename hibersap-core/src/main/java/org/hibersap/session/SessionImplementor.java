@@ -21,11 +21,11 @@ package org.hibersap.session;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
- * @author Carsten Erker
+ * Internal interface to the Session.
  */
 public interface SessionImplementor {
 
-    void execute( Object bapi, BapiMapping bapiMapping );
+    void execute(Object bapi, BapiMapping bapiMapping);
 
     SessionManagerImplementor getSessionManager();
 }

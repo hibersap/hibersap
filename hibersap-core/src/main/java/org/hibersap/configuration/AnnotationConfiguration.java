@@ -18,6 +18,8 @@
 
 package org.hibersap.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
@@ -25,9 +27,6 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Configures Hibersap using annotated BAPI classes.
@@ -66,8 +65,6 @@ public class AnnotationConfiguration extends Configuration {
 
     /**
      * Programmatic configuration of bapi classes. This works in any class loader
-     *
-     * @param bapiClasses
      */
     public void addBapiClasses(final Class<?>... bapiClasses) {
         final Map<String, BapiMapping> bapiMappings = new HashMap<String, BapiMapping>();

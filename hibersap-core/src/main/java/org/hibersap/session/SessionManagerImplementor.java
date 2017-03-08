@@ -18,18 +18,17 @@
 
 package org.hibersap.session;
 
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 
-import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
-
 /**
- * The client's interface to the SessionManager. A SessionManager is used to create Hibersap
+ * The internal interface to the SessionManager. A SessionManager is used to create Hibersap
  * sessions.
  *
  * @author Carsten Erker

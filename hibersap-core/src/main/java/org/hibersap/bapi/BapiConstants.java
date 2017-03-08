@@ -23,6 +23,7 @@ package org.hibersap.bapi;
  *
  * @author Markus Dahm
  */
+@SuppressWarnings("WeakerAccess")
 public final class BapiConstants {
 
     public static final String TYPE = "TYPE";

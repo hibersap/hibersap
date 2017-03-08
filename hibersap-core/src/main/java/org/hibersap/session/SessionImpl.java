@@ -18,6 +18,7 @@
 
 package org.hibersap.session;
 
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -27,8 +28,6 @@ import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.util.Announcer;
-
-import java.util.Map;
 
 /*
  * @author Carsten Erker
@@ -88,9 +87,9 @@ public class SessionImpl implements Session, SessionImplementor {
         assertNotClosed();
         Class<?> bapiClass = bapiObject.getClass();
         Map<String, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
-        if ( bapiMappings.containsKey( bapiClass ) ) {
+        if (bapiMappings.containsKey(bapiClass.getName())) {
             bapiInterceptors.announce().beforeExecution( bapiObject );
-            execute( bapiObject, bapiMappings.get( bapiClass ) );
+            execute(bapiObject, bapiMappings.get(bapiClass.getName()));
             bapiInterceptors.announce().afterExecution( bapiObject );
         } else {
             throw new HibersapException( bapiClass.getName() + " is not mapped as a Bapi class" );

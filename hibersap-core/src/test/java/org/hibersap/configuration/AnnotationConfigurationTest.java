@@ -18,6 +18,8 @@
 
 package org.hibersap.configuration;
 
+import java.util.Map;
+import java.util.Set;
 import org.hibersap.ConfigurationException;
 import org.hibersap.MappingException;
 import org.hibersap.bapi.BapiTransactionCommit;
@@ -27,10 +29,6 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.Set;
-
 import static org.fest.assertions.Assertions.assertThat;
 
 public class AnnotationConfigurationTest {
@@ -50,12 +48,13 @@ public class AnnotationConfigurationTest {
 
     @Test
     public void addsAnnotatedClassToSessionManager() {
-        configuration.getSessionManagerConfig().addAnnotatedClass(BAPI_CLASS);
+        configuration.getSessionManagerConfig().addAnnotatedClass(BAPI_CLASS.getName());
+
         SessionManagerImpl sessionManager = configureAndBuildSessionManager();
 
         Map<String, BapiMapping> bapiMappings = sessionManager.getBapiMappings();
         assertThat(bapiMappings).hasSize(1);
-        assertThat(bapiMappings.get(BAPI_CLASS)).isNotNull();
+        assertThat(bapiMappings.get(BAPI_CLASS.getName())).isNotNull();
     }
 
     @Test(expected = MappingException.class)
