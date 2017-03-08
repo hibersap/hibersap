@@ -23,6 +23,7 @@ import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.Environment;
 import java.util.Properties;
+import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -35,11 +36,16 @@ import org.hibersap.HibersapException;
 public class JCoEnvironment {
 
     private static final Log LOG = LogFactory.getLog(JCoEnvironment.class);
+
     /**
      * JCo's Environment class doesn't offer any methods to check if a provider class is already
      * registered, but we need to dynamically register destinations
      */
     private static final JCoDataProvider destinationDataProvider = new JCoDataProvider();
+
+    static {
+        LOG.info("Using SAP JCo - java.library.path=" + SystemUtils.JAVA_LIBRARY_PATH);
+    }
 
     private JCoEnvironment() {
         // should not be instantiated
