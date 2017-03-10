@@ -25,7 +25,6 @@ import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.it.AbstractBapiTest;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hibersap.annotations.ParameterType.TABLE_STRUCTURE;
@@ -47,7 +46,6 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     }
 
     @Test
-    @Ignore("Hibersap does not yet support deep structures")
     public void bapiWithDeepTableInStructure() throws Exception {
         Manufacturer kia = new Manufacturer("Kia");
         kia.addCar(new Car("Kia", "cee'd", 5));
@@ -57,7 +55,16 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
         session.execute(bapi);
 
-        assertThat(bapi.manufacturersExport).hasSize(2);
+        assertThat(bapi.manufacturersExport).hasSize(1);
+        Manufacturer manufacturer = bapi.manufacturersExport.get(0);
+        assertThat(kia.name).isEqualTo("Kia");
+        assertThat(kia.cars).hasSize(2);
+        assertThat(kia.cars.get(0).manufacturer).isEqualTo("Kia");
+        assertThat(kia.cars.get(0).model).isEqualTo("cee'd");
+        assertThat(kia.cars.get(0).numberOfSeats).isEqualTo(5);
+        assertThat(kia.cars.get(1).manufacturer).isEqualTo("Kia");
+        assertThat(kia.cars.get(1).model).isEqualTo("Rio");
+        assertThat(kia.cars.get(1).numberOfSeats).isEqualTo(4);
     }
 
     @Bapi("Z_CAR_MANUFACTURER_LIST")
