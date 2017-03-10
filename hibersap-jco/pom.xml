@@ -90,6 +90,7 @@
     <dependency>
       <groupId>org.hibersap</groupId>
       <artifactId>com.sap.conn.jco.sapjco3</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>

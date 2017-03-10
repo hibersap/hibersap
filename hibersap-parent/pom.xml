@@ -368,7 +368,7 @@
         <!-- Since SAP JCo 3.0.11 there is a runtime check that the JCo library file name must be sapjco3.jar
              This artifact name is a workaround, see https://sourceforge.net/p/hibersap/discussion/813164/thread/52913577/#9818 -->
         <artifactId>com.sap.conn.jco.sapjco3</artifactId>
-        <version>(3.0.0,3.1.0]</version>
+        <version>[3.0.0,3.1.0)</version>
         <optional>true</optional>
       </dependency>
 
