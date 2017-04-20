@@ -48,7 +48,12 @@ public final class DateUtil {
         return newDate(year, month, date, 0, 0, 0);
     }
 
-    public static Date newDate(final int year, final int month, final int date, final int hourOfDay, final int minute, final int second) {
+    public static Date newDate(final int year,
+                               final int month,
+                               final int date,
+                               final int hourOfDay,
+                               final int minute,
+                               final int second) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(year, month, date, hourOfDay, minute, second);

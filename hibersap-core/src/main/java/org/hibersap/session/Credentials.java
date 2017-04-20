@@ -18,6 +18,8 @@
 
 package org.hibersap.session;
 
+import javax.annotation.Generated;
+
 /**
  * Defines logon properties that may be used at runtime, when a new Session is created, to overwrite
  * configured properties. Use this for logon properties than can not be statically defined, i.e.
@@ -123,6 +125,7 @@ public class Credentials {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -159,6 +162,7 @@ public class Credentials {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public int hashCode() {
         int result = user != null ? user.hashCode() : 0;
         result = 31 * result + (aliasUser != null ? aliasUser.hashCode() : 0);

@@ -36,7 +36,10 @@ public final class StructureMapping extends ParameterMapping {
 
     private final Set<ParameterMapping> parameters = new HashSet<ParameterMapping>();
 
-    public StructureMapping(final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converterClass) {
+    public StructureMapping(final Class<?> associatedClass,
+                            final String sapName,
+                            final String javaName,
+                            final Class<? extends Converter> converterClass) {
         super(associatedClass, sapName, javaName, converterClass);
     }
 

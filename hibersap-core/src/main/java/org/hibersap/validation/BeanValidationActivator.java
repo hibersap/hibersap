@@ -35,13 +35,17 @@ import org.hibersap.mapping.ReflectionHelper;
  * if they don't use Bean Validation at all. Therefore, this class has no direct dependency to the
  * javax.validation package.
  */
-public class BeanValidationActivator {
+public final class BeanValidationActivator {
 
     private static final Log LOGGER = LogFactory.getLog(BeanValidationActivator.class);
 
     private static final String TYPE_SAFE_ACTIVATOR_CLASS_NAME = "org.hibersap.validation.TypeSafeActivator";
     private static final String TYPE_SAFE_ACTIVATOR_METHOD_NAME = "activateBeanValidation";
     private static final String VALIDATION_CLASS_NAME = "javax.validation.Validation";
+
+    private BeanValidationActivator() {
+        // use static methods
+    }
 
     /**
      * If Bean Validation should be used, as specified in the Hibersap SessionManagerConfig,
@@ -52,7 +56,8 @@ public class BeanValidationActivator {
      * @param bapiInterceptors The BeanValidationInterceptor will be added here if Bean Validation will be used.
      * @param sessionManagerConfig Provides the configuration information to decide if Bean Validation shall be used.
      */
-    public static void activateBeanValidation(final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig) {
+    public static void activateBeanValidation(final Set<BapiInterceptor> bapiInterceptors,
+                                              final SessionManagerConfig sessionManagerConfig) {
         ValidationMode validationMode = sessionManagerConfig.getValidationMode();
 
         if (validationMode != ValidationMode.NONE) {

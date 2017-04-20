@@ -44,7 +44,7 @@ public class HibersapJaxbXmlParser {
         }
     }
 
-    public HibersapConfig parseResource(final String resourceName) throws HibersapParseException {
+    public HibersapConfig parseResource(final String resourceName) {
         InputStream resourceStream = null;
         try {
             resourceStream = findResource(resourceName);
@@ -60,8 +60,7 @@ public class HibersapJaxbXmlParser {
         }
     }
 
-    public HibersapConfig parseResource(final InputStream resourceStream, final String resourceName)
-            throws HibersapParseException {
+    public HibersapConfig parseResource(final InputStream resourceStream, final String resourceName) {
         Object unmarshalledObject;
         try {
             SAXSource saxSource = createSaxSource(resourceStream);

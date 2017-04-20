@@ -19,6 +19,7 @@
 package org.hibersap.mapping.model;
 
 import java.io.Serializable;
+import javax.annotation.Generated;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
 
@@ -33,7 +34,10 @@ public abstract class ParameterMapping implements Serializable {
     private final String javaName;
     private final Class<? extends Converter> converterClass;
 
-    public ParameterMapping(final Class<?> associatedType, final String sapName, final String javaName, final Class<? extends Converter> converterClass) {
+    public ParameterMapping(final Class<?> associatedType,
+                            final String sapName,
+                            final String javaName,
+                            final Class<? extends Converter> converterClass) {
         this.associatedType = associatedType;
         this.sapName = sapName;
         this.javaName = javaName;
@@ -102,6 +106,7 @@ public abstract class ParameterMapping implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -130,6 +135,7 @@ public abstract class ParameterMapping implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public int hashCode() {
         int result = associatedType != null ? associatedType.hashCode() : 0;
         result = 31 * result + (sapName != null ? sapName.hashCode() : 0);

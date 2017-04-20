@@ -28,7 +28,10 @@ public class FieldMapping extends ParameterMapping {
 
     private static final long serialVersionUID = -7542970603293850477L;
 
-    public FieldMapping(final Class<?> associatedClass, final String sapName, final String javaName, final Class<? extends Converter> converter) {
+    public FieldMapping(final Class<?> associatedClass,
+                        final String sapName,
+                        final String javaName,
+                        final Class<? extends Converter> converter) {
         super(associatedClass, sapName, javaName, converter);
     }
 

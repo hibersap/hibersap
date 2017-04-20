@@ -18,7 +18,6 @@
 
 package org.hibersap.session;
 
-import org.hibersap.HibersapException;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 
@@ -43,7 +42,7 @@ public interface Context {
      * @throws HibersapException The implementation of this method should throw a HibersapException
      * if anything goes wrong.
      */
-    void configure(SessionManagerConfig config) throws HibersapException;
+    void configure(SessionManagerConfig config);
 
     /*
      * Called by the framework when the method org.hibersap.session.SessionManager.close() is

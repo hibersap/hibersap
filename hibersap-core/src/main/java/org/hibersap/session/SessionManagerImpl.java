@@ -162,7 +162,8 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
 
     @Override
     public String toString() {
-        String format = "SessionManagerImpl[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
+        String format = "SessionManagerImpl"
+                + "[Config=[%s], ContextClass=[%s], Converters=[%s], Interceptors=[%s], BapiMappings=[%s]]";
         return String.format(format, config.toString(), context.toString(), converterCache.toString(),
                 executionInterceptors, bapiMappings);
     }

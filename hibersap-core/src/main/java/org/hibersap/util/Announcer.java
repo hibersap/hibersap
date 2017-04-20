@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @param <T> The Listener's type
  */
-public class Announcer<T> {
+public final class Announcer<T> {
 
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();

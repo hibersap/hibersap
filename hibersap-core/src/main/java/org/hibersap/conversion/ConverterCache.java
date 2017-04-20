@@ -30,7 +30,8 @@ import org.hibersap.mapping.ReflectionHelper;
  */
 public class ConverterCache {
 
-    private final Map<Class<? extends Converter>, Converter> converterForClass = new HashMap<Class<? extends Converter>, Converter>();
+    private final Map<Class<? extends Converter>, Converter> converterForClass
+            = new HashMap<Class<? extends Converter>, Converter>();
 
     /**
      * Called by the framework to get a Converter instance. If not yet in the cache, the instance

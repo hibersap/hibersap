@@ -60,7 +60,9 @@ public class PojoMapper {
         return functionMap;
     }
 
-    private void functionMapToPojo(final Object bapi, final Map<String, Object> functionMap, final Set<ParameterMapping> paramMappings) {
+    private void functionMapToPojo(final Object bapi,
+                                   final Map<String, Object> functionMap,
+                                   final Set<ParameterMapping> paramMappings) {
         for (ParameterMapping paramMapping : paramMappings) {
             String fieldNameSap = paramMapping.getSapName();
             Object value = functionMap.get(fieldNameSap);

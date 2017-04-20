@@ -40,8 +40,7 @@ public class JCAContext implements Context {
 
     private static final Log LOG = LogFactory.getLog(JCAContext.class);
 
-    private static final String DEFAULT_CONNECTION_SPEC_FACTORY_CLASS = SapBapiJcaAdapterConnectionSpecFactory.class
-            .getName();
+    private static final String DEFAULT_CONNECTION_SPEC_FACTORY_CLASS = SapBapiJcaAdapterConnectionSpecFactory.class.getName();
 
     private ConnectionFactory connectionFactory;
 
@@ -50,8 +49,7 @@ public class JCAContext implements Context {
     /**
      * {@inheritDoc}
      */
-    public void configure(final SessionManagerConfig config)
-            throws HibersapException {
+    public void configure(final SessionManagerConfig config) {
         final String jndiName = getJndiName(config);
         connectionFactory = getConnectionFactory(jndiName);
         connectionSpecFactoryName = getConnectionSpecFactoryName(config);

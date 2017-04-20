@@ -20,6 +20,7 @@ package org.hibersap.configuration.xml;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.Generated;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -193,6 +194,22 @@ public final class SessionManagerConfig implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (context != null ? context.hashCode() : 0);
+        result = 31 * result + (properties != null ? properties.hashCode() : 0);
+        result = 31 * result + (annotatedClasses != null ? annotatedClasses.hashCode() : 0);
+        result = 31 * result + (executionInterceptorClasses != null ? executionInterceptorClasses.hashCode() : 0);
+        result = 31 * result + (bapiInterceptorClasses != null ? bapiInterceptorClasses.hashCode() : 0);
+        result = 31 * result + (jcaConnectionFactory != null ? jcaConnectionFactory.hashCode() : 0);
+        result = 31 * result + (jcaConnectionSpecFactory != null ? jcaConnectionSpecFactory.hashCode() : 0);
+        result = 31 * result + (validationMode != null ? validationMode.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    @Generated("IntelliJ IDEA")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;

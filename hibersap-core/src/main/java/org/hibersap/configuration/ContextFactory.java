@@ -27,7 +27,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Context;
 
 /**
- * TODO merge Reflection stuff with ReflectionHelper
+ * TODO merge Reflection stuff with ReflectionHelper.
  *
  * @author Carsten Erker
  */

@@ -19,7 +19,7 @@
 package org.hibersap.configuration.xml;
 
 /**
- * Thrown on semantic errors in the hibersap.xml file
+ * Thrown on semantic errors in the hibersap.xml file.
  *
  * @author dahm
  */

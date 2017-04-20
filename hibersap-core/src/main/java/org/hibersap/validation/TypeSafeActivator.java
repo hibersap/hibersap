@@ -34,8 +34,13 @@ class TypeSafeActivator {
 
     private static ValidatorFactoryFactory validatorFactoryFactory = new DefaultValidatorFactoryFactory();
 
+    private TypeSafeActivator() {
+        // use static methods
+    }
+
     @SuppressWarnings("unused") // called by reflection
-    static void activateBeanValidation(final Set<BapiInterceptor> bapiInterceptors, final SessionManagerConfig sessionManagerConfig) {
+    static void activateBeanValidation(final Set<BapiInterceptor> bapiInterceptors,
+                                       final SessionManagerConfig sessionManagerConfig) {
         try {
             ValidatorFactory factory = validatorFactoryFactory.buildValidatorFactory();
             bapiInterceptors.add(new BeanValidationInterceptor(factory));

@@ -42,8 +42,9 @@ public class JCAMapper {
 
     private static final Log LOG = LogFactory.getLog(JCAMapper.class);
 
-    public MappedRecord mapFunctionMapValuesToMappedRecord(final String bapiName, final RecordFactory recordFactory, final Map<String, Object> functionMap)
-            throws ResourceException {
+    public MappedRecord mapFunctionMapValuesToMappedRecord(final String bapiName,
+                                                           final RecordFactory recordFactory,
+                                                           final Map<String, Object> functionMap) throws ResourceException {
         LOG.info("mapFunctionMapValuesToMappedRecord() functionMap=" + functionMap);
 
         MappedRecord mappedInputRecord = recordFactory.createMappedRecord(bapiName);
@@ -112,7 +113,8 @@ public class JCAMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private void mapToMappedRecord(final RecordFactory recordFactory, final Record record, final Map<String, Object> map) throws ResourceException {
+    private void mapToMappedRecord(final RecordFactory recordFactory, final Record record, final Map<String, Object> map)
+            throws ResourceException {
         for (final String fieldName : map.keySet()) {
             final Object value = map.get(fieldName);
 

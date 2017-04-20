@@ -95,10 +95,12 @@ public class BapiClassFormatter {
         return result;
     }
 
-    private String formatStructureClass(final ParameterMapping param, final String packagePath, final Map<String, String> result) {
+    private String formatStructureClass(final ParameterMapping param,
+                                        final String packagePath,
+                                        final Map<String, String> result) {
         StructureMapping structure;
         if (param instanceof StructureMapping) {
-            structure = ((StructureMapping) param);
+            structure = (StructureMapping) param;
         } else if (param instanceof TableMapping) {
             structure = ((TableMapping) param).getComponentParameter();
         } else {
@@ -131,7 +133,11 @@ public class BapiClassFormatter {
                 formatFieldsAndMethods(mapping));
     }
 
-    private String formatField(final String sapName, final String javaName, final String javaType, final Class<?> typeAnnotation, final ParamType paramType) {
+    private String formatField(final String sapName,
+                               final String javaName,
+                               final String javaType,
+                               final Class<?> typeAnnotation,
+                               final ParamType paramType) {
         String parameter = formatParameterAnnotation(sapName, paramType);
         if (typeAnnotation != null) {
             String type = String.format(TYPE_ANNOTATION_FORMAT, typeAnnotation.getName());

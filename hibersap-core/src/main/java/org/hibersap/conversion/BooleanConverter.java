@@ -33,8 +33,7 @@ public class BooleanConverter implements Converter<Boolean, String> {
     /**
      * {@inheritDoc}
      */
-    public Boolean convertToJava(final String sapValue)
-            throws ConversionException {
+    public Boolean convertToJava(final String sapValue) {
         if (sapValue == null) {
             throw new ConversionException("SAP returned null");
         }
@@ -51,8 +50,7 @@ public class BooleanConverter implements Converter<Boolean, String> {
     /**
      * {@inheritDoc}
      */
-    public String convertToSap(final Boolean javaValue)
-            throws ConversionException {
+    public String convertToSap(final Boolean javaValue) {
         if (javaValue == null) {
             throw new ConversionException("Java value is null");
         }

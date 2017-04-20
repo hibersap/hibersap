@@ -26,8 +26,7 @@ public class SapBapiJcaAdapterConnectionSpecFactory extends AbstractConnectionSp
 
     private static final String CONNECTION_SPEC_IMPL_CLASS_NAME = "net.sf.sapbapijca.adapter.cci.ConnectionSpecImpl";
 
-    public ConnectionSpec createConnectionSpec(final Credentials credentials)
-            throws InternalHiberSapException {
+    public ConnectionSpec createConnectionSpec(final Credentials credentials) {
         Class<?> connSpecClass;
         try {
             connSpecClass = getConnectionSpecClass(CONNECTION_SPEC_IMPL_CLASS_NAME);

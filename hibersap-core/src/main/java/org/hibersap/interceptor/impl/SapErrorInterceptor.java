@@ -44,8 +44,7 @@ import org.hibersap.mapping.model.ErrorHandling;
 public class SapErrorInterceptor implements ExecutionInterceptor {
 
     // TODO test with return table
-    public void afterExecution(final BapiMapping bapiMapping, final Map<String, Object> functionMap)
-            throws SapException {
+    public void afterExecution(final BapiMapping bapiMapping, final Map<String, Object> functionMap) {
         if (bapiMapping.getErrorHandling().isThrowExceptionOnError()) {
             checkForErrors(bapiMapping, functionMap);
         }
@@ -55,8 +54,7 @@ public class SapErrorInterceptor implements ExecutionInterceptor {
         // nothing to do
     }
 
-    private void checkForErrors(final BapiMapping bapiMapping, final Map<String, Object> functionMap)
-            throws SapException {
+    private void checkForErrors(final BapiMapping bapiMapping, final Map<String, Object> functionMap) {
         final ErrorHandling errorHandling = bapiMapping.getErrorHandling();
 
         final String[] path = errorHandling.getPathToReturnStructure().split("/");
@@ -84,7 +82,9 @@ public class SapErrorInterceptor implements ExecutionInterceptor {
         checkSapErrors(messageTypes, lines);
     }
 
-    private Map<String, Object> getContainingMap(final BapiMapping bapiMapping, final Map<String, Object> functionMap, final String[] path) {
+    private Map<String, Object> getContainingMap(final BapiMapping bapiMapping,
+                                                 final Map<String, Object> functionMap,
+                                                 final String[] path) {
         Map<String, Object> containingMap = functionMap;
         for (int i = 0; i < path.length - 1; i++) {
             final Object containingObj = containingMap.get(path[i].trim());
@@ -105,8 +105,7 @@ public class SapErrorInterceptor implements ExecutionInterceptor {
         return containingMap;
     }
 
-    private void checkSapErrors(final String[] messageTypes, final Collection<Map<String, Object>> returnTable)
-            throws SapException {
+    private void checkSapErrors(final String[] messageTypes, final Collection<Map<String, Object>> returnTable) {
         final ArrayList<SapError> sapErrors = new ArrayList<SapError>();
         for (final Map<String, Object> map : returnTable) {
             final String type = (String) map.get("TYPE");

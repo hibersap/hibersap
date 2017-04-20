@@ -64,14 +64,14 @@ public interface SessionManagerImplementor extends Serializable {
     Context getContext();
 
     /**
-     * Returns this SessionManager's Execution interceptors
+     * Returns this SessionManager's Execution interceptors.
      *
      * @return A Set with the ExecutionInterceptor instances.
      */
     Set<ExecutionInterceptor> getExecutionInterceptors();
 
     /**
-     * Returns this SessionManager's Bapi interceptors
+     * Returns this SessionManager's Bapi interceptors.
      *
      * @return A Set with the BapiInterceptor instances.
      */

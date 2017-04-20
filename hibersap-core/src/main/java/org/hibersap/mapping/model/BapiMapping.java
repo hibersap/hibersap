@@ -21,6 +21,7 @@ package org.hibersap.mapping.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Generated;
 import org.apache.commons.lang.StringUtils;
 import org.hibersap.MappingException;
 
@@ -100,6 +101,7 @@ public class BapiMapping implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -134,6 +136,7 @@ public class BapiMapping implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public int hashCode() {
         int result = bapiName != null ? bapiName.hashCode() : 0;
         result = 31 * result + (associatedClass != null ? associatedClass.hashCode() : 0);

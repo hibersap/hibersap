@@ -30,7 +30,7 @@ public class CharConverter implements Converter<Character, String> {
     /**
      * {@inheritDoc}
      */
-    public Character convertToJava(String sapValue) throws ConversionException {
+    public Character convertToJava(String sapValue) {
         if (StringUtils.isEmpty(sapValue)) {
             return ' ';
         }
@@ -40,7 +40,7 @@ public class CharConverter implements Converter<Character, String> {
     /**
      * {@inheritDoc}
      */
-    public String convertToSap(Character javaValue) throws ConversionException {
+    public String convertToSap(Character javaValue) {
         if (javaValue == null) {
             return "";
         }

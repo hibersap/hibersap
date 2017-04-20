@@ -20,6 +20,7 @@ package org.hibersap.mapping.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import javax.annotation.Generated;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -56,6 +57,7 @@ public class ErrorHandling implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -72,7 +74,8 @@ public class ErrorHandling implements Serializable {
         if (!Arrays.equals(errorMessageTypes, that.errorMessageTypes)) {
             return false;
         }
-        if (pathToReturnStructure != null ? !pathToReturnStructure.equals(that.pathToReturnStructure) : that.pathToReturnStructure != null) {
+        if (pathToReturnStructure != null ? !pathToReturnStructure.equals(that.pathToReturnStructure)
+                : that.pathToReturnStructure != null) {
             return false;
         }
 
@@ -80,6 +83,7 @@ public class ErrorHandling implements Serializable {
     }
 
     @Override
+    @Generated("IntelliJ IDEA")
     public int hashCode() {
         int result = (throwExceptionOnError ? 1 : 0);
         result = 31 * result + (pathToReturnStructure != null ? pathToReturnStructure.hashCode() : 0);

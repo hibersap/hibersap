@@ -25,7 +25,7 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.conversion.CharConverter;
 
 /**
- * Standard BAPI structure for return values
+ * Standard BAPI structure for return values.
  *
  * @author Carsten Erker
  */

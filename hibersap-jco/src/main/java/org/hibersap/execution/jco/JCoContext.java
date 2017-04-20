@@ -45,8 +45,7 @@ public class JCoContext implements Context {
     /*
      * {@inheritDoc}
      */
-    public void configure(final SessionManagerConfig config)
-            throws HibersapException {
+    public void configure(final SessionManagerConfig config) {
         LOG.trace("configure JCo context");
 
         final Properties jcoProperties = new Properties();

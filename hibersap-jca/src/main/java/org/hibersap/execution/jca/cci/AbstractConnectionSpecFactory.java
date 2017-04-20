@@ -45,7 +45,7 @@ public abstract class AbstractConnectionSpecFactory
      * javax.resource.cci.ConnectionSpec.
      */
     protected Class<? extends ConnectionSpec> getConnectionSpecClass(final String connectionSpecClass)
-            throws ClassNotFoundException, IllegalArgumentException {
+            throws ClassNotFoundException {
         Class<?> connSpecClass = ReflectionHelper.getClassForName(connectionSpecClass);
 
         if (!ConnectionSpec.class.isAssignableFrom(connSpecClass)) {
@@ -72,7 +72,7 @@ public abstract class AbstractConnectionSpecFactory
      */
     protected ConnectionSpec newConnectionSpecInstance(final Class<?> connectionSpecClass,
                                                        final Class<?>[] constructorParameterTypes,
-                                                       final Object[] constructorArguments) throws InternalHiberSapException {
+                                                       final Object[] constructorArguments) {
         Object connSpecImpl = null;
         try {
             Constructor<?> constructor = connectionSpecClass.getConstructor(constructorParameterTypes);

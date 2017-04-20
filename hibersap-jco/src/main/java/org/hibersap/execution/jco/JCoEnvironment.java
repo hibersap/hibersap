@@ -33,7 +33,7 @@ import org.hibersap.HibersapException;
  *
  * @author Carsten Erker
  */
-public class JCoEnvironment {
+public final class JCoEnvironment {
 
     private static final Log LOG = LogFactory.getLog(JCoEnvironment.class);
 

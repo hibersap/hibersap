@@ -27,7 +27,7 @@ public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpe
 
     private static final String CONNECTION_SPEC_IMPL_CLASS_NAME = "org.cuckoo.ra.cci.ApplicationPropertiesImpl";
 
-    public ConnectionSpec createConnectionSpec(Credentials credentials) throws InternalHiberSapException {
+    public ConnectionSpec createConnectionSpec(Credentials credentials) {
         try {
             Object[] arguments = {
                     credentials.getUser(),

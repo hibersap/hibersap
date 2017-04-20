@@ -34,7 +34,7 @@ public class BeanValidationInterceptor implements BapiInterceptor {
         this.validatorFactory = validatorFactory;
     }
 
-    public void beforeExecution(final Object bapiObject) throws ConstraintViolationException {
+    public void beforeExecution(final Object bapiObject) {
         final Validator validator = validatorFactory.getValidator();
 
         final Set<ConstraintViolation<Object>> constraintViolations = validator.validate(bapiObject);
