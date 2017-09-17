@@ -18,10 +18,12 @@
 
 package org.hibersap.session;
 
+import java.io.Closeable;
+
 /**
  * @author Carsten Erker
  */
-public interface Session {
+public interface Session extends Closeable {
 
     /**
      * starts a transaction.
@@ -38,7 +40,8 @@ public interface Session {
     /**
      * executes a funtion module in SAP.
      *
-     * @param bapi The BAPI class
+     * @param bapi
+     *            The BAPI class
      */
     void execute(final Object bapi);
 

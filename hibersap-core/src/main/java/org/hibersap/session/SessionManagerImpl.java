@@ -35,7 +35,7 @@ import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 
 /**
- * Implementation of the SessionManager. A client uses the SessionManager to create Hibernate
+ * Implementation of the SessionManager. A client uses the SessionManager to create Hibersap
  * Sessions.
  *
  * @author Carsten Erker
