@@ -18,8 +18,12 @@
 
 package org.hibersap.mapping.model;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,7 @@ import org.hibersap.MappingException;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.mapping.ReflectionHelper;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;
 import static org.hibersap.mapping.ReflectionHelper.newCollectionInstance;
@@ -133,7 +138,17 @@ public final class TableMapping extends ParameterMapping {
 
             Collection<Object> collection = newCollectionInstance(destinationType);
 
-            Collection<Map<String, Object>> rows = castToCollectionOfMaps(fieldMapCollection);
+            Collection<Map<String, Object>> rows;
+
+            if (fieldMapCollection instanceof ResultSet) {
+                try {
+                    rows = resultSetToArrayList((ResultSet) fieldMapCollection);
+                } catch (SQLException e) {
+                    throw new InternalHiberSapException("Could not convert ResultSet");
+                }
+            } else {
+                rows = castToCollectionOfMaps(fieldMapCollection);
+            }
 
             if (rows != null) {
                 for (Map<String, Object> tableMap : rows) {
@@ -155,24 +170,41 @@ public final class TableMapping extends ParameterMapping {
         }
     }
 
-    @Override
-    protected Object getUnconvertedValueToSap(final Object value, final ConverterCache converterCache) {
-        Collection bapiStructures;
+    @SuppressWarnings(value = "all")
+    private List<Map<String, Object>> resultSetToArrayList(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
 
-        if (getFieldType().isArray()) {
-            bapiStructures = singletonList(value);
-        } else {
-            bapiStructures = (Collection) value;
+        int columns = metaData.getColumnCount();
+        if (metaData == null || columns == 0) {
+
+            return emptyList();
         }
 
+        List<Map<String, Object>> list = new ArrayList();
+
+        while (resultSet.next()) {
+            HashMap row = new HashMap(columns);
+            for (int i = 1; i <= columns; ++i) {
+
+                row.put(metaData.getColumnName(i), resultSet.getObject(i));
+            }
+            list.add(row);
+        }
+        resultSet.close();
+
+        return list;
+    }
+
+    @Override
+    protected Object getUnconvertedValueToSap(final Object value, final ConverterCache converterCache) {
+        Collection bapiStructures = getFieldType().isArray() ? singletonList(value) : (Collection) value;
         List<Map<String, Object>> tableRows = new ArrayList<Map<String, Object>>();
 
         if (bapiStructures != null) {
             for (Object bapiStructure : bapiStructures) {
-
                 @SuppressWarnings({"unchecked"})
-                Map<String, Object> paramMap = (Map<String, Object>) getComponentParameter()
-                        .mapToSap(bapiStructure, converterCache);
+                Map<String, Object> paramMap =
+                        (Map<String, Object>) getComponentParameter().mapToSap(bapiStructure, converterCache);
                 tableRows.add(paramMap);
             }
         }

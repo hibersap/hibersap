@@ -18,6 +18,12 @@
 
 package org.hibersap.mapping.model;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,6 +41,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static java.util.Collections.singletonMap;
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TableMappingTest {
 
@@ -45,7 +53,7 @@ public class TableMappingTest {
     public void setUp() throws Exception {
         structureMapping = new StructureMapping(TestStructureBean.class, "sapStructureName", "javaStructureName",
                 null);
-        structureMapping.addParameter(new FieldMapping(Integer.class, "sapField1", "javaField1", null));
+        structureMapping.addParameter(new FieldMapping(Integer.class, "sapField", "javaField", null));
     }
 
     @Test
@@ -118,8 +126,8 @@ public class TableMappingTest {
     public void getUnconvertedValueReturnsListOfStructureBeansWithCorrectValues() throws Exception {
         tableMapping = new TableMapping(List.class, Integer.class, "sapName", "javaName", structureMapping, null);
         List<Map<String, ?>> tableMap = new ArrayList<Map<String, ?>>();
-        tableMap.add(singletonMap("sapField1", 1));
-        tableMap.add(singletonMap("sapField1", 2));
+        tableMap.add(singletonMap("sapField", 1));
+        tableMap.add(singletonMap("sapField", 2));
 
         Object value = tableMapping.getUnconvertedValueToJava(tableMap, new ConverterCache());
 
@@ -128,8 +136,8 @@ public class TableMappingTest {
         @SuppressWarnings({"unchecked"})
         List<TestStructureBean> structureBeans = (List<TestStructureBean>) value;
         assertThat(structureBeans).hasSize(2);
-        assertThat(structureBeans.get(0).javaField1).isEqualTo(1);
-        assertThat(structureBeans.get(1).javaField1).isEqualTo(2);
+        assertThat(structureBeans.get(0).javaField).isEqualTo(1);
+        assertThat(structureBeans.get(1).javaField).isEqualTo(2);
     }
 
     @Test
@@ -137,8 +145,8 @@ public class TableMappingTest {
         tableMapping = new TableMapping(TestStructureBean[].class, TestStructureBean.class, "sapName", "javaName",
                 structureMapping, null);
         List<Map<String, Integer>> tableMap = new ArrayList<Map<String, Integer>>();
-        tableMap.add(singletonMap("sapField1", 1));
-        tableMap.add(singletonMap("sapField1", 2));
+        tableMap.add(singletonMap("sapField", 1));
+        tableMap.add(singletonMap("sapField", 2));
 
         Object value = tableMapping.getUnconvertedValueToJava(tableMap, new ConverterCache());
 
@@ -147,17 +155,87 @@ public class TableMappingTest {
         @SuppressWarnings({"unchecked"})
         TestStructureBean[] structureBeans = (TestStructureBean[]) value;
         assertThat(structureBeans).hasSize(2);
-        assertThat(structureBeans[0].javaField1).isEqualTo(1);
-        assertThat(structureBeans[1].javaField1).isEqualTo(2);
+        assertThat(structureBeans[0].javaField).isEqualTo(1);
+        assertThat(structureBeans[1].javaField).isEqualTo(2);
+    }
+
+    @Test
+    public void getUnconvertedValueReturnsListOfStructureBeansWhenTableParameterIsProvidedAsResultSetByRA() throws Exception {
+        tableMapping = new TableMapping(List.class, Integer.class, "sapName", "javaName", structureMapping, null);
+        String[] columnNames = {"sapField"};
+        Object[][] data = {{1}, {2}};
+        ResultSet resultSet = resultSet(columnNames, data);
+
+        Object value = tableMapping.getUnconvertedValueToJava(resultSet, new ConverterCache());
+
+        assertThat(value).isInstanceOf(ArrayList.class);
+
+        @SuppressWarnings({"unchecked"})
+        List<TestStructureBean> structureBeans = (List<TestStructureBean>) value;
+        assertThat(structureBeans).hasSize(2);
+        assertThat(structureBeans.get(0).javaField).isEqualTo(1);
+        assertThat(structureBeans.get(1).javaField).isEqualTo(2);
+    }
+
+    private ResultSet resultSet(String[] columnNames, Object[][] data) throws SQLException {
+        return (ResultSet) Proxy.newProxyInstance(
+                ResultSet.class.getClassLoader(),
+                new Class[]{ResultSet.class},
+                new ResultSetInvocationHandler(columnNames, data));
     }
 
     @BapiStructure
     private static class TestStructureBean {
 
-        @Parameter("sapField1")
-        private Integer javaField1;
+        @Parameter("sapField")
+        private Integer javaField;
 
         private TestStructureBean() {
+        }
+    }
+
+    /**
+     * Needed to create a {@link ResultSet}
+     */
+    private static class ResultSetInvocationHandler implements InvocationHandler {
+
+        private final Object[][] data;
+
+        private int currentRow = -1;
+
+        private ResultSetMetaData metaData = mock(ResultSetMetaData.class);
+
+        private ResultSetInvocationHandler(String[] columnNames, Object[][] data) throws SQLException {
+            when(metaData.getColumnCount()).thenReturn(columnNames.length);
+            for (int i = 0; i < columnNames.length; i++) {
+                when(metaData.getColumnName(i + 1)).thenReturn(columnNames[i]);
+            }
+            this.data = data;
+        }
+
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            if ("next".equals(method.getName())) {
+                return next();
+            }
+            if ("getObject".equals(method.getName())) {
+                return getObject((Integer) args[0]);
+            }
+            if ("getMetaData".equals(method.getName())) {
+                return metaData;
+            }
+            return null;
+        }
+
+        private Object getObject(int column) {
+            return data[currentRow][column - 1];
+        }
+
+        private boolean next() {
+            if (data.length > currentRow + 1) {
+                currentRow++;
+                return true;
+            }
+            return false;
         }
     }
 }

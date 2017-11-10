@@ -73,7 +73,7 @@
                 <artifactItem>
                   <groupId>org.hibersap</groupId>
                   <artifactId>com.sap.conn.jco.sapjco3</artifactId>
-                  <version>3.0.15</version>
+                  <version>${jco.native-lib.version}</version>
                   <classifier>${jco.native-lib.classifier}</classifier>
                   <type>${jco.native-lib.packaging}</type>
                   <overWrite>true</overWrite>
