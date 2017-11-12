@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
+import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
@@ -36,6 +37,7 @@ import org.hibersap.session.Transaction;
 /*
  * @author Carsten Erker
  */
+@SuppressWarnings("PackageAccessibility")
 public class JCoConnection implements Connection {
 
     private static final Log LOG = LogFactory.getLog(JCoConnection.class);
@@ -71,7 +73,7 @@ public class JCoConnection implements Connection {
         }
     }
 
-    public void execute(final String bapiName, final Map<String, Object> functionMap) {
+    public void execute(final BapiMapping bapiMapping, final Map<String, Object> functionMap) {
         if (destination == null) {
             startStatefulConnection();
         }
@@ -79,12 +81,12 @@ public class JCoConnection implements Connection {
         JCoFunction function;
 
         try {
-            function = getRepository().getFunction(bapiName);
+            function = getRepository().getFunction(bapiMapping.getBapiName());
         } catch (JCoException e) {
-            throw new HibersapException("The function " + bapiName + " is not available in the SAP system", e);
+            throw new HibersapException("The function " + bapiMapping.getBapiName() + " is not available in the SAP system", e);
         }
         if (function == null) {
-            throw new HibersapException("The function module '" + bapiName + "' does not exist in SAP");
+            throw new HibersapException("The function module '" + bapiMapping.getBapiName() + "' does not exist in SAP");
         }
 
         jcoMapper.putFunctionMapValuesToFunction(function, functionMap);
@@ -92,7 +94,7 @@ public class JCoConnection implements Connection {
         try {
             function.execute(destination);
         } catch (JCoException e) {
-            throw new HibersapException("Error executing function module " + bapiName, e);
+            throw new HibersapException("Error executing function module " + bapiMapping.getBapiName(), e);
         }
 
         jcoMapper.putFunctionValuesToFunctionMap(function, functionMap);

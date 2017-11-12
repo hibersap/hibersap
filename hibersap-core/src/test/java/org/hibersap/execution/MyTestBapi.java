@@ -20,20 +20,23 @@ package org.hibersap.execution;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
-import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.conversion.ConversionException;
 import org.hibersap.conversion.Converter;
+import static org.hibersap.annotations.ParameterType.STRUCTURE;
+import static org.hibersap.annotations.ParameterType.TABLE_STRUCTURE;
 
 /**
  * Name must not be Test* or *Test, because Surefire then tries to run it as a
@@ -47,27 +50,42 @@ class MyTestBapi {
 
     @Import
     @Parameter("intParam")
-    Integer intParam;
+    Integer importIntParam;
+
     @Import
-    @Parameter(value = "importTable", type = ParameterType.TABLE_STRUCTURE)
+    @Parameter(value = "importTable", type = TABLE_STRUCTURE)
     List<TestStructure> importTableStructure;
+
     @Import
-    @Parameter(value = "structureParamWithConverter", type = ParameterType.STRUCTURE)
+    @Parameter(value = "structureParamWithConverter", type = STRUCTURE)
     @Convert(converter = TestStructureToStringConverter.class)
-    String structureParamWithConverter;
+    String importStructureParamWithConverter;
+
     @Export
-    @Parameter(value = "structureParam", type = ParameterType.STRUCTURE)
-    TestStructure structureParam;
+    @Parameter(value = "structureParam", type = STRUCTURE)
+    TestStructure exportStructureParam;
+
     @Export
     @Parameter("intParamWithConverter")
     @Convert(converter = IntegerToStringConverter.class)
-    String intParamWithConverter;
+    String exportIntParamWithConverter;
+
     @Export
-    @Parameter(value = "exportTable", type = ParameterType.TABLE_STRUCTURE)
+    @Parameter(value = "exportTable", type = TABLE_STRUCTURE)
     List<TestStructure> exportTableStructure;
+
+    @Changing
+    @Parameter(value = "changingParamWithStructure", type = STRUCTURE)
+    TestStructure changingStructureParam;
+
+    @Changing
+    @Parameter("changingDateParam")
+    Date changingDateParam;
+
     @Table
     @Parameter("tableParam")
     List<TestStructure> tableParam;
+
     @Table
     @Parameter("tableParamWithConverter")
     @Convert(converter = TestStructureTableToStringConverter.class)
@@ -77,15 +95,18 @@ class MyTestBapi {
     private MyTestBapi() {
     }
 
-    MyTestBapi(Integer intParam, String intParamWithConverter, TestStructure structureParam,
-               String structureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter,
+    MyTestBapi(Integer importIntParam, String exportIntParamWithConverter, TestStructure exportStructureParam,
+               String importStructureParamWithConverter, List<TestStructure> tableParam, String tableParamWithConverter,
+               TestStructure changingStructureParam, Date changingDateParam,
                List<TestStructure> importTableStructure, List<TestStructure> exportTableStructure) {
-        this.intParam = intParam;
-        this.intParamWithConverter = intParamWithConverter;
-        this.structureParam = structureParam;
-        this.structureParamWithConverter = structureParamWithConverter;
+        this.importIntParam = importIntParam;
+        this.exportIntParamWithConverter = exportIntParamWithConverter;
+        this.exportStructureParam = exportStructureParam;
+        this.importStructureParamWithConverter = importStructureParamWithConverter;
         this.tableParam = tableParam;
         this.tableParamWithConverter = tableParamWithConverter;
+        this.changingStructureParam = changingStructureParam;
+        this.changingDateParam = changingDateParam;
         this.importTableStructure = importTableStructure;
         this.exportTableStructure = exportTableStructure;
     }

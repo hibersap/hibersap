@@ -19,13 +19,13 @@
 package org.hibersap.generation.bapi;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -37,6 +37,7 @@ import org.hibersap.mapping.model.ParameterMapping.ParamType;
 import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 
+@SuppressWarnings("PackageAccessibility")
 public class BapiClassFormatter {
 
     private static final String CLASS_FORMAT = "package %s;%n%n%s%npublic class %s%n{%n%s}";
@@ -79,12 +80,7 @@ public class BapiClassFormatter {
     private Map<String, String> formatStructureClasses(final BapiMapping mapping, final String packagePath) {
         Map<String, String> result = new HashMap<String, String>();
 
-        Set<ParameterMapping> params = new HashSet<ParameterMapping>();
-        params.addAll(mapping.getImportParameters());
-        params.addAll(mapping.getExportParameters());
-        params.addAll(mapping.getTableParameters());
-
-        for (ParameterMapping param : params) {
+        for (ParameterMapping param : mapping.getAllParameters()) {
             if (param.getParamType() != ParamType.FIELD) {
                 String className = BapiFormatHelper.getCamelCaseBig(param.getSapName());
                 String structureClass = formatStructureClass(param, packagePath, result);
@@ -153,6 +149,7 @@ public class BapiClassFormatter {
 
         formatFieldsAndMethods(bapiMapping.getImportParameters(), fields, methods, Import.class);
         formatFieldsAndMethods(bapiMapping.getExportParameters(), fields, methods, Export.class);
+        formatFieldsAndMethods(bapiMapping.getChangingParameters(), fields, methods, Changing.class);
         formatFieldsAndMethods(bapiMapping.getTableParameters(), fields, methods, Table.class);
 
         return fields.toString() + methods.toString();

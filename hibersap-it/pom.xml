@@ -94,6 +94,10 @@
       <groupId>org.hibersap</groupId>
       <artifactId>hibersap-jco</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.hibersap</groupId>
+      <artifactId>hibersap-core</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.hibersap</groupId>

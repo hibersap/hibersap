@@ -19,6 +19,7 @@
 package org.hibersap.execution;
 
 import java.util.Map;
+import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
@@ -63,11 +64,10 @@ public interface Connection {
 
     /**
      * Calls a remote function module in the SAP system.
-     *
-     * @param bapiName The function module name
+     *  @param bapiMapping The function module name
      * @param functionMap The function module parameters
      */
-    void execute(String bapiName, Map<String, Object> functionMap);
+    void execute(BapiMapping bapiMapping, Map<String, Object> functionMap);
 
     /**
      * Closes this connection. Implementing classes must do everything that is needed to free

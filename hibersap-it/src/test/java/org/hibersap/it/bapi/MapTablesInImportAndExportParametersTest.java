@@ -20,8 +20,10 @@ package org.hibersap.it.bapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Generated;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -34,7 +36,6 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
     @Test
     public void bapiWithTableInStructure() throws Exception {
-
         Car alfaRomeo = new Car("Alfa Romeo", "Spider", 2);
         Car kiaCeed = new Car("Kia", "cee'd", 5);
         CarListBapi bapi = new CarListBapi().addCarImport(alfaRomeo).addCarImport(kiaCeed);
@@ -65,12 +66,48 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
     @Test
     public void bapiWithDeepTableInStructurePassingEmptyCarList() throws Exception {
-        Manufacturer manufacturer = new Manufacturer("Kia");
         CarManufacturerBapi bapi = new CarManufacturerBapi();
 
         session.execute(bapi);
 
         assertThat(bapi.manufacturersExport).isEmpty();
+    }
+
+    @Test
+    public void changingStructureContainsOnlyEntriesFromSapWhenPassingEmptyManufacturersList() throws Exception {
+        CarManufacturerBapi bapi = new CarManufacturerBapi();
+
+        session.execute(bapi);
+
+        assertThat(bapi.manufacturersChanging).onProperty("name").containsOnly("Honda", "Alfa Romeo");
+    }
+
+    @Test
+    public void changingStructureContainsEntriesPassedInAndEntriesAddedBySap() throws Exception {
+        Manufacturer tata = new Manufacturer("Tata");
+
+        CarManufacturerBapi bapi = new CarManufacturerBapi();
+        bapi.addManufacturerToChanging(tata);
+
+        session.execute(bapi);
+
+        assertThat(bapi.manufacturersChanging).onProperty("name").containsOnly("Tata", "Honda", "Alfa Romeo");
+    }
+
+    @Test
+    public void changinsStructureContainsAllDataProvdidedKeepingOrder() throws Exception {
+        Manufacturer alfaRomeo = new Manufacturer("Alfa Romeo").addCar(new Car("Alfa Romeo", "Spider", 2));
+        Manufacturer honda = new Manufacturer("Honda").addCar(new Car("Honda", "Accord", 5)).addCar(new Car("Honda", "Civic", 4));
+        Manufacturer tata = new Manufacturer("Tata").addCar(new Car("Tata", "Nano", 4)).addCar(new Car("Tata", "Aria", 5));
+
+        CarManufacturerBapi bapi = new CarManufacturerBapi();
+        bapi.addManufacturerToChanging(tata);
+
+        session.execute(bapi);
+
+        assertThat(bapi.manufacturersChanging.get(0)).isEqualTo(tata);
+        assertThat(bapi.manufacturersChanging.get(1)).isEqualTo(alfaRomeo);
+        assertThat(bapi.manufacturersChanging.get(2)).isEqualTo(honda);
     }
 
     @Test
@@ -82,8 +119,8 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
                 .addCar(new Car("Zastava", "128", 4))
                 .addCar(new Car("Yugo", "45", 4));
         CarManufacturerBapi bapi = new CarManufacturerBapi();
-        bapi.addManufacturer(kia);
-        bapi.addManufacturer(zastava);
+        bapi.addManufacturerToImport(kia);
+        bapi.addManufacturerToImport(zastava);
 
         session.execute(bapi);
 
@@ -103,8 +140,16 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
         @Parameter(value = "E_MANUFACTURERS", type = TABLE_STRUCTURE)
         private List<Manufacturer> manufacturersExport;
 
-        void addManufacturer(final Manufacturer manufacturer) {
+        @Changing
+        @Parameter(value = "C_MANUFACTURERS", type = TABLE_STRUCTURE)
+        private List<Manufacturer> manufacturersChanging = new ArrayList<Manufacturer>();
+
+        void addManufacturerToImport(final Manufacturer manufacturer) {
             manufacturersImport.add(manufacturer);
+        }
+
+        void addManufacturerToChanging(final Manufacturer manufacturer) {
+            manufacturersChanging.add(manufacturer);
         }
     }
 
@@ -148,6 +193,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
         }
 
         @Override
+        @Generated("IntelliJ")
         public boolean equals(Object o) {
             if (this == o) {
                 return true;
@@ -168,6 +214,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
         }
 
         @Override
+        @Generated("IntelliJ")
         public int hashCode() {
             int result = manufacturer != null ? manufacturer.hashCode() : 0;
             result = 31 * result + (model != null ? model.hashCode() : 0);
@@ -190,6 +237,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
         @Parameter("NAME")
         private String name;
+
         @Parameter(value = "CARS", type = TABLE_STRUCTURE)
         private List<Car> cars = new ArrayList<Car>();
 
@@ -201,12 +249,17 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
             this.name = name;
         }
 
+        public String getName() {
+            return name;
+        }
+
         Manufacturer addCar(final Car car) {
             cars.add(car);
             return this;
         }
 
         @Override
+        @Generated("IntelliJ")
         public boolean equals(Object o) {
             if (this == o) {
                 return true;
@@ -224,6 +277,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
         }
 
         @Override
+        @Generated("IntelliJ")
         public int hashCode() {
             int result = name != null ? name.hashCode() : 0;
             result = 31 * result + (cars != null ? cars.hashCode() : 0);

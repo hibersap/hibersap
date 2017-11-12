@@ -20,6 +20,7 @@ package org.hibersap.mapping;
 
 import java.util.Set;
 import org.hibersap.annotations.Bapi;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.Table;
@@ -41,7 +42,7 @@ public class AnnotationBapiMapperTest {
         final Set<ParameterMapping> parameters = tableMapping.getComponentParameter().getParameters();
 
         assertThat(parameters).hasSize(2)
-                .onProperty("javaName").contains("structureParamSubClass", "structureParamSuperClass");
+                .onProperty("javaName").containsOnly("structureParamSubClass", "structureParamSuperClass");
     }
 
     @Test
@@ -55,6 +56,17 @@ public class AnnotationBapiMapperTest {
         assertThat(tableMapping.getAssociatedType().getName()).isEqualTo(TestBapiStructureSubClass.class.getName());
     }
 
+    @Test
+    public void mapsChangingParameter() throws Exception {
+        final BapiMapping mapping = mapper.mapBapi(TestBapiClass.class);
+
+        Set<ParameterMapping> changingParameters = mapping.getChangingParameters();
+
+        assertThat(changingParameters).onProperty("associatedType").containsOnly(String.class);
+        assertThat(changingParameters).onProperty("javaName").containsOnly("changingParam");
+        assertThat(changingParameters).onProperty("sapName").containsOnly("CHANGING_PARAM");
+    }
+
     @Bapi("test")
     private class TestBapiClass {
 
@@ -62,6 +74,11 @@ public class AnnotationBapiMapperTest {
         @Parameter("ABAP_FIELD")
         @SuppressWarnings("unused")
         private int intParam;
+
+        @Changing
+        @Parameter("CHANGING_PARAM")
+        @SuppressWarnings("unused")
+        private String changingParam;
 
         @Table
         @Parameter("ABAP_TABLE")

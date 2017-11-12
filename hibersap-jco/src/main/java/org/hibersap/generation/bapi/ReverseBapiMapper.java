@@ -39,6 +39,7 @@ import org.hibersap.mapping.model.StructureMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.hibersap.session.SessionManager;
 
+@SuppressWarnings("PackageAccessibility")
 public class ReverseBapiMapper {
 
     public BapiMapping map(final String bapiName, final SessionManager sessionManager) {
@@ -54,6 +55,7 @@ public class ReverseBapiMapper {
 
             mapFields(mapping.getImportParameters(), function.getImportParameterList());
             mapFields(mapping.getExportParameters(), function.getExportParameterList());
+            mapFields(mapping.getChangingParameters(), function.getChangingParameterList());
             mapFields(mapping.getTableParameters(), function.getTableParameterList());
 
             return mapping;

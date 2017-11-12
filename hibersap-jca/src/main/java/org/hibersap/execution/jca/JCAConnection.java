@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.execution.Connection;
 import org.hibersap.execution.UnsafeCastHelper;
+import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
@@ -79,24 +80,24 @@ public class JCAConnection implements Connection {
         }
     }
 
-    public void execute(final String bapiName, final Map<String, Object> functionMap) {
+    public void execute(final BapiMapping bapiMapping, final Map<String, Object> functionMap) {
         Record result;
 
         try {
-            MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord(bapiName, recordFactory,
+            MappedRecord mappedInputRecord = mapper.mapFunctionMapValuesToMappedRecord(bapiMapping.getBapiName(), recordFactory,
                     functionMap);
 
-            LOG.debug("JCA Execute: " + bapiName + ", arguments= " + functionMap + "\ninputRecord = "
+            LOG.debug("JCA Execute: " + bapiMapping.getBapiName() + ", arguments= " + functionMap + "\ninputRecord = "
                     + mappedInputRecord);
 
             result = connectionProvider.getConnection().createInteraction().execute(null, mappedInputRecord);
 
-            LOG.debug("JCA Execute: " + bapiName + ", result = " + result);
+            LOG.debug("JCA Execute: " + bapiMapping.getBapiName() + ", result = " + result);
 
             final Map<String, Object> resultMap = UnsafeCastHelper.castToMap(result);
-            mapper.mapRecordToFunctionMap(functionMap, resultMap);
+            mapper.mapRecordToFunctionMap(functionMap, resultMap, bapiMapping);
         } catch (final ResourceException e) {
-            throw new HibersapException("Error executing function module " + bapiName, e);
+            throw new HibersapException("Error executing function module " + bapiMapping.getBapiName(), e);
         }
     }
 

@@ -20,6 +20,7 @@ package org.hibersap.execution;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.hibersap.conversion.ConverterCache;
@@ -60,6 +61,29 @@ public class PojoMapper_ToFunctionMapTest {
         Map<String, Object> exportParams = castToMap(functionMap.get("EXPORT"));
 
         assertThat(exportParams).hasSize(3);
+    }
+
+    @Test
+    public void mapsAllChangingParameters() {
+        Map<String, Object> changingParams = castToMap(functionMap.get("CHANGING"));
+
+        assertThat(changingParams).hasSize(2);
+    }
+
+    @Test
+    public void mapsChangingDateParameter() {
+        Map<String, Object> changingParams = castToMap(functionMap.get("CHANGING"));
+
+        assertThat(changingParams.get("changingDateParam")).isEqualTo(new Date(0));
+    }
+
+    @Test
+    public void mapsChangingStructureParameter() {
+        Map<String, Object> changingParams = castToMap(functionMap.get("CHANGING"));
+        Map<String, Object> structure = castToMap(changingParams.get("changingParamWithStructure"));
+        Object parameter = structure.get("charParam");
+
+        assertThat(parameter).isEqualTo('d');
     }
 
     @Test
@@ -139,7 +163,7 @@ public class PojoMapper_ToFunctionMapTest {
 
     @Test
     public void doesNotMapParametersWithNullValues() {
-        MyTestBapi bapi = new MyTestBapi(null, null, null, null, null, null, null, null);
+        MyTestBapi bapi = new MyTestBapi(null, null, null, null, null, null, null, null, null, null);
         BapiMapping bapiMapping = bapiMapper.mapBapi(MyTestBapi.class);
 
         Map<String, Object> functionMap = pojoMapper.mapPojoToFunctionMap(bapi, bapiMapping);
@@ -154,6 +178,7 @@ public class PojoMapper_ToFunctionMapTest {
 
     private MyTestBapi createTestBapi() {
         TestStructure structure = new TestStructure('c');
+        TestStructure changingStructure = new TestStructure('d');
         TestStructure tableStructure1 = new TestStructure('1');
         TestStructure tableStructure2 = new TestStructure('2');
         List<TestStructure> table = new ArrayList<TestStructure>();
@@ -168,6 +193,6 @@ public class PojoMapper_ToFunctionMapTest {
         exportTable.add(new TestStructure('5'));
         exportTable.add(new TestStructure('6'));
 
-        return new MyTestBapi(4711, "4712", structure, "c", table, "34", importTable, exportTable);
+        return new MyTestBapi(4711, "4712", structure, "c", table, "34", changingStructure, new Date(0), importTable, exportTable);
     }
 }

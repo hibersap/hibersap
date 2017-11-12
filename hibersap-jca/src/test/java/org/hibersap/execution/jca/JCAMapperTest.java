@@ -29,15 +29,30 @@ import javax.resource.cci.MappedRecord;
 import javax.resource.cci.RecordFactory;
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
-import org.hibersap.execution.UnsafeCastHelper;
+import org.hibersap.mapping.model.BapiMapping;
+import org.hibersap.mapping.model.ErrorHandling;
+import org.hibersap.mapping.model.FieldMapping;
+import org.hibersap.mapping.model.StructureMapping;
 import org.junit.Before;
 import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 import static org.junit.Assert.assertEquals;
 
 public class JCAMapperTest {
 
     private final JCAMapper mapper = new JCAMapper();
     private final RecordFactory recordFactory = EasyMock.createMock(RecordFactory.class);
+
+    @Before
+    public void setUp()
+            throws ResourceException {
+        EasyMock.expect(recordFactory.createIndexedRecord((String) EasyMock.notNull()))
+                .andAnswer(new IndexedRecordAnswer()).anyTimes();
+        EasyMock.expect(recordFactory.createMappedRecord((String) EasyMock.notNull()))
+                .andAnswer(new MappedRecordAnswer()).anyTimes();
+        EasyMock.replay(recordFactory);
+    }
 
     @SuppressWarnings("unchecked")
     @Test
@@ -49,35 +64,41 @@ public class JCAMapperTest {
         addExportAndTableParameters(resultRecord);
 
         // map
-        mapper.mapRecordToFunctionMap(functionMap, resultRecord);
+        mapper.mapRecordToFunctionMap(functionMap, resultRecord, createBapiMapping());
 
-        assertEquals(3, functionMap.size());
+        assertEquals(4, functionMap.size());
 
         // check import parameters still there?
-        assertEquals(3, UnsafeCastHelper.castToMap(functionMap.get("IMPORT")).size());
+        assertEquals(3, castToMap(functionMap.get("IMPORT")).size());
 
         // check export parameters
-        Map<String, Object> exportParams = UnsafeCastHelper.castToMap(functionMap.get("EXPORT"));
+        Map<String, Object> exportParams = castToMap(functionMap.get("EXPORT"));
         assertEquals(3, exportParams.size());
 
-        Map<String, Object> exportParam1 = UnsafeCastHelper.castToMap(exportParams.get("EXPORT_PARAM1"));
+        Map<String, Object> exportParam1 = castToMap(exportParams.get("EXPORT_PARAM1"));
         assertEquals("structField1", exportParam1.get("STRUCT_FIELD1"));
         assertEquals(2, exportParam1.get("STRUCT_FIELD2"));
         assertEquals("exportParam2", exportParams.get("EXPORT_PARAM2"));
         assertEquals(new Date(3), exportParams.get("EXPORT_PARAM3"));
 
+        // check changing parameters
+        Map<String, Object> changingParams = castToMap(functionMap.get("CHANGING"));
+        assertEquals(2, changingParams.size());
+        assertEquals("changingParam1-changed", changingParams.get("CHANGING_PARAM1"));
+        assertEquals(22, changingParams.get("CHANGING_PARAM2"));
+
         // check table parameters
-        Map<String, Object> tableParams = UnsafeCastHelper.castToMap(functionMap.get("TABLE"));
+        Map<String, Object> tableParams = castToMap(functionMap.get("TABLE"));
         assertEquals(2, tableParams.size());
 
         List table2 = (List) tableParams.get("TABLE_PARAM2");
         assertEquals(2, table2.size());
 
-        Map<String, Object> row1 = UnsafeCastHelper.castToMap(table2.get(0));
+        Map<String, Object> row1 = castToMap(table2.get(0));
         assertEquals("tableField1_1", row1.get("TABLE_FIELD1"));
         assertEquals(12, row1.get("TABLE_FIELD2"));
 
-        Map<String, Object> row2 = UnsafeCastHelper.castToMap(table2.get(1));
+        Map<String, Object> row2 = castToMap(table2.get(1));
         assertEquals("tableField2_1", row2.get("TABLE_FIELD1"));
         assertEquals(22, row2.get("TABLE_FIELD2"));
     }
@@ -103,6 +124,10 @@ public class JCAMapperTest {
         assertEquals(1, importStruct.get("STRUCT_FIELD1"));
         assertEquals("structField2", importStruct.get("STRUCT_FIELD2"));
 
+        // check changing parameters
+        assertThat(record.get("CHANGING_PARAM1")).isEqualTo("changingParam1");
+        assertThat(record.get("CHANGING_PARAM2")).isEqualTo(2);
+
         // check table parameters
         IndexedRecord tableParam1 = (IndexedRecord) record.get("TABLE_PARAM1");
         assertEquals("TABLE_PARAM1", tableParam1.getRecordName());
@@ -118,14 +143,38 @@ public class JCAMapperTest {
         assertEquals(2, row2.get("TABLE_FIELD3"));
     }
 
-    @Before
-    public void setUp()
-            throws ResourceException {
-        EasyMock.expect(recordFactory.createIndexedRecord((String) EasyMock.notNull()))
-                .andAnswer(new IndexedRecordAnswer()).anyTimes();
-        EasyMock.expect(recordFactory.createMappedRecord((String) EasyMock.notNull()))
-                .andAnswer(new MappedRecordAnswer()).anyTimes();
-        EasyMock.replay(recordFactory);
+    private Map<String, Object> createFunctionMap() {
+        Map<String, Object> functionMap = new HashMap<String, Object>();
+        Map<String, Object> importMap = new HashMap<String, Object>();
+        Map<String, Object> exportMap = new HashMap<String, Object>();
+        Map<String, Object> changingMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+
+        functionMap.put("IMPORT", importMap);
+        functionMap.put("EXPORT", exportMap);
+        functionMap.put("CHANGING", changingMap);
+        functionMap.put("TABLE", tableMap);
+
+        // create import parameters
+        Map<String, Object> importStructMap = new HashMap<String, Object>();
+        importStructMap.put("STRUCT_FIELD1", 1);
+        importStructMap.put("STRUCT_FIELD2", "structField2");
+
+        importMap.put("IMPORT_PARAM1", importStructMap);
+        importMap.put("IMPORT_PARAM2", "importParam2");
+        importMap.put("IMPORT_PARAM3", 3);
+
+        // create changing parameter
+        changingMap.put("CHANGING_PARAM1", "changingParam1");
+        changingMap.put("CHANGING_PARAM2", 2);
+
+        // create table parameters
+        List<Map<String, Object>> table1 = new ArrayList<Map<String, Object>>();
+        table1.add(getTableRow("tableField1", new Date(1), 1));
+        table1.add(getTableRow("tableField2", new Date(2), 2));
+
+        tableMap.put("TABLE_PARAM1", table1);
+        return functionMap;
     }
 
     @SuppressWarnings("unchecked")
@@ -153,34 +202,28 @@ public class JCAMapperTest {
         tableRecord.add(tableRowRecord2);
 
         resultRecord.put("TABLE_PARAM2", tableRecord);
+
+        // change changing parameters
+        resultRecord.put("CHANGING_PARAM1", "changingParam1-changed");
+        resultRecord.put("CHANGING_PARAM2", 22);
     }
 
-    private Map<String, Object> createFunctionMap() {
-        Map<String, Object> functionMap = new HashMap<String, Object>();
-        Map<String, Object> importMap = new HashMap<String, Object>();
-        Map<String, Object> exportMap = new HashMap<String, Object>();
-        Map<String, Object> tableMap = new HashMap<String, Object>();
+    private BapiMapping createBapiMapping() {
+        // needed to detect if a field is an export or a changing parameter
+        BapiMapping bapiMapping = new BapiMapping(Object.class, "BAPI_NAME", new ErrorHandling("/EXPORT/RETURN", new String[0]));
+        // Export parameters
+        StructureMapping struct1 = new StructureMapping(Object.class, "EXPORT_PARAM1", "", null);
+        struct1.addParameter(new FieldMapping(String.class, "STRUCT_FIELD1", "", null));
+        struct1.addParameter(new FieldMapping(int.class, "STRUCT_FIELD2", "", null));
+        bapiMapping.addExportParameter(struct1);
+        bapiMapping.addExportParameter(new FieldMapping(String.class, "EXPORT_PARAM2", "", null));
+        bapiMapping.addExportParameter(new FieldMapping(Date.class, "EXPORT_PARAM3", "", null));
 
-        functionMap.put("IMPORT", importMap);
-        functionMap.put("EXPORT", exportMap);
-        functionMap.put("TABLE", tableMap);
+        // Changing parameters
+        bapiMapping.addChangingParameter(new FieldMapping(String.class, "CHANGING_PARAM1", "", null));
+        bapiMapping.addChangingParameter(new FieldMapping(int.class, "CHANGING_PARAM2", "", null));
 
-        // create import parameters
-        Map<String, Object> importStructMap = new HashMap<String, Object>();
-        importStructMap.put("STRUCT_FIELD1", 1);
-        importStructMap.put("STRUCT_FIELD2", "structField2");
-
-        importMap.put("IMPORT_PARAM1", importStructMap);
-        importMap.put("IMPORT_PARAM2", "importParam2");
-        importMap.put("IMPORT_PARAM3", 3);
-
-        // create table parameters
-        List<Map<String, Object>> table1 = new ArrayList<Map<String, Object>>();
-        table1.add(getTableRow("tableField1", new Date(1), 1));
-        table1.add(getTableRow("tableField2", new Date(2), 2));
-
-        tableMap.put("TABLE_PARAM1", table1);
-        return functionMap;
+        return bapiMapping;
     }
 
     private Map<String, Object> getTableRow(String param1, Date param2, int param3) {

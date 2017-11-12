@@ -18,6 +18,7 @@
 
 package org.hibersap.execution;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,22 +48,22 @@ public class PojoMapper_ToPojoTest {
 
     @Test
     public void mapsSimpleParameterWithoutConverter() {
-        assertThat(bapi.intParam).isEqualTo(4711);
+        assertThat(bapi.importIntParam).isEqualTo(4711);
     }
 
     @Test
     public void mapsSimpleParameterWithConverter() {
-        assertThat(bapi.intParamWithConverter).isEqualTo("4712");
+        assertThat(bapi.exportIntParamWithConverter).isEqualTo("4712");
     }
 
     @Test
     public void mapsStructureParameterWithConverter() {
-        assertThat(bapi.structureParamWithConverter).isEqualTo("c");
+        assertThat(bapi.importStructureParamWithConverter).isEqualTo("c");
     }
 
     @Test
     public void mapsStructureParameterWithoutConverter() {
-        assertThat(bapi.structureParam.charParam).isEqualTo('d');
+        assertThat(bapi.exportStructureParam.charParam).isEqualTo('d');
     }
 
     @Test
@@ -84,6 +85,12 @@ public class PojoMapper_ToPojoTest {
         assertThat(bapi.exportTableStructure).hasSize(2);
         assertThat(bapi.exportTableStructure.get(0).charParam).isEqualTo('7');
         assertThat(bapi.exportTableStructure.get(1).charParam).isEqualTo('8');
+    }
+
+    @Test
+    public void mapsChangingParameters() throws Exception {
+        assertThat(bapi.changingDateParam).isEqualTo(new Date(0));
+        assertThat(bapi.changingStructureParam.charParam).isEqualTo('e');
     }
 
     @Test
@@ -115,6 +122,11 @@ public class PojoMapper_ToPojoTest {
         importsMap.put("exportTable", exportTable);
         functionMap.put("EXPORT", exportsMap);
 
+        Map<String, Object> changingMap = createMap();
+        changingMap.put("changingDateParam", new Date(0));
+        changingMap.put("changingParamWithStructure", singletonMap("charParam", 'e'));
+        functionMap.put("CHANGING", changingMap);
+
         Map<String, Object> tablesMap = createMap();
         List<Map<String, Character>> tableWithoutConverter = asList(
                 singletonMap("charParam", '1'),
@@ -133,6 +145,6 @@ public class PojoMapper_ToPojoTest {
     }
 
     private MyTestBapi createEmptyBapiObject() {
-        return new MyTestBapi(null, null, null, null, null, null, null, null);
+        return new MyTestBapi(null, null, null, null, null, null, null, null, null, null);
     }
 }

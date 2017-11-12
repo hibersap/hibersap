@@ -39,7 +39,7 @@ public class ErrorHandling implements Serializable {
     private final String[] errorMessageTypes;
 
     public ErrorHandling(final String pathToReturnStructure, final String[] errorMessageTypes) {
-        this.errorMessageTypes = errorMessageTypes == null ? null : errorMessageTypes;
+        this.errorMessageTypes = errorMessageTypes;
         throwExceptionOnError = StringUtils.isNotEmpty(pathToReturnStructure);
         this.pathToReturnStructure = pathToReturnStructure;
     }

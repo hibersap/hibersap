@@ -38,6 +38,7 @@
       <annotated-class>org.hibersap.it.bapi.MapTableParameterToArrayTest$BapiCustomerGetList</annotated-class>
       <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarListBapi</annotated-class>
       <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarManufacturerBapi</annotated-class>
+      <annotated-class>org.hibersap.it.bapi.ChangingParametersTest$StfcChanging</annotated-class>
     </annotated-classes>
   </session-manager>
 </hibersap>

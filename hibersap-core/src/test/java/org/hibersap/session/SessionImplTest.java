@@ -158,7 +158,7 @@ public class SessionImplTest {
             return null;
         }
 
-        public void execute(String bapiName, Map<String, Object> functionMap) {
+        public void execute(BapiMapping bapiMapping, Map<String, Object> functionMap) {
         }
 
         public void close() {

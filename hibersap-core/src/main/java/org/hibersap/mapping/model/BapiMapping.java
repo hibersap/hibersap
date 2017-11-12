@@ -22,8 +22,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.Generated;
-import org.apache.commons.lang.StringUtils;
 import org.hibersap.MappingException;
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * This class is the framework internal representation of mappings between SAP function modules
@@ -31,19 +31,20 @@ import org.hibersap.MappingException;
  *
  * @author Carsten Erker
  */
-public class BapiMapping implements Serializable {
+public final class BapiMapping implements Serializable {
 
     private static final long serialVersionUID = 6716958693316907614L;
 
     private final String bapiName;
     private final Set<ParameterMapping> importParams = new HashSet<ParameterMapping>();
     private final Set<ParameterMapping> exportParams = new HashSet<ParameterMapping>();
+    private final Set<ParameterMapping> changingParams = new HashSet<ParameterMapping>();
     private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
     private final ErrorHandling errorHandling;
-    private Class<?> associatedClass;
+    private final Class<?> associatedClass;
 
     public BapiMapping(final Class<?> associatedClass, final String bapiName, final ErrorHandling errorHandling) {
-        if (StringUtils.isEmpty(bapiName)) {
+        if (isBlank(bapiName)) {
             throw new MappingException("Bapi name for class " + associatedClass.getName() + " is empty");
         }
         this.associatedClass = associatedClass;
@@ -53,6 +54,10 @@ public class BapiMapping implements Serializable {
 
     public void addExportParameter(final ParameterMapping parameter) {
         exportParams.add(parameter);
+    }
+
+    public void addChangingParameter(final ParameterMapping parameter) {
+        changingParams.add(parameter);
     }
 
     public void addImportParameter(final ParameterMapping parameter) {
@@ -79,6 +84,10 @@ public class BapiMapping implements Serializable {
         return exportParams;
     }
 
+    public Set<ParameterMapping> getChangingParameters() {
+        return changingParams;
+    }
+
     public Set<ParameterMapping> getImportParameters() {
         return importParams;
     }
@@ -91,6 +100,7 @@ public class BapiMapping implements Serializable {
         HashSet<ParameterMapping> parameters = new HashSet<ParameterMapping>();
         parameters.addAll(importParams);
         parameters.addAll(exportParams);
+        parameters.addAll(changingParams);
         parameters.addAll(tableParams);
         return parameters;
     }
@@ -101,8 +111,8 @@ public class BapiMapping implements Serializable {
     }
 
     @Override
-    @Generated("IntelliJ IDEA")
-    public boolean equals(final Object o) {
+    @Generated("IntelliJ")
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -112,38 +122,37 @@ public class BapiMapping implements Serializable {
 
         BapiMapping that = (BapiMapping) o;
 
-        if (associatedClass != null ? !associatedClass.equals(that.associatedClass) : that.associatedClass != null) {
+        if (!bapiName.equals(that.bapiName)) {
             return false;
         }
-        if (bapiName != null ? !bapiName.equals(that.bapiName) : that.bapiName != null) {
+        if (!importParams.equals(that.importParams)) {
             return false;
         }
-        if (errorHandling != null ? !errorHandling.equals(that.errorHandling) : that.errorHandling != null) {
+        if (!exportParams.equals(that.exportParams)) {
             return false;
         }
-        if (exportParams != null ? !exportParams.equals(that.exportParams) : that.exportParams != null) {
+        if (!changingParams.equals(that.changingParams)) {
             return false;
         }
-        if (importParams != null ? !importParams.equals(that.importParams) : that.importParams != null) {
+        if (!tableParams.equals(that.tableParams)) {
             return false;
         }
-        //noinspection RedundantIfStatement
-        if (tableParams != null ? !tableParams.equals(that.tableParams) : that.tableParams != null) {
+        if (!errorHandling.equals(that.errorHandling)) {
             return false;
         }
-
-        return true;
+        return associatedClass.equals(that.associatedClass);
     }
 
     @Override
-    @Generated("IntelliJ IDEA")
+    @Generated("IntelliJ")
     public int hashCode() {
-        int result = bapiName != null ? bapiName.hashCode() : 0;
-        result = 31 * result + (associatedClass != null ? associatedClass.hashCode() : 0);
-        result = 31 * result + (importParams != null ? importParams.hashCode() : 0);
-        result = 31 * result + (exportParams != null ? exportParams.hashCode() : 0);
-        result = 31 * result + (tableParams != null ? tableParams.hashCode() : 0);
-        result = 31 * result + (errorHandling != null ? errorHandling.hashCode() : 0);
+        int result = bapiName.hashCode();
+        result = 31 * result + importParams.hashCode();
+        result = 31 * result + exportParams.hashCode();
+        result = 31 * result + changingParams.hashCode();
+        result = 31 * result + tableParams.hashCode();
+        result = 31 * result + errorHandling.hashCode();
+        result = 31 * result + associatedClass.hashCode();
         return result;
     }
 }

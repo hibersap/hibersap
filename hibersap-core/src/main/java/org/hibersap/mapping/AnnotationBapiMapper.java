@@ -42,6 +42,26 @@ public class AnnotationBapiMapper {
     private static final Class<Bapi> BAPI = Bapi.class;
     private static final Class<Parameter> PARAMETER = Parameter.class;
 
+    /**
+     * Takes an annotated BAPI class and creates a BapiMapping. The BapiMapping is used when a BAPI
+     * gets executed to map SAP parameters to fields of the BAPI class.
+     *
+     * @param clazz The annotated Bapi class.
+     * @return The BapiMapping
+     */
+    public BapiMapping mapBapi(final Class<?> clazz) {
+        assertIsBapiClass(clazz);
+
+        Bapi bapiAnnotation = clazz.getAnnotation(BAPI);
+        BapiMapping bapiMapping = new BapiMapping(clazz, bapiAnnotation.value(), getErrorHandling(clazz));
+
+        Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(clazz, PARAMETER);
+        for (Field field : fields) {
+            addParameterToBapiMapping(bapiMapping, new BapiField(field));
+        }
+        return bapiMapping;
+    }
+
     private void addParameterToBapiMapping(final BapiMapping bapiClass, final BapiField field) {
         if (field.isTable()) {
             bapiClass.addTableParameter(createTableMapping(field));
@@ -49,8 +69,10 @@ public class AnnotationBapiMapper {
             ParameterMapping mapping = createParameterMapping(field);
             if (field.isImport()) {
                 bapiClass.addImportParameter(mapping);
-            } else {
+            } else if (field.isExport()) {
                 bapiClass.addExportParameter(mapping);
+            } else {
+                bapiClass.addChangingParameter(mapping);
             }
         }
     }
@@ -109,25 +131,5 @@ public class AnnotationBapiMapper {
             errorMessageTypes = annotation.errorMessageTypes();
         }
         return new ErrorHandling(pathToReturnStructure, errorMessageTypes);
-    }
-
-    /**
-     * Takes an annotated BAPI class and creates a BapiMapping. The BapiMapping is used when a BAPI
-     * gets executed to map SAP parameters to fields of the BAPI class.
-     *
-     * @param clazz The annotated Bapi class.
-     * @return The BapiMapping
-     */
-    public BapiMapping mapBapi(final Class<?> clazz) {
-        assertIsBapiClass(clazz);
-
-        Bapi bapiAnnotation = clazz.getAnnotation(BAPI);
-        BapiMapping bapiMapping = new BapiMapping(clazz, bapiAnnotation.value(), getErrorHandling(clazz));
-
-        Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(clazz, PARAMETER);
-        for (Field field : fields) {
-            addParameterToBapiMapping(bapiMapping, new BapiField(field));
-        }
-        return bapiMapping;
     }
 }

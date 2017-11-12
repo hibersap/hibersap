@@ -20,6 +20,7 @@ package org.hibersap.mapping;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Convert;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
@@ -38,6 +39,8 @@ class BapiField {
     private static final Class<Import> IMPORT = Import.class;
 
     private static final Class<Export> EXPORT = Export.class;
+
+    private static final Class<Changing> CHANGING = Changing.class;
 
     private static final Class<Table> TABLE = Table.class;
 
@@ -97,6 +100,10 @@ class BapiField {
 
     public boolean isExport() {
         return field.isAnnotationPresent(EXPORT);
+    }
+
+    public boolean isChanging() {
+        return field.isAnnotationPresent(CHANGING);
     }
 
     public boolean isImport() {

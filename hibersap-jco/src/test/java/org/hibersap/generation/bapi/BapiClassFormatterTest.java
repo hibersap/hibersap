@@ -18,10 +18,12 @@
 
 package org.hibersap.generation.bapi;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Export;
 import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
@@ -30,6 +32,7 @@ import org.hibersap.annotations.Table;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -41,8 +44,7 @@ public class BapiClassFormatterTest {
     private final AnnotationBapiMapper mapper = new AnnotationBapiMapper();
 
     @Test
-    public void createClass()
-            throws Exception {
+    public void createsClasses() throws Exception {
         BapiMapping bapiMapping = mapper.mapBapi(BapiTest.class);
         Map<String, String> classes = formatter.createClasses(bapiMapping, "org.hibersap.generated.test");
 
@@ -53,6 +55,17 @@ public class BapiClassFormatterTest {
         assertTrue(classes.containsKey("TestStructure"));
         assertTrue(classes.containsKey("TestTable"));
         assertTrue(classes.containsKey("TestSubStructure"));
+    }
+
+    @Test
+    public void createsClassWithChangingParameter() throws Exception {
+        BapiMapping bapiMapping = mapper.mapBapi(BapiTest.class);
+        Map<String, String> classes = formatter.createClasses(bapiMapping, "org.hibersap.generated.test");
+
+        String bapiTestSource = classes.get("BapiTest");
+        assertThat(bapiTestSource).contains("@org.hibersap.annotations.Changing\n"
+                + "\t@org.hibersap.annotations.Parameter(\"TEST_CHANGING\")\n"
+                + "\tprivate java.util.Date date;");
     }
 
     @SuppressWarnings("unused")
@@ -70,6 +83,10 @@ public class BapiClassFormatterTest {
         @Export
         @Parameter(value = "TEST_STRUCTURE", type = ParameterType.STRUCTURE)
         private TestStructure _testStructure;
+
+        @Changing
+        @Parameter("TEST_CHANGING")
+        private Date date;
 
         @Table
         @Parameter("TEST_TABLE")
@@ -111,5 +128,4 @@ public class BapiClassFormatterTest {
         @Parameter("STRUCT_INT")
         private int _structInt;
     }
-
 }

@@ -38,6 +38,7 @@ import org.hibersap.execution.UnsafeCastHelper;
 /**
  * @author Carsten Erker
  */
+@SuppressWarnings("PackageAccessibility")
 public class JCoMapper {
 
     private static final Log LOG = LogFactory.getLog(JCoMapper.class);
@@ -47,6 +48,8 @@ public class JCoMapper {
         mapToJCo(function.getImportParameterList(), importMap);
         final Map<String, Object> exportMap = UnsafeCastHelper.castToMap(functionMap.get(BapiConstants.EXPORT));
         mapToJCo(function.getExportParameterList(), exportMap);
+        final Map<String, Object> changingMap = UnsafeCastHelper.castToMap(functionMap.get(BapiConstants.CHANGING));
+        mapToJCo(function.getChangingParameterList(), changingMap);
         final Map<String, Object> tableMap = UnsafeCastHelper.castToMap(functionMap.get(BapiConstants.TABLE));
         mapToJCo(function.getTableParameterList(), tableMap);
     }
@@ -54,6 +57,7 @@ public class JCoMapper {
     void putFunctionValuesToFunctionMap(final JCoFunction function, final Map<String, Object> map) {
         map.put(BapiConstants.IMPORT, mapToMap(function.getImportParameterList()));
         map.put(BapiConstants.EXPORT, mapToMap(function.getExportParameterList()));
+        map.put(BapiConstants.CHANGING, mapToMap(function.getChangingParameterList()));
         map.put(BapiConstants.TABLE, mapToMap(function.getTableParameterList()));
     }
 

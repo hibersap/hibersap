@@ -106,7 +106,7 @@ public class SessionImpl implements Session, SessionImplementor {
 
         executionInterceptors.announce().beforeExecution(bapiMapping, functionMap);
 
-        connection.execute(bapiName, functionMap);
+        connection.execute(bapiMapping, functionMap);
 
         executionInterceptors.announce().afterExecution(bapiMapping, functionMap);
 

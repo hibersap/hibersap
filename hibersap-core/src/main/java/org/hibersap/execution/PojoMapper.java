@@ -54,6 +54,9 @@ public class PojoMapper {
         Set<ParameterMapping> exports = bapiMapping.getExportParameters();
         functionMap.put("EXPORT", pojoToMap(bapi, exports));
 
+        Set<ParameterMapping> changing = bapiMapping.getChangingParameters();
+        functionMap.put("CHANGING", pojoToMap(bapi, changing));
+
         Set<TableMapping> tables = bapiMapping.getTableParameters();
         functionMap.put("TABLE", pojoToMap(bapi, tables));
 
@@ -93,6 +96,7 @@ public class PojoMapper {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.putAll(getMapNullSafe(functionMap, BapiConstants.IMPORT));
         map.putAll(getMapNullSafe(functionMap, BapiConstants.EXPORT));
+        map.putAll(getMapNullSafe(functionMap, BapiConstants.CHANGING));
         map.putAll(getMapNullSafe(functionMap, BapiConstants.TABLE));
         return map;
     }

@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Table;
 import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -55,9 +57,11 @@ public class BapiFieldTest {
     @SuppressWarnings({"unchecked", "unused"})
     private ArrayList listSimple;
 
+    @Changing
+    private String changing;
+
     @Test
-    public void testGetActualType()
-            throws NoSuchFieldException {
+    public void getsActualType() throws NoSuchFieldException {
         BapiField field = new BapiField(getClass().getDeclaredField("listGeneric"));
         assertEquals(String.class, field.getAssociatedType());
 
@@ -69,8 +73,7 @@ public class BapiFieldTest {
     }
 
     @Test
-    public void testGetArrayType()
-            throws NoSuchFieldException {
+    public void getsArrayType() throws NoSuchFieldException {
         BapiField fieldIntegerArray = new BapiField(getClass().getDeclaredField("integerArray"));
         assertEquals(Integer.class, fieldIntegerArray.getArrayType());
 
@@ -79,7 +82,7 @@ public class BapiFieldTest {
     }
 
     @Test
-    public void testGetGenericType()
+    public void getsGenericType()
             throws NoSuchFieldException {
         BapiField field = new BapiField(getClass().getDeclaredField("listGeneric"));
         assertEquals(String.class, field.getGenericType());
@@ -95,5 +98,12 @@ public class BapiFieldTest {
 
         field = new BapiField(getClass().getDeclaredField("integerArray"));
         assertEquals(null, field.getGenericType());
+    }
+
+    @Test
+    public void getsChangingParameter() throws Exception {
+        BapiField field = new BapiField(getClass().getDeclaredField("changing"));
+        assertThat(field.getAssociatedType()).isEqualTo(String.class);
+        assertThat(field.isChanging()).isTrue();
     }
 }

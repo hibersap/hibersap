@@ -46,6 +46,7 @@ public final class BapiConstants {
     public static final String WAIT = "WAIT";
     public static final String IMPORT = "IMPORT";
     public static final String EXPORT = "EXPORT";
+    public static final String CHANGING = "CHANGING";
     public static final String TABLE = "TABLE";
 
     private BapiConstants() {
