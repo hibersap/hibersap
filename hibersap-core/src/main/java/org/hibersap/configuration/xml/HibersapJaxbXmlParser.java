@@ -18,8 +18,10 @@
 
 package org.hibersap.configuration.xml;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -111,6 +113,20 @@ public class HibersapJaxbXmlParser {
         URL resource = Thread.currentThread().getContextClassLoader().getResource(resourceName);
         if (resource == null) {
             resource = getClass().getResource(resourceName);
+        }
+        // load from -D parameter, can be outside of the classpath!
+        // see: https://github.com/hibersap/hibersap/issues/9
+        if(resource == null) {
+            try {
+                File configFile = new File(resourceName);
+                resource = configFile.toURI().toURL();
+            } catch (final MalformedURLException e) {
+                throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
+            } catch (final NullPointerException e) {
+                throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
+            } catch (final IllegalArgumentException e) {
+                throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
+            }
         }
         if (resource == null) {
             throw new InternalHiberSapException("Cannot locate resource " + resourceName);

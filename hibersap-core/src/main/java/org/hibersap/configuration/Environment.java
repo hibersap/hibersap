@@ -28,6 +28,9 @@ import org.hibersap.HibersapException;
 */
 public final class Environment {
 
+    // Name of the -D parameter to set another location for hibersap.xml file
+    // see: https://github.com/hibersap/hibersap/issues/9
+    public static final String HIBERSAP_XML_FILE_PARAMETER = "hibersap.xmlFile";
     public static final String HIBERSAP_XML_FILE = "/META-INF/hibersap.xml";
     private static final String HIBERSAP_VERSION_FILE = "hibersap-version.properties";
     private static final String HIBERSAP_VERSION_PROPERTY_KEY = "hibersap-version";
