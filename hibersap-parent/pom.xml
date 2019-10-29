@@ -29,7 +29,7 @@
 
   <groupId>org.hibersap</groupId>
   <artifactId>hibersap-parent</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Hibersap Parent</name>
@@ -361,19 +361,19 @@
       <dependency>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-core</artifactId>
-        <version>1.4.0</version>
+        <version>1.4.1-SNAPSHOT</version>
       </dependency>
 
       <dependency>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-jco</artifactId>
-        <version>1.4.0</version>
+        <version>1.4.1-SNAPSHOT</version>
       </dependency>
 
       <dependency>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-jca</artifactId>
-        <version>1.4.0</version>
+        <version>1.4.1-SNAPSHOT</version>
       </dependency>
 
       <!-- Wrapper for the SAP Java Connector (JCo) -->
@@ -484,8 +484,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <scm>
-    <tag>hibersap-1.4.0</tag>
-  </scm>
 </project>
