@@ -134,6 +134,13 @@
       </roles>
       <url>https://github.com/johnjaylward</url>
     </developer>
+    <developer>
+      <name>Sebastian Schamschat</name>
+      <roles>
+        <role>Contributor</role>
+      </roles>
+      <url>https://github.com/Linuem</url>
+    </developer>
   </developers>
 
   <organization>
