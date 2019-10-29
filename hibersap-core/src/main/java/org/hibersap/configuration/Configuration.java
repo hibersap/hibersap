@@ -140,10 +140,25 @@ public abstract class Configuration {
         return data.getSessionManagerConfig();
     }
 
+    /**
+     * Load hibersap.xml file from default location (see Environment.HIBERSAP_XML_FILE) or from -D Parameter (see Environment.HIBERSAP_XML_FILE)
+     * @return The hibersap config
+     */
     private HibersapConfig readHibersapConfig() {
-        LOG.debug("Reading HibersapConfig from configuration file");
+
+        String configFile;
+        try {
+            // Get path to xml from system property or as fallback use default location
+            // see: https://github.com/hibersap/hibersap/issues/9
+            configFile = System.getProperty(Environment.HIBERSAP_XML_FILE_PARAMETER, Environment.HIBERSAP_XML_FILE);
+        } catch (NullPointerException e) {
+            configFile = Environment.HIBERSAP_XML_FILE;
+        } catch (IllegalArgumentException e) {
+            configFile = Environment.HIBERSAP_XML_FILE;
+        }
+        LOG.debug("Reading HibersapConfig from configuration file: '" + configFile + "'");
 
         final HibersapJaxbXmlParser parser = new HibersapJaxbXmlParser();
-        return parser.parseResource(Environment.HIBERSAP_XML_FILE);
+        return parser.parseResource(configFile);
     }
 }
