@@ -20,10 +20,12 @@ package org.hibersap.execution.jco;
 
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
+import com.sap.conn.jco.ext.DestinationDataProvider;
 import com.sap.conn.jco.ext.Environment;
 import java.util.Properties;
 import org.fest.assertions.Condition;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -44,6 +46,12 @@ public class JCoEnvironmentTest {
             }
         }
     };
+
+    @Before
+    public void addDestinationProperties() {
+        // since JCo 3.1.2, Properties must not be empty
+        JCO_PROPERTIES_DUMMY.setProperty(DestinationDataProvider.JCO_ASHOST, "1.2.3.4");
+    }
 
     @After
     public void unregisterDestinationDataProvidersAndDestinations() {

@@ -173,9 +173,9 @@
         </os>
       </activation>
       <properties>
-        <jco.native-lib.filename>libsapjco3.jnilib</jco.native-lib.filename>
+        <jco.native-lib.filename>libsapjco3.dylib</jco.native-lib.filename>
         <jco.native-lib.classifier>darwinintel64</jco.native-lib.classifier>
-        <jco.native-lib.packaging>jnilib</jco.native-lib.packaging>
+        <jco.native-lib.packaging>dylib</jco.native-lib.packaging>
       </properties>
     </profile>
     <profile>
@@ -216,7 +216,7 @@
       </activation>
       <properties>
         <jco.native-lib.filename>libsapjco3.so</jco.native-lib.filename>
-        <jco.native-lib.classifier>linux-x86-64</jco.native-lib.classifier>
+        <jco.native-lib.classifier>linuxx86_64</jco.native-lib.classifier>
         <jco.native-lib.packaging>so</jco.native-lib.packaging>
       </properties>
     </profile>
@@ -279,7 +279,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <jco.version>3.0.16</jco.version>
+    <jco.version>3.1.2</jco.version>
   </properties>
 
   <build>
