@@ -20,6 +20,7 @@ package org.hibersap.conversion;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Generated;
 import org.hibersap.mapping.ReflectionHelper;
 
 /**
@@ -66,6 +67,7 @@ public class ConverterCache {
     }
 
     @Override
+    @Generated("")
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -74,6 +76,7 @@ public class ConverterCache {
     }
 
     @Override
+    @Generated("")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -85,7 +88,6 @@ public class ConverterCache {
             return false;
         }
         ConverterCache other = (ConverterCache) obj;
-        //noinspection RedundantIfStatement
         if (!converterForClass.keySet().equals(other.converterForClass.keySet())) {
             return false;
         }

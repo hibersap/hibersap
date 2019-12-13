@@ -21,6 +21,7 @@ package org.hibersap.configuration.xml;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Generated;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -81,6 +82,7 @@ public final class HibersapConfig implements Serializable {
     }
 
     @Override
+    @Generated("")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -99,6 +101,7 @@ public final class HibersapConfig implements Serializable {
     }
 
     @Override
+    @Generated("")
     public int hashCode() {
         return sessionManagers != null ? sessionManagers.hashCode() : 0;
     }

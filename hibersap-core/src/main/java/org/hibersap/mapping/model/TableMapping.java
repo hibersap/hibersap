@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Generated;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.MappingException;
 import org.hibersap.conversion.Converter;
@@ -131,7 +132,8 @@ public final class TableMapping extends ParameterMapping {
     @Override
     public Object getUnconvertedValueToJava(final Object fieldMapCollection, final ConverterCache converterCache) {
         if (!hasConverter()) {
-            @SuppressWarnings({"unchecked"}) // must be Collection, since there is no Converter
+            @SuppressWarnings({"unchecked"})
+            // must be Collection, since there is no Converter
                     Class<? extends Collection<Object>> destinationType = (Class<? extends Collection<Object>>) getDestinationType();
 
             Collection<Object> collection = newCollectionInstance(destinationType);
@@ -212,6 +214,7 @@ public final class TableMapping extends ParameterMapping {
     }
 
     @Override
+    @Generated("")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -241,6 +244,7 @@ public final class TableMapping extends ParameterMapping {
     }
 
     @Override
+    @Generated("")
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (componentParameter != null ? componentParameter.hashCode() : 0);

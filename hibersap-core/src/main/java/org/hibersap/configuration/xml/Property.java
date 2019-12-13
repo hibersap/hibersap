@@ -19,6 +19,7 @@
 package org.hibersap.configuration.xml;
 
 import java.io.Serializable;
+import javax.annotation.Generated;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -88,6 +89,7 @@ public class Property implements Serializable {
     }
 
     @Override
+    @Generated("")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -109,6 +111,7 @@ public class Property implements Serializable {
     }
 
     @Override
+    @Generated("")
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (value != null ? value.hashCode() : 0);

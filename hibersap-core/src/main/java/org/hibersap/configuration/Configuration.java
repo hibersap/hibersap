@@ -141,7 +141,8 @@ public abstract class Configuration {
     }
 
     /**
-     * Load hibersap.xml file from default location (see Environment.HIBERSAP_XML_FILE) or from -D Parameter (see Environment.HIBERSAP_XML_FILE)
+     * Load hibersap.xml file from default location (see Environment.HIBERSAP_XML_FILE)
+     * or from -D Parameter (see Environment.HIBERSAP_XML_FILE)
      *
      * @return The hibersap config
      */

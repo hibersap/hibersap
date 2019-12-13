@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Generated;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
 import org.hibersap.execution.UnsafeCastHelper;
@@ -90,6 +91,7 @@ public final class StructureMapping extends ParameterMapping {
     }
 
     @Override
+    @Generated("")
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -112,6 +114,7 @@ public final class StructureMapping extends ParameterMapping {
     }
 
     @Override
+    @Generated("")
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + parameters.hashCode();

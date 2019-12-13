@@ -62,7 +62,7 @@
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <!--<releaseProfiles>it</releaseProfiles>-->
+            <releaseProfiles>it</releaseProfiles>
           </configuration>
         </plugin>
       </plugins>
