@@ -150,8 +150,8 @@
   </organization>
 
   <issueManagement>
-    <system>Sourceforge Tracker</system>
-    <url>https://sourceforge.net/tracker/?group_id=225273</url>
+    <system>Github Issues</system>
+    <url>https://github.com/hibersap/hibersap/issues</url>
   </issueManagement>
 
   <mailingLists>
