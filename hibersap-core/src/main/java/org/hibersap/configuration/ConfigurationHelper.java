@@ -42,8 +42,8 @@ public final class ConfigurationHelper {
     public static Set<ExecutionInterceptor> createExecutionInterceptors(final SessionManagerConfig sessionManagerConfig) {
         final List<String> classNames = sessionManagerConfig.getExecutionInterceptorClasses();
 
-        final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
-        executionInterceptors.addAll(createInstances(classNames, ExecutionInterceptor.class));
+        final Set<ExecutionInterceptor> executionInterceptors
+                = new HashSet<>(createInstances(classNames, ExecutionInterceptor.class));
         executionInterceptors.add(new SapErrorInterceptor());
 
         return executionInterceptors;
@@ -52,8 +52,8 @@ public final class ConfigurationHelper {
     public static Set<BapiInterceptor> createBapiInterceptors(final SessionManagerConfig sessionManagerConfig) {
         final List<String> classNames = sessionManagerConfig.getBapiInterceptorClasses();
 
-        final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
-        bapiInterceptors.addAll(createInstances(classNames, BapiInterceptor.class));
+        final Set<BapiInterceptor> bapiInterceptors
+                = new HashSet<>(createInstances(classNames, BapiInterceptor.class));
         activateBeanValidation(bapiInterceptors, sessionManagerConfig);
 
         return bapiInterceptors;

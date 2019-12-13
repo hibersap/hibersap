@@ -22,7 +22,7 @@ import javax.resource.cci.ConnectionSpec;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractConnectionSpecFactoryTest {
 
@@ -53,7 +53,7 @@ public class AbstractConnectionSpecFactoryTest {
     }
 
     @Test
-    public void newConnectionSpecInstanceCalledWithOneArgumentConstructor() throws Exception {
+    public void newConnectionSpecInstanceCalledWithOneArgumentConstructor() {
         TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory
                 .newConnectionSpecInstance(TestConnectionSpecImpl.class, new Class<?>[]{int.class},
                         new Object[]{4711});
@@ -63,7 +63,7 @@ public class AbstractConnectionSpecFactoryTest {
     }
 
     @Test
-    public void newConnectionSpecInstanceCalledWithDefaultConstructor() throws Exception {
+    public void newConnectionSpecInstanceCalledWithDefaultConstructor() {
         TestConnectionSpecImpl spec = (TestConnectionSpecImpl) factory.newConnectionSpecInstance(
                 TestConnectionSpecImpl.class, null, null);
 
@@ -72,7 +72,7 @@ public class AbstractConnectionSpecFactoryTest {
     }
 
     @Test
-    public void newConnectionSpecInstanceCalledWithTwoArgumentConstructor() throws Exception {
+    public void newConnectionSpecInstanceCalledWithTwoArgumentConstructor() {
         TestConnectionSpecImpl spec = (TestConnectionSpecImpl)
                 factory.newConnectionSpecInstance(
                         TestConnectionSpecImpl.class,

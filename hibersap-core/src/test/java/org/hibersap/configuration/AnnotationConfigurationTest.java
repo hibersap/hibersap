@@ -29,7 +29,7 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionManager;
 import org.hibersap.session.SessionManagerImpl;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnnotationConfigurationTest {
 

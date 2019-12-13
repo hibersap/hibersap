@@ -27,8 +27,7 @@ import static org.junit.Assert.assertTrue;
 public class HibersapConfigTest {
 
     @Test
-    public void testCreate()
-            throws Exception {
+    public void testCreate() {
         HibersapConfig config = new HibersapConfig();
 
         config.addSessionManager("Sm1").setContext("org.hibersap.execution.jco.JCoContext")

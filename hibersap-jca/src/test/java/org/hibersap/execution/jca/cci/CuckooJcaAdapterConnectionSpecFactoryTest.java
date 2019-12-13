@@ -21,7 +21,7 @@ package org.hibersap.execution.jca.cci;
 import org.cuckoo.ra.cci.ApplicationProperties;
 import org.hibersap.session.Credentials;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CuckooJcaAdapterConnectionSpecFactoryTest {
 
@@ -36,7 +36,7 @@ public class CuckooJcaAdapterConnectionSpecFactoryTest {
             .setX509Certificate("x509Certificate");
 
     @Test
-    public void createConnectionSpec() throws Exception {
+    public void createConnectionSpec() {
         ApplicationProperties connectionSpec = (ApplicationProperties) factory.createConnectionSpec(credentials);
 
         assertThat(connectionSpec.getUser()).isEqualTo("user");
@@ -50,7 +50,7 @@ public class CuckooJcaAdapterConnectionSpecFactoryTest {
     }
 
     @Test
-    public void createConnectionSpecWithNullValues() throws Exception {
+    public void createConnectionSpecWithNullValues() {
         ApplicationProperties connectionSpec = (ApplicationProperties) factory
                 .createConnectionSpec(new Credentials());
 

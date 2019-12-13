@@ -35,7 +35,7 @@ import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.junit.Before;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 import static org.junit.Assert.assertEquals;
 
@@ -47,19 +47,17 @@ public class JCAMapperTest {
     @Before
     public void setUp()
             throws ResourceException {
-        EasyMock.expect(recordFactory.createIndexedRecord((String) EasyMock.notNull()))
+        EasyMock.expect(recordFactory.createIndexedRecord(EasyMock.notNull()))
                 .andAnswer(new IndexedRecordAnswer()).anyTimes();
-        EasyMock.expect(recordFactory.createMappedRecord((String) EasyMock.notNull()))
+        EasyMock.expect(recordFactory.createMappedRecord(EasyMock.notNull()))
                 .andAnswer(new MappedRecordAnswer()).anyTimes();
         EasyMock.replay(recordFactory);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    public void mapToFunctionMap()
-            throws Exception {
+    public void mapToFunctionMap() {
         Map<String, Object> functionMap = createFunctionMap();
-        Map<String, Object> resultRecord = new HashMap<String, Object>();
+        Map<String, Object> resultRecord = new HashMap<>();
 
         addExportAndTableParameters(resultRecord);
 
@@ -91,7 +89,7 @@ public class JCAMapperTest {
         Map<String, Object> tableParams = castToMap(functionMap.get("TABLE"));
         assertEquals(2, tableParams.size());
 
-        List table2 = (List) tableParams.get("TABLE_PARAM2");
+        List<?> table2 = (List<?>) tableParams.get("TABLE_PARAM2");
         assertEquals(2, table2.size());
 
         Map<String, Object> row1 = castToMap(table2.get(0));
@@ -144,11 +142,11 @@ public class JCAMapperTest {
     }
 
     private Map<String, Object> createFunctionMap() {
-        Map<String, Object> functionMap = new HashMap<String, Object>();
-        Map<String, Object> importMap = new HashMap<String, Object>();
-        Map<String, Object> exportMap = new HashMap<String, Object>();
-        Map<String, Object> changingMap = new HashMap<String, Object>();
-        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> functionMap = new HashMap<>();
+        Map<String, Object> importMap = new HashMap<>();
+        Map<String, Object> exportMap = new HashMap<>();
+        Map<String, Object> changingMap = new HashMap<>();
+        Map<String, Object> tableMap = new HashMap<>();
 
         functionMap.put("IMPORT", importMap);
         functionMap.put("EXPORT", exportMap);
@@ -156,7 +154,7 @@ public class JCAMapperTest {
         functionMap.put("TABLE", tableMap);
 
         // create import parameters
-        Map<String, Object> importStructMap = new HashMap<String, Object>();
+        Map<String, Object> importStructMap = new HashMap<>();
         importStructMap.put("STRUCT_FIELD1", 1);
         importStructMap.put("STRUCT_FIELD2", "structField2");
 
@@ -169,7 +167,7 @@ public class JCAMapperTest {
         changingMap.put("CHANGING_PARAM2", 2);
 
         // create table parameters
-        List<Map<String, Object>> table1 = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> table1 = new ArrayList<>();
         table1.add(getTableRow("tableField1", new Date(1), 1));
         table1.add(getTableRow("tableField2", new Date(2), 2));
 
@@ -227,28 +225,26 @@ public class JCAMapperTest {
     }
 
     private Map<String, Object> getTableRow(String param1, Date param2, int param3) {
-        Map<String, Object> row = new HashMap<String, Object>();
+        Map<String, Object> row = new HashMap<>();
         row.put("TABLE_FIELD1", param1);
         row.put("TABLE_FIELD2", param2);
         row.put("TABLE_FIELD3", param3);
         return row;
     }
 
-    final class IndexedRecordAnswer
+    static final class IndexedRecordAnswer
             implements IAnswer<IndexedRecord> {
 
-        public IndexedRecord answer()
-                throws Throwable {
+        public IndexedRecord answer() {
             Object[] args = EasyMock.getCurrentArguments();
             return new MyIndexedRecord((String) args[0]);
         }
     }
 
-    final class MappedRecordAnswer
+    static final class MappedRecordAnswer
             implements IAnswer<MappedRecord> {
 
-        public MappedRecord answer()
-                throws Throwable {
+        public MappedRecord answer() {
             Object[] args = EasyMock.getCurrentArguments();
             return new MyMappedRecord((String) args[0]);
         }

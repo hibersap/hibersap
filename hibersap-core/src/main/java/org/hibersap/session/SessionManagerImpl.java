@@ -53,20 +53,20 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
 
     private transient Set<ExecutionInterceptor> executionInterceptors;
 
-    private transient Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
+    private transient Set<BapiInterceptor> bapiInterceptors = new HashSet<>();
 
     public SessionManagerImpl(final ConfigurationData data, final Context context) {
         closed = false;
         config = data.getSessionManagerConfig();
-        bapiMappings = new HashMap<String, BapiMapping>(data.getBapiMappingsForClass());
+        bapiMappings = new HashMap<>(data.getBapiMappingsForClass());
         initializeTransientFields(data, context);
     }
 
     private void initializeTransientFields(final ConfigurationData data, final Context context) {
         this.context = context;
         converterCache = new ConverterCache();
-        executionInterceptors = new HashSet<ExecutionInterceptor>(data.getExecutionInterceptors());
-        bapiInterceptors = new HashSet<BapiInterceptor>(data.getBapiInterceptors());
+        executionInterceptors = new HashSet<>(data.getExecutionInterceptors());
+        bapiInterceptors = new HashSet<>(data.getBapiInterceptors());
     }
 
     /*
@@ -84,15 +84,15 @@ public final class SessionManagerImpl implements SessionManager, SessionManagerI
     }
 
     /*
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public boolean isClosed() {
         return closed;
     }
 
     /*
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public Map<String, BapiMapping> getBapiMappings() {
         assertNotClosed();
         return Collections.unmodifiableMap(bapiMappings);

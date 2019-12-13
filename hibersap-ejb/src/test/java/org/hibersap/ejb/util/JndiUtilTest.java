@@ -40,7 +40,7 @@ public class JndiUtilTest {
     private final Context initialCtx = createNiceMock(Context.class);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         System.setProperty("java.naming.factory.initial", MockInitialContextFactory.NAME);
         MockInitialContextFactory.setMockContext(initialCtx);
     }

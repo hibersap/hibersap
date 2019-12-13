@@ -36,12 +36,9 @@ public class SapBapiJcaAdapterConnectionSpecFactory extends AbstractConnectionSp
                     credentials.getPassword(),
                     credentials.getLanguage()};
             Class<?>[] parameterTypes = new Class<?>[]{String.class, String.class, String.class};
-            Object connSpecImpl = newConnectionSpecInstance(connSpecClass, parameterTypes, arguments);
 
-            return (ConnectionSpec) connSpecImpl;
-        } catch (IllegalArgumentException e) {
-            throw new InternalHiberSapException(e.getMessage(), e);
-        } catch (ClassNotFoundException e) {
+            return newConnectionSpecInstance(connSpecClass, parameterTypes, arguments);
+        } catch (IllegalArgumentException | ClassNotFoundException e) {
             throw new InternalHiberSapException(e.getMessage(), e);
         }
     }

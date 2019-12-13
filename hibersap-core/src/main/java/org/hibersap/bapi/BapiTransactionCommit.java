@@ -30,7 +30,7 @@ import org.hibersap.annotations.ThrowExceptionOnError;
  * @author Carsten Erker
  */
 @Bapi(BapiConstants.BAPI_TRANSACTION_COMMIT)
-@ThrowExceptionOnError(returnStructure = BapiConstants.EXPORT_RETURN)
+@ThrowExceptionOnError
 public final class BapiTransactionCommit
         implements Serializable {
 
@@ -38,6 +38,5 @@ public final class BapiTransactionCommit
 
     @Import
     @Parameter(BapiConstants.WAIT)
-    @SuppressWarnings("unused")
     private final String wait = "X";
 }

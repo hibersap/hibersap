@@ -45,9 +45,9 @@ public class BeanValidationInterceptor implements BapiInterceptor {
     }
 
     private void checkConstraints(final Set<ConstraintViolation<Object>> constraintViolations) {
-        Set<ConstraintViolation<?>> propagatedViolations = new HashSet<ConstraintViolation<?>>(
+        Set<ConstraintViolation<?>> propagatedViolations = new HashSet<>(
                 constraintViolations.size());
-        Set<String> classNames = new HashSet<String>();
+        Set<String> classNames = new HashSet<>();
 
         for (ConstraintViolation<?> violation : constraintViolations) {
             propagatedViolations.add(violation);

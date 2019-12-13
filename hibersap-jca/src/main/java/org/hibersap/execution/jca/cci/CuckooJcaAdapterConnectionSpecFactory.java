@@ -45,9 +45,7 @@ public class CuckooJcaAdapterConnectionSpecFactory extends AbstractConnectionSpe
 
             Class<?> connSpecClass = getConnectionSpecClass(CONNECTION_SPEC_IMPL_CLASS_NAME);
             return newConnectionSpecInstance(connSpecClass, parameterTypes, arguments);
-        } catch (IllegalArgumentException e) {
-            throw new InternalHiberSapException(e.getMessage(), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IllegalArgumentException | ClassNotFoundException e) {
             throw new InternalHiberSapException(e.getMessage(), e);
         }
     }

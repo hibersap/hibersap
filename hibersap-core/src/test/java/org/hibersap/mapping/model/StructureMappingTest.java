@@ -24,7 +24,7 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.conversion.ConverterCache;
 import org.junit.Before;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 
 public class StructureMappingTest {
@@ -34,7 +34,7 @@ public class StructureMappingTest {
     private StructureMapping structureMapping;
 
     @Before
-    public void createStructureMapping() throws Exception {
+    public void createStructureMapping() {
         structureMapping = new StructureMapping(TestStructureBean.class, "sapName", "javaName",
                 null);
         structureMapping.addParameter(new FieldMapping(Integer.class, "sapField1", "javaField1", null));
@@ -42,7 +42,7 @@ public class StructureMappingTest {
     }
 
     @Test
-    public void getUnconvertedValueToJavaMapsFields() throws Exception {
+    public void getUnconvertedValueToJavaMapsFields() {
         HashMap<String, Object> fieldMap = new HashMap<String, Object>();
         fieldMap.put("sapField1", Integer.MAX_VALUE);
         fieldMap.put("sapField2", Float.MAX_VALUE);
@@ -56,7 +56,7 @@ public class StructureMappingTest {
     }
 
     @Test
-    public void getUnconvertedValueToSapMapsFields() throws Exception {
+    public void getUnconvertedValueToSapMapsFields() {
         TestStructureBean bean = new TestStructureBean();
         bean.javaField1 = Integer.MAX_VALUE;
         bean.javaField2 = Float.MAX_VALUE;

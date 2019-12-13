@@ -29,8 +29,8 @@ import org.hibersap.annotations.Export;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptySet;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.Fail.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hibersap.mapping.ReflectionHelper.getDeclaredFieldsWithAnnotationRecursively;
 
 public class ReflectionHelperTest {
@@ -60,14 +60,14 @@ public class ReflectionHelperTest {
     }
 
     @Test
-    public void getDeclaredFieldReturnsCorrectField() throws Exception {
+    public void getDeclaredFieldReturnsCorrectField() {
         TestBean bean = new TestBean();
         Field field = ReflectionHelper.getDeclaredField(bean, "intValue");
         assertThat(field.getName()).isEqualTo("intValue");
     }
 
     @Test(expected = HibersapException.class)
-    public void getDeclaredFieldThrowsExceptionWhenFieldDoesNotExist() throws Exception {
+    public void getDeclaredFieldThrowsExceptionWhenFieldDoesNotExist() {
         ReflectionHelper.getDeclaredField(new TestBean(), "notExistent");
     }
 
@@ -104,7 +104,7 @@ public class ReflectionHelperTest {
 
     @Test
     public void newCollectionInstanceCanCreateArrayList() {
-        Collection<Object> collection = ReflectionHelper.newCollectionInstance(ArrayList.class);
+        Collection<?> collection = ReflectionHelper.newCollectionInstance(ArrayList.class);
         assertThat(collection.getClass()).isSameAs(ArrayList.class);
     }
 
@@ -128,20 +128,17 @@ public class ReflectionHelperTest {
     }
 
     @Test(expected = HibersapException.class)
-    @SuppressWarnings("NullableProblems")
     public void setFieldValueThrowsExceptionWhenTryingToSetValueOnNullObject() {
         ReflectionHelper.setFieldValue(null, "intValue", 0);
     }
 
     @Test(expected = HibersapException.class)
-    @SuppressWarnings("NullableProblems")
     public void setFieldValueThrowsExceptionWhenSettingNullValueOnPrimitiveType() {
         TestBean bean = new TestBean();
         ReflectionHelper.setFieldValue(bean, "intValue", null);
     }
 
     @Test
-    @SuppressWarnings("NullableProblems")
     public void setFieldValueCanSetNullValue() {
         TestBean bean = new TestBean();
         bean.set = Collections.emptySet();
@@ -168,13 +165,10 @@ public class ReflectionHelperTest {
 
     @Test
     public void setFieldValueThrowsHibersapExceptionWithMessageContainingClassAndFieldNameWhenFieldDoesNotExist() {
-        try {
-            ReflectionHelper.setFieldValue(new Object(), "doesNotExist", "someValue");
-            fail();
-        } catch (HibersapException e) {
-            assertThat(e.getMessage()).contains("Object");
-            assertThat(e.getMessage()).contains("doesNotExist");
-        }
+        assertThatThrownBy(() -> ReflectionHelper.setFieldValue(new Object(), "doesNotExist", "someValue"))
+                .isInstanceOf(HibersapException.class)
+                .hasMessageContaining("Object")
+                .hasMessageContaining("doesNotExist");
     }
 
     @Test
@@ -189,7 +183,7 @@ public class ReflectionHelperTest {
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(TestSubClass.class, Export.class);
 
         assertThat(fields).hasSize(2);
-        assertThat(fields).onProperty("name").contains("set", "paramSubClass");
+        assertThat(fields).extracting(Field::getName).contains("set", "paramSubClass");
     }
 
     @Test
@@ -197,25 +191,26 @@ public class ReflectionHelperTest {
         final Set<Field> fields = getDeclaredFieldsWithAnnotationRecursively(TestBean.class, Export.class);
 
         assertThat(fields).hasSize(1);
-        assertThat(fields).onProperty("name").contains("set");
+        assertThat(fields).extracting(Field::getName).contains("set");
     }
 
     @Test
-    public void newArrayFromCollectionReturnsNullWhenCollectionIsNull() throws Exception {
+    @SuppressWarnings("ConstantConditions")
+    public void newArrayFromCollectionReturnsNullWhenCollectionIsNull() {
         Object[] objects = ReflectionHelper.newArrayFromCollection(null, Integer.class);
 
         assertThat(objects).isNull();
     }
 
     @Test
-    public void newArrayFromCollectionReturnsArrayOfSizeZeroWhenCollectionIsEmpty() throws Exception {
+    public void newArrayFromCollectionReturnsArrayOfSizeZeroWhenCollectionIsEmpty() {
         Object[] objects = ReflectionHelper.newArrayFromCollection(emptySet(), Integer.class);
 
         assertThat(objects).hasSize(0);
     }
 
     @Test
-    public void newArrayFromCollectionReturnsArrayOfSizeTwoWhenCollectionHasTwoElements() throws Exception {
+    public void newArrayFromCollectionReturnsArrayOfSizeTwoWhenCollectionHasTwoElements() {
         List<Integer> list = asList(1, 2);
         Integer[] objects = ReflectionHelper.newArrayFromCollection(list, Integer.class);
 
@@ -223,6 +218,7 @@ public class ReflectionHelperTest {
     }
 
     @SuppressWarnings("unused")
+    static
     class TestBean {
 
         private int intValue = 1;
@@ -235,7 +231,7 @@ public class ReflectionHelperTest {
         }
     }
 
-    private class TestSubClass extends TestBean {
+    private static class TestSubClass extends TestBean {
 
         @Export
         @SuppressWarnings("unused")

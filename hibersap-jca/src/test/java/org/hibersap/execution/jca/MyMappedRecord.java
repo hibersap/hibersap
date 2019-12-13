@@ -22,10 +22,8 @@ import java.util.HashMap;
 import javax.resource.cci.MappedRecord;
 
 // MappedRecord extends the Map interface in a non-generic way
-@SuppressWarnings("unchecked")
-public class MyMappedRecord
-        extends HashMap
-        implements MappedRecord {
+@SuppressWarnings("rawtypes")
+public class MyMappedRecord extends HashMap implements MappedRecord {
 
     private String recordName;
 

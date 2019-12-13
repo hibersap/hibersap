@@ -86,10 +86,7 @@ public abstract class AbstractConnectionSpecFactory
         } catch (IllegalArgumentException e) {
             throw new InternalHiberSapException("No such constructor: "
                     + getSignature(connectionSpecClass, constructorArguments), e);
-        } catch (InstantiationException e) {
-            final String msg = "Cannot create new instance of: ";
-            throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             final String msg = "Cannot create new instance of: ";
             throwInternalHibersapException(connectionSpecClass, constructorParameterTypes, e, msg);
         } catch (InvocationTargetException e) {

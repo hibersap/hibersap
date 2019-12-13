@@ -26,12 +26,12 @@ import org.hibersap.session.Session;
 import org.hibersap.session.SessionManager;
 import org.junit.Before;
 import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
-import static org.fest.assertions.Assertions.assertThat;
 
-public class HibersapSessionInterceptor_Test {
+public class HibersapSessionInterceptorTest {
 
     private final HibersapSessionInterceptor interceptor = new HibersapSessionInterceptor();
 
@@ -40,11 +40,11 @@ public class HibersapSessionInterceptor_Test {
     private final SessionManager sessionManager = createNiceMock(SessionManager.class);
     private final Session session = createNiceMock(Session.class);
 
-    private final HashMap<String, Object> contextData = new HashMap<String, Object>();
+    private final HashMap<String, Object> contextData = new HashMap<>();
     private final TestEjb targetBean = new TestEjb();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         System.setProperty("java.naming.factory.initial", MockInitialContextFactory.NAME);
         MockInitialContextFactory.setMockContext(initialCtx);
 

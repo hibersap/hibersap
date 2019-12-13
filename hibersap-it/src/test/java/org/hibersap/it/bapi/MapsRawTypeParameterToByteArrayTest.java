@@ -18,6 +18,8 @@
 
 package org.hibersap.it.bapi;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import org.hibersap.annotations.Bapi;
 import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Export;
@@ -26,12 +28,12 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ParameterType;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
 
     @Test
-    public void handlesParameterOfRawType() throws Exception {
+    public void handlesParameterOfRawType() {
         StfcDeepStructure bapi = new StfcDeepStructure("Ein anderer Text".getBytes());
         session.execute(bapi);
 
@@ -40,10 +42,11 @@ public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
     }
 
     @Bapi("STFC_DEEP_STRUCTURE")
-    private static class StfcDeepStructure {
+    public static class StfcDeepStructure {
 
         @Import
         @Parameter(value = "IMPORTSTRUCT", type = ParameterType.STRUCTURE)
+        @Valid
         ComplexVar in;
 
         @Export
@@ -60,9 +63,10 @@ public class MapsRawTypeParameterToByteArrayTest extends AbstractBapiTest {
     }
 
     @BapiStructure
-    private static class ComplexVar {
+    public static class ComplexVar {
 
         @Parameter("XSTR")
+        @NotEmpty
         byte[] rawStringParam;
 
         @SuppressWarnings({"UnusedDeclaration"}) // for Hibersap

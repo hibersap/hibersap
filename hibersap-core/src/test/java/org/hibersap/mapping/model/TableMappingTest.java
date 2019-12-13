@@ -40,7 +40,7 @@ import org.hibersap.conversion.ConverterCache;
 import org.junit.Before;
 import org.junit.Test;
 import static java.util.Collections.singletonMap;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,70 +50,70 @@ public class TableMappingTest {
     private TableMapping tableMapping;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         structureMapping = new StructureMapping(TestStructureBean.class, "sapStructureName", "javaStructureName",
                 null);
         structureMapping.addParameter(new FieldMapping(Integer.class, "sapField", "javaField", null));
     }
 
     @Test
-    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsList() throws Exception {
+    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsList() {
         tableMapping = new TableMapping(List.class, Object.class, "sapName", "javaName", structureMapping, null);
 
-        Class destinationType = tableMapping.getDestinationType();
+        Class<?> destinationType = tableMapping.getDestinationType();
 
         assertThat(destinationType).isSameAs(ArrayList.class);
     }
 
     @Test
-    public void destinationTypeIsHashSetByDefaultWhenFieldTypeIsSet() throws Exception {
+    public void destinationTypeIsHashSetByDefaultWhenFieldTypeIsSet() {
         tableMapping = new TableMapping(Set.class, Object.class, "sapName", "javaName", structureMapping, null);
 
-        Class destinationType = tableMapping.getDestinationType();
+        Class<?> destinationType = tableMapping.getDestinationType();
 
         assertThat(destinationType).isSameAs(HashSet.class);
     }
 
     @Test
-    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsCollection() throws Exception {
+    public void destinationTypeIsArrayListByDefaultWhenFieldTypeIsCollection() {
         tableMapping = new TableMapping(Collection.class, Object.class, "sapName", "javaName", structureMapping,
                 null);
 
-        Class destinationType = tableMapping.getDestinationType();
+        Class<?> destinationType = tableMapping.getDestinationType();
 
         assertThat(destinationType).isSameAs(ArrayList.class);
     }
 
     @Test
-    public void destinationTypeIsSameAsFieldTypeWhenFieldTypeIsConcreteCollection() throws Exception {
+    public void destinationTypeIsSameAsFieldTypeWhenFieldTypeIsConcreteCollection() {
         tableMapping = new TableMapping(TreeSet.class, Object.class, "sapName", "javaName", structureMapping, null);
 
-        Class destinationType = tableMapping.getDestinationType();
+        Class<?> destinationType = tableMapping.getDestinationType();
 
         assertThat(destinationType).isSameAs(TreeSet.class);
     }
 
     @Test
-    public void destinationTypeIsArrayListWhenFieldTypeIsArray() throws Exception {
+    public void destinationTypeIsArrayListWhenFieldTypeIsArray() {
         tableMapping = new TableMapping(Object[].class, Object.class, "sapName", "javaName", structureMapping, null);
 
-        Class destinationType = tableMapping.getDestinationType();
+        Class<?> destinationType = tableMapping.getDestinationType();
 
         assertThat(destinationType).isSameAs(ArrayList.class);
     }
 
     @Test
-    public void destinationTypeIsSameAsFieldTypeWhenFieldHasConverter() throws Exception {
+    public void destinationTypeIsSameAsFieldTypeWhenFieldHasConverter() {
         tableMapping = new TableMapping(Boolean.class, Boolean.class, "sapName", "javaName", structureMapping,
                 BooleanConverter.class);
 
-        Class destinationType = tableMapping.getDestinationType();
+        Class<?> destinationType = tableMapping.getDestinationType();
 
         assertThat(destinationType).isSameAs(Boolean.class);
     }
 
     @Test(expected = MappingException.class)
-    public void constructorThrowsMappingExceptionWhenFieldTypeIsUnsupportedCollection() throws Exception {
+    public void constructorThrowsMappingExceptionWhenFieldTypeIsUnsupportedCollection() {
         new TableMapping(Queue.class, Object.class, "sapName", "javaName", structureMapping, null);
     }
 
@@ -123,9 +123,9 @@ public class TableMappingTest {
     }
 
     @Test
-    public void getUnconvertedValueReturnsListOfStructureBeansWithCorrectValues() throws Exception {
+    public void getUnconvertedValueReturnsListOfStructureBeansWithCorrectValues() {
         tableMapping = new TableMapping(List.class, Integer.class, "sapName", "javaName", structureMapping, null);
-        List<Map<String, ?>> tableMap = new ArrayList<Map<String, ?>>();
+        List<Map<String, ?>> tableMap = new ArrayList<>();
         tableMap.add(singletonMap("sapField", 1));
         tableMap.add(singletonMap("sapField", 2));
 
@@ -141,10 +141,10 @@ public class TableMappingTest {
     }
 
     @Test
-    public void getUnconvertedValueReturnsArrayOfStructureBeansWhenDestinationTypeIsArray() throws Exception {
+    public void getUnconvertedValueReturnsArrayOfStructureBeansWhenDestinationTypeIsArray() {
         tableMapping = new TableMapping(TestStructureBean[].class, TestStructureBean.class, "sapName", "javaName",
                 structureMapping, null);
-        List<Map<String, Integer>> tableMap = new ArrayList<Map<String, Integer>>();
+        List<Map<String, Integer>> tableMap = new ArrayList<>();
         tableMap.add(singletonMap("sapField", 1));
         tableMap.add(singletonMap("sapField", 2));
 
@@ -152,7 +152,6 @@ public class TableMappingTest {
 
         assertThat(value).isInstanceOf(TestStructureBean[].class);
 
-        @SuppressWarnings({"unchecked"})
         TestStructureBean[] structureBeans = (TestStructureBean[]) value;
         assertThat(structureBeans).hasSize(2);
         assertThat(structureBeans[0].javaField).isEqualTo(1);
@@ -213,7 +212,7 @@ public class TableMappingTest {
             this.data = data;
         }
 
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        public Object invoke(Object proxy, Method method, Object[] args) {
             if ("next".equals(method.getName())) {
                 return next();
             }

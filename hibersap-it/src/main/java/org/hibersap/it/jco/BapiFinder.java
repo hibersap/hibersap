@@ -32,7 +32,7 @@ public class BapiFinder {
 
     @Table
     @Parameter("COMPONENTS2SELECT")
-    private Set<SapComponent> componentsToSelect = new HashSet<SapComponent>();
+    private Set<SapComponent> componentsToSelect = new HashSet<>();
 
     @Table
     @Parameter("BAPILIST")

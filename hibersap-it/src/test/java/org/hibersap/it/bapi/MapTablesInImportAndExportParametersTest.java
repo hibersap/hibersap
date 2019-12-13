@@ -29,13 +29,13 @@ import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibersap.annotations.ParameterType.TABLE_STRUCTURE;
 
 public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
     @Test
-    public void bapiWithTableInStructure() throws Exception {
+    public void bapiWithTableInStructure() {
         Car alfaRomeo = new Car("Alfa Romeo", "Spider", 2);
         Car kiaCeed = new Car("Kia", "cee'd", 5);
         CarListBapi bapi = new CarListBapi().addCarImport(alfaRomeo).addCarImport(kiaCeed);
@@ -46,7 +46,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     }
 
     @Test
-    public void bapiWithTableInStructurePassingEmptyImportParameter() throws Exception {
+    public void bapiWithTableInStructurePassingEmptyImportParameter() {
 
         CarListBapi bapi = new CarListBapi();
 
@@ -56,7 +56,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     }
 
     @Test
-    public void bapiWithDeepTableInStructurePassingEmptyManufacturerList() throws Exception {
+    public void bapiWithDeepTableInStructurePassingEmptyManufacturerList() {
         CarManufacturerBapi bapi = new CarManufacturerBapi();
 
         session.execute(bapi);
@@ -65,7 +65,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     }
 
     @Test
-    public void bapiWithDeepTableInStructurePassingEmptyCarList() throws Exception {
+    public void bapiWithDeepTableInStructurePassingEmptyCarList() {
         CarManufacturerBapi bapi = new CarManufacturerBapi();
 
         session.execute(bapi);
@@ -74,16 +74,16 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     }
 
     @Test
-    public void changingStructureContainsOnlyEntriesFromSapWhenPassingEmptyManufacturersList() throws Exception {
+    public void changingStructureContainsOnlyEntriesFromSapWhenPassingEmptyManufacturersList() {
         CarManufacturerBapi bapi = new CarManufacturerBapi();
 
         session.execute(bapi);
 
-        assertThat(bapi.manufacturersChanging).onProperty("name").containsOnly("Honda", "Alfa Romeo");
+        assertThat(bapi.manufacturersChanging).extracting(Manufacturer::getName).containsOnly("Honda", "Alfa Romeo");
     }
 
     @Test
-    public void changingStructureContainsEntriesPassedInAndEntriesAddedBySap() throws Exception {
+    public void changingStructureContainsEntriesPassedInAndEntriesAddedBySap() {
         Manufacturer tata = new Manufacturer("Tata");
 
         CarManufacturerBapi bapi = new CarManufacturerBapi();
@@ -91,11 +91,11 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
         session.execute(bapi);
 
-        assertThat(bapi.manufacturersChanging).onProperty("name").containsOnly("Tata", "Honda", "Alfa Romeo");
+        assertThat(bapi.manufacturersChanging).extracting(Manufacturer::getName).containsOnly("Tata", "Honda", "Alfa Romeo");
     }
 
     @Test
-    public void changinsStructureContainsAllDataProvdidedKeepingOrder() throws Exception {
+    public void changinsStructureContainsAllDataProvdidedKeepingOrder() {
         Manufacturer alfaRomeo = new Manufacturer("Alfa Romeo").addCar(new Car("Alfa Romeo", "Spider", 2));
         Manufacturer honda = new Manufacturer("Honda").addCar(new Car("Honda", "Accord", 5)).addCar(new Car("Honda", "Civic", 4));
         Manufacturer tata = new Manufacturer("Tata").addCar(new Car("Tata", "Nano", 4)).addCar(new Car("Tata", "Aria", 5));
@@ -111,7 +111,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
     }
 
     @Test
-    public void bapiWithDeepTableInStructure() throws Exception {
+    public void bapiWithDeepTableInStructure() {
         Manufacturer kia = new Manufacturer("Kia")
                 .addCar(new Car("Kia", "cee'd", 5))
                 .addCar(new Car("Kia", "Rio", 4));
@@ -134,7 +134,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
         @Import
         @Parameter(value = "I_MANUFACTURERS", type = TABLE_STRUCTURE)
-        private List<Manufacturer> manufacturersImport = new ArrayList<Manufacturer>();
+        private List<Manufacturer> manufacturersImport = new ArrayList<>();
 
         @Export
         @Parameter(value = "E_MANUFACTURERS", type = TABLE_STRUCTURE)
@@ -142,7 +142,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
         @Changing
         @Parameter(value = "C_MANUFACTURERS", type = TABLE_STRUCTURE)
-        private List<Manufacturer> manufacturersChanging = new ArrayList<Manufacturer>();
+        private List<Manufacturer> manufacturersChanging = new ArrayList<>();
 
         void addManufacturerToImport(final Manufacturer manufacturer) {
             manufacturersImport.add(manufacturer);
@@ -158,7 +158,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
 
         @Import
         @Parameter(value = "I_CARS", type = TABLE_STRUCTURE)
-        private List<Car> carsImport = new ArrayList<Car>();
+        private List<Car> carsImport = new ArrayList<>();
 
         @Export
         @Parameter(value = "E_CARS", type = TABLE_STRUCTURE)
@@ -182,6 +182,7 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
         @Parameter("NUM_SEATS")
         private int numberOfSeats;
 
+        @SuppressWarnings("unused")
         private Car() {
             // needed by Hibersap
         }
@@ -239,8 +240,9 @@ public class MapTablesInImportAndExportParametersTest extends AbstractBapiTest {
         private String name;
 
         @Parameter(value = "CARS", type = TABLE_STRUCTURE)
-        private List<Car> cars = new ArrayList<Car>();
+        private List<Car> cars = new ArrayList<>();
 
+        @SuppressWarnings("unused")
         public Manufacturer() {
             // needed by Hibersap
         }

@@ -118,7 +118,7 @@ public class Credentials {
                 ", user='" + user + '\'' +
                 ", client='" + client + '\'' +
                 ", language='" + language + '\'' +
-                ", password='***\'" +
+                ", password='***'" +
                 ", ssoTicket='" + ssoTicket + '\'' +
                 ", x509Certificate='" + x509Certificate + '\'' +
                 '}';

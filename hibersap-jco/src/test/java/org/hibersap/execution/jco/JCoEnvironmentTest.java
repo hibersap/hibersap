@@ -23,11 +23,11 @@ import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.ext.DestinationDataProvider;
 import com.sap.conn.jco.ext.Environment;
 import java.util.Properties;
-import org.fest.assertions.Condition;
+import org.assertj.core.api.Condition;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JCoEnvironmentTest {
 

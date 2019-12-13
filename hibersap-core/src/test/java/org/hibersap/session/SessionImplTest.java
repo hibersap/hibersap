@@ -36,7 +36,6 @@ import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-@SuppressWarnings("unchecked")
 public class SessionImplTest {
 
     private final BapiInterceptor bapiInterceptor = createStrictMock(BapiInterceptor.class);
@@ -74,8 +73,8 @@ public class SessionImplTest {
     @Test
     public void executionInterceptorsFromConfigurationAreCalledWhenExecutingFunction() {
         final Object bapiObject = new Object();
-        executionInterceptor.beforeExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
-        executionInterceptor.afterExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
+        executionInterceptor.beforeExecution(anyObject(), anyObject());
+        executionInterceptor.afterExecution(anyObject(), anyObject());
         replay(executionInterceptor);
 
         session.execute(bapiObject);
@@ -88,8 +87,8 @@ public class SessionImplTest {
         ExecutionInterceptor myInterceptor = createMock(ExecutionInterceptor.class);
 
         final Object bapiObject = new Object();
-        myInterceptor.beforeExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
-        myInterceptor.afterExecution((BapiMapping) anyObject(), (Map<String, Object>) anyObject());
+        myInterceptor.beforeExecution(anyObject(), anyObject());
+        myInterceptor.afterExecution(anyObject(), anyObject());
         replay(myInterceptor);
 
         session.addExecutionInterceptor(myInterceptor);
@@ -98,10 +97,11 @@ public class SessionImplTest {
         verify(myInterceptor);
     }
 
+    @SuppressWarnings("unused")
     private class SessionManagerStub implements SessionManagerImplementor {
 
         public Map<String, BapiMapping> getBapiMappings() {
-            final HashMap<String, BapiMapping> mappings = new HashMap<String, BapiMapping>();
+            final HashMap<String, BapiMapping> mappings = new HashMap<>();
             mappings.put(Object.class.getName(), new BapiMapping(Object.class, "BAPI_NAME", null));
             return mappings;
         }
@@ -132,7 +132,7 @@ public class SessionImplTest {
         }
     }
 
-    private class ContextStub implements Context {
+    private static class ContextStub implements Context {
 
         public void configure(SessionManagerConfig config) throws HibersapException {
         }
@@ -145,7 +145,7 @@ public class SessionImplTest {
         }
     }
 
-    private class ConnectionStub implements Connection {
+    private static class ConnectionStub implements Connection {
 
         public void setCredentials(Credentials credentials) {
         }

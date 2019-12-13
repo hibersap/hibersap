@@ -22,17 +22,15 @@ import org.hibersap.conversion.ConversionException;
 import org.hibersap.conversion.Converter;
 import org.hibersap.conversion.ConverterCache;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.Fail.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FieldMappingTest {
 
-    private final FieldMapping mapping = new FieldMapping(String.class, "sapName", "javaName",
-            FailingConverterStub.class);
+    private final FieldMapping mapping = new FieldMapping(String.class, "sapName", "javaName", FailingConverterStub.class);
     private final ConverterCache converterCache = new ConverterCache();
 
     @Test
-    public void getUnconvertedValueToJavaReturnsIdenticalValue() throws Exception {
+    public void getUnconvertedValueToJavaReturnsIdenticalValue() {
         Object sapValue = new Object();
         Object javaValue = mapping.getUnconvertedValueToJava(sapValue, converterCache);
 
@@ -40,7 +38,7 @@ public class FieldMappingTest {
     }
 
     @Test
-    public void getUnconvertedValueToSapReturnsIdenticalValue() throws Exception {
+    public void getUnconvertedValueToSapReturnsIdenticalValue() {
         Object javaValue = new Object();
         Object sapValue = mapping.getUnconvertedValueToSap(javaValue, converterCache);
 
@@ -50,11 +48,11 @@ public class FieldMappingTest {
     private static class FailingConverterStub implements Converter<Object, Object> {
 
         public Object convertToJava(Object sapValue) throws ConversionException {
-            throw fail("convertToJava() should not be called");
+            throw new AssertionError("convertToJava() should not be called");
         }
 
         public Object convertToSap(Object javaValue) throws ConversionException {
-            throw fail("convertToSap() should not be called");
+            throw new AssertionError("convertToSap() should not be called");
         }
     }
 }

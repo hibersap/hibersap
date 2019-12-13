@@ -30,8 +30,7 @@ import org.hibersap.mapping.ReflectionHelper;
  */
 public class ConverterCache {
 
-    private final Map<Class<? extends Converter>, Converter> converterForClass
-            = new HashMap<Class<? extends Converter>, Converter>();
+    private final Map<Class<? extends Converter<?, ?>>, Converter<?, ?>> converterForClass = new HashMap<>();
 
     /**
      * Called by the framework to get a Converter instance. If not yet in the cache, the instance
@@ -40,16 +39,17 @@ public class ConverterCache {
      * @param clazz The Coverter implementation class
      * @return The Converter instance
      */
-    public Converter getConverter(Class<? extends Converter> clazz) {
+    public Converter<Object, Object> getConverter(Class<? extends Converter<?, ?>> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("null");
         }
-        Converter converter = converterForClass.get(clazz);
+        Converter<?, ?> converter = converterForClass.get(clazz);
         if (converter == null) {
             converter = ReflectionHelper.newInstance(clazz);
             converterForClass.put(clazz, converter);
         }
-        return converter;
+        //noinspection unchecked
+        return (Converter<Object, Object>) converter;
     }
 
     /**

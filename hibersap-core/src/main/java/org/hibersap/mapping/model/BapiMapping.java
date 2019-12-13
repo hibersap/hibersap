@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.Generated;
 import org.hibersap.MappingException;
-import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * This class is the framework internal representation of mappings between SAP function modules
@@ -36,10 +36,10 @@ public final class BapiMapping implements Serializable {
     private static final long serialVersionUID = 6716958693316907614L;
 
     private final String bapiName;
-    private final Set<ParameterMapping> importParams = new HashSet<ParameterMapping>();
-    private final Set<ParameterMapping> exportParams = new HashSet<ParameterMapping>();
-    private final Set<ParameterMapping> changingParams = new HashSet<ParameterMapping>();
-    private final Set<TableMapping> tableParams = new HashSet<TableMapping>();
+    private final Set<ParameterMapping> importParams = new HashSet<>();
+    private final Set<ParameterMapping> exportParams = new HashSet<>();
+    private final Set<ParameterMapping> changingParams = new HashSet<>();
+    private final Set<TableMapping> tableParams = new HashSet<>();
     private final ErrorHandling errorHandling;
     private final Class<?> associatedClass;
 
@@ -97,7 +97,7 @@ public final class BapiMapping implements Serializable {
     }
 
     public Set<ParameterMapping> getAllParameters() {
-        HashSet<ParameterMapping> parameters = new HashSet<ParameterMapping>();
+        HashSet<ParameterMapping> parameters = new HashSet<>();
         parameters.addAll(importParams);
         parameters.addAll(exportParams);
         parameters.addAll(changingParams);

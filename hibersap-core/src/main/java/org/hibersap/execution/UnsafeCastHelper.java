@@ -28,17 +28,12 @@ public final class UnsafeCastHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public static Collection<Object> castToCollection(final Object value) {
-        return (Collection<Object>) value;
-    }
-
-    @SuppressWarnings("unchecked")
     public static Collection<Map<String, Object>> castToCollectionOfMaps(final Object value) {
         return (Collection<Map<String, Object>>) value;
     }
 
     @SuppressWarnings("unchecked")
     public static Map<String, Object> castToMap(final Object value) {
-        return Map.class.cast(value);
+        return (Map<String, Object>) value;
     }
 }

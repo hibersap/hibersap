@@ -33,6 +33,7 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.SessionImplementor;
 import org.hibersap.session.Transaction;
+import static java.util.Objects.nonNull;
 
 /*
  * @author Carsten Erker
@@ -115,32 +116,27 @@ public class JCoConnection implements Connection {
     }
 
     private void copyCredentialsToUserData(final Credentials cred, final UserData data) {
-        if (isNotNull(cred.getAliasUser())) {
+        if (nonNull(cred.getAliasUser())) {
             data.setAliasUser(cred.getAliasUser());
         }
-        if (isNotNull(cred.getClient())) {
+        if (nonNull(cred.getClient())) {
             data.setClient(cred.getClient());
         }
-        if (isNotNull(cred.getLanguage())) {
+        if (nonNull(cred.getLanguage())) {
             data.setLanguage(cred.getLanguage());
         }
-        if (isNotNull(cred.getPassword())) {
+        if (nonNull(cred.getPassword())) {
             data.setPassword(cred.getPassword());
         }
-        if (isNotNull(cred.getSsoTicket())) {
+        if (nonNull(cred.getSsoTicket())) {
             data.setSSOTicket(cred.getSsoTicket());
         }
-        if (isNotNull(cred.getUser())) {
+        if (nonNull(cred.getUser())) {
             data.setUser(cred.getUser());
         }
-        if (isNotNull(cred.getX509Certificate())) {
+        if (nonNull(cred.getX509Certificate())) {
             data.setX509Certificate(cred.getX509Certificate());
         }
-    }
-
-    // TODO move to utility class
-    private boolean isNotNull(final Object object) {
-        return object != null;
     }
 
     private void endStatefulConnection() {

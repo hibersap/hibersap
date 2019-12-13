@@ -120,11 +120,7 @@ public class HibersapJaxbXmlParser {
             try {
                 File configFile = new File(resourceName);
                 resource = configFile.toURI().toURL();
-            } catch (final MalformedURLException e) {
-                throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
-            } catch (final NullPointerException e) {
-                throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
-            } catch (final IllegalArgumentException e) {
+            } catch (final MalformedURLException | NullPointerException | IllegalArgumentException e) {
                 throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
             }
         }

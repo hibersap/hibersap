@@ -21,7 +21,7 @@ package org.hibersap.mapping.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import javax.annotation.Generated;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Holds information for error handling of a BAPI mapping.

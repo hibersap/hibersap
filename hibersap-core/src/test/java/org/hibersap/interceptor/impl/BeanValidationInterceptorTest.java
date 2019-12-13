@@ -25,8 +25,7 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.Fail.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class BeanValidationInterceptorTest {
 
@@ -35,17 +34,9 @@ public class BeanValidationInterceptorTest {
         final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         final BeanValidationInterceptor interceptor = new BeanValidationInterceptor(validatorFactory);
 
-        ConstraintViolationException validationException = null;
-        try {
-            interceptor.beforeExecution(new TestObject());
-            fail();
-        } catch (ConstraintViolationException e) {
-            validationException = e;
-        }
-
-        assertThat(validationException).isNotNull();
-        assertThat(validationException.getMessage()).contains(
-                "org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject");
+        assertThatThrownBy(() -> interceptor.beforeExecution(new TestObject()))
+                .isInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining("org.hibersap.interceptor.impl.BeanValidationInterceptorTest$InnerObject");
     }
 
     @SuppressWarnings("unused")

@@ -30,7 +30,7 @@ import java.util.List;
 public abstract class AbstractTransaction
         implements Transaction {
 
-    private final List<Synchronization> synchronizations = new ArrayList<Synchronization>();
+    private final List<Synchronization> synchronizations = new ArrayList<>();
 
     /**
      * Register application-defined Synchronization callback.

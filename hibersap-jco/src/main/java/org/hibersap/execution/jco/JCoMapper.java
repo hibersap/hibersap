@@ -109,7 +109,7 @@ public class JCoMapper {
     }
 
     private Map<String, Object> mapToMap(final JCoRecord record) {
-        final Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new HashMap<>();
         if (record == null) {
             return map;
         }
@@ -124,7 +124,7 @@ public class JCoMapper {
             if (jcoField.isStructure()) {
                 map.put(sapFieldName, mapToMap(jcoField.getStructure()));
             } else if (jcoField.isTable()) {
-                final List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+                final List<Map<String, Object>> list = new ArrayList<>();
                 final JCoTable table = jcoField.getTable();
                 for (int j = 0; j < table.getNumRows(); j++) {
                     table.setRow(j);

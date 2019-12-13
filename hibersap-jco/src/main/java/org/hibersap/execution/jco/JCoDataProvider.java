@@ -70,6 +70,7 @@ public class JCoDataProvider implements DestinationDataProvider {
         return propertiesForDestinationName.containsKey(destinationName);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasDestinations() {
         return !propertiesForDestinationName.isEmpty();
     }

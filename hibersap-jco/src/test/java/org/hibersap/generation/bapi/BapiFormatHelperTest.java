@@ -24,8 +24,7 @@ import static org.junit.Assert.assertEquals;
 public class BapiFormatHelperTest {
 
     @Test
-    public void getCamelCaseSmall()
-            throws Exception {
+    public void getCamelCaseSmall() {
         assertEquals("_", BapiFormatHelper.getCamelCaseSmall(null));
         assertEquals("_", BapiFormatHelper.getCamelCaseSmall(""));
         assertEquals("_x", BapiFormatHelper.getCamelCaseSmall("X"));
@@ -35,8 +34,7 @@ public class BapiFormatHelperTest {
     }
 
     @Test
-    public void getCamelCaseBig()
-            throws Exception {
+    public void getCamelCaseBig() {
         assertEquals("", BapiFormatHelper.getCamelCaseBig(null));
         assertEquals("", BapiFormatHelper.getCamelCaseBig(""));
         assertEquals("X", BapiFormatHelper.getCamelCaseBig("X"));

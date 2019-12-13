@@ -45,6 +45,10 @@ public class ConverterCacheTest {
 
     @Test(expected = HibersapException.class)
     public void testThrowsHibersapExceptionIfNotInstantiable() {
-        cache.getConverter(Converter.class);
+        cache.getConverter(NotInstantiableConverter.class);
+    }
+
+    private static abstract class NotInstantiableConverter implements Converter<Object, Object> {
+        // never created
     }
 }

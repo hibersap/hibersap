@@ -34,6 +34,7 @@ public class HibersapGenerator {
     public void generate(final String outputDir, final String packagePath, final String bapiName) {
         String packageDir = packagePath.replace('.', File.separatorChar);
         File outputDirFile = new File(outputDir + File.separator + packageDir);
+        //noinspection ResultOfMethodCallIgnored
         outputDirFile.mkdirs();
 
         AnnotationConfiguration cfg = new AnnotationConfiguration();

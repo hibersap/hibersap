@@ -46,7 +46,7 @@ public final class HibersapConfig implements Serializable {
     private static final long serialVersionUID = 1;
 
     @XmlElement(name = "session-manager", required = true)
-    protected List<SessionManagerConfig> sessionManagers = new ArrayList<SessionManagerConfig>();
+    protected List<SessionManagerConfig> sessionManagers = new ArrayList<>();
 
     public HibersapConfig() {
         LOG.trace("created");

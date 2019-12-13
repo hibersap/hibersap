@@ -18,7 +18,6 @@
 
 package org.hibersap.util;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -37,23 +36,21 @@ import java.util.List;
 public final class Announcer<T> {
 
     private final T proxy;
-    private final List<T> listeners = new ArrayList<T>();
+    private final List<T> listeners = new ArrayList<>();
 
     private Announcer(final Class<? extends T> listenerType) {
         proxy = listenerType.cast(Proxy.newProxyInstance(
                 listenerType.getClassLoader(),
                 new Class<?>[]{listenerType},
-                new InvocationHandler() {
-                    public Object invoke(Object aProxy, Method method, Object[] args) throws Throwable {
-                        announce(method, args);
-                        return null;
-                    }
+                (aProxy, method, args) -> {
+                    announce(method, args);
+                    return null;
                 }
         ));
     }
 
     public static <T> Announcer<T> to(final Class<? extends T> listenerType) {
-        return new Announcer<T>(listenerType);
+        return new Announcer<>(listenerType);
     }
 
     public void addListener(final T listener) {

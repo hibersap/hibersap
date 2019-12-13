@@ -44,7 +44,7 @@ public final class BapiFormatHelper {
     }
 
     public static String getCamelCaseBig(final String sapName) {
-        StringBuilder result = new StringBuilder("");
+        StringBuilder result = new StringBuilder();
 
         if (sapName == null) {
             return result.toString();

@@ -24,13 +24,13 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.configuration.xml.ValidationMode;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BeanValidationActivatorTest {
 
     @Test
     public void doesNotAddInterceptorWhenValidationModeNoneIsConfigured() {
-        Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
+        Set<BapiInterceptor> interceptors = new HashSet<>();
         final SessionManagerConfig config = new SessionManagerConfig().setValidationMode(ValidationMode.NONE);
 
         BeanValidationActivator.activateBeanValidation(interceptors, config);
@@ -40,7 +40,7 @@ public class BeanValidationActivatorTest {
 
     @Test
     public void addsBeanValidationInterceptorWhenValidationTypeAutoIsConfigured() {
-        Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
+        Set<BapiInterceptor> interceptors = new HashSet<>();
         final SessionManagerConfig config = new SessionManagerConfig().setValidationMode(ValidationMode.AUTO);
 
         BeanValidationActivator.activateBeanValidation(interceptors, config);

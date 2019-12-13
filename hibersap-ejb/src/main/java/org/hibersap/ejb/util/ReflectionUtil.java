@@ -33,7 +33,7 @@ public final class ReflectionUtil {
     }
 
     public static Set<Field> getHibersapSessionFields(final Object target) {
-        HashSet<Field> fields = new HashSet<Field>();
+        HashSet<Field> fields = new HashSet<>();
 
         Field[] declaredFields = target.getClass().getDeclaredFields();
         for (Field declaredField : declaredFields) {

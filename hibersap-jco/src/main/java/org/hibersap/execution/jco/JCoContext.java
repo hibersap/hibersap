@@ -20,7 +20,8 @@ package org.hibersap.execution.jco;
 
 import java.util.List;
 import java.util.Properties;
-import org.apache.commons.lang.StringUtils;
+import javax.annotation.Generated;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
@@ -82,6 +83,7 @@ public class JCoContext implements Context {
     }
 
     @Override
+    @Generated("")
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -90,6 +92,7 @@ public class JCoContext implements Context {
     }
 
     @Override
+    @Generated("")
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;

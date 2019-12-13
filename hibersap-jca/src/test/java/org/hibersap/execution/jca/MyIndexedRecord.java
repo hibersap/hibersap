@@ -22,10 +22,8 @@ import java.util.ArrayList;
 import javax.resource.cci.IndexedRecord;
 
 // IndexedRecord extends the List interface in a non-generic way
-@SuppressWarnings("unchecked")
-public class MyIndexedRecord
-        extends ArrayList
-        implements IndexedRecord {
+@SuppressWarnings("rawtypes")
+public class MyIndexedRecord extends ArrayList implements IndexedRecord {
 
     private String recordShortDescription;
 

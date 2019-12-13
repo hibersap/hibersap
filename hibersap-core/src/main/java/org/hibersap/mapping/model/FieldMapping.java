@@ -31,7 +31,7 @@ public class FieldMapping extends ParameterMapping {
     public FieldMapping(final Class<?> associatedClass,
                         final String sapName,
                         final String javaName,
-                        final Class<? extends Converter> converter) {
+                        final Class<? extends Converter<?, ?>> converter) {
         super(associatedClass, sapName, javaName, converter);
     }
 

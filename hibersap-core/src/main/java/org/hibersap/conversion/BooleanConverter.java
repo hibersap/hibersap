@@ -54,7 +54,7 @@ public class BooleanConverter implements Converter<Boolean, String> {
         if (javaValue == null) {
             throw new ConversionException("Java value is null");
         }
-        if (!Boolean.class.isInstance(javaValue)) {
+        if (!(javaValue instanceof Boolean)) {
             throw new ConversionException("Expected: " + Boolean.class.getName() + " but was: "
                     + javaValue.getClass().getName());
         }

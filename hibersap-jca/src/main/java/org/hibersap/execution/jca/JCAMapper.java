@@ -36,7 +36,7 @@ import org.hibersap.bapi.BapiConstants;
 import org.hibersap.execution.UnsafeCastHelper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ParameterMapping;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.hibersap.bapi.BapiConstants.CHANGING;
 import static org.hibersap.bapi.BapiConstants.EXPORT;
 import static org.hibersap.bapi.BapiConstants.TABLE;
@@ -85,11 +85,11 @@ public class JCAMapper {
             if (recordValue instanceof IndexedRecord) {
                 // Table parameter
                 final IndexedRecord indexedResultRecord = (IndexedRecord) recordValue;
-                List<Map<String, Object>> table = new ArrayList<Map<String, Object>>();
+                List<Map<String, Object>> table = new ArrayList<>();
 
                 for (Object object : indexedResultRecord) {
                     MappedRecord mr = (MappedRecord) object;
-                    final Map<String, Object> line = new HashMap<String, Object>();
+                    final Map<String, Object> line = new HashMap<>();
 
                     @SuppressWarnings("unchecked")
                     Set<String> keys = mr.keySet();

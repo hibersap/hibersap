@@ -18,7 +18,7 @@
 
 package org.hibersap.conversion;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Converts between SAP character fields of length 1 and Java char fields.

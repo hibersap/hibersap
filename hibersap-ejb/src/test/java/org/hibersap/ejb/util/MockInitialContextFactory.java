@@ -20,7 +20,6 @@ package org.hibersap.ejb.util;
 
 import java.util.Hashtable;
 import javax.naming.Context;
-import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 
 public class MockInitialContextFactory implements InitialContextFactory {
@@ -33,7 +32,7 @@ public class MockInitialContextFactory implements InitialContextFactory {
         MockInitialContextFactory.mockContext = mockContext;
     }
 
-    public Context getInitialContext(final Hashtable<?, ?> environment) throws NamingException {
+    public Context getInitialContext(final Hashtable<?, ?> environment) {
         if (mockContext == null) {
             throw new IllegalStateException("No InitialContext set");
         }

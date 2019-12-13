@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 public final class ExecutionInterceptorClasses implements Serializable {
 
     @XmlElement(name = "execution-interceptor-class")
-    protected List<String> executionInterceptorClasses = new ArrayList<String>();
+    protected List<String> executionInterceptorClasses = new ArrayList<>();
 
     public List<String> getExecutionInterceptorClasses() {
         return this.executionInterceptorClasses;

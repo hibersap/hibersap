@@ -55,6 +55,7 @@ public class BooleanConverterTest {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void assertConversionExceptionToSap(Boolean value) {
         try {
             converter.convertToSap(value);

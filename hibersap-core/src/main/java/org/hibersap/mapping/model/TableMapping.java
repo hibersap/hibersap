@@ -52,28 +52,27 @@ public final class TableMapping extends ParameterMapping {
     private final Class<?> destinationType;
 
     /**
-     * @param fieldType The type of the field in the bean; may be a Collection interface like List,
-     * Set, Collection, a concrete class that implements Collection or an array.
-     * If there is a Converter specified on the field, it may be a Pojo class.
-     * @param associatedType The type of the elements, i.e. a Pojo class.
-     * @param sapName The table's name in SAP.
-     * @param javaName The Java field name of the Collection or array.
+     * @param fieldType          The type of the field in the bean; may be a Collection interface like List,
+     *                           Set, Collection, a concrete class that implements Collection or an array.
+     *                           If there is a Converter specified on the field, it may be a Pojo class.
+     * @param associatedType     The type of the elements, i.e. a Pojo class.
+     * @param sapName            The table's name in SAP.
+     * @param javaName           The Java field name of the Collection or array.
      * @param componentParameter A StructureMapping containing the table's fields.
-     * @param converterClass The Class of the table field's converter, if defined.
+     * @param converterClass     The Class of the table field's converter, if defined.
      */
     public TableMapping(final Class<?> fieldType,
                         final Class<?> associatedType,
                         final String sapName,
                         final String javaName,
                         final StructureMapping componentParameter,
-                        final Class<? extends Converter> converterClass) {
+                        final Class<? extends Converter<?, ?>> converterClass) {
         super(associatedType, sapName, javaName, converterClass);
         this.componentParameter = componentParameter;
         this.fieldType = fieldType;
         this.destinationType = determineDestinationType();
     }
 
-    @SuppressWarnings("unchecked")
     private Class<?> determineDestinationType() {
         Class<?> resultingType;
 
@@ -112,7 +111,6 @@ public final class TableMapping extends ParameterMapping {
         return Collection.class.isAssignableFrom(fieldType);
     }
 
-    @SuppressWarnings("unchecked")
     public Class<?> getDestinationType() {
         return this.destinationType;
     }
@@ -134,7 +132,7 @@ public final class TableMapping extends ParameterMapping {
     public Object getUnconvertedValueToJava(final Object fieldMapCollection, final ConverterCache converterCache) {
         if (!hasConverter()) {
             @SuppressWarnings({"unchecked"}) // must be Collection, since there is no Converter
-                    Class<? extends Collection> destinationType = (Class<? extends Collection>) getDestinationType();
+                    Class<? extends Collection<Object>> destinationType = (Class<? extends Collection<Object>>) getDestinationType();
 
             Collection<Object> collection = newCollectionInstance(destinationType);
 
@@ -197,8 +195,9 @@ public final class TableMapping extends ParameterMapping {
 
     @Override
     protected Object getUnconvertedValueToSap(final Object value, final ConverterCache converterCache) {
-        Collection bapiStructures = getFieldType().isArray() ? singletonList(value) : (Collection) value;
-        List<Map<String, Object>> tableRows = new ArrayList<Map<String, Object>>();
+        @SuppressWarnings("unchecked") Collection<Object> bapiStructures
+                = getFieldType().isArray() ? singletonList(value) : (Collection<Object>) value;
+        List<Map<String, Object>> tableRows = new ArrayList<>();
 
         if (bapiStructures != null) {
             for (Object bapiStructure : bapiStructures) {

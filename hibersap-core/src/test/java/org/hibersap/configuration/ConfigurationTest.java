@@ -29,7 +29,7 @@ import org.hibersap.session.SessionManagerImplementor;
 import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Before;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Carsten Erker
@@ -50,15 +50,14 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void overwritesContextClass() throws Exception {
+    public void overwritesContextClass() {
         sessionManagerConfig.setContext("test");
 
         assertThat(sessionManagerConfig.getContext()).isEqualTo("test");
     }
 
     @Test
-    public void overwritesProperties()
-            throws Exception {
+    public void overwritesProperties() {
         sessionManagerConfig.setProperty("jco.client.user", "test");
 
         assertThat(sessionManagerConfig.getProperty("jco.client.user")).isEqualTo("test");

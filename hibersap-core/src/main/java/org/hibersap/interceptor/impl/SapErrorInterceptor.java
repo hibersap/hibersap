@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.hibersap.MappingException;
 import org.hibersap.SapException;
 import org.hibersap.SapException.SapError;
@@ -106,7 +106,7 @@ public class SapErrorInterceptor implements ExecutionInterceptor {
     }
 
     private void checkSapErrors(final String[] messageTypes, final Collection<Map<String, Object>> returnTable) {
-        final ArrayList<SapError> sapErrors = new ArrayList<SapError>();
+        final ArrayList<SapError> sapErrors = new ArrayList<>();
         for (final Map<String, Object> map : returnTable) {
             final String type = (String) map.get("TYPE");
             if (ArrayUtils.contains(messageTypes, type)) {

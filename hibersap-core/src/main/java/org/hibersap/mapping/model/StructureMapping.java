@@ -34,12 +34,12 @@ public final class StructureMapping extends ParameterMapping {
 
     private static final long serialVersionUID = 2930405767657861801L;
 
-    private final Set<ParameterMapping> parameters = new HashSet<ParameterMapping>();
+    private final Set<ParameterMapping> parameters = new HashSet<>();
 
     public StructureMapping(final Class<?> associatedClass,
                             final String sapName,
                             final String javaName,
-                            final Class<? extends Converter> converterClass) {
+                            final Class<? extends Converter<?, ?>> converterClass) {
         super(associatedClass, sapName, javaName, converterClass);
     }
 
@@ -75,7 +75,7 @@ public final class StructureMapping extends ParameterMapping {
 
     @Override
     protected Object getUnconvertedValueToSap(final Object bapiStructure, final ConverterCache converterCache) {
-        HashMap<String, Object> functionMap = new HashMap<String, Object>();
+        HashMap<String, Object> functionMap = new HashMap<>();
 
         for (ParameterMapping parameter : parameters) {
             Object fieldValue = ReflectionHelper.getFieldValue(bapiStructure, parameter.getJavaName());
@@ -104,7 +104,7 @@ public final class StructureMapping extends ParameterMapping {
         StructureMapping that = (StructureMapping) o;
 
         //noinspection RedundantIfStatement
-        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) {
+        if (!parameters.equals(that.parameters)) {
             return false;
         }
 
@@ -114,7 +114,7 @@ public final class StructureMapping extends ParameterMapping {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        result = 31 * result + parameters.hashCode();
         return result;
     }
 }

@@ -33,7 +33,7 @@ import static org.junit.Assert.assertNotNull;
 public class CustomCredentialsTest extends AbstractBapiTest {
 
     @Test
-    public void connectToSapUsingCustomCredentials() throws Exception {
+    public void connectToSapUsingCustomCredentials() {
 
         final Credentials credentials = new Credentials().setUser("sapuser2")
                 .setPassword("password2").setLanguage("DE");
@@ -48,15 +48,11 @@ public class CustomCredentialsTest extends AbstractBapiTest {
     }
 
     private void callBapiWith(Credentials credentials) {
-        final Session session = sessionManager.openSession(credentials);
-
         // make sure a connection to SAP was established
-        try {
+        try (final Session session = sessionManager.openSession(credentials)) {
             session.execute(new RfcPing());
         } catch (final SapException e) {
             // expected when there are no lines found
-        } finally {
-            session.close();
         }
     }
 

@@ -34,7 +34,7 @@ import org.hibersap.interceptor.impl.SapErrorInterceptor;
 import org.hibersap.validation.BeanValidationInterceptor;
 import org.junit.Before;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SessionManagerImplTest {
 
@@ -50,7 +50,7 @@ public class SessionManagerImplTest {
     }
 
     @Test
-    public void hasConfiguredAndStandardValuesWhenCreated() throws Exception {
+    public void hasConfiguredAndStandardValuesWhenCreated() {
         assertThat(sessionManager.getContext()).isInstanceOf(DummyContext.class);
         assertThat(sessionManager.getConfig().getName()).isEqualTo("name");
         assertThat(sessionManager.getConverterCache()).isNotNull();

@@ -31,5 +31,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Convert {
 
-    Class<? extends Converter> converter();
+    Class<? extends Converter<?, ?>> converter();
 }

@@ -34,11 +34,11 @@ public class ConfigurationData {
 
     private final SessionManagerConfig sessionManagerConfig;
 
-    private final Map<String, BapiMapping> bapiMappingsForClass = new HashMap<String, BapiMapping>();
+    private final Map<String, BapiMapping> bapiMappingsForClass = new HashMap<>();
 
-    private final Set<ExecutionInterceptor> executionInterceptors = new HashSet<ExecutionInterceptor>();
+    private final Set<ExecutionInterceptor> executionInterceptors = new HashSet<>();
 
-    private final Set<BapiInterceptor> bapiInterceptors = new HashSet<BapiInterceptor>();
+    private final Set<BapiInterceptor> bapiInterceptors = new HashSet<>();
 
     ConfigurationData(final SessionManagerConfig sessionManagerConfig) {
         this.sessionManagerConfig = sessionManagerConfig;

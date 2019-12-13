@@ -24,15 +24,14 @@ import org.hibersap.InternalHiberSapException;
 import org.hibersap.ejb.interceptor.HibersapSession;
 import org.hibersap.session.Session;
 import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.easymock.EasyMock.createMock;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.Fail.fail;
 
 public class ReflectionUtilTest {
 
     @Test
-    public void getSessionFieldReturnsEmptySetWhenObjectDoesNotContainAnyFieldWithHibersapSessionAnnotation() throws
-            Exception {
+    public void getSessionFieldReturnsEmptySetWhenObjectDoesNotContainAnyFieldWithHibersapSessionAnnotation() {
         Set<Field> fields = ReflectionUtil.getHibersapSessionFields(new Object());
 
         assertThat(fields).isNotNull();
@@ -40,7 +39,7 @@ public class ReflectionUtilTest {
     }
 
     @Test
-    public void getSessionFieldReturnsFieldWithHibersapSessionAnnotation() throws Exception {
+    public void getSessionFieldReturnsFieldWithHibersapSessionAnnotation() {
         Set<Field> fields = ReflectionUtil.getHibersapSessionFields(new TestBean());
 
         assertThat(fields).hasSize(2);
@@ -56,15 +55,10 @@ public class ReflectionUtilTest {
     }
 
     @Test
-    public void getSessionManagerJndiNameThrowsExceptionWhenAnnotationNotPresent() throws Exception {
-        try {
-            ReflectionUtil.getSessionManagerJndiName(TestBean.class.getDeclaredField("notASession"));
-            fail();
-        } catch (InternalHiberSapException e) {
-            assertThat(e.getMessage()).isEqualTo("The field "
-                    + "org.hibersap.ejb.util.ReflectionUtilTest$TestBean.notASession "
-                    + "is not annotated with @HibersapSession");
-        }
+    public void getSessionManagerJndiNameThrowsExceptionWhenAnnotationNotPresent() {
+        assertThatThrownBy(() -> ReflectionUtil.getSessionManagerJndiName(TestBean.class.getDeclaredField("notASession")))
+                .isInstanceOf(InternalHiberSapException.class)
+                .hasMessage("The field org.hibersap.ejb.util.ReflectionUtilTest$TestBean.notASession is not annotated with @HibersapSession");
     }
 
     @Test
@@ -93,6 +87,7 @@ public class ReflectionUtilTest {
         @HibersapSession(value = "jndiName2")
         private Session session2;
 
+        @SuppressWarnings("unused")
         private Integer notASession;
     }
 }

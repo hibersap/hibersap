@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 public final class Properties implements Serializable {
 
     @XmlElement(name = "property")
-    protected List<Property> properties = new ArrayList<Property>();
+    protected List<Property> properties = new ArrayList<>();
 
     public List<Property> getProperties() {
         return this.properties;

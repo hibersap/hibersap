@@ -39,15 +39,13 @@ public class JCoTransactionTest {
     private final JCoTransaction transaction = new JCoTransaction(sessionMock);
 
     @Test(expected = HibersapException.class)
-    public void testMustNotBeginAlreadyStartedTransaction()
-            throws Exception {
+    public void testMustNotBeginAlreadyStartedTransaction() {
         transaction.begin();
         transaction.begin();
     }
 
     @Test
-    public void testCommit()
-            throws Exception {
+    public void testCommit() {
         sessionMock.execute(isA(BapiTransactionCommit.class), eq(bapiCommitMapping));
         EasyMock.replay(sessionMock);
         transaction.begin();
@@ -55,8 +53,7 @@ public class JCoTransactionTest {
     }
 
     @Test
-    public void testRollback()
-            throws Exception {
+    public void testRollback() {
         sessionMock.execute(isA(BapiTransactionRollback.class), eq(bapiRollbackMapping));
         EasyMock.replay(sessionMock);
         transaction.begin();

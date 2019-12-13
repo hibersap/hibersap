@@ -64,13 +64,13 @@ public class ConfigurationMarshallTest {
     @Test
     public void testMarshalling()
             throws Exception {
-        final List<Property> properties = new ArrayList<Property>();
+        final List<Property> properties = new ArrayList<>();
         final Property jcoProperty = new Property("name", "value");
         properties.add(jcoProperty);
         final SessionManagerConfig sessionManagerMetaData = new SessionManagerConfig("session-name")
                 .setContext("ContextClass").setProperties(properties);
 
-        final List<String> classes = new ArrayList<String>();
+        final List<String> classes = new ArrayList<>();
         classes.add("package.Class1");
         classes.add("package.Class2");
         sessionManagerMetaData.setAnnotatedClasses(classes);

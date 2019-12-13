@@ -25,7 +25,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.junit.Before;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TypeSafeActivatorTest {
 
@@ -41,7 +41,7 @@ public class TypeSafeActivatorTest {
 
     @Test
     public void addsBeanValidationInterceptorWithDefaultValidationMode() {
-        Set<BapiInterceptor> interceptors = new HashSet<BapiInterceptor>();
+        Set<BapiInterceptor> interceptors = new HashSet<>();
         final SessionManagerConfig config = new SessionManagerConfig();
 
         TypeSafeActivator.activateBeanValidation(interceptors, config);

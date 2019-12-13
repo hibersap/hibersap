@@ -70,7 +70,7 @@ class BapiField {
         return getType();
     }
 
-    public Class<? extends Converter> getConverter() {
+    public Class<? extends Converter<?, ?>> getConverter() {
         if (field.isAnnotationPresent(CONVERT)) {
             Convert convert = field.getAnnotation(CONVERT);
             return convert.converter();

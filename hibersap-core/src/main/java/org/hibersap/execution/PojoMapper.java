@@ -46,7 +46,7 @@ public class PojoMapper {
     }
 
     public Map<String, Object> mapPojoToFunctionMap(final Object bapi, final BapiMapping bapiMapping) {
-        Map<String, Object> functionMap = new HashMap<String, Object>();
+        Map<String, Object> functionMap = new HashMap<>();
 
         Set<ParameterMapping> imports = bapiMapping.getImportParameters();
         functionMap.put("IMPORT", pojoToMap(bapi, imports));
@@ -78,7 +78,7 @@ public class PojoMapper {
     }
 
     private Map<String, Object> pojoToMap(final Object bapi, final Set<? extends ParameterMapping> paramMappings) {
-        Map<String, Object> functionMap = new HashMap<String, Object>();
+        Map<String, Object> functionMap = new HashMap<>();
 
         for (ParameterMapping paramMapping : paramMappings) {
             String fieldNameJava = paramMapping.getJavaName();
@@ -93,7 +93,7 @@ public class PojoMapper {
     }
 
     private Map<String, Object> getMapForAllParamTypes(final Map<String, Object> functionMap) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.putAll(getMapNullSafe(functionMap, BapiConstants.IMPORT));
         map.putAll(getMapNullSafe(functionMap, BapiConstants.EXPORT));
         map.putAll(getMapNullSafe(functionMap, BapiConstants.CHANGING));
@@ -103,6 +103,6 @@ public class PojoMapper {
 
     private Map<String, Object> getMapNullSafe(final Map<String, Object> functionMap, final String paramName) {
         Map<String, Object> map = UnsafeCastHelper.castToMap(functionMap.get(paramName));
-        return map == null ? new HashMap<String, Object>() : map;
+        return map == null ? new HashMap<>() : map;
     }
 }

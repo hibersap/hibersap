@@ -140,13 +140,10 @@ public final class ReflectionHelper {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public static Collection<Object> newCollectionInstance(final Class<? extends Collection> clazz) {
+    public static <T extends Collection<?>> T newCollectionInstance(final Class<T> clazz) {
         try {
             return clazz.newInstance();
-        } catch (InstantiationException e) {
-            throw new HibersapException(MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new HibersapException(MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e);
         }
     }
@@ -156,9 +153,7 @@ public final class ReflectionHelper {
             Constructor<T> defaultConstructor = clazz.getDeclaredConstructor();
             defaultConstructor.setAccessible(true);
             return defaultConstructor.newInstance();
-        } catch (InstantiationException e) {
-            throw new HibersapException(MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new HibersapException(MSG_CAN_NOT_CREATE_INSTANCE + clazz.getName(), e);
         } catch (NoSuchMethodException e) {
             throw new HibersapException("Class does not have a default constructor: " + clazz.getName(), e);
@@ -178,7 +173,7 @@ public final class ReflectionHelper {
     }
 
     public static <T> List<T> createInstances(final List<String> fullyQualifiedClassNames, final Class<T> superType) {
-        final ArrayList<T> instances = new ArrayList<T>();
+        final ArrayList<T> instances = new ArrayList<>();
         for (String className : fullyQualifiedClassNames) {
             final T instance = newInstance(className, superType);
             instances.add(instance);
@@ -195,19 +190,13 @@ public final class ReflectionHelper {
             Field declaredField = getDeclaredFieldWithInheritance(bean.getClass(), fieldName);
             declaredField.setAccessible(true);
             declaredField.set(bean, value);
-        } catch (SecurityException e) {
-            throw new HibersapException("Can not assign an object of type " + getClassNameNullSafe(value)
-                    + " to the field " + bean.getClass().getName() + "." + fieldName, e);
-        } catch (IllegalArgumentException e) {
-            throw new HibersapException("Can not assign an object of type " + getClassNameNullSafe(value)
-                    + " to the field " + bean.getClass().getName() + "." + fieldName, e);
-        } catch (IllegalAccessException e) {
+        } catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
             throw new HibersapException("Can not assign an object of type " + getClassNameNullSafe(value)
                     + " to the field " + bean.getClass().getName() + "." + fieldName, e);
         }
     }
 
-    private static Field getDeclaredFieldWithInheritance(final Class beanClass, final String fieldName) {
+    private static Field getDeclaredFieldWithInheritance(final Class<?> beanClass, final String fieldName) {
         try {
             return beanClass.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
@@ -228,7 +217,7 @@ public final class ReflectionHelper {
 
     public static Set<Field> getDeclaredFieldsWithAnnotationRecursively(final Class<?> clazz,
                                                                         final Class<? extends Annotation> annotationClass) {
-        final HashSet<Field> fields = new HashSet<Field>();
+        final HashSet<Field> fields = new HashSet<>();
         addDeclaredFieldsWithAnnotationRecursively(fields, clazz, annotationClass);
         return fields;
     }

@@ -26,12 +26,12 @@ import org.hibersap.annotations.Table;
 import org.hibersap.annotations.ThrowExceptionOnError;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MapTableParameterToArrayTest extends AbstractBapiTest {
 
     @Test
-    public void mapsTableParameterToArray() throws Exception {
+    public void mapsTableParameterToArray() {
         BapiCustomerGetList bapi = new BapiCustomerGetList();
         session.execute(bapi);
 

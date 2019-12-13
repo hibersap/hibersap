@@ -67,7 +67,7 @@ public class BapiClassFormatter {
     public Map<String, String> createClasses(final BapiMapping mapping, final String packagePath) {
         checkPackagePath(packagePath);
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
 
         String bapiClassName = BapiFormatHelper.getCamelCaseBig(mapping.getBapiName());
         String bapiClass = formatBapiClass(mapping, packagePath);
@@ -78,7 +78,7 @@ public class BapiClassFormatter {
     }
 
     private Map<String, String> formatStructureClasses(final BapiMapping mapping, final String packagePath) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
 
         for (ParameterMapping param : mapping.getAllParameters()) {
             if (param.getParamType() != ParamType.FIELD) {

@@ -95,17 +95,17 @@ public abstract class Configuration {
     }
 
     public void addExecutionInterceptors(final ExecutionInterceptor... executionInterceptors) {
-        data.addExecutionInterceptors(new HashSet<ExecutionInterceptor>(Arrays.asList(executionInterceptors)));
+        data.addExecutionInterceptors(new HashSet<>(Arrays.asList(executionInterceptors)));
     }
 
     public void addBapiInterceptors(final BapiInterceptor... bapiInterceptors) {
-        data.addBapiInterceptors(new HashSet<BapiInterceptor>(Arrays.asList(bapiInterceptors)));
+        data.addBapiInterceptors(new HashSet<>(Arrays.asList(bapiInterceptors)));
     }
 
     /**
      * Builds the session manager for this Configuration.
      *
-     * @param context  The Hibersap Context
+     * @param context The Hibersap Context
      * @return The session manager
      */
     public SessionManager buildSessionManager(final Context context) {
@@ -142,6 +142,7 @@ public abstract class Configuration {
 
     /**
      * Load hibersap.xml file from default location (see Environment.HIBERSAP_XML_FILE) or from -D Parameter (see Environment.HIBERSAP_XML_FILE)
+     *
      * @return The hibersap config
      */
     private HibersapConfig readHibersapConfig() {
@@ -151,9 +152,7 @@ public abstract class Configuration {
             // Get path to xml from system property or as fallback use default location
             // see: https://github.com/hibersap/hibersap/issues/9
             configFile = System.getProperty(Environment.HIBERSAP_XML_FILE_PARAMETER, Environment.HIBERSAP_XML_FILE);
-        } catch (NullPointerException e) {
-            configFile = Environment.HIBERSAP_XML_FILE;
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             configFile = Environment.HIBERSAP_XML_FILE;
         }
         LOG.debug("Reading HibersapConfig from configuration file: '" + configFile + "'");

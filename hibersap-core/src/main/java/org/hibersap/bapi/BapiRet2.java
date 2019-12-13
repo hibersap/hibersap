@@ -30,6 +30,7 @@ import org.hibersap.conversion.CharConverter;
  * @author Carsten Erker
  */
 @BapiStructure
+@SuppressWarnings("unused")
 public class BapiRet2
         implements Serializable {
 

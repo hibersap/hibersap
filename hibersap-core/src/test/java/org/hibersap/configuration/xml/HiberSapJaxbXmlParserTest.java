@@ -21,7 +21,7 @@ package org.hibersap.configuration.xml;
 import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HiberSapJaxbXmlParserTest {
 

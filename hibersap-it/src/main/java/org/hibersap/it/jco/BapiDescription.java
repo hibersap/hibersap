@@ -20,6 +20,7 @@ package org.hibersap.it.jco;
 
 import org.hibersap.annotations.Parameter;
 
+@SuppressWarnings("unused")
 public class BapiDescription {
 
     @Parameter("OBJECTNAME")

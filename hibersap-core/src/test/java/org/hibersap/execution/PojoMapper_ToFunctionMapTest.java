@@ -30,7 +30,7 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Before;
 import org.junit.Test;
 import static java.util.Collections.singletonMap;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToCollectionOfMaps;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 
@@ -42,7 +42,7 @@ public class PojoMapper_ToFunctionMapTest {
     private Map<String, Object> functionMap;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MyTestBapi bapi = createTestBapi();
         BapiMapping bapiMapping = bapiMapper.mapBapi(MyTestBapi.class);
 
@@ -181,15 +181,15 @@ public class PojoMapper_ToFunctionMapTest {
         TestStructure changingStructure = new TestStructure('d');
         TestStructure tableStructure1 = new TestStructure('1');
         TestStructure tableStructure2 = new TestStructure('2');
-        List<TestStructure> table = new ArrayList<TestStructure>();
+        List<TestStructure> table = new ArrayList<>();
         table.add(tableStructure1);
         table.add(tableStructure2);
 
-        List<TestStructure> importTable = new ArrayList<TestStructure>();
+        List<TestStructure> importTable = new ArrayList<>();
         importTable.add(new TestStructure('3'));
         importTable.add(new TestStructure('4'));
 
-        List<TestStructure> exportTable = new ArrayList<TestStructure>();
+        List<TestStructure> exportTable = new ArrayList<>();
         exportTable.add(new TestStructure('5'));
         exportTable.add(new TestStructure('6'));
 

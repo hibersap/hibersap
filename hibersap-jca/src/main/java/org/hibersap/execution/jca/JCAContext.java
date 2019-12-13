@@ -21,7 +21,7 @@ package org.hibersap.execution.jca;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.resource.cci.ConnectionFactory;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;

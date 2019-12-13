@@ -25,12 +25,12 @@ import org.hibersap.annotations.Import;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.it.AbstractBapiTest;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChangingParametersTest extends AbstractBapiTest {
 
     @Test
-    public void mapsChangingParameter() throws Exception {
+    public void mapsChangingParameter() {
         StfcChanging bapi = new StfcChanging(4711, 2);
 
         session.execute(bapi);

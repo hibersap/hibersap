@@ -97,14 +97,11 @@ public final class BeanValidationActivator {
             activateBeanValidation.invoke(null, bapiInterceptors, sessionManagerConfig);
         } catch (ClassNotFoundException e) {
             throw new HibersapException("Cannot find class " + TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
-        } catch (InvocationTargetException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             throw new HibersapException("Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
                     TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
         } catch (NoSuchMethodException e) {
             throw new HibersapException("Cannot find method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
-                    TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
-        } catch (IllegalAccessException e) {
-            throw new HibersapException("Cannot invoke method " + TYPE_SAFE_ACTIVATOR_METHOD_NAME + " in class " +
                     TYPE_SAFE_ACTIVATOR_CLASS_NAME, e);
         }
     }

@@ -69,7 +69,7 @@ public class AnnotationConfiguration extends Configuration {
      * @param bapiClasses The @Bapi annotated classes
      */
     public void addBapiClasses(final Class<?>... bapiClasses) {
-        final Map<String, BapiMapping> bapiMappings = new HashMap<String, BapiMapping>();
+        final Map<String, BapiMapping> bapiMappings = new HashMap<>();
 
         for (Class<?> bapiClass : bapiClasses) {
 
@@ -97,7 +97,7 @@ public class AnnotationConfiguration extends Configuration {
      */
     private void addBapiMappingsFromConfig() {
 
-        final Map<String, BapiMapping> bapiMappings = new HashMap<String, BapiMapping>();
+        final Map<String, BapiMapping> bapiMappings = new HashMap<>();
 
         for (final String className : getSessionManagerConfig().getAnnotatedClasses()) {
             try {

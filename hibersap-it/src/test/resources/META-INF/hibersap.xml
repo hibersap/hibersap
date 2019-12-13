@@ -29,7 +29,6 @@
       <property name="jco.client.sysnr" value="00"/>
       <property name="jco.destination.pool_capacity" value="1"/>
     </properties>
-
     <annotated-classes>
       <annotated-class>org.hibersap.it.jco.BapiFinder</annotated-class>
       <annotated-class>org.hibersap.it.bapi.RfcPing</annotated-class>
@@ -39,7 +38,9 @@
       <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarListBapi</annotated-class>
       <annotated-class>org.hibersap.it.bapi.MapTablesInImportAndExportParametersTest$CarManufacturerBapi</annotated-class>
       <annotated-class>org.hibersap.it.bapi.ChangingParametersTest$StfcChanging</annotated-class>
+      <annotated-class>org.hibersap.it.validation.BeanValidationTest$StfcChangingWithBeanValidation</annotated-class>
     </annotated-classes>
+    <validation-mode>CALLBACK</validation-mode>
   </session-manager>
 </hibersap>
 

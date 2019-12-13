@@ -32,7 +32,7 @@ import org.hibersap.annotations.Table;
 import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -44,7 +44,7 @@ public class BapiClassFormatterTest {
     private final AnnotationBapiMapper mapper = new AnnotationBapiMapper();
 
     @Test
-    public void createsClasses() throws Exception {
+    public void createsClasses() {
         BapiMapping bapiMapping = mapper.mapBapi(BapiTest.class);
         Map<String, String> classes = formatter.createClasses(bapiMapping, "org.hibersap.generated.test");
 
@@ -58,7 +58,7 @@ public class BapiClassFormatterTest {
     }
 
     @Test
-    public void createsClassWithChangingParameter() throws Exception {
+    public void createsClassWithChangingParameter() {
         BapiMapping bapiMapping = mapper.mapBapi(BapiTest.class);
         Map<String, String> classes = formatter.createClasses(bapiMapping, "org.hibersap.generated.test");
 
@@ -70,7 +70,7 @@ public class BapiClassFormatterTest {
 
     @SuppressWarnings("unused")
     @Bapi("BAPI_TEST")
-    private class BapiTest {
+    private static class BapiTest {
 
         @Import
         @Parameter("TEST_STRING")
@@ -95,7 +95,7 @@ public class BapiClassFormatterTest {
 
     @SuppressWarnings("unused")
     @BapiStructure
-    private class TestStructure {
+    private static class TestStructure {
 
         @Parameter("STRUCT_STRING")
         private String _structString;
@@ -109,7 +109,7 @@ public class BapiClassFormatterTest {
 
     @SuppressWarnings("unused")
     @BapiStructure
-    private class TestTable {
+    private static class TestTable {
 
         @Parameter("TABLE_STRING")
         private String _tableString;
@@ -120,7 +120,7 @@ public class BapiClassFormatterTest {
 
     @SuppressWarnings("unused")
     @BapiStructure
-    private class TestSubStructure {
+    private static class TestSubStructure {
 
         @Parameter("STRUCT_STRING")
         private String _structString;

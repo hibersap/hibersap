@@ -150,10 +150,10 @@ class MyTestBapi {
         }
 
         public Collection<Map<String, Object>> convertToSap(String javaValue) throws ConversionException {
-            ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            ArrayList<Map<String, Object>> list = new ArrayList<>();
 
             for (char aChar : javaValue.toCharArray()) {
-                HashMap<String, Object> map = new HashMap<String, Object>();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("charParam", aChar);
                 list.add(map);
             }
@@ -169,7 +169,7 @@ class MyTestBapi {
         }
 
         public Map<String, Object> convertToSap(String javaValue) throws ConversionException {
-            HashMap<String, Object> map = new HashMap<String, Object>();
+            HashMap<String, Object> map = new HashMap<>();
             map.put("charParam", javaValue.charAt(0));
             return map;
         }

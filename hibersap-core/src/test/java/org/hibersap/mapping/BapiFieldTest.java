@@ -25,7 +25,7 @@ import java.util.Map;
 import org.hibersap.annotations.Changing;
 import org.hibersap.annotations.Table;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -54,10 +54,11 @@ public class BapiFieldTest {
     @SuppressWarnings("unused")
     private int intPrimitive;
 
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings({"unused", "rawtypes"})
     private ArrayList listSimple;
 
     @Changing
+    @SuppressWarnings("unused")
     private String changing;
 
     @Test
@@ -97,7 +98,7 @@ public class BapiFieldTest {
         assertNull(field.getGenericType());
 
         field = new BapiField(getClass().getDeclaredField("integerArray"));
-        assertEquals(null, field.getGenericType());
+        assertNull(field.getGenericType());
     }
 
     @Test

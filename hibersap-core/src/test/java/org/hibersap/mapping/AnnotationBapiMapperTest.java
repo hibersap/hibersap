@@ -28,7 +28,7 @@ import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ParameterMapping;
 import org.hibersap.mapping.model.TableMapping;
 import org.junit.Test;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AnnotationBapiMapperTest {
 
@@ -42,7 +42,7 @@ public class AnnotationBapiMapperTest {
         final Set<ParameterMapping> parameters = tableMapping.getComponentParameter().getParameters();
 
         assertThat(parameters).hasSize(2)
-                .onProperty("javaName").containsOnly("structureParamSubClass", "structureParamSuperClass");
+                .extracting(ParameterMapping::getJavaName).containsOnly("structureParamSubClass", "structureParamSuperClass");
     }
 
     @Test
@@ -57,18 +57,18 @@ public class AnnotationBapiMapperTest {
     }
 
     @Test
-    public void mapsChangingParameter() throws Exception {
+    public void mapsChangingParameter() {
         final BapiMapping mapping = mapper.mapBapi(TestBapiClass.class);
 
         Set<ParameterMapping> changingParameters = mapping.getChangingParameters();
 
-        assertThat(changingParameters).onProperty("associatedType").containsOnly(String.class);
-        assertThat(changingParameters).onProperty("javaName").containsOnly("changingParam");
-        assertThat(changingParameters).onProperty("sapName").containsOnly("CHANGING_PARAM");
+        assertThat(changingParameters).extracting("associatedType").containsOnly(String.class);
+        assertThat(changingParameters).extracting("javaName").containsOnly("changingParam");
+        assertThat(changingParameters).extracting("sapName").containsOnly("CHANGING_PARAM");
     }
 
     @Bapi("test")
-    private class TestBapiClass {
+    private static class TestBapiClass {
 
         @Import
         @Parameter("ABAP_FIELD")
@@ -86,14 +86,14 @@ public class AnnotationBapiMapperTest {
         private Set<TestBapiStructureSubClass> tableParam;
     }
 
-    private class TestBapiStructureSubClass extends TestBapiStructureSuperClass {
+    private static class TestBapiStructureSubClass extends TestBapiStructureSuperClass {
 
         @Parameter("ABAP_FIELD")
         @SuppressWarnings("unused")
         private long structureParamSubClass;
     }
 
-    private class TestBapiStructureSuperClass {
+    private static class TestBapiStructureSuperClass {
 
         @Parameter("ABAP_FIELD")
         @SuppressWarnings("unused")

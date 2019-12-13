@@ -28,8 +28,7 @@ import static org.junit.Assert.assertNotNull;
 public class ContextFactoryTest {
 
     @Test
-    public void initializesContextClass()
-            throws Exception {
+    public void initializesContextClass() {
         SessionManagerConfig config = new SessionManagerConfig("Test").setContext(DummyContext.class.getName());
         Context context = ContextFactory.create(config);
 
@@ -38,7 +37,7 @@ public class ContextFactoryTest {
     }
 
     @Test(expected = ConfigurationException.class)
-    public void throwsExceptionWhenGivenContextClassDoesNotExtendContext() throws Exception {
+    public void throwsExceptionWhenGivenContextClassDoesNotExtendContext() {
         SessionManagerConfig config = new SessionManagerConfig("Test").setContext(String.class.getName());
         ContextFactory.create(config);
     }

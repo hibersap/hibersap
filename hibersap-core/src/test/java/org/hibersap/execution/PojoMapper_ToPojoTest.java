@@ -29,14 +29,14 @@ import org.junit.Before;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PojoMapper_ToPojoTest {
 
     private MyTestBapi bapi;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
         bapi = createEmptyBapiObject();
         Map<String, Object> functionMap = createFunctionMapForBapi();
@@ -88,7 +88,7 @@ public class PojoMapper_ToPojoTest {
     }
 
     @Test
-    public void mapsChangingParameters() throws Exception {
+    public void mapsChangingParameters() {
         assertThat(bapi.changingDateParam).isEqualTo(new Date(0));
         assertThat(bapi.changingStructureParam.charParam).isEqualTo('e');
     }
@@ -98,7 +98,6 @@ public class PojoMapper_ToPojoTest {
         assertThat(bapi.tableParamWithConverter).isEqualTo("34");
     }
 
-    @SuppressWarnings({"unchecked"})
     private Map<String, Object> createFunctionMapForBapi() {
         Map<String, Object> functionMap = createMap();
 
@@ -141,7 +140,7 @@ public class PojoMapper_ToPojoTest {
     }
 
     private Map<String, Object> createMap() {
-        return new HashMap<String, Object>();
+        return new HashMap<>();
     }
 
     private MyTestBapi createEmptyBapiObject() {

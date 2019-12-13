@@ -30,13 +30,13 @@ public class AbstractBapiTest {
     protected SessionManager sessionManager;
 
     @Before
-    public void openSession() throws Exception {
+    public void openSession() {
         sessionManager = new AnnotationConfiguration("A12").buildSessionManager();
         session = sessionManager.openSession();
     }
 
     @After
-    public void closeSession() throws Exception {
+    public void closeSession() {
         if (session != null) {
             session.close();
         }

@@ -20,6 +20,7 @@ package org.hibersap.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import org.hibersap.bapi.BapiConstants;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -37,7 +38,7 @@ public @interface ThrowExceptionOnError {
      * 'EXPORT' or 'TABLE' to indicate if the return structure is defined as an export or table
      * parameter. The last element is the name of the return structure, usually 'RETURN'.
      */
-    String returnStructure() default "EXPORT/RETURN";
+    String returnStructure() default BapiConstants.EXPORT_RETURN;
 
     /**
      * The message types which Hibersap shall interpret as an error. In these cases an Exception

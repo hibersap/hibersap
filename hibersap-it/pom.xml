@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.hibersap</groupId>
     <artifactId>hibersap-parent</artifactId>
-    <version>1.3.1-SNAPSHOT</version>
+    <version>1.4.1-SNAPSHOT</version>
     <relativePath>../hibersap-parent</relativePath>
   </parent>
 
@@ -54,8 +54,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <forkMode>once</forkMode>
-          <argLine>-Djava.library.path=${project.build.directory}/native-lib/</argLine>
+          <forkCount>1</forkCount>
+          <argLine>-Djava.library.path=${project.build.directory}/native-lib/ -Duser.language=en</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -98,12 +98,21 @@
       <groupId>org.hibersap</groupId>
       <artifactId>hibersap-core</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.hibersap</groupId>
       <artifactId>com.sap.conn.jco.sapjco3</artifactId>
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.el</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

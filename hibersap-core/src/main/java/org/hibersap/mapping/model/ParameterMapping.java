@@ -32,12 +32,12 @@ public abstract class ParameterMapping implements Serializable {
     private final Class<?> associatedType;
     private final String sapName;
     private final String javaName;
-    private final Class<? extends Converter> converterClass;
+    private final Class<? extends Converter<?, ?>> converterClass;
 
     public ParameterMapping(final Class<?> associatedType,
                             final String sapName,
                             final String javaName,
-                            final Class<? extends Converter> converterClass) {
+                            final Class<? extends Converter<?, ?>> converterClass) {
         this.associatedType = associatedType;
         this.sapName = sapName;
         this.javaName = javaName;
@@ -54,23 +54,17 @@ public abstract class ParameterMapping implements Serializable {
 
     public abstract ParamType getParamType();
 
-    public Class<? extends Converter> getConverterClass() {
-        return this.converterClass;
-    }
-
     public boolean hasConverter() {
         return this.converterClass != null;
     }
 
     protected final Object getConvertedValueToJava(final Object value, final ConverterCache converterCache) {
-        Converter converter = converterCache.getConverter(getConverterClass());
-        //noinspection unchecked
+        Converter<Object, Object> converter = converterCache.getConverter(this.converterClass);
         return converter.convertToJava(value);
     }
 
     protected final Object getConvertedValueToSap(final Object value, final ConverterCache converterCache) {
-        Converter converter = converterCache.getConverter(getConverterClass());
-        //noinspection unchecked
+        Converter<Object, Object> converter = converterCache.getConverter(this.converterClass);
         return converter.convertToSap(value);
     }
 
@@ -87,9 +81,9 @@ public abstract class ParameterMapping implements Serializable {
     }
 
     /**
-     * @param value A plain value if the parameter is a simple one,
-     * a bapi structure instance if the parameter is a structure,
-     * a list of bapi structure instances if the parameter is a table.
+     * @param value          A plain value if the parameter is a simple one,
+     *                       a bapi structure instance if the parameter is a structure,
+     *                       a list of bapi structure instances if the parameter is a table.
      * @param converterCache Needed for conversion of parameters
      * @return A plain value if the parameter is a simple one,
      * a Map (SAP structure parameter name to plain values) if the parameter is a structure,

@@ -47,7 +47,7 @@ public class HibersapSessionInterceptor {
     public Object injectSessionsIntoEjb(final InvocationContext ctx) throws Exception {
         Set<Field> sessionFields = getHibersapSessionFields(ctx.getTarget());
 
-        Map<Session, String> sessionsCreated = new HashMap<Session, String>();
+        Map<Session, String> sessionsCreated = new HashMap<>();
         try {
             for (Field sessionField : sessionFields) {
                 String jndiName = getSessionManagerJndiName(sessionField);
@@ -71,7 +71,7 @@ public class HibersapSessionInterceptor {
     }
 
     private void closeSessions(final Map<Session, String> sessions, final Map<String, Object> contextData) {
-        Set<String> sessionManagerNamesWithError = new HashSet<String>();
+        Set<String> sessionManagerNamesWithError = new HashSet<>();
         for (Session session : sessions.keySet()) {
             String jndiName = sessions.get(session);
             try {

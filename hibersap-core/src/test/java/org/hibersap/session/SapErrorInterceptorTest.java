@@ -49,8 +49,8 @@ public class SapErrorInterceptorTest {
     public void testAfterExecuteWithExportParameterUsingDefaults() {
         BapiMapping bapiMapping = mapper.mapBapi(TestBapiExportParam.class);
 
-        Map<String, Object> functionMap = new HashMap<String, Object>();
-        Map<String, Object> exportParamsMap = new HashMap<String, Object>();
+        Map<String, Object> functionMap = new HashMap<>();
+        Map<String, Object> exportParamsMap = new HashMap<>();
         exportParamsMap.put("RETURN", buildReturnParamMap("A", "message", "id", "number"));
         functionMap.put("EXPORT", exportParamsMap);
 
@@ -72,9 +72,9 @@ public class SapErrorInterceptorTest {
     public void testAfterExecuteWithTableParameterUsingDefaults() {
         BapiMapping bapiMapping = mapper.mapBapi(TestBapiTableParam.class);
 
-        Map<String, Object> functionMap = new HashMap<String, Object>();
-        Map<String, Object> tableParamsMap = new HashMap<String, Object>();
-        Collection<Map<String, Object>> returnTable = new ArrayList<Map<String, Object>>();
+        Map<String, Object> functionMap = new HashMap<>();
+        Map<String, Object> tableParamsMap = new HashMap<>();
+        Collection<Map<String, Object>> returnTable = new ArrayList<>();
         returnTable.add(buildReturnParamMap("E", "messageE", "idE", "numberE"));
         returnTable.add(buildReturnParamMap("W", "messageW", "idW", "numberW"));
         returnTable.add(buildReturnParamMap("A", "messageA", "idA", "numberA"));
@@ -109,9 +109,9 @@ public class SapErrorInterceptorTest {
     public void testAfterExecuteNotUsingDefaults() {
         BapiMapping bapiMapping = mapper.mapBapi(TestBapiWithoutDefaults.class);
 
-        Map<String, Object> functionMap = new HashMap<String, Object>();
-        Map<String, Object> tableParamsMap = new HashMap<String, Object>();
-        Collection<Map<String, Object>> returnTable = new ArrayList<Map<String, Object>>();
+        Map<String, Object> functionMap = new HashMap<>();
+        Map<String, Object> tableParamsMap = new HashMap<>();
+        Collection<Map<String, Object>> returnTable = new ArrayList<>();
         returnTable.add(buildReturnParamMap("T1", "messageT1", "idT1", "numberT1"));
         returnTable.add(buildReturnParamMap("E", "messageE", "idE", "numberE"));
         returnTable.add(buildReturnParamMap("T2", "messageT2", "idT2", "numberT2"));
@@ -143,8 +143,8 @@ public class SapErrorInterceptorTest {
     public void testAfterExecuteWithoutErrorCheck() {
         BapiMapping bapiMapping = mapper.mapBapi(TestBapiWithoutErrorCheck.class);
 
-        Map<String, Object> functionMap = new HashMap<String, Object>();
-        HashMap<String, Object> exportParamsMap = new HashMap<String, Object>();
+        Map<String, Object> functionMap = new HashMap<>();
+        HashMap<String, Object> exportParamsMap = new HashMap<>();
         exportParamsMap.put("RETURN", buildReturnParamMap("A", "message", "id", "number"));
         functionMap.put("EXPORT", exportParamsMap);
 
@@ -153,7 +153,7 @@ public class SapErrorInterceptorTest {
     }
 
     private HashMap<String, Object> buildReturnParamMap(String type, String msg, String id, String number) {
-        HashMap<String, Object> returnParamMap = new HashMap<String, Object>();
+        HashMap<String, Object> returnParamMap = new HashMap<>();
         returnParamMap.put("TYPE", type);
         returnParamMap.put("MESSAGE", msg);
         returnParamMap.put("ID", id);
@@ -163,7 +163,7 @@ public class SapErrorInterceptorTest {
 
     @Bapi(value = "TEST")
     @ThrowExceptionOnError
-    private class TestBapiExportParam {
+    private static class TestBapiExportParam {
 
         @SuppressWarnings("unused")
         @Export
@@ -173,7 +173,7 @@ public class SapErrorInterceptorTest {
 
     @Bapi(value = "TEST")
     @ThrowExceptionOnError(returnStructure = "TABLE/RETURN")
-    private class TestBapiTableParam {
+    private static class TestBapiTableParam {
 
         @SuppressWarnings("unused")
         @Table
@@ -183,7 +183,7 @@ public class SapErrorInterceptorTest {
 
     @SuppressWarnings("synthetic-access")
     @Bapi(value = "TEST")
-    private class TestBapiWithoutErrorCheck
+    private static class TestBapiWithoutErrorCheck
             extends TestBapiExportParam {
         // just need to "overwrite" annotations
     }
@@ -191,7 +191,7 @@ public class SapErrorInterceptorTest {
     @SuppressWarnings("synthetic-access")
     @Bapi(value = "TEST")
     @ThrowExceptionOnError(errorMessageTypes = {"T1", "T2"}, returnStructure = "TABLE/MY_RETURN")
-    private class TestBapiWithoutDefaults
+    private static class TestBapiWithoutDefaults
             extends TestBapiTableParam {
         // just need to "overwrite" annotations
     }
