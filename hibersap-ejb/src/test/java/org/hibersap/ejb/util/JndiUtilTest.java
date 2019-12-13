@@ -27,17 +27,16 @@ import org.hibersap.session.Session;
 import org.hibersap.session.SessionManager;
 import org.junit.Before;
 import org.junit.Test;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class JndiUtilTest {
 
     private static final String JNDI_NAME = "jndiName";
 
     private final SessionManagerDummy sessionManager = new SessionManagerDummy();
-    private final Context initialCtx = createNiceMock(Context.class);
+    private final Context initialCtx = mock(Context.class);
 
     @Before
     public void setUp() {
@@ -47,43 +46,31 @@ public class JndiUtilTest {
 
     @Test
     public void rebindSessionManagerActuallyBindsItToJndi() throws Exception {
-        initialCtx.rebind(JNDI_NAME, sessionManager);
-        replay(initialCtx);
 
         JndiUtil.rebindSessionManager(sessionManager, JNDI_NAME);
 
-        verify(initialCtx);
+        verify(initialCtx).rebind(JNDI_NAME, sessionManager);
     }
 
     @Test(expected = HibersapException.class)
     public void rebindSessionManagerWithNamingExceptionThrowsHibersapException() throws Exception {
-        initialCtx.rebind(JNDI_NAME, sessionManager);
-        expectLastCall().andThrow(new NamingException());
-        replay(initialCtx);
+        doThrow(new NamingException()).when(initialCtx).rebind(JNDI_NAME, sessionManager);
 
         JndiUtil.rebindSessionManager(sessionManager, JNDI_NAME);
-
-        verify(initialCtx);
     }
 
     @Test
     public void unbindSessionManagerActuallyUnbindsItFromJndi() throws Exception {
-        initialCtx.unbind(JNDI_NAME);
-        replay(initialCtx);
-
         JndiUtil.unbindSessionManager(JNDI_NAME);
 
-        verify(initialCtx);
+        verify(initialCtx).unbind(JNDI_NAME);
     }
 
     @Test
     public void unbindSessionManagerWithNamingExceptionDoesNotThrowException() throws Exception {
-        initialCtx.unbind(JNDI_NAME);
-        replay(initialCtx);
-
         JndiUtil.unbindSessionManager(JNDI_NAME);
 
-        verify(initialCtx);
+        verify(initialCtx).unbind(JNDI_NAME);
     }
 
     private static class SessionManagerDummy implements SessionManager {

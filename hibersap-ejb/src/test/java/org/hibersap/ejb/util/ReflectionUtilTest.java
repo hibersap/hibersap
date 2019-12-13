@@ -26,7 +26,7 @@ import org.hibersap.session.Session;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.easymock.EasyMock.createMock;
+import static org.mockito.Mockito.mock;
 
 public class ReflectionUtilTest {
 
@@ -64,7 +64,7 @@ public class ReflectionUtilTest {
     @Test
     public void injectsSessionIntoTarget() throws Exception {
         TestBean bean = new TestBean();
-        Session session = createMock(Session.class);
+        Session session = mock(Session.class);
 
         ReflectionUtil.injectSessionIntoTarget(bean, TestBean.class.getDeclaredField("session1"), session);
 
@@ -74,7 +74,7 @@ public class ReflectionUtilTest {
     @Test(expected = InternalHiberSapException.class)
     public void injectSessionIntoTargetThrowsExceptionWhenFieldIsNotOfTypeHibersapSession() throws Exception {
         TestBean bean = new TestBean();
-        Session session = createMock(Session.class);
+        Session session = mock(Session.class);
 
         ReflectionUtil.injectSessionIntoTarget(bean, TestBean.class.getDeclaredField("notASession"), session);
     }

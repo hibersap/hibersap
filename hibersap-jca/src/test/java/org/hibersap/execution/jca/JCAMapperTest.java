@@ -27,31 +27,32 @@ import javax.resource.ResourceException;
 import javax.resource.cci.IndexedRecord;
 import javax.resource.cci.MappedRecord;
 import javax.resource.cci.RecordFactory;
-import org.easymock.EasyMock;
-import org.easymock.IAnswer;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ErrorHandling;
 import org.hibersap.mapping.model.FieldMapping;
 import org.hibersap.mapping.model.StructureMapping;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hibersap.execution.UnsafeCastHelper.castToMap;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class JCAMapperTest {
 
     private final JCAMapper mapper = new JCAMapper();
-    private final RecordFactory recordFactory = EasyMock.createMock(RecordFactory.class);
+
+    private final RecordFactory recordFactory = mock(RecordFactory.class);
 
     @Before
     public void setUp()
             throws ResourceException {
-        EasyMock.expect(recordFactory.createIndexedRecord(EasyMock.notNull()))
-                .andAnswer(new IndexedRecordAnswer()).anyTimes();
-        EasyMock.expect(recordFactory.createMappedRecord(EasyMock.notNull()))
-                .andAnswer(new MappedRecordAnswer()).anyTimes();
-        EasyMock.replay(recordFactory);
+        when(recordFactory.createIndexedRecord(any())).thenAnswer(new IndexedRecordAnswer());
+        when(recordFactory.createMappedRecord(any())).thenAnswer(new MappedRecordAnswer());
     }
 
     @Test
@@ -232,21 +233,21 @@ public class JCAMapperTest {
         return row;
     }
 
-    static final class IndexedRecordAnswer
-            implements IAnswer<IndexedRecord> {
+    static final class IndexedRecordAnswer implements Answer<IndexedRecord> {
 
-        public IndexedRecord answer() {
-            Object[] args = EasyMock.getCurrentArguments();
-            return new MyIndexedRecord((String) args[0]);
+        @Override
+        public IndexedRecord answer(InvocationOnMock invocation) {
+            String name = invocation.getArgument(0);
+            return new MyIndexedRecord(name);
         }
     }
 
-    static final class MappedRecordAnswer
-            implements IAnswer<MappedRecord> {
+    static final class MappedRecordAnswer implements Answer<MappedRecord> {
 
-        public MappedRecord answer() {
-            Object[] args = EasyMock.getCurrentArguments();
-            return new MyMappedRecord((String) args[0]);
+        @Override
+        public MappedRecord answer(InvocationOnMock invocation) {
+            String name = invocation.getArgument(0);
+            return new MyMappedRecord(name);
         }
     }
 }

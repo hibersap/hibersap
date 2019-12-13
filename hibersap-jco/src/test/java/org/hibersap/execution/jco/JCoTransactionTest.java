@@ -18,7 +18,6 @@
 
 package org.hibersap.execution.jco;
 
-import org.easymock.EasyMock;
 import org.hibersap.HibersapException;
 import org.hibersap.bapi.BapiTransactionCommit;
 import org.hibersap.bapi.BapiTransactionRollback;
@@ -26,8 +25,11 @@ import org.hibersap.mapping.AnnotationBapiMapper;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.session.SessionImplementor;
 import org.junit.Test;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.isA;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class JCoTransactionTest {
 
@@ -35,7 +37,7 @@ public class JCoTransactionTest {
     private static final BapiMapping bapiCommitMapping = mapper.mapBapi(BapiTransactionCommit.class);
     private static final BapiMapping bapiRollbackMapping = mapper.mapBapi(BapiTransactionRollback.class);
 
-    private final SessionImplementor sessionMock = EasyMock.createMock(SessionImplementor.class);
+    private final SessionImplementor sessionMock = mock(SessionImplementor.class);
     private final JCoTransaction transaction = new JCoTransaction(sessionMock);
 
     @Test(expected = HibersapException.class)
@@ -46,17 +48,17 @@ public class JCoTransactionTest {
 
     @Test
     public void testCommit() {
-        sessionMock.execute(isA(BapiTransactionCommit.class), eq(bapiCommitMapping));
-        EasyMock.replay(sessionMock);
         transaction.begin();
         transaction.commit();
+
+        verify(sessionMock, times(1)).execute(isA(BapiTransactionCommit.class), eq(bapiCommitMapping));
     }
 
     @Test
     public void testRollback() {
-        sessionMock.execute(isA(BapiTransactionRollback.class), eq(bapiRollbackMapping));
-        EasyMock.replay(sessionMock);
         transaction.begin();
         transaction.rollback();
+
+        verify(sessionMock, times(1)).execute(isA(BapiTransactionRollback.class), eq(bapiRollbackMapping));
     }
 }

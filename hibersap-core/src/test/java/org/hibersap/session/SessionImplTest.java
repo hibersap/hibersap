@@ -30,71 +30,59 @@ import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.junit.Test;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class SessionImplTest {
 
-    private final BapiInterceptor bapiInterceptor = createStrictMock(BapiInterceptor.class);
-    private final ExecutionInterceptor executionInterceptor = createStrictMock(ExecutionInterceptor.class);
+    private final BapiInterceptor bapiInterceptor = mock(BapiInterceptor.class);
+    private final ExecutionInterceptor executionInterceptor = mock(ExecutionInterceptor.class);
 
     private final SessionImpl session = new SessionImpl(new SessionManagerStub());
 
     @Test
-    public void bapiInterceptorsFromConfigurationAreCalledWhenExecutingFunction() {
+    public void bapiInterceptorFromConfigurationIsCalledWhenExecutingFunction() {
         final Object bapiObject = new Object();
-        bapiInterceptor.beforeExecution(bapiObject);
-        bapiInterceptor.afterExecution(bapiObject);
-        replay(bapiInterceptor);
 
         session.execute(bapiObject);
 
-        verify(bapiInterceptor);
+        verify(bapiInterceptor).beforeExecution(bapiObject);
+        verify(bapiInterceptor).afterExecution(bapiObject);
     }
 
     @Test
-    public void bapiInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction() {
-        BapiInterceptor myInterceptor = createMock(BapiInterceptor.class);
-
+    public void bapiInterceptorThatIsAddedAtRuntimeAreCalledWhenExecutingFunction() {
+        BapiInterceptor myInterceptor = mock(BapiInterceptor.class);
         final Object bapiObject = new Object();
-        myInterceptor.beforeExecution(bapiObject);
-        myInterceptor.afterExecution(bapiObject);
-        replay(myInterceptor);
 
         session.addBapiInterceptor(myInterceptor);
         session.execute(bapiObject);
 
-        verify(myInterceptor);
+        verify(myInterceptor).beforeExecution(bapiObject);
+        verify(myInterceptor).afterExecution(bapiObject);
     }
 
     @Test
-    public void executionInterceptorsFromConfigurationAreCalledWhenExecutingFunction() {
+    public void executionInterceptorsFromConfigurationIsCalledWhenExecutingFunction() {
         final Object bapiObject = new Object();
-        executionInterceptor.beforeExecution(anyObject(), anyObject());
-        executionInterceptor.afterExecution(anyObject(), anyObject());
-        replay(executionInterceptor);
 
         session.execute(bapiObject);
 
-        verify(executionInterceptor);
+        verify(executionInterceptor).beforeExecution(any(), any());
+        verify(executionInterceptor).afterExecution(any(), any());
     }
 
     @Test
-    public void executionInterceptorsThatAreAddedAtRuntimeAreCalledWhenExecutingFunction() {
-        ExecutionInterceptor myInterceptor = createMock(ExecutionInterceptor.class);
-
+    public void executionInterceptorThatIsAddedAtRuntimeAreCalledWhenExecutingFunction() {
+        ExecutionInterceptor myInterceptor = mock(ExecutionInterceptor.class);
         final Object bapiObject = new Object();
-        myInterceptor.beforeExecution(anyObject(), anyObject());
-        myInterceptor.afterExecution(anyObject(), anyObject());
-        replay(myInterceptor);
 
         session.addExecutionInterceptor(myInterceptor);
         session.execute(bapiObject);
 
-        verify(myInterceptor);
+        verify(myInterceptor).beforeExecution(any(), any());
+        verify(myInterceptor).beforeExecution(any(), any());
     }
 
     @SuppressWarnings("unused")
