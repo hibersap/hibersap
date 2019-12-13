@@ -132,9 +132,9 @@ public final class TableMapping extends ParameterMapping {
     @Override
     public Object getUnconvertedValueToJava(final Object fieldMapCollection, final ConverterCache converterCache) {
         if (!hasConverter()) {
-            @SuppressWarnings({"unchecked"})
             // must be Collection, since there is no Converter
-                    Class<? extends Collection<Object>> destinationType = (Class<? extends Collection<Object>>) getDestinationType();
+            @SuppressWarnings({"unchecked"})
+            Class<? extends Collection<Object>> destinationType = (Class<? extends Collection<Object>>) getDestinationType();
 
             Collection<Object> collection = newCollectionInstance(destinationType);
 
