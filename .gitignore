@@ -12,8 +12,9 @@ hs_err_pid*
 *.iml
 .idea/
 
-# SAP JCo trace files
+# SAP JCo trace and log files
 *.trc
+dev_jco_rfc.log
 
 # Maven properties
 release.properties
