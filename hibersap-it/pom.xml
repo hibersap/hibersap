@@ -55,7 +55,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <forkCount>1</forkCount>
-          <argLine>-Djava.library.path=${project.build.directory}/native-lib/ -Duser.language=en</argLine>
+          <argLine>@{argLine} -Djava.library.path=${project.build.directory}/native-lib/ -Duser.language=en</argLine>
         </configuration>
       </plugin>
       <plugin>
