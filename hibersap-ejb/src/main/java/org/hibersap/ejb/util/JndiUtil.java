@@ -18,8 +18,6 @@
 
 package org.hibersap.ejb.util;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -36,7 +34,6 @@ public final class JndiUtil {
         // use static utility methods
     }
 
-    @PostConstruct
     public static void rebindSessionManager(final SessionManager sessionManager, final String jndiName) {
         LOG.info("Binding Hibersap SessionManager '" + sessionManager.getConfig().getName()
                 + "' to JNDI name '" + jndiName + "'");
@@ -49,7 +46,6 @@ public final class JndiUtil {
         }
     }
 
-    @PreDestroy
     public static void unbindSessionManager(final String jndiName) {
         LOG.info("Unbinding Hibersap SessionManager from JNDI name '" + jndiName + "'");
 
