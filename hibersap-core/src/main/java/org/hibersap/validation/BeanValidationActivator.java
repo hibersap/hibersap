@@ -62,6 +62,7 @@ public final class BeanValidationActivator {
 
         if (validationMode != ValidationMode.NONE) {
             if (shouldActivateBeanValidation(validationMode)) {
+                LOGGER.info("Activating Bean Validation");
                 activateBeanValidationWithTypeSafeActivator(bapiInterceptors, sessionManagerConfig);
             }
         }
