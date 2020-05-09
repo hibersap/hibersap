@@ -20,9 +20,16 @@ import com.sap.conn.jco.JCoStructure;
 import com.sap.conn.jco.JCoTable;
 
 @SuppressWarnings("PackageAccessibility")
-public class JCoMapper {
 
-    private static final Log LOG = LogFactory.getLog(JCoMapper.class);
+/**
+ * Mapper for  SAP Cloud Plattform Runtime Neo. Since Table and Changing parameter are not suitable
+ * They will be ignored
+ *
+ *  @author Ludger Pottmeier
+ */
+public class NeoJCoMapper {
+
+    private static final Log LOG = LogFactory.getLog(NeoJCoMapper.class);
 
     void putFunctionMapValuesToFunction(final JCoFunction function, final Map<String, Object> functionMap) {
         final Map<String, Object> importMap = UnsafeCastHelper.castToMap(functionMap.get(BapiConstants.IMPORT));
