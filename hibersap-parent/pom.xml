@@ -296,7 +296,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.2.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
