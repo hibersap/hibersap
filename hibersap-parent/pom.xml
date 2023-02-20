@@ -457,7 +457,7 @@
         <!-- Needed by Hibernate-Validator -->
         <groupId>org.glassfish</groupId>
         <artifactId>javax.el</artifactId>
-        <version>3.0.1-b11</version>
+        <version>3.0.1-b12</version>
         <scope>test</scope>
       </dependency>
 
