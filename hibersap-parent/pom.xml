@@ -166,6 +166,20 @@
   <profiles>
     <!-- Profiles for running integration tests -->
     <profile>
+      <id>Mac64BitArm</id>
+      <activation>
+        <os>
+          <family>mac</family>
+          <arch>aarch64</arch>
+        </os>
+      </activation>
+      <properties>
+        <jco.native-lib.filename>libsapjco3.dylib</jco.native-lib.filename>
+        <jco.native-lib.classifier>darwinarm64</jco.native-lib.classifier>
+        <jco.native-lib.packaging>dylib</jco.native-lib.packaging>
+      </properties>
+    </profile>
+    <profile>
       <id>Mac64BitIntel</id>
       <activation>
         <os>
