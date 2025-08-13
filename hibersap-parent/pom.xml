@@ -294,7 +294,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <jco.version>3.1.7</jco.version>
+    <jco.version>3.1.11</jco.version>
   </properties>
 
   <build>
