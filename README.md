@@ -9,3 +9,14 @@ Under the hood, Hibersap either uses the SAP Java Connector (JCo) or a JCA compa
 
 For more information please visit the Hibersap home page: http://hibersap.org
 
+## Building from Source
+
+To build Hibersap from source, you will need the following:
+
+* **Java Development Kit (JDK):** Version 8.
+* **Apache Maven:** Version 3.0 or higher.
+* **SAP Java Connector (JCo):** You will need to download the SAP JCo library and install it in your local Maven repository. Please see the instructions in `installSapJCoJarToLocalMavenRepo.sh` and `installSapJCoNativeLibToLocalMavenRepo.sh`.
+
+```sh
+mvn clean verify
+```
