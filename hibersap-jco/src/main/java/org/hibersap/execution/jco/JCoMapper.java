@@ -85,36 +85,36 @@ public class JCoMapper {
         }
     }
 
-    private void mapToJCo(final JCoRecord record, final Map<String, Object> map) {
+    private void mapToJCo(final JCoRecord jCoRecord, final Map<String, Object> map) {
         for (final String fieldName : map.keySet()) {
             final Object value = map.get(fieldName);
 
             if (Map.class.isAssignableFrom(value.getClass())) {
                 final Map<String, Object> structureMap = UnsafeCastHelper.castToMap(value);
-                final JCoStructure structure = record.getStructure(fieldName);
+                final JCoStructure structure = jCoRecord.getStructure(fieldName);
                 mapToJCo(structure, structureMap);
             } else if (Collection.class.isAssignableFrom(value.getClass())) {
                 final Collection<Map<String, Object>> tableMap = UnsafeCastHelper.castToCollectionOfMaps(value);
-                final JCoTable table = record.getTable(fieldName);
+                final JCoTable table = jCoRecord.getTable(fieldName);
                 table.clear();
                 for (final Map<String, Object> structureMap : tableMap) {
                     table.appendRow();
                     mapToJCo(table, structureMap);
                 }
             } else {
-                checkTypes(value, record.getClassNameOfValue(fieldName), fieldName);
-                record.setValue(fieldName, value);
+                checkTypes(value, jCoRecord.getClassNameOfValue(fieldName), fieldName);
+                jCoRecord.setValue(fieldName, value);
             }
         }
     }
 
-    private Map<String, Object> mapToMap(final JCoRecord record) {
+    private Map<String, Object> mapToMap(final JCoRecord jCoRecord) {
         final Map<String, Object> map = new HashMap<>();
-        if (record == null) {
+        if (jCoRecord == null) {
             return map;
         }
 
-        final JCoFieldIterator iter = record.getFieldIterator();
+        final JCoFieldIterator iter = jCoRecord.getFieldIterator();
 
         while (iter.hasNextField()) {
             final JCoField jcoField = iter.nextField();

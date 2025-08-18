@@ -107,28 +107,28 @@ public class JCAMapperTest {
             throws Exception {
         // map
         Map<String, Object> functionMap = createFunctionMap();
-        MappedRecord record = mapper.mapFunctionMapValuesToMappedRecord("BAPI_NAME", recordFactory, functionMap);
+        MappedRecord mappedRecord = mapper.mapFunctionMapValuesToMappedRecord("BAPI_NAME", recordFactory, functionMap);
 
-        assertEquals("BAPI_NAME", record.getRecordName());
+        assertEquals("BAPI_NAME", mappedRecord.getRecordName());
 
         // check import parameters
-        String importParam1 = (String) record.get("IMPORT_PARAM2");
+        String importParam1 = (String) mappedRecord.get("IMPORT_PARAM2");
         assertEquals("importParam2", importParam1);
 
-        int param3 = (Integer) record.get("IMPORT_PARAM3");
+        int param3 = (Integer) mappedRecord.get("IMPORT_PARAM3");
         assertEquals(3, param3);
 
-        MappedRecord importStruct = (MappedRecord) record.get("IMPORT_PARAM1");
+        MappedRecord importStruct = (MappedRecord) mappedRecord.get("IMPORT_PARAM1");
         assertEquals("IMPORT_PARAM1", importStruct.getRecordName());
         assertEquals(1, importStruct.get("STRUCT_FIELD1"));
         assertEquals("structField2", importStruct.get("STRUCT_FIELD2"));
 
         // check changing parameters
-        assertThat(record.get("CHANGING_PARAM1")).isEqualTo("changingParam1");
-        assertThat(record.get("CHANGING_PARAM2")).isEqualTo(2);
+        assertThat(mappedRecord.get("CHANGING_PARAM1")).isEqualTo("changingParam1");
+        assertThat(mappedRecord.get("CHANGING_PARAM2")).isEqualTo(2);
 
         // check table parameters
-        IndexedRecord tableParam1 = (IndexedRecord) record.get("TABLE_PARAM1");
+        IndexedRecord tableParam1 = (IndexedRecord) mappedRecord.get("TABLE_PARAM1");
         assertEquals("TABLE_PARAM1", tableParam1.getRecordName());
 
         MappedRecord row1 = (MappedRecord) tableParam1.get(0);

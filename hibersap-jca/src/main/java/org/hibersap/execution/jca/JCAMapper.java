@@ -131,17 +131,17 @@ public class JCAMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private void appendToRecord(final Record record, final String fieldName, final Object value) {
-        if (record instanceof IndexedRecord) {
-            ((IndexedRecord) record).add(value);
+    private void appendToRecord(final Record mappedInputRecord, final String fieldName, final Object value) {
+        if (mappedInputRecord instanceof IndexedRecord) {
+            ((IndexedRecord) mappedInputRecord).add(value);
         } else {
-            ((MappedRecord) record).put(fieldName, value);
+            ((MappedRecord) mappedInputRecord).put(fieldName, value);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void mapToMappedRecord(final RecordFactory recordFactory, final Record record, final Map<String, Object> map)
-            throws ResourceException {
+    private void mapToMappedRecord(final RecordFactory recordFactory, final Record mappedInputRecord,
+            final Map<String, Object> map) throws ResourceException {
         for (final String fieldName : map.keySet()) {
             final Object value = map.get(fieldName);
 
@@ -149,14 +149,14 @@ public class JCAMapper {
                 final Map<String, Object> structureMap = UnsafeCastHelper.castToMap(value);
                 final Record structure = recordFactory.createMappedRecord(fieldName);
 
-                appendToRecord(record, fieldName, structure);
+                appendToRecord(mappedInputRecord, fieldName, structure);
 
                 mapToMappedRecord(recordFactory, structure, structureMap);
             } else if (Collection.class.isAssignableFrom(value.getClass())) {
                 final Collection<Map<String, Object>> tableMap = UnsafeCastHelper.castToCollectionOfMaps(value);
                 final IndexedRecord table = recordFactory.createIndexedRecord(fieldName);
 
-                appendToRecord(record, fieldName, table);
+                appendToRecord(mappedInputRecord, fieldName, table);
 
                 int i = 0;
                 for (final Map<String, Object> row : tableMap) {
@@ -166,7 +166,7 @@ public class JCAMapper {
                     i++;
                 }
             } else {
-                appendToRecord(record, fieldName, value);
+                appendToRecord(mappedInputRecord, fieldName, value);
             }
         }
     }
