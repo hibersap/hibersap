@@ -36,6 +36,12 @@
 
   <url>http://hibersap.org</url>
 
+  <scm>
+    <url>https://github.com/hibersap/hibersap</url>
+    <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
+    <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
+  </scm>
+
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
