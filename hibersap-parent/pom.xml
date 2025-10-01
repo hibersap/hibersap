@@ -22,7 +22,7 @@
 
   <groupId>org.hibersap</groupId>
   <artifactId>hibersap-parent</artifactId>
-  <version>1.4.1</version>
+  <version>1.4.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Hibersap Parent</name>
@@ -39,7 +39,7 @@
     <url>https://github.com/hibersap/hibersap</url>
     <connection>scm:git:https://github.com/hibersap/hibersap.git</connection>
     <developerConnection>scm:git:git@github.com:hibersap/hibersap.git</developerConnection>
-    <tag>hibersap-1.4.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <licenses>
@@ -414,17 +414,17 @@
       <dependency>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-core</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-jco</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.2-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.hibersap</groupId>
         <artifactId>hibersap-jca</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.2-SNAPSHOT</version>
       </dependency>
 
       <!-- Wrapper for the SAP Java Connector (JCo) -->
