@@ -523,4 +523,8 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <scm>
+    <tag>hibersap-1.4.1</tag>
+  </scm>
 </project>
