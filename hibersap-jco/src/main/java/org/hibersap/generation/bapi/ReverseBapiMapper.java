@@ -127,8 +127,8 @@ public class ReverseBapiMapper {
         }
     }
 
-    private void addFieldMappings(final StructureMapping structureMapping, final JCoRecord record) {
-        JCoFieldIterator iter = record.getFieldIterator();
+    private void addFieldMappings(final StructureMapping structureMapping, final JCoRecord jCoRecord) {
+        final JCoFieldIterator iter = jCoRecord.getFieldIterator();
 
         while (iter.hasNextField()) {
             ParameterMapping fieldParam = getParameterMapping(iter.nextField());
