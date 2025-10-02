@@ -26,6 +26,7 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The Hibersap implementation of the JCo DestinationDataProvider. JCo destinations can be added and
@@ -58,7 +59,7 @@ public class JCoDataProvider implements DestinationDataProvider {
     /**
      * {@inheritDoc}
      */
-    public Properties getDestinationProperties(final String destinationName) {
+    public @Nullable Properties getDestinationProperties(final String destinationName) {
         if (wasAdded(destinationName)) {
             return propertiesForDestinationName.get(destinationName);
         } else {

@@ -29,6 +29,7 @@ import org.hibersap.execution.Connection;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
+import org.jspecify.annotations.Nullable;
 import org.junit.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -106,7 +107,7 @@ public class SessionImplTest {
             return new ContextStub();
         }
 
-        public Session openSession() {
+        public @Nullable Session openSession() {
             return null;
         }
 
@@ -138,11 +139,11 @@ public class SessionImplTest {
         public void setCredentials(Credentials credentials) {
         }
 
-        public Transaction beginTransaction(SessionImplementor session) {
+        public @Nullable Transaction beginTransaction(SessionImplementor session) {
             return null;
         }
 
-        public Transaction getTransaction() {
+        public @Nullable Transaction getTransaction() {
             return null;
         }
 

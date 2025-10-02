@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import org.jspecify.annotations.Nullable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"properties"})
@@ -73,7 +74,7 @@ public final class Properties implements Serializable {
         }
     }
 
-    public String getPropertyValue(final String name) {
+    public @Nullable String getPropertyValue(final String name) {
         for (Property property : properties) {
             if (property.getName().equals(name)) {
                 return property.getValue();

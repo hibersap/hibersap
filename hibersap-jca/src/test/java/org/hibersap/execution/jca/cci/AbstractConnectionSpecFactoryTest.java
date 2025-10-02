@@ -21,13 +21,15 @@ package org.hibersap.execution.jca.cci;
 import javax.resource.cci.ConnectionSpec;
 import org.hibersap.InternalHiberSapException;
 import org.hibersap.session.Credentials;
+import org.jspecify.annotations.Nullable;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractConnectionSpecFactoryTest {
 
-    private AbstractConnectionSpecFactory factory = new AbstractConnectionSpecFactory() {
-        public ConnectionSpec createConnectionSpec(Credentials credentials)
+    private final AbstractConnectionSpecFactory factory = new AbstractConnectionSpecFactory() {
+
+        public @Nullable ConnectionSpec createConnectionSpec(Credentials credentials)
                 throws InternalHiberSapException {
             // implementation not tested here
             return null;
