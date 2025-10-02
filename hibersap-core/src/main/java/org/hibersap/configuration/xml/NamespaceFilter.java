@@ -18,10 +18,12 @@
 
 package org.hibersap.configuration.xml;
 
+import org.jspecify.annotations.NullMarked;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+@NullMarked
 public class NamespaceFilter extends XMLFilterImpl {
 
     private String usedNamespaceUri;

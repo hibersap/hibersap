@@ -29,11 +29,13 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.sax.SAXSource;
 import org.hibersap.ConfigurationException;
 import org.hibersap.InternalHiberSapException;
+import org.jspecify.annotations.NullMarked;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+@NullMarked
 public class HibersapJaxbXmlParser {
 
     private final JAXBContext jaxbContext;
