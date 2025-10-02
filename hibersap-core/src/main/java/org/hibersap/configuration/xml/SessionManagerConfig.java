@@ -52,31 +52,31 @@ public final class SessionManagerConfig implements Serializable {
     private static final Log LOG = LogFactory.getLog(SessionManagerConfig.class);
 
     @XmlAttribute(required = true)
-    protected String name;
+    private String name;
 
     @XmlElement(name = "context")
-    protected String context = "org.hibersap.execution.jco.JCoContext";
+    private String context = "org.hibersap.execution.jco.JCoContext";
 
     @XmlElement(name = "properties")
-    protected Properties properties = new Properties();
+    private Properties properties = new Properties();
 
     @XmlElement(name = "annotated-classes")
-    protected AnnotatedClasses annotatedClasses = new AnnotatedClasses();
+    private AnnotatedClasses annotatedClasses = new AnnotatedClasses();
 
     @XmlElement(name = "execution-interceptor-classes")
-    protected ExecutionInterceptorClasses executionInterceptorClasses = new ExecutionInterceptorClasses();
+    private ExecutionInterceptorClasses executionInterceptorClasses = new ExecutionInterceptorClasses();
 
     @XmlElement(name = "bapi-interceptor-classes")
-    protected BapiInterceptorClasses bapiInterceptorClasses = new BapiInterceptorClasses();
+    private BapiInterceptorClasses bapiInterceptorClasses = new BapiInterceptorClasses();
 
     @XmlElement(name = "jca-connection-factory")
-    protected String jcaConnectionFactory;
+    private String jcaConnectionFactory;
 
     @XmlElement(name = "jca-connectionspec-factory")
-    protected String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
+    private String jcaConnectionSpecFactory = "org.hibersap.execution.jca.cci.SapBapiJcaAdapterConnectionSpecFactory";
 
     @XmlElement(name = "validation-mode")
-    protected ValidationMode validationMode = ValidationMode.AUTO;
+    private ValidationMode validationMode = ValidationMode.AUTO;
 
     public SessionManagerConfig() {
     }
