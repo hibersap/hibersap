@@ -25,6 +25,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionManager;
+import org.jspecify.annotations.Nullable;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.doThrow;
@@ -79,11 +80,11 @@ public class JndiUtilTest {
             return new SessionManagerConfig("sessionManagerName");
         }
 
-        public Session openSession() {
+        public @Nullable Session openSession() {
             return null;
         }
 
-        public Session openSession(Credentials credentials) {
+        public @Nullable Session openSession(Credentials credentials) {
             return null;
         }
 

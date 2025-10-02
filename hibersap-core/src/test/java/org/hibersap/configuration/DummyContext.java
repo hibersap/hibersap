@@ -22,6 +22,7 @@ import org.hibersap.HibersapException;
 import org.hibersap.configuration.xml.SessionManagerConfig;
 import org.hibersap.execution.Connection;
 import org.hibersap.session.Context;
+import org.jspecify.annotations.Nullable;
 
 public class DummyContext implements Context {
 
@@ -30,7 +31,7 @@ public class DummyContext implements Context {
         // do nothing
     }
 
-    public Connection getConnection() {
+    public @Nullable Connection getConnection() {
         return null;
     }
 

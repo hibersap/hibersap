@@ -49,7 +49,7 @@ public class AnnotationConfiguration extends Configuration {
 
     private static final Log LOG = LogFactory.getLog(AnnotationConfiguration.class);
 
-    private AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
+    private final AnnotationBapiMapper bapiMapper = new AnnotationBapiMapper();
 
     public AnnotationConfiguration() {
         super();

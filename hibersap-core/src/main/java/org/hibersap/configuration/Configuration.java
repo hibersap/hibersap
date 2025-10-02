@@ -82,7 +82,7 @@ public abstract class Configuration {
     public Configuration() {
         List<SessionManagerConfig> sessionManagers = readHibersapConfig().getSessionManagers();
 
-        if (sessionManagers.size() > 0) {
+        if (!sessionManagers.isEmpty()) {
             this.data = new ConfigurationData(sessionManagers.get(0));
 
             LOG.warn("Only the first session manager (" + data.getSessionManagerConfig().getName()

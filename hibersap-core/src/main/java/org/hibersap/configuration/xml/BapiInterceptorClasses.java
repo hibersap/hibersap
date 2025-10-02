@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 public final class BapiInterceptorClasses implements Serializable {
 
     @XmlElement(name = "bapi-interceptor-class")
-    protected List<String> bapiInterceptorClasses = new ArrayList<>();
+    private final List<String> bapiInterceptorClasses = new ArrayList<>();
 
     public List<String> getBapiInterceptorClasses() {
         return this.bapiInterceptorClasses;
@@ -48,13 +48,12 @@ public final class BapiInterceptorClasses implements Serializable {
 
         BapiInterceptorClasses that = (BapiInterceptorClasses) o;
 
-        return bapiInterceptorClasses != null ?
-                bapiInterceptorClasses.equals(that.bapiInterceptorClasses) : that.bapiInterceptorClasses == null;
+        return bapiInterceptorClasses.equals(that.bapiInterceptorClasses);
     }
 
     @Override
     public int hashCode() {
-        return bapiInterceptorClasses != null ? bapiInterceptorClasses.hashCode() : 0;
+        return bapiInterceptorClasses.hashCode();
     }
 
     @Override

@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 public final class AnnotatedClasses implements Serializable {
 
     @XmlElement(name = "annotated-class")
-    protected List<String> annotatedClasses = new ArrayList<>();
+    private final List<String> annotatedClasses = new ArrayList<>();
 
     public List<String> getAnnotatedClasses() {
         return this.annotatedClasses;
@@ -52,12 +52,12 @@ public final class AnnotatedClasses implements Serializable {
 
         AnnotatedClasses that = (AnnotatedClasses) o;
 
-        return annotatedClasses != null ? annotatedClasses.equals(that.annotatedClasses) : that.annotatedClasses == null;
+        return annotatedClasses.equals(that.annotatedClasses);
     }
 
     @Override
     public int hashCode() {
-        return annotatedClasses != null ? annotatedClasses.hashCode() : 0;
+        return annotatedClasses.hashCode();
     }
 
     @Override

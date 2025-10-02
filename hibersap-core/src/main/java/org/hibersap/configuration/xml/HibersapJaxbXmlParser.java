@@ -29,11 +29,13 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.sax.SAXSource;
 import org.hibersap.ConfigurationException;
 import org.hibersap.InternalHiberSapException;
+import org.jspecify.annotations.NullMarked;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+@NullMarked
 public class HibersapJaxbXmlParser {
 
     private final JAXBContext jaxbContext;
@@ -114,7 +116,7 @@ public class HibersapJaxbXmlParser {
         if (resource == null) {
             resource = getClass().getResource(resourceName);
         }
-        // load from -D parameter, can be outside of the classpath!
+        // load from -D parameter, can be outside the classpath!
         // see: https://github.com/hibersap/hibersap/issues/9
         if(resource == null) {
             try {
@@ -123,9 +125,6 @@ public class HibersapJaxbXmlParser {
             } catch (final MalformedURLException | NullPointerException | IllegalArgumentException e) {
                 throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
             }
-        }
-        if (resource == null) {
-            throw new InternalHiberSapException("Cannot locate resource " + resourceName);
         }
         final InputStream resourceStream;
         try {

@@ -24,7 +24,7 @@ import static org.junit.Assert.fail;
 
 public class BooleanConverterTest {
 
-    private BooleanConverter converter = new BooleanConverter();
+    private final BooleanConverter converter = new BooleanConverter();
 
     @Test
     public void testConvertToJava() {

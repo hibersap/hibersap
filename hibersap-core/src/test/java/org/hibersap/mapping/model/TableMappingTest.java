@@ -37,6 +37,7 @@ import org.hibersap.annotations.BapiStructure;
 import org.hibersap.annotations.Parameter;
 import org.hibersap.conversion.BooleanConverter;
 import org.hibersap.conversion.ConverterCache;
+import org.jspecify.annotations.Nullable;
 import org.junit.Before;
 import org.junit.Test;
 import static java.util.Collections.singletonMap;
@@ -202,7 +203,7 @@ public class TableMappingTest {
 
         private int currentRow = -1;
 
-        private ResultSetMetaData metaData = mock(ResultSetMetaData.class);
+        private final ResultSetMetaData metaData = mock(ResultSetMetaData.class);
 
         private ResultSetInvocationHandler(String[] columnNames, Object[][] data) throws SQLException {
             when(metaData.getColumnCount()).thenReturn(columnNames.length);
@@ -212,14 +213,13 @@ public class TableMappingTest {
             this.data = data;
         }
 
-        public Object invoke(Object proxy, Method method, Object[] args) {
-            if ("next".equals(method.getName())) {
+        public @Nullable Object invoke(Object proxy, Method method, Object[] args) {
+            switch (method.getName()) {
+            case "next":
                 return next();
-            }
-            if ("getObject".equals(method.getName())) {
+            case "getObject":
                 return getObject((Integer) args[0]);
-            }
-            if ("getMetaData".equals(method.getName())) {
+            case "getMetaData":
                 return metaData;
             }
             return null;
