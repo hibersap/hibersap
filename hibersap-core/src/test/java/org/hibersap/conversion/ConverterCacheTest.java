@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ConverterCacheTest {
 
-    private ConverterCache cache = new ConverterCache();
+    private final ConverterCache cache = new ConverterCache();
 
     @Test
     public void testCreatesOneInstanceOfEachClass() {

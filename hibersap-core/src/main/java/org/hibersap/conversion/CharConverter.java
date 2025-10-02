@@ -19,18 +19,21 @@
 package org.hibersap.conversion;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Converts between SAP character fields of length 1 and Java char fields.
  *
  * @author Carsten Erker
  */
+@NullMarked
 public class CharConverter implements Converter<Character, String> {
 
     /**
      * {@inheritDoc}
      */
-    public Character convertToJava(String sapValue) {
+    public Character convertToJava(@Nullable String sapValue) {
         if (StringUtils.isEmpty(sapValue)) {
             return ' ';
         }
@@ -40,7 +43,7 @@ public class CharConverter implements Converter<Character, String> {
     /**
      * {@inheritDoc}
      */
-    public String convertToSap(Character javaValue) {
+    public String convertToSap(@Nullable Character javaValue) {
         if (javaValue == null) {
             return "";
         }
