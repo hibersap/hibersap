@@ -126,9 +126,6 @@ public class HibersapJaxbXmlParser {
                 throw new InternalHiberSapException("Cannot load resource " + resourceName, e);
             }
         }
-        if (resource == null) {
-            throw new InternalHiberSapException("Cannot locate resource " + resourceName);
-        }
         final InputStream resourceStream;
         try {
             resourceStream = resource.openStream();
