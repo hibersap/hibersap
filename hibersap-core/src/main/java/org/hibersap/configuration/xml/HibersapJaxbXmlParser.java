@@ -116,7 +116,7 @@ public class HibersapJaxbXmlParser {
         if (resource == null) {
             resource = getClass().getResource(resourceName);
         }
-        // load from -D parameter, can be outside of the classpath!
+        // load from -D parameter, can be outside the classpath!
         // see: https://github.com/hibersap/hibersap/issues/9
         if(resource == null) {
             try {

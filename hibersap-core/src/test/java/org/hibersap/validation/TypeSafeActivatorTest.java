@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TypeSafeActivatorTest {
 
     @Before
-    public void setDefaultValdiationFactoryFactory() throws Exception {
+    public void setDefaultValidationFactoryFactory() throws Exception {
         useValidationFactoryFactory(new DefaultValidatorFactoryFactory());
     }
 

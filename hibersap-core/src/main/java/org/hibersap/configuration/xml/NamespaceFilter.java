@@ -70,7 +70,7 @@ public class NamespaceFilter extends XMLFilterImpl {
         if (addNamespace) {
             this.startControlledPrefixMapping();
         } else {
-            //Remove the namespace, i.e. don´t call startPrefixMapping for parent!
+            //Remove the namespace, i.e., don't call startPrefixMapping for parent!
         }
     }
 
@@ -79,7 +79,7 @@ public class NamespaceFilter extends XMLFilterImpl {
             //We should add namespace since it is set and has not yet been done.
             super.startPrefixMapping("", this.usedNamespaceUri);
 
-            //Make sure we dont do it twice
+            //Make sure we don't do it twice
             this.addedNamespace = true;
         }
     }

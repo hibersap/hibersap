@@ -39,7 +39,7 @@ public class BeanValidationInterceptor implements BapiInterceptor {
 
         final Set<ConstraintViolation<Object>> constraintViolations = validator.validate(bapiObject);
 
-        if (constraintViolations.size() > 0) {
+        if (!constraintViolations.isEmpty()) {
             checkConstraints(constraintViolations);
         }
     }
