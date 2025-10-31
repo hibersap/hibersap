@@ -25,7 +25,9 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import org.hibersap.interceptor.BapiInterceptor;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public class BeanValidationInterceptor implements BapiInterceptor {
 
     private final ValidatorFactory validatorFactory;
