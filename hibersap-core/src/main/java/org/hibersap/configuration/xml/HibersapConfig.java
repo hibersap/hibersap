@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"sessionManagers"})
 @XmlRootElement(name = "hibersap")
