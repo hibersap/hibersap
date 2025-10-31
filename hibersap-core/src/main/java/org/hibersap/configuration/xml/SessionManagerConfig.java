@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.interceptor.BapiInterceptor;
 import org.hibersap.interceptor.ExecutionInterceptor;
+import org.jspecify.annotations.Nullable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -103,7 +104,7 @@ public final class SessionManagerConfig implements Serializable {
         return this;
     }
 
-    public String getJcaConnectionFactory() {
+    public @Nullable String getJcaConnectionFactory() {
         return jcaConnectionFactory;
     }
 
@@ -140,7 +141,7 @@ public final class SessionManagerConfig implements Serializable {
         this.annotatedClasses.getAnnotatedClasses().addAll(annotatedClasses);
     }
 
-    public String getProperty(final String propertyName) {
+    public @Nullable String getProperty(final String propertyName) {
         return properties.getPropertyValue(propertyName);
     }
 

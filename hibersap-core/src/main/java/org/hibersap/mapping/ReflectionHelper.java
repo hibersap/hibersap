@@ -104,7 +104,7 @@ public final class ReflectionHelper {
         }
     }
 
-    public static Object getFieldValue(final Object bean, final String fieldName) {
+    public static @Nullable Object getFieldValue(final Object bean, final String fieldName) {
         try {
             java.lang.reflect.Field javaField = getDeclaredFieldWithInheritance(bean.getClass(), fieldName);
             javaField.setAccessible(true);
