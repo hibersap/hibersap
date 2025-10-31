@@ -26,13 +26,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"executionInterceptorClasses"})
 public final class ExecutionInterceptorClasses implements Serializable {
 
     @XmlElement(name = "execution-interceptor-class")
-    private List<String> executionInterceptorClasses = new ArrayList<>();
+    private final List<String> executionInterceptorClasses = new ArrayList<>();
 
     public List<String> getExecutionInterceptorClasses() {
         return this.executionInterceptorClasses;
