@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.hibersap.HibersapException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Carsten Erker
@@ -59,7 +60,7 @@ public final class ReflectionHelper {
      * @param type The array class type.
      * @return The type of the array components.
      */
-    public static Class<?> getArrayType(final Class<?> type) {
+    public static @Nullable Class<?> getArrayType(final Class<?> type) {
         if (type.isArray()) {
             return getClass(type.getComponentType());
         }
@@ -103,7 +104,7 @@ public final class ReflectionHelper {
         }
     }
 
-    public static Object getFieldValue(final Object bean, final String fieldName) {
+    public static @Nullable Object getFieldValue(final Object bean, final String fieldName) {
         try {
             java.lang.reflect.Field javaField = getDeclaredFieldWithInheritance(bean.getClass(), fieldName);
             javaField.setAccessible(true);
@@ -181,7 +182,7 @@ public final class ReflectionHelper {
         return instances;
     }
 
-    public static void setFieldValue(final Object bean, final String fieldName, final Object value) {
+    public static void setFieldValue(@Nullable final Object bean, final String fieldName, final Object value) {
         if (bean == null) {
             throw new HibersapException("Cannot set a value on a null object");
         }
@@ -238,7 +239,7 @@ public final class ReflectionHelper {
         }
     }
 
-    public static <T> T[] newArrayFromCollection(final Collection<?> collection, final Class<T> elementType) {
+    public static <T> @Nullable T[] newArrayFromCollection(@Nullable final Collection<?> collection, final Class<T> elementType) {
         if (collection == null) {
             return null;
         }

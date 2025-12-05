@@ -18,8 +18,7 @@
 
 package org.hibersap;
 
-public class ConfigurationException
-        extends HibersapException {
+public class ConfigurationException extends HibersapException {
 
     private static final long serialVersionUID = 1L;
 

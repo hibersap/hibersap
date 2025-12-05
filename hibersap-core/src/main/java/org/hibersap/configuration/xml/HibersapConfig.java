@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibersap.ConfigurationException;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"sessionManagers"})
 @XmlRootElement(name = "hibersap")
@@ -47,7 +49,7 @@ public final class HibersapConfig implements Serializable {
     private static final long serialVersionUID = 1;
 
     @XmlElement(name = "session-manager", required = true)
-    protected List<SessionManagerConfig> sessionManagers = new ArrayList<>();
+    private List<SessionManagerConfig> sessionManagers = new ArrayList<>();
 
     public HibersapConfig() {
         LOG.trace("created");

@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import javax.annotation.Generated;
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Holds information for error handling of a BAPI mapping.
@@ -44,7 +45,7 @@ public class ErrorHandling implements Serializable {
         this.pathToReturnStructure = pathToReturnStructure;
     }
 
-    public String[] getErrorMessageTypes() {
+    public @Nullable String[] getErrorMessageTypes() {
         return errorMessageTypes == null ? null : Arrays.copyOf(errorMessageTypes, errorMessageTypes.length);
     }
 

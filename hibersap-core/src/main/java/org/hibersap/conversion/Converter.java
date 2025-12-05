@@ -19,6 +19,7 @@
 package org.hibersap.conversion;
 
 import java.io.Serializable;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Implementation of a data type converter. Converts on-the-fly from SAP data type to any Java type.
@@ -29,6 +30,7 @@ import java.io.Serializable;
  *
  * @author Carsten Erker
  */
+@NullMarked
 public interface Converter<J, S> extends Serializable {
 
     /**

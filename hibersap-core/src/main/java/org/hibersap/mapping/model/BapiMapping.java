@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.Generated;
 import org.hibersap.MappingException;
+import org.jspecify.annotations.Nullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
@@ -43,7 +44,7 @@ public final class BapiMapping implements Serializable {
     private final ErrorHandling errorHandling;
     private final Class<?> associatedClass;
 
-    public BapiMapping(final Class<?> associatedClass, final String bapiName, final ErrorHandling errorHandling) {
+    public BapiMapping(final Class<?> associatedClass, @Nullable final String bapiName, final ErrorHandling errorHandling) {
         if (isBlank(bapiName)) {
             throw new MappingException("Bapi name for class " + associatedClass.getName() + " is empty");
         }

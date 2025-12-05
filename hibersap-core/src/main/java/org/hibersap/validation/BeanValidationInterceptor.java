@@ -25,7 +25,9 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import org.hibersap.interceptor.BapiInterceptor;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public class BeanValidationInterceptor implements BapiInterceptor {
 
     private final ValidatorFactory validatorFactory;
@@ -39,7 +41,7 @@ public class BeanValidationInterceptor implements BapiInterceptor {
 
         final Set<ConstraintViolation<Object>> constraintViolations = validator.validate(bapiObject);
 
-        if (constraintViolations.size() > 0) {
+        if (!constraintViolations.isEmpty()) {
             checkConstraints(constraintViolations);
         }
     }

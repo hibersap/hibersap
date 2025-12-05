@@ -31,6 +31,7 @@ import org.hibersap.execution.UnsafeCastHelper;
 import org.hibersap.interceptor.ExecutionInterceptor;
 import org.hibersap.mapping.model.BapiMapping;
 import org.hibersap.mapping.model.ErrorHandling;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Throws a SapException after the execution of a BAPI call when SAP returned an Error message.
@@ -41,6 +42,7 @@ import org.hibersap.mapping.model.ErrorHandling;
  * @author Carsten Erker
  * @see org.hibersap.annotations.ThrowExceptionOnError
  */
+@NullMarked
 public class SapErrorInterceptor implements ExecutionInterceptor {
 
     // TODO test with return table

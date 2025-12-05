@@ -28,6 +28,7 @@ import org.hibersap.annotations.Parameter;
 import org.hibersap.annotations.ParameterType;
 import org.hibersap.annotations.Table;
 import org.hibersap.conversion.Converter;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Carsten Erker
@@ -70,7 +71,7 @@ class BapiField {
         return getType();
     }
 
-    public Class<? extends Converter<?, ?>> getConverter() {
+    public @Nullable Class<? extends Converter<?, ?>> getConverter() {
         if (field.isAnnotationPresent(CONVERT)) {
             Convert convert = field.getAnnotation(CONVERT);
             return convert.converter();

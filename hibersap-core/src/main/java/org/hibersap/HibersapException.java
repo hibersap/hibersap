@@ -24,8 +24,7 @@ package org.hibersap;
  *
  * @author Carsten Erker
  */
-public class HibersapException
-        extends RuntimeException {
+public class HibersapException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

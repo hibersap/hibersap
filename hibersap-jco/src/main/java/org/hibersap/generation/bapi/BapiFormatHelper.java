@@ -18,13 +18,15 @@
 
 package org.hibersap.generation.bapi;
 
+import org.jspecify.annotations.Nullable;
+
 public final class BapiFormatHelper {
 
     private BapiFormatHelper() {
         // should not be instantiated
     }
 
-    public static String getCamelCaseSmall(final String sapName) {
+    public static String getCamelCaseSmall(@Nullable final String sapName) {
         StringBuilder result = new StringBuilder("_");
 
         if (sapName == null) {
@@ -43,7 +45,7 @@ public final class BapiFormatHelper {
         return result.toString();
     }
 
-    public static String getCamelCaseBig(final String sapName) {
+    public static String getCamelCaseBig(@Nullable final String sapName) {
         StringBuilder result = new StringBuilder();
 
         if (sapName == null) {
@@ -52,7 +54,7 @@ public final class BapiFormatHelper {
 
         String[] parts = sapName.split("_");
         for (String part : parts) {
-            if (part.length() > 0) {
+            if (!part.isEmpty()) {
                 result.append(part.substring(0, 1).toUpperCase());
                 result.append(part.substring(1).toLowerCase());
             }

@@ -32,11 +32,13 @@ import org.apache.commons.logging.LogFactory;
 import org.hibersap.HibersapException;
 import org.hibersap.session.Session;
 import org.hibersap.session.SessionManager;
+import org.jspecify.annotations.NullMarked;
 import static java.lang.String.format;
 import static org.hibersap.ejb.util.ReflectionUtil.getHibersapSessionFields;
 import static org.hibersap.ejb.util.ReflectionUtil.getSessionManagerJndiName;
 import static org.hibersap.ejb.util.ReflectionUtil.injectSessionIntoTarget;
 
+@NullMarked
 public class HibersapSessionInterceptor {
 
     private static final String HIBERSAP_SESSION_PREFIX = "hibersap.session.";

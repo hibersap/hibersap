@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
 import org.hibersap.mapping.ReflectionHelper;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Holds instances of implementations of org.hibersap.conversion.Converter. The instances are
@@ -29,6 +31,7 @@ import org.hibersap.mapping.ReflectionHelper;
  *
  * @author Carsten Erker
  */
+@NullMarked
 public class ConverterCache {
 
     private final Map<Class<? extends Converter<?, ?>>, Converter<?, ?>> converterForClass = new HashMap<>();
@@ -37,10 +40,10 @@ public class ConverterCache {
      * Called by the framework to get a Converter instance. If not yet in the cache, the instance
      * will be created lazily.
      *
-     * @param clazz The Coverter implementation class
+     * @param clazz The Converter implementation class
      * @return The Converter instance
      */
-    public Converter<Object, Object> getConverter(Class<? extends Converter<?, ?>> clazz) {
+    public Converter<Object, Object> getConverter(@Nullable Class<? extends Converter<?, ?>> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("null");
         }

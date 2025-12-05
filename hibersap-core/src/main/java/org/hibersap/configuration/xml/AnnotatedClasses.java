@@ -25,13 +25,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"annotatedClasses"})
 public final class AnnotatedClasses implements Serializable {
 
     @XmlElement(name = "annotated-class")
-    protected List<String> annotatedClasses = new ArrayList<>();
+    private final List<String> annotatedClasses = new ArrayList<>();
 
     public List<String> getAnnotatedClasses() {
         return this.annotatedClasses;
@@ -52,12 +54,12 @@ public final class AnnotatedClasses implements Serializable {
 
         AnnotatedClasses that = (AnnotatedClasses) o;
 
-        return annotatedClasses != null ? annotatedClasses.equals(that.annotatedClasses) : that.annotatedClasses == null;
+        return annotatedClasses.equals(that.annotatedClasses);
     }
 
     @Override
     public int hashCode() {
-        return annotatedClasses != null ? annotatedClasses.hashCode() : 0;
+        return annotatedClasses.hashCode();
     }
 
     @Override

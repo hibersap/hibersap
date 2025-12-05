@@ -21,26 +21,29 @@ package org.hibersap.conversion;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Converts between Java boolean and SAP CHAR type. A Java value of true will be converted to "X", A
  * Java value of false will be converted to an empty String and vice versa.
  *
  * @author Carsten Erker
  */
-@SuppressWarnings("ConstantConditions")
+@NullMarked
 public class BooleanConverter implements Converter<Boolean, String> {
 
     /**
      * {@inheritDoc}
      */
-    public Boolean convertToJava(final String sapValue) {
+    public Boolean convertToJava(@Nullable final String sapValue) {
         if (sapValue == null) {
             throw new ConversionException("SAP returned null");
         }
         String value = sapValue.trim();
         if ("X".equalsIgnoreCase(value)) {
             return TRUE;
-        } else if (value.length() == 0) {
+        } else if (value.isEmpty()) {
             return FALSE;
         } else {
             throw new ConversionException("Expected 'X' or '', but SAP returned '" + value + "'");
@@ -50,14 +53,10 @@ public class BooleanConverter implements Converter<Boolean, String> {
     /**
      * {@inheritDoc}
      */
-    public String convertToSap(final Boolean javaValue) {
+    public String convertToSap(@Nullable final Boolean javaValue) {
         if (javaValue == null) {
             throw new ConversionException("Java value is null");
         }
-        if (!(javaValue instanceof Boolean)) {
-            throw new ConversionException("Expected: " + Boolean.class.getName() + " but was: "
-                    + javaValue.getClass().getName());
-        }
-        return TRUE.equals(javaValue) ? "X" : "";
+        return javaValue ? "X" : "";
     }
 }

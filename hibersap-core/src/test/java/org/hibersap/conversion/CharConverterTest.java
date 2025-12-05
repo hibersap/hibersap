@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CharConverterTest {
 
-    private CharConverter converter = new CharConverter();
+    private final CharConverter converter = new CharConverter();
 
     @Test
     public void testConvertToJava() {
