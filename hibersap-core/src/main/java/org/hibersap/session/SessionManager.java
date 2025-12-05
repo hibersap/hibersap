@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2025 tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -24,7 +24,7 @@ import org.hibersap.configuration.xml.SessionManagerConfig;
 /*
  * The client's interface to the SessionManager. A SessionManager is used to create Hibersap
  * sessions.
- * 
+ *
  * @author Carsten Erker
  */
 public interface SessionManager extends Serializable {

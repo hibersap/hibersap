@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2025 tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -30,7 +30,7 @@ import org.hibersap.session.Transaction;
  * session manager is specified by the <code>context</code> element of the hibersap.xml. The default
  * implementation is org.hibersap.execution.jco.JCoConnection. Implementations must provide a
  * default constructor.
- * 
+ *
  * @author Carsten Erker
  */
 public interface Connection {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2025 tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -24,7 +24,7 @@ import org.hibersap.execution.Connection;
 /*
  * One of the interfaces (the other being org.hibersap.execution.Connection) to interact with the
  * concrete subsystem that implements the communication with SAP (e.g. JCo, JCA).
- * 
+ *
  * Implementations of this class are called by the hibersap core (which is independent of the
  * subsystem).
  *
@@ -36,9 +36,9 @@ public interface Context {
      * Called by the framework at initialization time, i.e. when the SessionManager is built. Allows
      * the subsystem to initialize itself. The implementation of this class must be specified in the
      * Hibersap configuration.
-     * 
+     *
      * @param config The Hibersap configuration properties.
-     * 
+     *
      * @throws HibersapException The implementation of this method should throw a HibersapException
      * if anything goes wrong.
      */
@@ -53,9 +53,9 @@ public interface Context {
     /*
      * Called by the framework when a new Session is created. The subsystem must provide an
      * implementation of the interface org.hibersap.execution.Connection.
-     * 
+     *
      * @return The Connection
-     * 
+     *
      * @see org.hibersap.execution.Connection
      */
     Connection getConnection();

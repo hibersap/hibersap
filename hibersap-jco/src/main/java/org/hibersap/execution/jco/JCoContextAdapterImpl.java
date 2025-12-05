@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2025 tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -18,7 +18,6 @@
 
 package org.hibersap.execution.jco;
 
-import com.sap.conn.jco.JCoContext;
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoException;
 

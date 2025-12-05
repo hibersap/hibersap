@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2025 tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -27,7 +27,6 @@ import org.hibersap.it.bapi.RfcPing;
 import org.hibersap.session.Credentials;
 import org.hibersap.session.Session;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class CustomCredentialsTest extends AbstractBapiTest {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2008-2019 akquinet tech@spree GmbH
+  ~ Copyright (c) 2008-2025 tech@spree GmbH
   ~
   ~ This file is part of Hibersap.
   ~
@@ -15,7 +15,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
--->
+  -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -53,10 +53,10 @@
     <developer>
       <id>cerker</id>
       <name>Carsten Erker</name>
-      <email>carsten.erker at akquinet dot de</email>
+      <email>carsten.erker at spree dot de</email>
       <url>https://github.com/cerker</url>
-      <organization>akquinet tech@spree GmbH</organization>
-      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <organization>tech@spree GmbH</organization>
+      <organizationUrl>https://www.spree.de</organizationUrl>
       <roles>
         <role>Project Creator</role>
         <role>Developer</role>
@@ -66,8 +66,8 @@
       <id>tfink</id>
       <name>Torsten Fink</name>
       <url>https://github.com/tnfink</url>
-      <organization>akquinet tech@spree GmbH</organization>
-      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <organization>tech@spree GmbH</organization>
+      <organizationUrl>https://www.spree.de</organizationUrl>
       <roles>
         <role>Architect</role>
       </roles>
@@ -76,8 +76,8 @@
       <id>dahm</id>
       <name>Markus Dahm</name>
       <url>https://github.com/mdahm</url>
-      <organization>akquinet tech@spree GmbH</organization>
-      <organizationUrl>http://www.akquinet.de</organizationUrl>
+      <organization>tech@spree GmbH</organization>
+      <organizationUrl>https://www.spree.de</organizationUrl>
       <roles>
         <role>Developer</role>
       </roles>
@@ -86,73 +86,71 @@
       <id>abendt</id>
       <name>Alphonse Bendt</name>
       <url>https://github.com/abendt</url>
-      <organization>akquinet tech@spree GmbH</organization>
-      <organizationUrl>http://www.akquinet.de</organizationUrl>
       <roles>
         <role>Developer</role>
       </roles>
     </developer>
     <developer>
       <name>Cedric Röck</name>
+      <url>https://github.com/croeck</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/croeck</url>
     </developer>
     <developer>
       <name>Christian Schneider</name>
+      <url>https://github.com/cschneider</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/cschneider</url>
     </developer>
     <developer>
       <name>Rene Fischer</name>
+      <url>https://github.com/fischey</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/fischey</url>
     </developer>
     <developer>
       <name>lyca</name>
+      <url>https://github.com/lyca</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/lyca</url>
     </developer>
     <developer>
       <name>Bigyan Mukherjee</name>
+      <url>https://sourceforge.net/u/bimukher/profile</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://sourceforge.net/u/bimukher/profile</url>
     </developer>
     <developer>
       <name>John J. Aylward</name>
+      <url>https://github.com/johnjaylward</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/johnjaylward</url>
     </developer>
     <developer>
       <name>Sebastian Schamschat</name>
+      <url>https://github.com/Linuem</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/Linuem</url>
     </developer>
     <developer>
       <name>Sebastian Peters</name>
+      <url>https://github.com/sepe81</url>
       <roles>
         <role>Contributor</role>
       </roles>
-      <url>https://github.com/sepe81</url>
     </developer>
   </developers>
 
   <organization>
-    <name>akquinet tech@spree GmbH</name>
-    <url>http://www.akquinet.de</url>
+    <name>tech@spree GmbH</name>
+    <url>http://www.spree.de</url>
   </organization>
 
   <issueManagement>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019 akquinet tech@spree GmbH
+ * Copyright (c) 2008-2025 tech@spree GmbH
  *
  * This file is part of Hibersap.
  *
@@ -32,7 +32,7 @@ import org.hibersap.session.Context;
 
 /*
  * Uses the SAP Java Connector to connect to SAP.
- * 
+ *
  * @author Carsten Erker
  */
 public class JCoContext implements Context {
