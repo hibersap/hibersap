@@ -19,15 +19,19 @@
 #
 
 if [ "x$1" = "x" ] || [ "x$2" = "x" ]; then
-  echo "usage: $0 <pathToSapJCoJar> <versionOfSapJCo>, e.g. $0 lib/sapjco.jar 3.0.10"
-  exit
+  echo "ERROR: Missing required arguments"
+  echo "Usage: $0 <pathToSapJCoJar> <versionOfSapJCo>"
+  echo "Example: $0 lib/sapjco.jar 3.1.13"
+  echo ""
+  echo "This script installs the SAP JCo JAR file to your local Maven repository."
+  exit 1
 fi
 
-if [ ! -e $1 ]; then
-  echo "file $1 does not exist"
-  exit
+if [ ! -e "$1" ]; then
+  echo "ERROR: file $1 does not exist"
+  exit 1
 fi
 
-mvn install:install-file -Dfile=$1 -DgroupId=org.hibersap -DartifactId=com.sap.conn.jco.sapjco3 -Dversion=$2 -Dpackaging=jar
+mvn install:install-file -Dfile="$1" -DgroupId=org.hibersap -DartifactId=com.sap.conn.jco.sapjco3 -Dversion="$2" -Dpackaging=jar
 
 
