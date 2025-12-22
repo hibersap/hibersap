@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-if [ "x$1" = "x" ] || [ "x$2" = "x" ]; then
+if [ -z "$1" ] || [ -z "$2" ]; then
   echo "ERROR: Missing required arguments"
   echo "Usage: $0 <pathToSapJCoJar> <versionOfSapJCo>"
   echo "Example: $0 lib/sapjco.jar 3.1.13"

@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-if [ "x$1" = "x" ] || [ "x$2" = "x" ] || [ "x$3" = "x" ]; then
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
   echo "ERROR: Missing required arguments"
   echo "Usage: $0 <pathToSapJCoNativeLib> <versionOfSapJCo> <mavenClassifier>"
   echo "Classifier options: darwinarm64 | darwinintel64 | ntintel | ntamd64 | linux-x86-64"
