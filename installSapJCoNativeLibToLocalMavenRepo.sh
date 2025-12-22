@@ -21,8 +21,8 @@
 if [ "x$1" = "x" ] || [ "x$2" = "x" ] || [ "x$3" = "x" ]; then
   echo "ERROR: Missing required arguments"
   echo "Usage: $0 <pathToSapJCoNativeLib> <versionOfSapJCo> <mavenClassifier>"
-  echo "Classifier options: darwinintel64 | ntintel | ntamd64 | linux-x86-64"
-  echo "Example: $0 lib/libsapjco3.dylib 3.0.10 darwinintel64"
+  echo "Classifier options: darwinarm64 | darwinintel64 | ntintel | ntamd64 | linux-x86-64"
+  echo "Example: $0 lib/libsapjco3.dylib 3.1.13 darwinintel64"
   exit 1
 fi
 
