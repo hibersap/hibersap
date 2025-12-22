@@ -20,3 +20,15 @@ To build Hibersap from source, you will need the following:
 ```sh
 mvn clean verify
 ```
+
+### GPG Signing
+
+The build process includes artifact signing using GPG with maven-gpg-plugin. To perform a full build including artifact signing, you must have GPG installed and configured.
+If you want to skip GPG signing during the build (e.g., for local development), you can use:
+
+```sh
+mvn clean verify -Dgpg.skip=true
+```
+
+For release builds, ensure your GPG key is properly set up and available to Maven.
+
