@@ -18,6 +18,7 @@
 
 package org.hibersap.execution.jco;
 
+import com.sap.conn.jco.JCoContext;
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoException;
 
